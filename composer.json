@@ -10,7 +10,9 @@
         }
     ],
     "require": {
-        "php": "^8.2"
+        "php": "^8.2",
+        "mpietrucha/disclosure": "dev-main",
+        "mpietrucha/exception": "dev-main"
     },
     "require-dev": {
         "symfony/var-dumper": "^6.2"
