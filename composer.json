@@ -11,6 +11,7 @@
     ],
     "require": {
         "php": "^8.2",
+        "composer/class-map-generator": "^1.1",
         "mpietrucha/disclosure": "dev-main",
         "mpietrucha/exception": "dev-main"
     },
