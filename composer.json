@@ -12,8 +12,8 @@
     "require": {
         "php": "^8.2",
         "composer/class-map-generator": "^1.1",
-        "mpietrucha/disclosure": "^0.1.1",
-        "mpietrucha/exception": "^0.1.1"
+        "mpietrucha/disclosure": "dev-main",
+        "mpietrucha/exception": "dev-main"
     },
     "require-dev": {
         "symfony/var-dumper": "^6.2"
