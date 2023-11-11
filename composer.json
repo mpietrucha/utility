@@ -1,7 +1,7 @@
 {
     "name": "mpietrucha/utility",
-    "license": "MIT",
     "description": "The utility package.",
+    "license": "MIT",
     "type": "liblary",
     "authors": [
         {
@@ -9,20 +9,26 @@
             "email": "michal.pietrucha@off-site.pl"
         }
     ],
-    "autoload": {
-        "psr-4": {
-            "Mpietrucha\\Support\\": "src"
-        }
-    },
     "require": {
         "php": "^8.2",
         "composer/class-map-generator": "^1.1",
-        "illuminate/support": "^10.30"
+        "mpietrucha/disclosure": "^0.1.1",
+        "mpietrucha/exception": "^0.1.1"
     },
     "require-dev": {
         "symfony/var-dumper": "^6.2"
     },
+    "autoload": {
+        "files": [
+            "src/helpers.php"
+        ],
+        "psr-4": {
+            "Mpietrucha\\Support\\": "src"
+        }
+    },
     "config": {
         "sort-packages": true
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
