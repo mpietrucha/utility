@@ -1,8 +1,8 @@
 <?php
 
-use Mpietrucha\Support\Facade\Builder;
+use Mpietrucha\Support\Facade\Facade;
 
-Builder::handlers([
+Facade::handlers([
     \Mpietrucha\Support\Type::class,
     \Mpietrucha\Support\ClassMapGenerator::class
 ]);
