@@ -5,7 +5,7 @@ namespace Mpietrucha\Support;
 use Closure;
 use Mpietrucha\Support\Concerns\Factoryable;
 
-use function Mpietrucha\Support\Disclosure\{disclosure, not};
+use function Mpietrucha\Support\Disclosure\{disclosure, not, value};
 
 class Type
 {

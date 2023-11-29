@@ -12,16 +12,14 @@
     "require": {
         "php": "^8.2",
         "composer/class-map-generator": "^1.1",
-        "mpietrucha/disclosure": "dev-main",
-        "mpietrucha/exception": "dev-main"
+        "illuminate/filesystem": "^10.32",
+        "illuminate/support": "^10.33",
+        "mpietrucha/disclosure": "dev-main"
     },
     "require-dev": {
         "symfony/var-dumper": "^6.2"
     },
     "autoload": {
-        "files": [
-            "src/helpers.php"
-        ],
         "psr-4": {
             "Mpietrucha\\Support\\": "src"
         }
