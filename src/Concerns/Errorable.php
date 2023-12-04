@@ -14,20 +14,22 @@ use function Mpietrucha\Support\Disclosure\value;
 
 trait Errorable
 {
-    protected mixed $whenFails = null;
+    protected bool $failed = false;
 
-    protected bool|Closure $throwingExceptions = true;
+    protected mixed $failing = null;
+
+    protected bool|Closure $throwing = true;
 
     public function throw(mixed $throw = true): self
     {
-        disclosure($this)->boolean()->throwingExceptions = $throw;
+        disclosure($this)->boolean()->throwing = $throw;
 
         return $this;
     }
 
     public function quiet(mixed $quiet = true): self
     {
-        disclosure($this)->boolean()->throwingExceptions = not($quiet);
+        disclosure($this)->boolean()->throwing = not($quiet);
 
         return $this;
     }
@@ -38,12 +40,14 @@ trait Errorable
             return class_uses_trait($source, __TRAIT__);
         })->throw('Errorable source must use [%s] trait.', __TRAIT__);
 
-        dd('xd');
+        $source = invade($source);
+
+        return $this->throw($source->throwing)->whenFailsReturn($source->failing);
     }
 
     public function whenFailsReturn(mixed $response): self
     {
-        $this->whenFails = $response;
+        $this->failing = $response;
 
         return $this;
     }
@@ -75,10 +79,17 @@ trait Errorable
 
     protected function fail(Throwable|Closure $exception, mixed ...$arguments): mixed
     {
-        if (value($this->throwingExceptions, $exception = lazy($exception), ...$arguments)) {
+        if (value($this->throwing, $exception = lazy($exception), ...$arguments)) {
             throw $exception();
         }
 
-        return value($this->whenFails, $exception, ...$arguments);
+        $this->failed = true;
+
+        return value($this->failing, $exception, ...$arguments);
+    }
+
+    protected function wasPreviouslyFailed(): bool
+    {
+        return $this->failed;
     }
 }
