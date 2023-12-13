@@ -14,6 +14,7 @@
         "illuminate/support": "^10.37",
         "mpietrucha/disclosure": "dev-main",
         "mpietrucha/duration": "dev-main",
+        "mpietrucha/singleton": "dev-main",
         "spatie/invade": "^2.0"
     },
     "require-dev": {
