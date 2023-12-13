@@ -22,7 +22,7 @@ class Instance
 
     protected bool|Closure $flushable = false;
 
-    public function __construct(protected null|string|object $source = null, array|Closure $arguments = [])
+    public function __construct(protected null|string|object $source = null, mixed ...$arguments)
     {
         $this->arguments($arguments);
     }
@@ -39,16 +39,18 @@ class Instance
         return $this;
     }
 
-    public function source(string|object $source): self
+    public function source(string|object $source, mixed ...$arguments): self
     {
         $this->source = $source;
 
-        return $this;
+        return $this->arguments($arguments);
     }
 
-    public function argumentS(mixed $arguments): self
+    public function arguments(mixed $arguments): self
     {
-        disclosure($this)->arguments = $arguments;
+        if ($arguments) {
+            disclosure($this)->array()->arguments = $arguments;
+        }
 
         return $this;
     }
