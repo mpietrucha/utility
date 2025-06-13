@@ -1,0 +1,51 @@
+--- /dev/null
++++ ../src/Stream.php
+@@ -18,7 +18,7 @@
+     use StreamTrait;
+ 
+     /** @var resource|null A resource reference */
+-    private $stream;
++    protected $stream;
+ 
+     /** @var bool */
+     private $seekable;
+@@ -57,7 +57,7 @@
+     public function __construct($body)
+     {
+         if (!\is_resource($body)) {
+-            throw new \InvalidArgumentException('First argument to Stream::__construct() must be resource');
++            throw new \InvalidArgumentException(sprintf('First argument to %s::__construct() must be resource', static::class));
+         }
+ 
+         $this->stream = $body;
+@@ -74,7 +74,7 @@
+      *
+      * @throws \InvalidArgumentException
+      */
+-    public static function create($body = ''): StreamInterface
++    public static function build($body = ''): StreamInterface
+     {
+         if ($body instanceof StreamInterface) {
+             return $body;
+@@ -92,10 +92,10 @@
+         }
+ 
+         if (!\is_resource($body)) {
+-            throw new \InvalidArgumentException('First argument to Stream::create() must be a string, resource or StreamInterface');
++            throw new \InvalidArgumentException(sprintf('First argument to %s::build() must be a string, resource or StreamInterface', static::class));
+         }
+ 
+-        return new self($body);
++        return new static($body);
+     }
+ 
+     /**
+@@ -130,7 +130,7 @@
+         return $result;
+     }
+ 
+-    private function getUri()
++    public function getUri(): string
+     {
+         if (false !== $this->uri) {
+             $this->uri = $this->getMetadata('uri') ?? false;
