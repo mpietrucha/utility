@@ -18,6 +18,9 @@ class Attempt extends Evaluation implements AttemptInterface
         return parent::get(...$arguments);
     }
 
+    /**
+        @param array<mixed> $arguments
+     */
     public function eval(array $arguments): ResultInterface
     {
         $value = $failure = null;

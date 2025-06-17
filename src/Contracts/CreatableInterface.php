@@ -4,5 +4,5 @@ namespace Mpietrucha\Utility\Contracts;
 
 interface CreatableInterface
 {
-    public static function create(): CreatableInterface;
+    public static function create(): static;
 }

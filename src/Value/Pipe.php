@@ -17,6 +17,9 @@ class Pipe extends Evaluation implements PipeInterface
         return $this->value;
     }
 
+    /**
+        @param array<mixed> $arguments
+     */
     public function eval(array $arguments): mixed
     {
         $arguments = Arr::prepend($arguments, $value = $this->value());

@@ -21,6 +21,9 @@ class Reflection implements ReflectionInterface
         return $this->throwable;
     }
 
+    /**
+     * @return \Mpietrucha\Utility\Illuminate\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Frame>
+     */
     public function backtrace(): EnumerableInterface
     {
         return Backtrace::throwable($this);

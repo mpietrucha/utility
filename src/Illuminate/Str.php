@@ -9,6 +9,9 @@ class Str extends \Illuminate\Support\Str
         return Stringable::create($string);
     }
 
+    /**
+     * @param  array<string|int|float>  $arguments
+     */
     public static function sprintf(string $string, array $arguments): string
     {
         return sprintf($string, ...$arguments);

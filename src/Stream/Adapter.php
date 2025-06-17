@@ -22,7 +22,7 @@ final class Adapter extends Stream implements AdapterInterface, CreatableInterfa
 
         $pointer = $source->tell();
 
-        return stream_copy_to_stream($source->resource(), $destination->resource()) ?: null;
+        return stream_copy_to_stream($source->getResource(), $destination->getResource()) ?: null;
     }
 
     public static function await(AdapterInterface $adapter, bool $mode = true): bool
@@ -31,7 +31,7 @@ final class Adapter extends Stream implements AdapterInterface, CreatableInterfa
             return false;
         }
 
-        return stream_set_blocking($adapter->resource(), $mode);
+        return stream_set_blocking($adapter->getResource(), $mode);
     }
 
     public function getResource(): mixed

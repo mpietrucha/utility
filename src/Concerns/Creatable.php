@@ -2,11 +2,9 @@
 
 namespace Mpietrucha\Utility\Concerns;
 
-use Mpietrucha\Utility\Contracts\CreatableInterface;
-
 trait Creatable
 {
-    public static function create(mixed ...$arguments): CreatableInterface
+    public static function create(mixed ...$arguments): static
     {
         return new static(...$arguments);
     }

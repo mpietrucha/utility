@@ -41,6 +41,9 @@ class Evaluation implements CreatableInterface, EvaluationInterface
         return $this->eval($arguments);
     }
 
+    /**
+        @param array<mixed> $arguments
+     */
     public function eval(array $arguments): mixed
     {
         if ($this->unsupported()) {

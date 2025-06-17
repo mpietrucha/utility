@@ -3,5 +3,6 @@
     "rules": {
         "single_line_empty_body": false,
         "ordered_class_elements": true
-    }
+    },
+    "exclude": ["src/Illuminate/Contracts/EnumerableInterface.php"]
 }

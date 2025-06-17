@@ -22,11 +22,17 @@ abstract class Normalizer
         return @(string) $value;
     }
 
+    /**
+        @return array<mixed>
+     */
     public static function array(mixed $value): array
     {
         return static::collection($value)->toArray();
     }
 
+    /**
+     * @return \Mpietrucha\Utility\Illuminate\Contracts\EnumerableInterface<int, mixed>
+     */
     public static function collection(mixed $value): EnumerableInterface
     {
         return Collection::create($value);

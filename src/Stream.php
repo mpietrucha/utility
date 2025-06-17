@@ -4,6 +4,7 @@ namespace Mpietrucha\Utility;
 
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Concerns\Stringable;
+use Mpietrucha\Utility\Concerns\Tappable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Contracts\TappableInterface;
 use Mpietrucha\Utility\Stream\Adapter;
@@ -18,7 +19,7 @@ class Stream implements CreatableInterface, StreamInterface, TappableInterface
 
     protected ?AdapterInterface $adapter = null;
 
-    public function __construct(protected mixed $input, bool $bootstrap = true)
+    public function __construct(protected mixed $body, bool $bootstrap = true)
     {
         $bootstrap && $this->adapter();
     }
@@ -52,7 +53,7 @@ class Stream implements CreatableInterface, StreamInterface, TappableInterface
 
     public function adapter(): AdapterInterface
     {
-        return $this->adapter ??= Adapter::build($this->input());
+        return $this->adapter ??= Adapter::build($this->body());
     }
 
     public function resource(): mixed
@@ -82,7 +83,7 @@ class Stream implements CreatableInterface, StreamInterface, TappableInterface
 
     public function await(bool $mode = true): self
     {
-        Adapter::await($this->handler(), $mode);
+        Adapter::await($this->adapter(), $mode);
 
         return $this;
     }
@@ -220,9 +221,9 @@ class Stream implements CreatableInterface, StreamInterface, TappableInterface
         return $this->tap($response)->restore($pointer);
     }
 
-    protected function input(): mixed
+    protected function body(): mixed
     {
-        return $this->input;
+        return $this->body;
     }
 
     protected function record(int $bytes): self

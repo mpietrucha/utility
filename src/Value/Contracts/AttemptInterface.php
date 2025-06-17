@@ -8,5 +8,8 @@ interface AttemptInterface extends EvaluableInterface
 
     public function get(): ResultInterface;
 
+    /**
+        @param array<mixed> $arguments
+     */
     public function eval(array $arguments): ResultInterface;
 }

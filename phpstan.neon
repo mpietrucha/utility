@@ -1,4 +1,17 @@
+services:
+  -
+    class: Mpietrucha\PHPStan\TypeExtension
+    tags:
+      - phpstan.typeSpecifier.staticMethodTypeSpecifyingExtension
+  -
+    class: Mpietrucha\PHPStan\CreatableExtension
+    tags:
+      - phpstan.ignoreErrorExtension
 parameters:
     level: 8
     paths:
         - src
+        - phpstan
+    stubFiles:
+        - vendor/larastan/larastan/stubs/common/Contracts/Support.stub
+        - vendor/larastan/larastan/stubs/common/Enumerable.stub

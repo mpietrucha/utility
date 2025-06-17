@@ -2,7 +2,7 @@
 
 namespace Mpietrucha\Utility\Stream\Contracts;
 
-interface StreamInterface extends InteractsWithStreamInterface
+interface StreamInterface
 {
     public function adapter(): AdapterInterface;
 

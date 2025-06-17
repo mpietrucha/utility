@@ -73,9 +73,4 @@ abstract class Type
     {
         return is_iterable($value);
     }
-
-    public static function file(mixed $value)
-    {
-        return static::string($value) && is_file($value);
-    }
 }
