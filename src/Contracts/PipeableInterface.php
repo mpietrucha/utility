@@ -4,5 +4,9 @@ namespace Mpietrucha\Utility\Contracts;
 
 interface PipeableInterface
 {
-    public function pipe(mixed $pipe): mixed;
+    /**
+     * Pass the current instance through the given evaluable callback,
+     * optionally with additional arguments, and return the transformed result.
+     */
+    public function pipe(mixed $evaluable, mixed ...$arguments): mixed;
 }

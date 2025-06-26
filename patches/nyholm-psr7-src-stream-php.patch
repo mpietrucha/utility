@@ -1,6 +1,14 @@
 --- /dev/null
 +++ ../src/Stream.php
-@@ -18,7 +18,7 @@
+@@ -11,7 +11,6 @@
+  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
+  * @author Martijn van der Ven <martijn@vanderven.se>
+  *
+- * @final This class should never be extended. See https://github.com/Nyholm/psr7/blob/master/doc/final.md
+  */
+ class Stream implements StreamInterface
+ {
+@@ -18,7 +17,7 @@
      use StreamTrait;
  
      /** @var resource|null A resource reference */
@@ -9,7 +17,7 @@
  
      /** @var bool */
      private $seekable;
-@@ -57,7 +57,7 @@
+@@ -57,7 +56,7 @@
      public function __construct($body)
      {
          if (!\is_resource($body)) {
@@ -18,21 +26,25 @@
          }
  
          $this->stream = $body;
-@@ -74,7 +74,7 @@
+@@ -74,10 +73,10 @@
       *
       * @throws \InvalidArgumentException
       */
 -    public static function create($body = ''): StreamInterface
-+    public static function build($body = ''): StreamInterface
++    public static function build($body = ''): static
      {
          if ($body instanceof StreamInterface) {
-             return $body;
-@@ -92,10 +92,10 @@
+-            return $body;
++            return new static($body);
+         }
+ 
+         if (\is_string($body)) {
+@@ -92,10 +91,10 @@
          }
  
          if (!\is_resource($body)) {
 -            throw new \InvalidArgumentException('First argument to Stream::create() must be a string, resource or StreamInterface');
-+            throw new \InvalidArgumentException(sprintf('First argument to %s::build() must be a string, resource or StreamInterface', static::class));
++            throw new \InvalidArgumentException(sprintf('First argument to %s::create() must be a string, resource or StreamInterface', static::class));
          }
  
 -        return new self($body);
@@ -40,12 +52,12 @@
      }
  
      /**
-@@ -130,7 +130,7 @@
+@@ -130,7 +129,7 @@
          return $result;
      }
  
 -    private function getUri()
-+    public function getUri(): string
++    protected function getUri(): mixed
      {
          if (false !== $this->uri) {
              $this->uri = $this->getMetadata('uri') ?? false;

@@ -2,7 +2,8 @@
     "preset": "laravel",
     "rules": {
         "single_line_empty_body": false,
-        "ordered_class_elements": true
+        "ordered_class_elements": true,
+        "ordered_types": true
     },
-    "exclude": ["src/Illuminate/Contracts/EnumerableInterface.php"]
+    "exclude": ["vendor", "src/Illuminate/Contracts/EnumerableInterface.php"]
 }

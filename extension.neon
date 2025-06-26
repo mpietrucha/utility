@@ -1,0 +1,15 @@
+services:
+  -
+    class: Mpietrucha\PHPStan\Errors\CreatableExtension
+    tags:
+      - phpstan.ignoreErrorExtension
+  -
+    class: Mpietrucha\PHPStan\ReturnTypes\NormalizerExtension
+    tags:
+        - phpstan.broker.dynamicStaticMethodReturnTypeExtension
+parameters:
+    typeAliases:
+        RawBacktraceFrame: "array{function: string, line?: int, file?: string, class?: class-string, type?: '->'|'::', args?: array<string, mixed>, object?: object}"
+    stubFiles:
+    - phpstan/stubs/Arrayable.stub
+    - vendor/larastan/larastan/stubs/common/Support/Str.stub

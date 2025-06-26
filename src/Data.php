@@ -4,22 +4,42 @@ namespace Mpietrucha\Utility;
 
 abstract class Data
 {
-    public static function get(mixed $source, null|int|string|array $property, mixed $default = null): mixed
+    /**
+     * Retrieve an item from a nested array or object using "dot" notation.
+     *
+     * @param  null|int|string|array<int|string, mixed>  $property
+     */
+    public static function get(mixed $source, null|array|int|string $property, mixed $default = null): mixed
     {
         return data_get($source, $property, $default);
     }
 
-    public static function set(mixed &$source, string|array $property, mixed $value, bool $overwrite = true): mixed
+    /**
+     * Set a value within a nested array or object using "dot" notation.
+     *
+     * @param  string|array<int|string, mixed>  $property
+     */
+    public static function set(mixed &$source, array|string $property, mixed $value, bool $overwrite = true): mixed
     {
         return data_set($source, $property, $value, $overwrite);
     }
 
-    public static function fill(mixed &$source, string|array $property, mixed $value): mixed
+    /**
+     * Set a value within a nested array or object if it doesn't already exist.
+     *
+     * @param  string|array<int|string, mixed>  $property
+     */
+    public static function fill(mixed &$source, array|string $property, mixed $value): mixed
     {
         return data_fill($source, $property, $value);
     }
 
-    public static function forget(mixed &$source, null|int|string|array $property, mixed $value): mixed
+    /**
+     * Remove one or more items from a nested array or object using "dot" notation.
+     *
+     * @param  null|int|string|array<int|string, mixed>  $property
+     */
+    public static function forget(mixed &$source, null|array|int|string $property, mixed $value): mixed
     {
         return data_forget($source, $property);
     }

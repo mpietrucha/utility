@@ -7,7 +7,8 @@ use Mpietrucha\Utility\Illuminate\LazyCollection;
 
 /**
  * @template TKey of array-key
- * @template TValue
+ *
+ * @template-covariant TValue
  */
 trait InteractsWithCollection
 {

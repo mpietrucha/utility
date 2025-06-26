@@ -6,6 +6,9 @@ use Mpietrucha\Utility\Throwable;
 
 class BadMethodCallException extends Throwable
 {
+    /**
+     * Create a wrapped BadMethodCallException instance.
+     */
     final protected function __construct(\BadMethodCallException $throwable = new \BadMethodCallException)
     {
         parent::__construct($throwable);

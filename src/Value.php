@@ -11,16 +11,25 @@ use Mpietrucha\Utility\Value\Pipe;
 
 abstract class Value
 {
+    /**
+     * Create a new evaluation from the given value.
+     */
     public static function for(mixed $evaluable): EvaluationInterface
     {
         return Evaluation::create($evaluable);
     }
 
+    /**
+     * Create a new attempted evaluation that captures exceptions.
+     */
     public static function attempt(mixed $evaluable): AttemptInterface
     {
         return Attempt::create($evaluable);
     }
 
+    /**
+     * Create a new pipeline that passes the value through the given evaluator.
+     */
     public static function pipe(mixed $value, mixed $evaluable): PipeInterface
     {
         return Pipe::create($value, $evaluable);

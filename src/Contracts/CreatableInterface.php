@@ -4,5 +4,8 @@ namespace Mpietrucha\Utility\Contracts;
 
 interface CreatableInterface
 {
-    public static function create(): static;
+    /**
+     * Create a new instance of the class with the given arguments.
+     */
+    public static function create(mixed ...$arguments): static;
 }

@@ -17,11 +17,29 @@ class Reflection extends ReflectionClass implements CreatableInterface, Reflecti
     use Creatable;
 
     /**
+     * Create a reflection of the deepest parent class for the given instance or class.
+     *
      * @param  class-string<T>|T  $instance
      * @return static<T>
      */
     public static function deep(object|string $instance): static
     {
-        return static::create($instance);
+        return static::create(Instance::deep($instance) ?? $instance);
+    }
+
+    /**
+     * Determine whether the reflected class lacks the specified method.
+     */
+    final public function doesntHaveMethod(string $method): bool
+    {
+        return Normalizer::not($this->hasMethod($method));
+    }
+
+    /**
+     * Determine whether the reflected class lacks the specified property.
+     */
+    final public function doesntHaveProperty(string $property): bool
+    {
+        return Normalizer::not($this->hasProperty($property));
     }
 }

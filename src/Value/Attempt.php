@@ -8,18 +8,25 @@ use Throwable;
 
 class Attempt extends Evaluation implements AttemptInterface
 {
+    /**
+     * Safely invoke the evaluable with the given arguments, returning a result wrapper.
+     */
     public function __invoke(mixed ...$arguments): ResultInterface
     {
         return parent::__invoke(...$arguments);
     }
 
+    /**
+     * Evaluate the callable with the given arguments and return a result instance.
+     */
     public function get(mixed ...$arguments): ResultInterface
     {
         return parent::get(...$arguments);
     }
 
     /**
-        @param array<mixed> $arguments
+     * Attempt to evaluate the callable and return a result,
+     * capturing any thrown exception alongside the value.
      */
     public function eval(array $arguments): ResultInterface
     {

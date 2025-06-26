@@ -8,12 +8,12 @@ use Mpietrucha\Utility\Contracts\CreatableInterface;
 
 /**
  * @template TKey of array-key
- * @template TValue
+ * @template-covariant TValue
  *
  * @extends \Mpietrucha\Utility\Contracts\ArrayableInterface<TKey, TValue>
  * @extends \Mpietrucha\Utility\Illuminate\Contracts\InteractsWithCollectionInterface<TKey, TValue>
  * @extends \Illuminate\Support\Enumerable<TKey, TValue>
  */
-interface EnumerableInterface extends ArrayableInterface, CreatableInterface, Enumerable, InteractsWithCollectionInterface
+interface EnumerableInterface extends ArrayableInterface, CreatableInterface, InteractsWithCollectionInterface, Enumerable
 {
 }

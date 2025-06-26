@@ -11,9 +11,11 @@ use Throwable;
 abstract class Backtrace
 {
     /**
-     * @return \Mpietrucha\Utility\Illuminate\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Frame>
+     * Build a backtrace collection from the given throwable or throwable wrapper.
+     *
+     * @return \Mpietrucha\Utility\Illuminate\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface>
      */
-    public static function throwable(Throwable|InteractsWithThrowableInterface $throwable): EnumerableInterface
+    public static function throwable(InteractsWithThrowableInterface|Throwable $throwable): EnumerableInterface
     {
         if ($throwable instanceof InteractsWithThrowableInterface) {
             $throwable = $throwable->value();
@@ -25,7 +27,9 @@ abstract class Backtrace
     }
 
     /**
-     * @return \Mpietrucha\Utility\Illuminate\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Frame>
+     * Build a backtrace collection from the current execution context.
+     *
+     * @return \Mpietrucha\Utility\Illuminate\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface>
      */
     public static function get(int $options = DEBUG_BACKTRACE_PROVIDE_OBJECT): EnumerableInterface
     {
@@ -35,8 +39,10 @@ abstract class Backtrace
     }
 
     /**
-     * @param  list<array<string, array<mixed>|int|object|string>>  $backtrace
-     * @return \Mpietrucha\Utility\Illuminate\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Frame>
+     * Transform raw backtrace frames into a typed enumerable of frame objects.
+     *
+     * @param  list<RawBacktraceFrame>  $backtrace
+     * @return \Mpietrucha\Utility\Illuminate\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface>
      */
     protected static function build(array $backtrace): EnumerableInterface
     {

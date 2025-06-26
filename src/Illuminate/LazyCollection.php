@@ -7,9 +7,10 @@ use Mpietrucha\Utility\Illuminate\Contracts\EnumerableInterface;
 
 /**
  * @template TKey of array-key
- * @template TValue
  *
- * @extends \Illuminate\Support\LazyCollection <TKey, TValue>
+ * @template-covariant TValue
+ *
+ * @extends \Illuminate\Support\LazyCollection<TKey, TValue>
  *
  * @implements \Mpietrucha\Utility\Illuminate\Contracts\EnumerableInterface<TKey, TValue>
  */

@@ -6,5 +6,8 @@ use Throwable;
 
 interface InteractsWithThrowableInterface
 {
+    /**
+     * Get the underlying throwable instance.
+     */
     public function value(): Throwable;
 }

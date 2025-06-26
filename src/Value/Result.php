@@ -5,6 +5,7 @@ namespace Mpietrucha\Utility\Value;
 use Mpietrucha\Utility;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
+use Mpietrucha\Utility\Instance;
 use Mpietrucha\Utility\Normalizer;
 use Mpietrucha\Utility\Throwable\Contracts\ThrowableInterface;
 use Mpietrucha\Utility\Type;
@@ -15,36 +16,91 @@ class Result implements CreatableInterface, ResultInterface
 {
     use Creatable;
 
+    protected ?ThrowableInterface $throwable = null;
+
+    protected static ?ThrowableInterface $previous = null;
+
+    /**
+     * Create a new result instance from the given value and optional failure.
+     */
     public function __construct(protected mixed $value, protected ?Throwable $failure)
     {
+        $this->throwable = static::utilize($failure);
     }
 
+    /**
+     * Store the last processed throwable for later association.
+     */
+    public static function previous(ThrowableInterface $previous): void
+    {
+        static::$previous = $previous;
+    }
+
+    /**
+     * Get the raw value returned by the evaluation.
+     */
     public function value(): mixed
     {
         return $this->value;
     }
 
+    /**
+     * Get the original throwable captured during the evaluation, if any.
+     */
     public function failure(): ?Throwable
     {
         return $this->failure;
     }
 
+    /**
+     * Get (or build) the wrapped throwable representation, or null on success.
+     */
     public function throwable(): ?ThrowableInterface
     {
         if ($this->succeeded()) {
             return null;
         }
 
-        return Utility\Throwable::create($this->failure());
+        return $this->throwable ??= Utility\Throwable::create($this->failure());
     }
 
+    /**
+     * Determine whether the evaluation completed without throwing.
+     */
     public function succeeded(): bool
     {
         return Type::null($this->failure());
     }
 
-    public function failed(): bool
+    /**
+     * Determine whether the evaluation resulted in an exception.
+     */
+    final public function failed(): bool
     {
         return Normalizer::not($this->succeeded());
+    }
+
+    /**
+     * Check if the captured failure matches the given throwable type.
+     */
+    public function caught(object|string $throwable): bool
+    {
+        if ($this->succeeded()) {
+            return false;
+        }
+
+        return Instance::is($this->failure(), $throwable) || Instance::is($this->throwable(), $throwable);
+    }
+
+    /**
+     * Associate the previously processed throwable with the current failure when identical.
+     */
+    protected static function utilize(?Throwable $failure): ?ThrowableInterface
+    {
+        $previous = static::$previous;
+
+        static::$previous = null;
+
+        return $previous?->value() === $failure ? $previous : null;
     }
 }

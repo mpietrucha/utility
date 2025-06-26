@@ -6,7 +6,10 @@ use Mpietrucha\Utility\Concerns\Creatable;
 
 /**
  * @template TKey of array-key
- * @template TValue
+ *
+ * @template-covariant TValue
+ *
+ * @internal
  */
 trait Enumerable
 {
@@ -16,6 +19,8 @@ trait Enumerable
     use Creatable, InteractsWithCollection;
 
     /**
+     * Convert the collection to a plain array.
+     *
      * @return array<TKey, TValue>
      */
     public function toArray(): array
@@ -24,6 +29,8 @@ trait Enumerable
     }
 
     /**
+     * Get all of the items in the collection as an array.
+     *
      * @return array<TKey, TValue>
      */
     public function all(): array

@@ -2,6 +2,82 @@
 
 namespace Mpietrucha\Utility\Filesystem;
 
+use Mpietrucha\Utility\Filesystem\Concerns\InteractsWithCondition;
+use Symfony\Component\Filesystem\Path as Adapter;
+
 abstract class Path
 {
+    use InteractsWithCondition;
+
+    /**
+     * Canonicalize the given path, resolving symbolic links and relative segments.
+     */
+    public static function canonicalize(string $path): string
+    {
+        return Adapter::canonicalize($path);
+    }
+
+    /**
+     * Normalize the given path by removing redundant directory separators and up-level references.
+     */
+    public static function normalize(string $path): string
+    {
+        return Adapter::normalize($path);
+    }
+
+    /**
+     * Get the directory portion of the given path.
+     */
+    public static function directory(string $path): string
+    {
+        return Adapter::getDirectory($path);
+    }
+
+    /**
+     * Get the current user’s home directory path.
+     */
+    public static function home(): string
+    {
+        return Adapter::getHomeDirectory();
+    }
+
+    /**
+     * Get the root directory portion of the given path.
+     */
+    public static function root(string $path): string
+    {
+        return Adapter::getRoot($path);
+    }
+
+    /**
+     * Get the filename without its extension from the given path.
+     */
+    public static function nameWithoutExtension(string $path, ?string $extension = null): string
+    {
+        return Adapter::getFilenameWithoutExtension($path, $extension);
+    }
+
+    /**
+     * Create an absolute path by combining the given relative path with a base path.
+     */
+    public static function absolute(string $path, string $base): string
+    {
+        return Adapter::makeAbsolute($path, $base);
+    }
+
+    /**
+     * Create a relative path from one path to another base path.
+     */
+    public static function relative(string $path, string $base): string
+    {
+        return Adapter::makeRelative($path, $base);
+    }
+
+    /**
+     * Get a new Path condition instance for advanced conditional checks.
+     */
+    protected static function condition(): Condition\Path
+    {
+        return Condition\Path::create();
+    }
 }

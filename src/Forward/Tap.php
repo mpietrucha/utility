@@ -3,19 +3,31 @@
 namespace Mpietrucha\Utility\Forward;
 
 use Mpietrucha\Utility\Contracts\TappableInterface;
-use Mpietrucha\Utility\Forward;
+use Mpietrucha\Utility\Forward\Contracts\MethodsInterface;
+use Mpietrucha\Utility\Forward\Contracts\TapInterface;
 
-class Tap extends Proxy
+/**
+ * @template T
+ *
+ * @extends \Mpietrucha\Utility\Forward\Proxy<T>
+ */
+class Tap extends Proxy implements TapInterface
 {
-    public function __construct(protected TappableInterface $tap)
+    /**
+     * Create a new tap proxy for the given tappable target.
+     */
+    public function __construct(protected TappableInterface $tappable, ?MethodsInterface $methods = null)
     {
-        return parent::__construct(Forward::create($tap));
+        parent::__construct($tappable, $methods);
     }
 
+    /**
+     * Forward the method call to the tappable and return the original tappable instance.
+     */
     public function __call(string $method, array $arguments): TappableInterface
     {
         parent::__call($method, $arguments);
 
-        return $this->tap;
+        return $this->tappable;
     }
 }
