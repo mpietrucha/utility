@@ -11,6 +11,7 @@ use Mpietrucha\Utility\Finder\Contracts\FinderInterface;
 use Mpietrucha\Utility\Finder\Contracts\IdentifierInterface;
 use Mpietrucha\Utility\Finder\Contracts\ValidatorInterface;
 use Mpietrucha\Utility\Finder\File as Result;
+use Mpietrucha\Utility\Str;
 use Mpietrucha\Utility\Stream;
 
 class File extends Passthrough
@@ -74,7 +75,7 @@ class File extends Passthrough
     {
         $files = $response->map($this->entry(...))->map(Collection::create(...));
 
-        return $files->map->join(static::delimiter(), PHP_EOL);
+        return $files->map->join(static::delimiter())->map(Str::eol(...));
     }
 
     /**

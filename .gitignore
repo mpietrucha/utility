@@ -2,3 +2,4 @@ vendor
 composer.lock
 .phpactor.json
 src/Finder/.cache
+a.php

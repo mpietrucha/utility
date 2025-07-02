@@ -35,4 +35,9 @@ class Str extends \Illuminate\Support\Str
     {
         return sprintf($string, ...$arguments);
     }
+
+    public static function eol(?string $string = null): string
+    {
+        return $string . PHP_EOL;
+    }
 }
