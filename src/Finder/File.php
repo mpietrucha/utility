@@ -2,13 +2,13 @@
 
 namespace Mpietrucha\Utility\Finder;
 
+use Mpietrucha\Utility\Arr;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Concerns\Stringable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Filesystem;
 use Mpietrucha\Utility\Finder\Contracts\FileInterface;
 use Mpietrucha\Utility\Forward\Concerns\Forwardable;
-use Mpietrucha\Utility\Illuminate\Arr;
 use Symfony\Component\Finder\SplFileInfo;
 
 /**
@@ -30,6 +30,13 @@ class File implements CreatableInterface, FileInterface
         $arguments = Arr::prepend($arguments, $this->get());
 
         return $this->forward(Filesystem::class)->eval($method, $arguments);
+    }
+
+    public static function build(string $file, string $relative, string $name): static
+    {
+        $adapter = new SplFileInfo($file, $relative, $name);
+
+        return static::create($adapter);
     }
 
     public function adapter(): SplFileInfo

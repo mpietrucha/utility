@@ -17,6 +17,7 @@
         "illuminate/support": "^12.12",
         "nyholm/psr7": "^1.8",
         "psr/http-message": "^2.0",
+        "spatie/ignition": "^1.15",
         "symfony/filesystem": "^7.3",
         "symfony/finder": "^7.3"
     },
@@ -46,8 +47,8 @@
     },
     "extra": {
         "patches": {
-            "symfony/finder": [
-                "patches/symfony-finder-finder-php.patch"
+            "larastan/larastan": [
+                "patches/larastan-larastan-src-support-higherordercollectionproxyhelper-php.patch"
             ],
             "nyholm/psr7": [
                 "patches/nyholm-psr7-src-stream-php.patch"

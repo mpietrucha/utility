@@ -1,9 +1,9 @@
 <?php
 
-namespace Mpietrucha\Utility\Illuminate\Contracts;
+namespace Mpietrucha\Utility\Enumerable\Contracts;
 
-use Mpietrucha\Utility\Illuminate\Collection;
-use Mpietrucha\Utility\Illuminate\LazyCollection;
+use Mpietrucha\Utility\Collection;
+use Mpietrucha\Utility\Enumerable\LazyCollection;
 
 /**
  * @template TKey of array-key
@@ -22,14 +22,14 @@ interface InteractsWithCollectionInterface
     /**
      * Convert the items into a standard eager collection instance.
      *
-     * @return \Mpietrucha\Utility\Illuminate\Collection<TKey, TValue>
+     * @return \Mpietrucha\Utility\Collection<TKey, TValue>
      */
     public function collect(): Collection;
 
     /**
      * Convert the items into a lazy collection instance.
      *
-     * @return \Mpietrucha\Utility\Illuminate\LazyCollection<TKey, TValue>
+     * @return \Mpietrucha\Utility\Enumerable\LazyCollection<TKey, TValue>
      */
     public function lazy(): LazyCollection;
 }

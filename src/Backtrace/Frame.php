@@ -2,12 +2,12 @@
 
 namespace Mpietrucha\Utility\Backtrace;
 
+use Mpietrucha\Utility\Arr;
 use Mpietrucha\Utility\Backtrace\Contracts\FrameInterface;
+use Mpietrucha\Utility\Collection;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Concerns\Pipeable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
-use Mpietrucha\Utility\Illuminate\Arr;
-use Mpietrucha\Utility\Illuminate\Collection;
 
 class Frame implements CreatableInterface, FrameInterface
 {
@@ -59,7 +59,7 @@ class Frame implements CreatableInterface, FrameInterface
     /**
      * Get the arguments passed to the function or method in the backtrace frame.
      *
-     * @return \Mpietrucha\Utility\Illuminate\Collection<string, mixed>
+     * @return \Mpietrucha\Utility\Collection<string, mixed>
      */
     public function arguments(): Collection
     {

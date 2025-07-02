@@ -2,10 +2,9 @@
 
 namespace Mpietrucha\Utility\Filesystem\Condition;
 
-use Mpietrucha\Utility\Filesystem\Condition;
 use Symfony\Component\Filesystem\Path as Adapter;
 
-class Path extends Condition
+class Path extends Filesystem
 {
     /**
      * Determine if the given path is absolute.

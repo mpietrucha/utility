@@ -15,7 +15,7 @@ trait Transformable
     {
         $value = Value::for($this->transformable())->eval($arguments);
 
-        return Value::pipe($value, $evaluable);
+        return Value::pipe($value, $evaluable)->get();
     }
 
     /**

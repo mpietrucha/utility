@@ -5,6 +5,7 @@ namespace Mpietrucha\Utility\Value;
 use Mpietrucha\Utility;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
+use Mpietrucha\Utility\Forward\Concerns\Forwardable;
 use Mpietrucha\Utility\Instance;
 use Mpietrucha\Utility\Normalizer;
 use Mpietrucha\Utility\Throwable\Contracts\ThrowableInterface;
@@ -12,9 +13,12 @@ use Mpietrucha\Utility\Type;
 use Mpietrucha\Utility\Value\Contracts\ResultInterface;
 use Throwable;
 
+/**
+ * @mixin \Mpietrucha\Utility\Normalizer
+ */
 class Result implements CreatableInterface, ResultInterface
 {
-    use Creatable;
+    use Creatable, Forwardable;
 
     protected ?ThrowableInterface $throwable = null;
 
@@ -26,6 +30,14 @@ class Result implements CreatableInterface, ResultInterface
     public function __construct(protected mixed $value, protected ?Throwable $failure)
     {
         $this->throwable = static::utilize($failure);
+    }
+
+    /**
+     * @param  array<int, mixed>  $arguments
+     */
+    public function __call(string $method, array $arguments): mixed
+    {
+        return $this->forward(Normalizer::class)->get($method, $this->value());
     }
 
     /**

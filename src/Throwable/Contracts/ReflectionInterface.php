@@ -4,7 +4,7 @@ namespace Mpietrucha\Utility\Throwable\Contracts;
 
 use Mpietrucha\Utility\Backtrace\Contracts\FrameInterface;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
-use Mpietrucha\Utility\Illuminate\Contracts\EnumerableInterface;
+use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Throwable;
 
 interface ReflectionInterface extends CreatableInterface, InteractsWithThrowableInterface
@@ -52,7 +52,7 @@ interface ReflectionInterface extends CreatableInterface, InteractsWithThrowable
     /**
      * Get the parsed backtrace frames associated with the throwable.
      *
-     * @return \Mpietrucha\Utility\Illuminate\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Frame>
+     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Frame>
      */
     public function backtrace(): EnumerableInterface;
 }

@@ -2,11 +2,14 @@
 
 namespace Mpietrucha\Utility\Filesystem\Condition;
 
+use Mpietrucha\Utility\Concerns\Creatable;
+use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Filesystem as Adapter;
-use Mpietrucha\Utility\Filesystem\Condition;
 
-class Filesystem extends Condition
+class Filesystem implements CreatableInterface
 {
+    use Creatable;
+
     /**
      * Determine if the given path exists as a file or directory.
      */
@@ -29,5 +32,15 @@ class Filesystem extends Condition
     public function directory(string $path): bool
     {
         return Adapter::isDirectory($path);
+    }
+
+    public function writable(string $path): bool
+    {
+        return Adapter::isWritable($path);
+    }
+
+    public function readable(string $path): bool
+    {
+        return Adapter::isReadable($path);
     }
 }

@@ -26,7 +26,7 @@ class Forward implements ForwardInterface, WrappableInterface
 
     /**
      * @param  class-string|object  $destination
-     * @param  class-string  $source
+     * @param  class-string|object|null  $source
      */
     public function __construct(
         protected object|string $destination,

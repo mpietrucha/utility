@@ -2,8 +2,7 @@
 
 namespace Mpietrucha\Utility\Concerns;
 
-use Mpietrucha\Utility\Forward\Contracts\TapInterface;
-use Mpietrucha\Utility\Forward\Tap;
+use Mpietrucha\Utility\Forward\Condition;
 use Mpietrucha\Utility\Normalizer;
 use Mpietrucha\Utility\Value;
 
@@ -13,7 +12,7 @@ trait Conditionable
      * Execute the given callback when the provided condition is truthy.
      * Returns a tap proxy if no arguments is provided, otherwise returns the original instance.
      */
-    public function when(...$arguments): static|TapInterface
+    public function when(...$arguments): mixed
     {
         return $this->condition(true, ...$arguments);
     }
@@ -22,7 +21,7 @@ trait Conditionable
      * Execute the given callback when the provided condition is falsy.
      * Returns a tap proxy if no arguments is provided, otherwise returns the original instance.
      */
-    public function unless(mixed ...$arguments): static|TapInterface
+    public function unless(mixed ...$arguments): mixed
     {
         return $this->condition(false, ...$arguments);
     }
@@ -30,18 +29,16 @@ trait Conditionable
     /**
      * Evaluate a condition against a boolean value, optionally executing a handler or returning a tap proxy.
      */
-    protected function condition(bool $value, mixed $condition = null, mixed $handler = null): static|TapInterface
+    protected function condition(bool $value, mixed $condition = null, mixed $handler = null): mixed
     {
-        $condition = Value::for($condition)->get($this, $condition);
+        $condition = Normalizer::boolean(
+            Value::for($condition)->get($this, $condition)
+        ) === $value;
 
-        if (Normalizer::not($condition) === $value) {
-            return $this;
+        if (func_num_args() === 2) {
+            return Condition::create($this, $condition);
         }
 
-        if (func_num_args() === 3) {
-            return Tap::create($this);
-        }
-
-        return Value::tap($this, $handler)->get();
+        return $condition ? Value::pipe($this, $handler)->get() : $this;
     }
 }

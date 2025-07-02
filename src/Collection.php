@@ -1,0 +1,23 @@
+<?php
+
+namespace Mpietrucha\Utility;
+
+use Mpietrucha\Utility\Enumerable\Concerns\InteractsWithEnumerable;
+use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
+
+/**
+ * @template TKey of array-key
+ *
+ * @template-covariant TValue
+ *
+ * @extends \Illuminate\Support\Collection<TKey, TValue>
+ *
+ * @implements \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<TKey, TValue>
+ */
+class Collection extends \Illuminate\Support\Collection implements EnumerableInterface
+{
+    /**
+     * @use \Mpietrucha\Utility\Enumerable\Concerns\InteractsWithEnumerable<TKey, TValue>
+     */
+    use InteractsWithEnumerable;
+}

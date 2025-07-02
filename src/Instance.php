@@ -67,4 +67,17 @@ abstract class Instance
 
         return static::namespace($instance);
     }
+
+    /**
+     * @param  null|callable(): string  $serialize
+     * @param  null|callable(): string  $hash
+     */
+    public static function serialize(object $instance, ?callable $serialize = null, ?callable $hash = null): string
+    {
+        $serialize ??= serialize(...);
+
+        $hashable = Type::callable($hash);
+
+        return Value::attempt($serialize)->stringable($instance)->when($hashable)->pipe($hash);
+    }
 }

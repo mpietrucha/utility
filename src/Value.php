@@ -13,6 +13,8 @@ abstract class Value
 {
     /**
      * Create a new evaluation from the given value.
+     *
+     * @return \Mpietrucha\Utility\Value\Evaluation
      */
     public static function for(mixed $evaluable): EvaluationInterface
     {
@@ -21,6 +23,8 @@ abstract class Value
 
     /**
      * Create a new attempted evaluation that captures exceptions.
+     *
+     * @return \Mpietrucha\Utility\Value\Attempt
      */
     public static function attempt(mixed $evaluable): AttemptInterface
     {
@@ -29,6 +33,8 @@ abstract class Value
 
     /**
      * Create a new pipeline that passes the value through the given evaluator.
+     *
+     * @return \Mpietrucha\Utility\Value\Pipe
      */
     public static function pipe(mixed $value, mixed $evaluable): PipeInterface
     {

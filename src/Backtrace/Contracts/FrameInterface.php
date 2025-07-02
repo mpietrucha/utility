@@ -4,7 +4,7 @@ namespace Mpietrucha\Utility\Backtrace\Contracts;
 
 use Mpietrucha\Utility\Contracts\ArrayableInterface;
 use Mpietrucha\Utility\Contracts\PipeableInterface;
-use Mpietrucha\Utility\Illuminate\Contracts\EnumerableInterface;
+use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 
 /**
  * @extends \Mpietrucha\Utility\Contracts\ArrayableInterface<string, RawBacktraceFrame>
@@ -29,7 +29,7 @@ interface FrameInterface extends ArrayableInterface, PipeableInterface
     /**
      * Get the arguments passed to the function or method in the backtrace frame.
      *
-     * @return \Mpietrucha\Utility\Illuminate\Contracts\EnumerableInterface<string, mixed>
+     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, mixed>
      */
     public function arguments(): EnumerableInterface;
 

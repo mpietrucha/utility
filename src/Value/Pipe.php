@@ -2,7 +2,7 @@
 
 namespace Mpietrucha\Utility\Value;
 
-use Mpietrucha\Utility\Illuminate\Arr;
+use Mpietrucha\Utility\Arr;
 use Mpietrucha\Utility\Value\Contracts\PipeInterface;
 
 class Pipe extends Evaluation implements PipeInterface

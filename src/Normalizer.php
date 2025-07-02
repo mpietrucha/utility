@@ -2,8 +2,7 @@
 
 namespace Mpietrucha\Utility;
 
-use Mpietrucha\Utility\Illuminate\Collection;
-use Mpietrucha\Utility\Illuminate\Contracts\EnumerableInterface;
+use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 
 abstract class Normalizer
 {
@@ -32,7 +31,15 @@ abstract class Normalizer
     }
 
     /**
-     * Convert the given value to an array using the collection normalizer.
+     * Normalize the given value to a Stringable instance.
+     */
+    public static function stringable(mixed $value): Stringable
+    {
+        return Stringable::create($value);
+    }
+
+    /**
+     * Convert the given value to an array.
      *
      * @return array<int|string, mixed>
      */
@@ -44,7 +51,7 @@ abstract class Normalizer
     /**
      * Wrap the given value in a collection instance.
      *
-     * @return \Mpietrucha\Utility\Illuminate\Contracts\EnumerableInterface<int|string, mixed>
+     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int|string, mixed>
      */
     public static function collection(mixed $value): EnumerableInterface
     {

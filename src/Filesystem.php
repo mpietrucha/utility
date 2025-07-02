@@ -3,18 +3,20 @@
 namespace Mpietrucha\Utility;
 
 use Illuminate\Filesystem\Filesystem as Adapter;
+use Mpietrucha\Utility\Enumerable\LazyCollection;
 use Mpietrucha\Utility\Filesystem\Concerns\InteractsWithCondition;
 use Mpietrucha\Utility\Filesystem\Concerns\InteractsWithExistence;
 use Mpietrucha\Utility\Filesystem\Condition;
 use Mpietrucha\Utility\Forward\Concerns\Bridgeable;
-use Mpietrucha\Utility\Illuminate\LazyCollection;
-use Mpietrucha\Utility\Illuminate\Stringable;
 
 /**
  * @mixin \Illuminate\Filesystem\Filesystem
  */
 abstract class Filesystem
 {
+    /**
+     * @use \Mpietrucha\Utility\Filesystem\Concerns\InteractsWithCondition<\Mpietrucha\Utility\Filesystem\Condition\Filesystem>
+     */
     use Bridgeable, InteractsWithCondition, InteractsWithExistence;
 
     protected static ?Adapter $adapter = null;
@@ -52,7 +54,7 @@ abstract class Filesystem
     /**
      * Read the file line by line into a lazy collection of stringable objects.
      *
-     * @return \Mpietrucha\Utility\Illuminate\LazyCollection<int, \Mpietrucha\Utility\Illuminate\Stringable>
+     * @return \Mpietrucha\Utility\Enumerable\LazyCollection<int, \Mpietrucha\Utility\Stringable>
      */
     public static function lines(string $file): LazyCollection
     {

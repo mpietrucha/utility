@@ -1,8 +1,11 @@
 <?php
 
-namespace Mpietrucha\Utility\Illuminate\Concerns;
+namespace Mpietrucha\Utility\Enumerable\Concerns;
 
+use Mpietrucha\Utility\Concerns\Conditionable;
 use Mpietrucha\Utility\Concerns\Creatable;
+use Mpietrucha\Utility\Concerns\Pipeable;
+use Mpietrucha\Utility\Concerns\Tappable;
 
 /**
  * @template TKey of array-key
@@ -11,12 +14,12 @@ use Mpietrucha\Utility\Concerns\Creatable;
  *
  * @internal
  */
-trait Enumerable
+trait InteractsWithEnumerable
 {
     /**
-     * @use \Mpietrucha\Utility\Illuminate\Concerns\InteractsWithCollection<TKey, TValue>
+     * @use \Mpietrucha\Utility\Enumerable\Concerns\InteractsWithCollection<TKey, TValue>
      */
-    use Creatable, InteractsWithCollection;
+    use Conditionable, Creatable, InteractsWithCollection, Pipeable, Tappable;
 
     /**
      * Convert the collection to a plain array.

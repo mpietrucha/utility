@@ -6,8 +6,21 @@ use Mpietrucha\Utility\Value\Contracts\AttemptInterface;
 use Mpietrucha\Utility\Value\Contracts\ResultInterface;
 use Throwable;
 
+/**
+ * @mixin \Mpietrucha\Utility\Value\Result
+ */
 class Attempt extends Evaluation implements AttemptInterface
 {
+    /**
+     * @param  array<int, mixed>  $arguments
+     */
+    public function __call(string $method, array $arguments): mixed
+    {
+        $result = $this->eval($arguments);
+
+        return $this->forward($result)->eval($method, $arguments);
+    }
+
     /**
      * Safely invoke the evaluable with the given arguments, returning a result wrapper.
      */

@@ -1,9 +1,9 @@
 <?php
 
-namespace Mpietrucha\Utility\Illuminate\Concerns;
+namespace Mpietrucha\Utility\Enumerable\Concerns;
 
-use Mpietrucha\Utility\Illuminate\Collection;
-use Mpietrucha\Utility\Illuminate\LazyCollection;
+use Mpietrucha\Utility\Collection;
+use Mpietrucha\Utility\Enumerable\LazyCollection;
 
 /**
  * @template TKey of array-key
@@ -21,7 +21,7 @@ trait InteractsWithCollection
     }
 
     /**
-     * @return \Mpietrucha\Utility\Illuminate\Collection<TKey, TValue>
+     * @return \Mpietrucha\Utility\Collection<TKey, TValue>
      */
     public function collect(): Collection
     {
@@ -29,7 +29,7 @@ trait InteractsWithCollection
     }
 
     /**
-     * @return \Mpietrucha\Utility\Illuminate\LazyCollection<TKey, TValue>
+     * @return \Mpietrucha\Utility\Enumerable\LazyCollection<TKey, TValue>
      */
     public function lazy(): LazyCollection
     {

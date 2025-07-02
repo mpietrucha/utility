@@ -1,8 +1,7 @@
 <?php
 
-namespace Mpietrucha\Utility\Illuminate;
+namespace Mpietrucha\Utility;
 
-use Mpietrucha\Utility\Normalizer;
 use Traversable;
 
 class Arr extends \Illuminate\Support\Arr

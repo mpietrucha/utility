@@ -11,9 +11,9 @@ use Mpietrucha\Utility\Forward\Contracts\ProxyInterface;
 use Mpietrucha\Utility\Forward\Proxy\Methods;
 
 /**
- * @template T
+ * @template T of object
  *
- * @property T $source
+ * @property T|class-string<T> $source
  *
  * @mixin T
  */

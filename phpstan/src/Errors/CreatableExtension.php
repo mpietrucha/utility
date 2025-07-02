@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Mpietrucha\PHPStan\Errors;
 
 use Mpietrucha\Utility\Filesystem;
-use Mpietrucha\Utility\Illuminate\Str;
+use Mpietrucha\Utility\Str;
 use PhpParser\Node;
 use PHPStan\Analyser\Error;
 use PHPStan\Analyser\IgnoreErrorExtension;
@@ -69,9 +69,9 @@ final class CreatableExtension implements IgnoreErrorExtension
 
     protected function declares(Error $error, string $code): bool
     {
-        $file = $error->getFilePath();
-
         $line = $error->getLine() - 1;
+
+        $file = $error->getFilePath();
 
         return Filesystem::lines($file)->get($line)?->is($code) === true;
     }

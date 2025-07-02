@@ -21,7 +21,7 @@ class Throwable extends Reflection implements ThrowableInterface
     }
 
     /**
-     * Notify about the current throwable
+     * Notify custom listeners about the current throwable
      */
     protected function notify(): void
     {

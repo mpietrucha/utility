@@ -1,0 +1,15 @@
+<?php
+
+namespace Illuminate\Support;
+
+/**
+ * @template T
+ * @template TValue
+ * @template TCollection
+ *
+ * @mixin TCollection
+ * @mixin TValue
+ */
+class HigherOrderCollectionProxy
+{
+}

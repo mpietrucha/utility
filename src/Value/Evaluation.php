@@ -4,19 +4,33 @@ namespace Mpietrucha\Utility\Value;
 
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
+use Mpietrucha\Utility\Forward\Concerns\Forwardable;
 use Mpietrucha\Utility\Normalizer;
 use Mpietrucha\Utility\Type;
 use Mpietrucha\Utility\Value\Contracts\EvaluationInterface;
 
+/**
+ * @mixin \Mpietrucha\Utility\Normalizer
+ */
 class Evaluation implements CreatableInterface, EvaluationInterface
 {
-    use Creatable;
+    use Creatable, Forwardable;
 
     /**
      * Create a new evaluation instance from the given evaluable value.
      */
     public function __construct(protected mixed $evaluable)
     {
+    }
+
+    /**
+     * @param  array<int, mixed>  $arguments
+     */
+    public function __call(string $method, array $arguments): mixed
+    {
+        $value = $this->eval($arguments);
+
+        return $this->forward(Normalizer::class)->get($method, $value);
     }
 
     /**
@@ -67,10 +81,6 @@ class Evaluation implements CreatableInterface, EvaluationInterface
     {
         $value = $this->evaluable();
 
-        if ($this->supported()) {
-            $value = $value(...$arguments);
-        }
-
-        return $value;
+        return $this->supported() ? $value(...$arguments) : $value;
     }
 }

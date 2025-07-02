@@ -2,10 +2,10 @@
 
 namespace Mpietrucha\Utility\Forward\Proxy;
 
+use Mpietrucha\Utility\Collection;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Forward\Contracts\MethodsInterface;
-use Mpietrucha\Utility\Illuminate\Collection;
 use Mpietrucha\Utility\Instance;
 use Mpietrucha\Utility\Normalizer;
 use Mpietrucha\Utility\Throwable\RuntimeException;
@@ -18,8 +18,8 @@ class Methods implements CreatableInterface, MethodsInterface
     /**
      * Create a new Methods instance.
      *
-     * @param  \Mpietrucha\Utility\Illuminate\Collection<int, string>  $allowed
-     * @param  \Mpietrucha\Utility\Illuminate\Collection<int, string>  $denied
+     * @param  \Mpietrucha\Utility\Collection<int, string>  $allowed
+     * @param  \Mpietrucha\Utility\Collection<int, string>  $denied
      */
     public function __construct(protected Collection $allowed = new Collection, protected Collection $denied = new Collection)
     {
@@ -28,7 +28,7 @@ class Methods implements CreatableInterface, MethodsInterface
     /**
      * Get the collection of explicitly allowed methods.
      *
-     * @return \Mpietrucha\Utility\Illuminate\Collection<int, string>
+     * @return \Mpietrucha\Utility\Collection<int, string>
      */
     public function allowed(): Collection
     {
@@ -38,7 +38,7 @@ class Methods implements CreatableInterface, MethodsInterface
     /**
      * Get the collection of explicitly denied methods.
      *
-     * @return \Mpietrucha\Utility\Illuminate\Collection<int, string>
+     * @return \Mpietrucha\Utility\Collection<int, string>
      */
     public function denied(): Collection
     {

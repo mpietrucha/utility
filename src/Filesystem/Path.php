@@ -2,12 +2,24 @@
 
 namespace Mpietrucha\Utility\Filesystem;
 
+use Mpietrucha\Utility\Filesystem;
 use Mpietrucha\Utility\Filesystem\Concerns\InteractsWithCondition;
 use Symfony\Component\Filesystem\Path as Adapter;
 
 abstract class Path
 {
+    /**
+     * @use \Mpietrucha\Utility\Filesystem\Concerns\InteractsWithCondition<\Mpietrucha\Utility\Filesystem\Condition\Path>
+     */
     use InteractsWithCondition;
+
+    /**
+     * Get the name portion of the given path.
+     */
+    public static function name(string $path): string
+    {
+        return Filesystem::basename($path);
+    }
 
     /**
      * Canonicalize the given path, resolving symbolic links and relative segments.

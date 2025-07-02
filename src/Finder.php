@@ -2,84 +2,111 @@
 
 namespace Mpietrucha\Utility;
 
-use Iterator;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
+use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
+use Mpietrucha\Utility\Finder\Adapter;
+use Mpietrucha\Utility\Finder\Cache;
+use Mpietrucha\Utility\Finder\Contracts\AdapterInterface;
+use Mpietrucha\Utility\Finder\Contracts\CacheInterface;
 use Mpietrucha\Utility\Finder\Contracts\FinderInterface;
-use Mpietrucha\Utility\Finder\Exclude;
-use Mpietrucha\Utility\Illuminate\Arr;
-use Mpietrucha\Utility\Illuminate\Contracts\EnumerableInterface;
-use Symfony\Component\Finder\Finder as Adapter;
+use Mpietrucha\Utility\Finder\Loop;
+use Mpietrucha\Utility\Forward\Concerns\Forwardable;
 
-class Finder extends Adapter implements CreatableInterface, FinderInterface
+/**
+ * @mixin \Mpietrucha\Utility\Finder\Contracts\AdapterInterface
+ */
+class Finder implements CreatableInterface, FinderInterface
 {
-    use Creatable;
+    use Creatable, Forwardable;
 
-    public function __construct(protected ?int $iterations = null, protected ?string $cwd = null, protected ?int $quota = 1)
-    {
-    }
+    protected ?string $in = null;
 
-    public function attempts(int $iterations): static
-    {
-        $this->iterations = $iterations;
-
-        return $this;
-    }
-
-    public function until(int $quota): static
-    {
-        $this->quota = $quota;
-
-        return $this;
+    public function __construct(
+        protected ?int $depth = null,
+        protected ?int $target = null,
+        protected ?CacheInterface $cache = null,
+        protected ?AdapterInterface $adapter = null,
+    ) {
     }
 
     /**
-     * @param  string|array<int, string>  $directories
+     * @param  array<int|string, mixed>  $arguments
      */
-    public function exclude(array|string $directories): static
+    public function __call(string $method, array $arguments): static
     {
-        return Exclude::create($this->cwd(), $directories)->transform(parent::exclude(...));
+        $adapter = $this->adapter();
+
+        $this->forward($adapter)->eval($method, $arguments);
+
+        return $this;
     }
 
-    public function getIterator(): Iterator
+    public function fresh(): static
     {
-        $this->hydrate();
+        $this->cache = Cache\Passthrough::create($this);
 
-        return parent::getIterator();
+        return $this;
+    }
+
+    public function attempts(int $depth): static
+    {
+        $this->depth = $depth;
+
+        return $this;
+    }
+
+    public function until(int $target): static
+    {
+        $this->target = $target;
+
+        return $this;
+    }
+
+    public function in(string $in): static
+    {
+        $this->in = $in;
+
+        return $this;
+    }
+
+    public function adapter(): AdapterInterface
+    {
+        return $this->adapter ??= Adapter\Finder::create();
+    }
+
+    public function cache(): CacheInterface
+    {
+        return $this->cache ??= Cache\File::create($this);
     }
 
     public function get(): EnumerableInterface
     {
+        $this->cache()->validate();
 
+        if ($this->cache()->exists()) {
+            return $this->cache()->get();
+        }
+
+        $response = Loop::run($this->adapter(), $this->input(), $this->depth(), $this->target());
+
+        $this->cache()->set($response);
+
+        return $response;
     }
 
-    protected function hydrate(): void
+    protected function target(): ?int
     {
-        $cwd = $this->cwd();
-
-        Arr::empty($this->input()) && Type::string($cwd) && $this->in($cwd);
+        return $this->target;
     }
 
-    protected function cwd(): ?string
+    protected function depth(): ?int
     {
-        return $this->cwd ??= Filesystem::cwd();
+        return $this->depth;
     }
 
-    protected function iterations(): ?int
+    protected function input(): ?string
     {
-        return $this->iterations;
-    }
-
-    protected function quota(): ?int
-    {
-        return $this->quota;
-    }
-
-    /**
-     * @return array<int, string>
-     */
-    protected function input(): array
-    {
-        return $this->dirs;
+        return $this->in ??= Filesystem::cwd();
     }
 }

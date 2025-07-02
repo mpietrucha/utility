@@ -2,21 +2,21 @@
 
 namespace Mpietrucha\Utility\Forward\Contracts;
 
-use Mpietrucha\Utility\Illuminate\Contracts\EnumerableInterface;
+use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 
 interface MethodsInterface
 {
     /**
      * Get the collection of explicitly allowed method names.
      *
-     * @return \Mpietrucha\Utility\Illuminate\Contracts\EnumerableInterface<int, string>
+     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, string>
      */
     public function allowed(): EnumerableInterface;
 
     /**
      * Get the collection of explicitly denied method names.
      *
-     * @return \Mpietrucha\Utility\Illuminate\Contracts\EnumerableInterface<int, string>
+     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, string>
      */
     public function denied(): EnumerableInterface;
 

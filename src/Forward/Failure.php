@@ -5,11 +5,11 @@ namespace Mpietrucha\Utility\Forward;
 use Mpietrucha\Utility\Backtrace\Contracts\FrameInterface;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
+use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Forward\Contracts\FailureInterface;
 use Mpietrucha\Utility\Forward\Contracts\ForwardInterface;
-use Mpietrucha\Utility\Illuminate\Contracts\EnumerableInterface;
-use Mpietrucha\Utility\Illuminate\Str;
 use Mpietrucha\Utility\Instance;
+use Mpietrucha\Utility\Str;
 use Mpietrucha\Utility\Throwable\Contracts\ThrowableInterface;
 
 class Failure implements CreatableInterface, FailureInterface
@@ -48,7 +48,7 @@ class Failure implements CreatableInterface, FailureInterface
     /**
      * Determine frame for failure line and code.
      *
-     * @param  \Mpietrucha\Utility\Illuminate\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface>  $backtrace
+     * @param  \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface>  $backtrace
      */
     protected function frame(EnumerableInterface $backtrace): FrameInterface
     {
@@ -58,8 +58,8 @@ class Failure implements CreatableInterface, FailureInterface
     /**
      * Adjust backtrace for cleaner output.
      *
-     * @param  \Mpietrucha\Utility\Illuminate\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface>  $backtrace
-     * @return \Mpietrucha\Utility\Illuminate\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface>
+     * @param  \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface>  $backtrace
+     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface>
      */
     protected function backtrace(EnumerableInterface $backtrace): EnumerableInterface
     {

@@ -9,10 +9,10 @@ use Mpietrucha\Utility\Concerns\Pipeable;
 use Mpietrucha\Utility\Concerns\Tappable;
 use Mpietrucha\Utility\Contracts\PipeableInterface;
 use Mpietrucha\Utility\Contracts\TappableInterface;
-use Mpietrucha\Utility\Illuminate\Contracts\EnumerableInterface;
-use Mpietrucha\Utility\Illuminate\Str;
+use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Normalizer;
 use Mpietrucha\Utility\Reflection as Adapter;
+use Mpietrucha\Utility\Str;
 use Mpietrucha\Utility\Throwable\Contracts\ReflectionInterface;
 use Throwable;
 
@@ -26,7 +26,7 @@ class Reflection implements PipeableInterface, ReflectionInterface, TappableInte
     protected ?Adapter $adapter = null;
 
     /**
-     * @var \Mpietrucha\Utility\Illuminate\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface>|null
+     * @var \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface>|null
      */
     protected ?EnumerableInterface $backtrace = null;
 
@@ -131,7 +131,7 @@ class Reflection implements PipeableInterface, ReflectionInterface, TappableInte
     /**
      * Lazily build and return the throwable's backtrace frames.
      *
-     * @return \Mpietrucha\Utility\Illuminate\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface>
+     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface>
      */
     public function backtrace(): EnumerableInterface
     {

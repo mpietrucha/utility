@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Mpietrucha\PHPStan\ReturnTypes;
 
+use Mpietrucha\Utility\Arr;
+use Mpietrucha\Utility\Collection;
 use Mpietrucha\Utility\Data;
-use Mpietrucha\Utility\Illuminate\Arr;
-use Mpietrucha\Utility\Illuminate\Collection;
 use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
@@ -43,7 +43,7 @@ final class NormalizerExtension implements DynamicStaticMethodReturnTypeExtensio
     }
 
     /**
-     * @return \Mpietrucha\Utility\Illuminate\Collection<int, \PHPStan\Type\Type>
+     * @return \Mpietrucha\Utility\Collection<int, \PHPStan\Type\Type>
      */
     protected function types(Type $argument): Collection
     {

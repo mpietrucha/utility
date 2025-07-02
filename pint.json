@@ -3,7 +3,8 @@
     "rules": {
         "single_line_empty_body": false,
         "ordered_class_elements": true,
-        "ordered_types": true
+        "ordered_types": true,
+        "concat_space": "one"
     },
-    "exclude": ["vendor", "src/Illuminate/Contracts/EnumerableInterface.php"]
+    "exclude": ["vendor", "src/Enumerable/Contracts/EnumerableInterface.php"]
 }
