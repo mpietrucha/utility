@@ -4,6 +4,7 @@ namespace Mpietrucha\Utility\Throwable;
 
 use Mpietrucha\Utility\Backtrace;
 use Mpietrucha\Utility\Backtrace\Contracts\FrameInterface;
+use Mpietrucha\Utility\Backtrace\Property as Frame;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Concerns\Pipeable;
 use Mpietrucha\Utility\Concerns\Tappable;
@@ -14,6 +15,7 @@ use Mpietrucha\Utility\Normalizer;
 use Mpietrucha\Utility\Reflection as Adapter;
 use Mpietrucha\Utility\Str;
 use Mpietrucha\Utility\Throwable\Contracts\ReflectionInterface;
+use Mpietrucha\Utility\Type;
 use Throwable;
 
 class Reflection implements PipeableInterface, ReflectionInterface, TappableInterface
@@ -45,9 +47,11 @@ class Reflection implements PipeableInterface, ReflectionInterface, TappableInte
     {
         $backtrace = $this->backtrace()->skip($start);
 
-        $backtrace->first()?->pipe($this->frame(...));
+        $frame = $backtrace->first();
 
-        $backtrace->skip($end)->pipe($this->trace(...));
+        Type::object($frame) && $this->frame($frame);
+
+        $backtrace->skip($end) |> $this->trace(...);
 
         return $this;
     }
@@ -57,13 +61,11 @@ class Reflection implements PipeableInterface, ReflectionInterface, TappableInte
      */
     public function frame(FrameInterface $frame): static
     {
-        if ($file = $frame->file()) {
-            $this->file($file);
-        }
+        [Frame::FILE->value => $file, Frame::LINE->value => $line] = $frame->toArray();
 
-        if ($line = $frame->line()) {
-            $this->line($line);
-        }
+        Type::string($file) && $this->file($file);
+
+        Type::integer($line) && $this->line($line);
 
         return $this;
     }
@@ -143,9 +145,9 @@ class Reflection implements PipeableInterface, ReflectionInterface, TappableInte
      */
     protected function set(Property $property, mixed $value): static
     {
-        $name = $property->value;
+        $property = $property->value |> $this->adapter()->getProperty(...);
 
-        $this->adapter()->getProperty($name)->setValue($this->value(), $value);
+        $property->setValue($this->value(), $value);
 
         return $this;
     }
@@ -157,7 +159,7 @@ class Reflection implements PipeableInterface, ReflectionInterface, TappableInte
      */
     protected function adapter(): Adapter
     {
-        return $this->adapter ??= Adapter::deep($this->value());
+        return $this->adapter ??= $this->value() |> Adapter::deep(...);
     }
 
     /**

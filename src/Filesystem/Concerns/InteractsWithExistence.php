@@ -23,6 +23,6 @@ trait InteractsWithExistence
      */
     public static function unexists(string $path): bool
     {
-        return Normalizer::not(static::exists($path));
+        return static::exists($path) |> Normalizer::not(...);
     }
 }

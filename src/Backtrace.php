@@ -20,9 +20,7 @@ abstract class Backtrace
             $throwable = $throwable->value();
         }
 
-        $backtrace = $throwable->getTrace();
-
-        return static::build($backtrace);
+        return $throwable->getTrace() |> static::build(...);
     }
 
     /**
@@ -32,9 +30,7 @@ abstract class Backtrace
      */
     public static function get(int $options = DEBUG_BACKTRACE_PROVIDE_OBJECT): EnumerableInterface
     {
-        $backtrace = debug_backtrace($options);
-
-        return static::build($backtrace);
+        return debug_backtrace($options) |> static::build(...);
     }
 
     /**

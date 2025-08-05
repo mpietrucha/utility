@@ -58,9 +58,7 @@ abstract class Filesystem
      */
     public static function lines(string $file): LazyCollection
     {
-        $lines = static::adapter()->lines($file);
-
-        return LazyCollection::create($lines)->map(Stringable::create(...));
+        return static::adapter()->lines($file)->pipe(LazyCollection::create(...))->map(Stringable::create(...));
     }
 
     /**

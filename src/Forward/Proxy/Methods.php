@@ -82,11 +82,7 @@ class Methods implements CreatableInterface, MethodsInterface
             return true;
         }
 
-        if ($this->allowed()->isEmpty()) {
-            return true;
-        }
-
-        return $this->allowed()->contains($method);
+        return $this->allowed()->isEmpty() || $this->allowed()->contains($method);
     }
 
     /**
@@ -94,7 +90,7 @@ class Methods implements CreatableInterface, MethodsInterface
      */
     public function invalid(string $method): bool
     {
-        return Normalizer::not($this->valid($method));
+        return $this->valid($method) |> Normalizer::not(...);
     }
 
     /**

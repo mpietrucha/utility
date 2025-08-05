@@ -26,9 +26,7 @@ class Context extends Proxy implements ContextInterface
      */
     public function __call(string $method, array $arguments): bool
     {
-        $value = parent::__call($method, $arguments);
-
-        return Normalizer::boolean($value) === $this->value;
+        return parent::__call($method, $arguments) |> Normalizer::boolean(...) === $this->value;
     }
 
     /**

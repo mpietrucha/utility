@@ -11,8 +11,7 @@
         }
     ],
     "require": {
-        "php": "^8.4",
-        "cweagans/composer-patches": "^1.7",
+        "php": "^8.5",
         "illuminate/filesystem": "^12.18",
         "illuminate/support": "^12.12",
         "nyholm/psr7": "^1.8",
@@ -27,33 +26,25 @@
         "laravel/pint": "^1.22",
         "nunomaduro/collision": "^8.8",
         "phpstan/phpstan": "^2.1",
-        "symfony/var-dumper": "^7.2",
-        "symplify/vendor-patches": "^11.4"
+        "symfony/var-dumper": "^7.2"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
+            "Mpietrucha\\Fork\\": "fork/src",
             "Mpietrucha\\PHPStan\\": "phpstan/src",
             "Mpietrucha\\Utility\\": "src/"
-        }
+        },
+        "files": [
+            "autoload.php"
+        ]
     },
     "config": {
         "allow-plugins": {
-            "cweagans/composer-patches": true,
             "ergebnis/composer-normalize": true
         },
         "sort-packages": true
-    },
-    "extra": {
-        "patches": {
-            "larastan/larastan": [
-                "patches/larastan-larastan-src-support-higherordercollectionproxyhelper-php.patch"
-            ],
-            "nyholm/psr7": [
-                "patches/nyholm-psr7-src-stream-php.patch"
-            ]
-        }
     },
     "scripts": {
         "post-install-cmd": [
@@ -63,7 +54,6 @@
             "@composer normalize"
         ],
         "lint": "pint -v",
-        "patches:generate": "vendor-patches generate",
         "prettier:config": "curl -sSL https://raw.githubusercontent.com/mpietrucha/prettier-config-synchronizer/refs/heads/main/synchronize | bash",
         "test": [
             "@test:lint",

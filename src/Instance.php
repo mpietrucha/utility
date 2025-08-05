@@ -23,7 +23,7 @@ abstract class Instance
      */
     final public static function unexists(object|string $instance): bool
     {
-        return Normalizer::not(static::exists($instance));
+        return static::exists($instance) |> Normalizer::not(...);
     }
 
     /**
@@ -78,6 +78,8 @@ abstract class Instance
 
         $hashable = Type::callable($hash);
 
-        return Value::attempt($serialize)->stringable($instance)->when($hashable)->pipe($hash);
+        $response = Value::attempt($serialize)->stringable($instance)->when($hashable)->pipe($hash);
+
+        return Normalizer::string($response);
     }
 }

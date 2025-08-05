@@ -2,6 +2,8 @@
 
 namespace Mpietrucha\Utility;
 
+use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
+
 class Str extends \Illuminate\Support\Str
 {
     /**
@@ -25,7 +27,7 @@ class Str extends \Illuminate\Support\Str
      */
     final public static function isNotEmpty(string $string): bool
     {
-        return Normalizer::not(static::isEmpty($string));
+        return static::isEmpty($string) |> Normalizer::not(...);
     }
 
     /**
@@ -39,5 +41,21 @@ class Str extends \Illuminate\Support\Str
     public static function eol(?string $string = null): string
     {
         return $string . PHP_EOL;
+    }
+
+    /**
+     * @return \Mpietrucha\Utility\Collection<int, string>
+     */
+    public static function explode(string $string, string $delimiter, int $limit = PHP_INT_MAX): EnumerableInterface
+    {
+        return explode($delimiter, $string, $limit) |> Collection::create(...);
+    }
+
+    /**
+     * @return \Mpietrucha\Utility\Collection<int, string>
+     */
+    public static function lines(string $string, string $delimiter = PHP_EOL, int $limit = PHP_INT_MAX): EnumerableInterface
+    {
+        return static::explode($string, $delimiter, $limit);
     }
 }

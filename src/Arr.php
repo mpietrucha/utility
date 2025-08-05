@@ -33,7 +33,7 @@ class Arr extends \Illuminate\Support\Arr
      */
     public static function filled(iterable $array): bool
     {
-        return Normalizer::not(static::empty($array));
+        return static::empty($array) |> Normalizer::not(...);
     }
 
     /**

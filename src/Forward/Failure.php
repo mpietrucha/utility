@@ -85,7 +85,7 @@ class Failure implements CreatableInterface, FailureInterface
      */
     protected function destination(): ?string
     {
-        return Instance::namespace($this->forward()->destination());
+        return $this->forward()->destination() |> Instance::namespace(...);
     }
 
     /**
@@ -95,6 +95,6 @@ class Failure implements CreatableInterface, FailureInterface
      */
     protected function source(): ?string
     {
-        return Instance::namespace($this->forward()->source());
+        return $this->forward()->source() |> Instance::namespace(...);
     }
 }

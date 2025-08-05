@@ -73,7 +73,7 @@ class Result implements CreatableInterface, ResultInterface
             return null;
         }
 
-        return $this->throwable ??= Utility\Throwable::create($this->failure());
+        return $this->throwable ??= $this->failure() |> Utility\Throwable::create(...);
     }
 
     /**
@@ -81,7 +81,7 @@ class Result implements CreatableInterface, ResultInterface
      */
     public function succeeded(): bool
     {
-        return Type::null($this->failure());
+        return $this->failure() |> Type::null(...);
     }
 
     /**
@@ -89,7 +89,7 @@ class Result implements CreatableInterface, ResultInterface
      */
     final public function failed(): bool
     {
-        return Normalizer::not($this->succeeded());
+        return $this->succeeded() |> Normalizer::not(...);
     }
 
     /**

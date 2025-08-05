@@ -38,6 +38,14 @@ class Stringable extends \Illuminate\Support\Stringable implements Conditionable
      */
     public function explode(mixed $delimiter, mixed $limit = PHP_INT_MAX): EnumerableInterface
     {
-        return Collection::create(parent::explode($delimiter));
+        return parent::explode($delimiter, $limit) |> Collection::create(...);
+    }
+
+    /**
+     * @return \Mpietrucha\Utility\Collection<int, string>
+     */
+    public function lines(string $delimiter = PHP_EOL, int $limit = PHP_INT_MAX): EnumerableInterface
+    {
+        return $this->explode($delimiter, $limit);
     }
 }

@@ -34,9 +34,7 @@ class File implements CreatableInterface, FileInterface
 
     public static function build(string $file, string $relative, string $name): static
     {
-        $adapter = new SplFileInfo($file, $relative, $name);
-
-        return static::create($adapter);
+        return new SplFileInfo($file, $relative, $name) |> static::create(...);
     }
 
     public function adapter(): SplFileInfo

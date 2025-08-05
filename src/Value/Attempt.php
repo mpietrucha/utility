@@ -16,9 +16,9 @@ class Attempt extends Evaluation implements AttemptInterface
      */
     public function __call(string $method, array $arguments): mixed
     {
-        $result = $this->eval($arguments);
+        $forward = $this->eval($arguments) |> $this->forward(...);
 
-        return $this->forward($result)->eval($method, $arguments);
+        return $forward->eval($method, $arguments);
     }
 
     /**

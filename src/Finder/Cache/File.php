@@ -2,101 +2,64 @@
 
 namespace Mpietrucha\Utility\Finder\Cache;
 
-use Mpietrucha\Utility\Collection;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Filesystem;
-use Mpietrucha\Utility\Filesystem\Path;
-use Mpietrucha\Utility\Finder\Contracts\FileInterface as ResultInterface;
-use Mpietrucha\Utility\Finder\Contracts\FinderInterface;
-use Mpietrucha\Utility\Finder\Contracts\IdentifierInterface;
 use Mpietrucha\Utility\Finder\Contracts\ValidatorInterface;
-use Mpietrucha\Utility\Finder\File as Result;
+use Mpietrucha\Utility\Finder\Result;
 use Mpietrucha\Utility\Str;
 use Mpietrucha\Utility\Stream;
 
-class File extends Passthrough
+class File extends Fresh
 {
-    protected ?string $file = null;
-
-    public function __construct(FinderInterface $finder, ?ValidatorInterface $validator = null, ?IdentifierInterface $identifier = null, protected ?string $directory = null)
+    public function __construct(protected ?string $directory = null, ?ValidatorInterface $validator = null)
     {
-        parent::__construct($finder, $validator, $identifier);
+        parent::__construct($validator);
     }
 
-    public static function delimiter(): string
+    public function exists(string $identity): bool
+    {
+        return $this->file($identity) |> Filesystem::is()->file(...);
+    }
+
+    public function delete(string $identity): void
+    {
+        $this->file($identity) |> Filesystem::delete(...);
+    }
+
+    public function get(string $identity): ?EnumerableInterface
+    {
+        [$delimiter, $key] = [static::delimiter(), 0];
+
+        if ($this->unexists($identity)) {
+            return null;
+        }
+
+        $lines = $this->file($identity) |> Filesystem::lines(...);
+
+        return $lines->map->explode($delimiter)->keyBy($key)->mapSpread(Result::build(...));
+    }
+
+    public function set(string $identity, EnumerableInterface $response): void
+    {
+        [$delimiter, $eol] = [static::delimiter(), Str::eol(...)];
+
+        $output = $this->file($identity) |> Stream::open(...);
+
+        $response->map->toArray()->map->join($delimiter)->map($eol)->each($output->write(...));
+    }
+
+    protected static function delimiter(): string
     {
         return '|';
     }
 
-    public function exists(): bool
+    protected function file(string $identity): string
     {
-        return Filesystem::is()->file($this->file());
-    }
-
-    public function flush(): void
-    {
-        $this->exists() && Filesystem::delete($this->file());
-    }
-
-    public function get(): ?EnumerableInterface
-    {
-        if ($this->unexists()) {
-            return null;
-        }
-
-        /** @var \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Finder\Contracts\FileInterface> */
-        return $this->lines()->mapSpread(Result::build(...));
-    }
-
-    public function set(EnumerableInterface $response): void
-    {
-        Filesystem::ensureDirectoryExists($this->directory());
-
-        $output = Stream::open($this->file(), 'w');
-
-        $this->entries($response)->each($output->write(...));
-    }
-
-    /**
-     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, array<int, string>>
-     */
-    protected function lines(): EnumerableInterface
-    {
-        $file = $this->file();
-
-        return Filesystem::lines($file)->map->explode(static::delimiter())->keyBy(0);
-    }
-
-    /**
-     * @param  \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Finder\Contracts\FileInterface>  $response
-     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, string>
-     */
-    protected function entries(EnumerableInterface $response): EnumerableInterface
-    {
-        $files = $response->map($this->entry(...))->map(Collection::create(...));
-
-        return $files->map->join(static::delimiter())->map(Str::eol(...));
-    }
-
-    /**
-     * @return array<int, string>
-     */
-    protected function entry(ResultInterface $result): array
-    {
-        return [
-            $result->get(),
-            $result->adapter()->getRelativePath(),
-            $result->adapter()->getRelativePathname(),
-        ];
-    }
-
-    protected function file(): string
-    {
-        return $this->file ??= Path::absolute($this->identify(), $this->directory());
+        return Filesystem\Path::absolute($identity, $this->directory());
     }
 
     protected function directory(): string
     {
-        return $this->directory ??= Path::absolute('../.cache', __DIR__);
+        return $this->directory ??= Filesystem\Cache::directory();
     }
 }

@@ -2,7 +2,7 @@ includes:
     - extension.neon
 services:
     -
-        class: Larastan\Larastan\Support\HigherOrderCollectionProxyHelper
+        class: Fork\Larastan\Larastan\Support\HigherOrderCollectionProxyHelper
     -
         class: Larastan\Larastan\Methods\HigherOrderCollectionProxyExtension
         tags:

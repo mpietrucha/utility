@@ -6,10 +6,15 @@ use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Finder\Adapter;
+use Mpietrucha\Utility\Finder\Builder;
 use Mpietrucha\Utility\Finder\Cache;
+use Mpietrucha\Utility\Finder\Concerns\InteractsWithFinder;
 use Mpietrucha\Utility\Finder\Contracts\AdapterInterface;
+use Mpietrucha\Utility\Finder\Contracts\BuilderInterface;
 use Mpietrucha\Utility\Finder\Contracts\CacheInterface;
 use Mpietrucha\Utility\Finder\Contracts\FinderInterface;
+use Mpietrucha\Utility\Finder\Contracts\IdentifierInterface;
+use Mpietrucha\Utility\Finder\Identifier;
 use Mpietrucha\Utility\Finder\Loop;
 use Mpietrucha\Utility\Forward\Concerns\Forwardable;
 
@@ -18,15 +23,17 @@ use Mpietrucha\Utility\Forward\Concerns\Forwardable;
  */
 class Finder implements CreatableInterface, FinderInterface
 {
-    use Creatable, Forwardable;
+    use Creatable, Forwardable, InteractsWithFinder;
 
-    protected ?string $in = null;
+    protected ?string $identity = null;
 
     public function __construct(
-        protected ?int $depth = null,
-        protected ?int $target = null,
+        protected ?string $input = null,
+        protected ?int $limit = null,
+        protected ?int $deepness = null,
         protected ?CacheInterface $cache = null,
         protected ?AdapterInterface $adapter = null,
+        protected ?IdentifierInterface $identifier = null,
     ) {
     }
 
@@ -42,32 +49,9 @@ class Finder implements CreatableInterface, FinderInterface
         return $this;
     }
 
-    public function fresh(): static
+    public static function builder(): BuilderInterface
     {
-        $this->cache = Cache\Passthrough::create($this);
-
-        return $this;
-    }
-
-    public function attempts(int $depth): static
-    {
-        $this->depth = $depth;
-
-        return $this;
-    }
-
-    public function until(int $target): static
-    {
-        $this->target = $target;
-
-        return $this;
-    }
-
-    public function in(string $in): static
-    {
-        $this->in = $in;
-
-        return $this;
+        return Builder::create();
     }
 
     public function adapter(): AdapterInterface
@@ -77,36 +61,47 @@ class Finder implements CreatableInterface, FinderInterface
 
     public function cache(): CacheInterface
     {
-        return $this->cache ??= Cache\File::create($this);
+        return $this->cache ??= Cache\File::create();
+    }
+
+    public function identifier(): IdentifierInterface
+    {
+        return $this->identifier ??= Identifier\Serializable::create();
     }
 
     public function get(): EnumerableInterface
     {
-        $this->cache()->validate();
+        $this->cache()->validate($identity = $this->identity());
 
-        if ($this->cache()->exists()) {
-            return $this->cache()->get();
-        }
+        $response = $this->cache()->get($identity) ?? $this->run();
 
-        $response = Loop::run($this->adapter(), $this->input(), $this->depth(), $this->target());
-
-        $this->cache()->set($response);
+        $this->cache()->set($identity, $response);
 
         return $response;
     }
 
-    protected function target(): ?int
+    protected function run(): EnumerableInterface
     {
-        return $this->target;
-    }
-
-    protected function depth(): ?int
-    {
-        return $this->depth;
+        return Loop::run($this->adapter(), $this->input(), $this->limit(), $this->deepness());
     }
 
     protected function input(): ?string
     {
-        return $this->in ??= Filesystem::cwd();
+        return $this->input ??= Filesystem::cwd();
+    }
+
+    protected function limit(): ?int
+    {
+        return $this->limit;
+    }
+
+    protected function deepness(): ?int
+    {
+        return $this->deepness;
+    }
+
+    protected function identity(): string
+    {
+        return $this->identity ??= $this->identifier()->identify($this);
     }
 }

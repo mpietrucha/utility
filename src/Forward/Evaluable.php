@@ -66,7 +66,7 @@ class Evaluable implements CreatableInterface, EvaluableInterface
      */
     public function instantiated(): bool
     {
-        return Type::object($this->source());
+        return $this->source() |> Type::object(...);
     }
 
     /**
@@ -74,6 +74,6 @@ class Evaluable implements CreatableInterface, EvaluableInterface
      */
     public function uninstantiated(): bool
     {
-        return Normalizer::not($this->instantiated());
+        return $this->instantiated() |> Normalizer::not(...);
     }
 }

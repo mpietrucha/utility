@@ -5,6 +5,7 @@ namespace Mpietrucha\Utility\Concerns;
 use Closure;
 use Mpietrucha\Utility\Reflection;
 use Mpietrucha\Utility\Value;
+use Mpietrucha\Utility\Value\Evaluation;
 
 trait Transformable
 {
@@ -13,9 +14,10 @@ trait Transformable
      */
     public function transform(mixed $evaluable, mixed ...$arguments): mixed
     {
-        $value = Value::for($this->transformable())->eval($arguments);
-
-        return Value::pipe($value, $evaluable)->get();
+        return $this->transformable()
+            |> Value::for(...)
+            |> fn (Evaluation $evaluation) => $evaluation->eval($arguments)
+            |> fn (mixed $value) => Value::pipe($value, $evaluable);
     }
 
     /**

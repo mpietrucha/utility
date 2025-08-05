@@ -15,7 +15,7 @@ trait Supportable
     {
         $bridge = Forward::namespace(__METHOD__)->proxy();
 
-        return Normalizer::boolean($bridge->supportable(...$arguments));
+        return $bridge->supportable(...$arguments) |> Normalizer::boolean(...);
     }
 
     /**
@@ -24,7 +24,7 @@ trait Supportable
      */
     final public static function unsupported(mixed ...$arguments): bool
     {
-        return Normalizer::not(static::supported(...$arguments));
+        return static::supported(...$arguments) |> Normalizer::not(...);
     }
 
     /**

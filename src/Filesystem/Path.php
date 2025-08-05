@@ -40,9 +40,15 @@ abstract class Path
     /**
      * Get the directory portion of the given path.
      */
-    public static function directory(string $path): string
+    public static function directory(string $path, int $level = 1): string
     {
-        return Adapter::getDirectory($path);
+        $directory = Adapter::getDirectory($path);
+
+        if ($level === 1) {
+            return $directory;
+        }
+
+        return static::directory($directory, --$level);
     }
 
     /**

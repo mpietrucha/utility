@@ -6,6 +6,8 @@ use Mpietrucha\Utility\Value\Contracts\ResultInterface;
 
 interface ForwardInterface
 {
+    public static function builder(object|string $destination): BuilderInterface;
+
     /**
      *  Get the source class or object, defaulting to the destination when none was explicitly set.
      */

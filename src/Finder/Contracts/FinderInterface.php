@@ -6,20 +6,24 @@ use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 
 interface FinderInterface
 {
+    public static function builder(): BuilderInterface;
+
     public function fresh(): FinderInterface;
 
-    public function attempts(int $depth): FinderInterface;
+    public function in(string $input): FinderInterface;
 
-    public function until(int $target): FinderInterface;
+    public function quota(int $limit): FinderInterface;
 
-    public function in(string $directory): FinderInterface;
+    public function depth(int $deepness): FinderInterface;
 
     public function adapter(): AdapterInterface;
 
     public function cache(): CacheInterface;
 
+    public function identifier(): IdentifierInterface;
+
     /**
-     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Finder\Contracts\FileInterface>
+     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Finder\Contracts\ResultInterface>
      */
     public function get(): EnumerableInterface;
 }

@@ -54,7 +54,7 @@ class Evaluation implements CreatableInterface, EvaluationInterface
      */
     public function supported(): bool
     {
-        return Type::callable($this->evaluable());
+        return $this->evaluable() |> Type::callable(...);
     }
 
     /**
@@ -62,7 +62,7 @@ class Evaluation implements CreatableInterface, EvaluationInterface
      */
     final public function unsupported(): bool
     {
-        return Normalizer::not($this->supported());
+        return $this->supported() |> Normalizer::not(...);
     }
 
     /**

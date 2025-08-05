@@ -6,33 +6,31 @@ use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 
 interface CacheInterface
 {
-    public function identify(): string;
-
     /**
-     * @phpstan-assert-if-true \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Finder\Contracts\FileInterface> $this->get()
+     * @phpstan-assert-if-true \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Finder\Contracts\ResultInterface> $this->get()
      *
      * @phpstan-assert-if-false null $this->get()
      */
-    public function exists(): bool;
+    public function exists(string $identity): bool;
 
     /**
      * @phpstan-assert-if-true null $this->get()
      *
-     * @phpstan-assert-if-false \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Finder\Contracts\FileInterface> $this->get()
+     * @phpstan-assert-if-false \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Finder\Contracts\ResultInterface> $this->get()
      */
-    public function unexists(): bool;
+    public function unexists(string $identity): bool;
 
-    public function flush(): void;
+    public function validate(string $identity): void;
 
-    public function validate(): void;
+    public function delete(string $identity): void;
 
     /**
-     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Finder\Contracts\FileInterface>|null
+     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Finder\Contracts\ResultInterface>|null
      */
-    public function get(): ?EnumerableInterface;
+    public function get(string $identity): ?EnumerableInterface;
 
     /**
-     * @param  \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Finder\Contracts\FileInterface>  $response
+     * @param  \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Finder\Contracts\ResultInterface>  $response
      */
-    public function set(EnumerableInterface $response): void;
+    public function set(string $identity, EnumerableInterface $response): void;
 }

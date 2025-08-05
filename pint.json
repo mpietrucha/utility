@@ -4,7 +4,9 @@
         "single_line_empty_body": false,
         "ordered_class_elements": true,
         "ordered_types": true,
-        "concat_space": "one"
+        "concat_space": {
+            "spacing": "one"
+        }
     },
     "exclude": ["vendor", "src/Enumerable/Contracts/EnumerableInterface.php"]
 }

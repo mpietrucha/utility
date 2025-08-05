@@ -37,7 +37,7 @@ class Frame implements CreatableInterface, FrameInterface
      */
     public function file(): ?string
     {
-        return $this->get(Property::FILE);
+        return Property::FILE |> $this->get(...);
     }
 
     /**
@@ -45,7 +45,7 @@ class Frame implements CreatableInterface, FrameInterface
      */
     public function line(): ?int
     {
-        return $this->get(Property::LINE);
+        return Property::LINE |> $this->get(...);
     }
 
     /**
@@ -53,7 +53,7 @@ class Frame implements CreatableInterface, FrameInterface
      */
     public function type(): ?string
     {
-        return $this->get(Property::TYPE);
+        return Property::TYPE |> $this->get(...);
     }
 
     /**
@@ -63,9 +63,7 @@ class Frame implements CreatableInterface, FrameInterface
      */
     public function arguments(): Collection
     {
-        $arguments = $this->get(Property::ARGUMENTS);
-
-        return Collection::create($arguments);
+        return Property::ARGUMENTS |> $this->get(...) |> Collection::create(...);
     }
 
     /**
@@ -73,7 +71,7 @@ class Frame implements CreatableInterface, FrameInterface
      */
     public function namespace(): ?string
     {
-        return $this->get(Property::NAMESPACE);
+        return Property::NAMESPACE |> $this->get(...);
     }
 
     /**
@@ -81,7 +79,7 @@ class Frame implements CreatableInterface, FrameInterface
      */
     public function instance(): ?object
     {
-        return $this->get(Property::INSTANCE);
+        return Property::INSTANCE |> $this->get(...);
     }
 
     /**
@@ -89,7 +87,7 @@ class Frame implements CreatableInterface, FrameInterface
      */
     public function function(): string
     {
-        return $this->get(Property::FUNCTION);
+        return Property::FUNCTION |> $this->get(...);
     }
 
     /**

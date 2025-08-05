@@ -11,16 +11,16 @@ use Mpietrucha\Utility\Type;
 abstract class Loop implements LoopInterface
 {
     /**
-     * @return \Mpietrucha\Utility\Enumerable\LazyCollection<string, \Mpietrucha\Utility\Finder\File>
+     * @return \Mpietrucha\Utility\Enumerable\LazyCollection<string, \Mpietrucha\Utility\Finder\Result>
      */
-    public static function run(AdapterInterface $adapter, ?string $input, ?int $depth, ?int $target): LazyCollection
+    public static function run(AdapterInterface $adapter, ?string $input, ?int $limit, ?int $deepness): LazyCollection
     {
         $handler = static::fresh($adapter);
 
         $response = LazyCollection::empty();
 
         while (true) {
-            if (static::exceeded($input, $depth)) {
+            if (static::exceeded($input, $deepness)) {
                 break;
             }
 
@@ -30,18 +30,18 @@ abstract class Loop implements LoopInterface
 
             $response = LazyCollection::create($builder)->merge($response);
 
-            if (static::fulfilled($response, $target)) {
+            if (static::fulfilled($response, $limit)) {
                 break;
             }
 
             $directory = Path::name($input);
 
-            [$handler, $input, $depth] = static::next($adapter, $input, $depth);
+            [$handler, $input, $deepness] = static::next($adapter, $input, $deepness);
 
             $adapter->exclude($directory);
         }
 
-        return $response->map(File::create(...));
+        return $response->map(Result::create(...));
     }
 
     protected static function fresh(AdapterInterface $adapter): AdapterInterface
@@ -52,7 +52,7 @@ abstract class Loop implements LoopInterface
     /**
      * @phpstan-assert-if-false string $input
      */
-    protected static function exceeded(?string $input, ?int $depth): bool
+    protected static function exceeded(?string $input, ?int $deepness): bool
     {
         if (Type::null($input)) {
             return true;
@@ -62,13 +62,13 @@ abstract class Loop implements LoopInterface
             return true;
         }
 
-        return Type::integer($depth) && $depth <= 1;
+        return Type::integer($deepness) && $deepness <= 1;
     }
 
     /**
-     * @param  \Mpietrucha\Utility\Enumerable\LazyCollection<string, \Mpietrucha\Utility\Finder\File>  $response
+     * @param  \Mpietrucha\Utility\Enumerable\LazyCollection<string, \Mpietrucha\Utility\Finder\Result>  $response
      */
-    protected static function fulfilled(LazyCollection $response, ?int $target): bool
+    protected static function fulfilled(LazyCollection $response, ?int $limit): bool
     {
         $target ??= 1;
 
@@ -78,12 +78,12 @@ abstract class Loop implements LoopInterface
     /**
      * @return array{0: \Mpietrucha\Utility\Finder\Contracts\AdapterInterface, 1: string, 2: int|null}
      */
-    protected static function next(AdapterInterface $adapter, string $input, ?int $depth): array
+    protected static function next(AdapterInterface $adapter, string $input, ?int $deepness): array
     {
         $input = Path::directory($input);
 
-        Type::integer($depth) && $depth--;
+        Type::integer($deepness) && $deepness--;
 
-        return [static::fresh($adapter), $input, $depth];
+        return [static::fresh($adapter), $input, $deepness];
     }
 }

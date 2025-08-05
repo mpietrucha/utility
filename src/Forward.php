@@ -4,6 +4,8 @@ namespace Mpietrucha\Utility;
 
 use Mpietrucha\Utility\Concerns\Wrappable;
 use Mpietrucha\Utility\Contracts\WrappableInterface;
+use Mpietrucha\Utility\Forward\Builder;
+use Mpietrucha\Utility\Forward\Contracts\BuilderInterface;
 use Mpietrucha\Utility\Forward\Contracts\EvaluableInterface;
 use Mpietrucha\Utility\Forward\Contracts\FailureInterface;
 use Mpietrucha\Utility\Forward\Contracts\ForwardInterface;
@@ -35,6 +37,11 @@ class Forward implements ForwardInterface, WrappableInterface
         protected ?FailureInterface $failure = null,
         protected ?EvaluableInterface $evaluable = null,
     ) {
+    }
+
+    public static function builder(object|string $destination): BuilderInterface
+    {
+        return Builder::create($destination);
     }
 
     /**
@@ -86,7 +93,7 @@ class Forward implements ForwardInterface, WrappableInterface
      */
     public function evaluable(): EvaluableInterface
     {
-        return $this->evaluable ??= Evaluable::create($this->destination());
+        return $this->evaluable ??= $this->destination() |> Evaluable::create(...);
     }
 
     /**

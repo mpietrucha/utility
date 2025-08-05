@@ -24,7 +24,7 @@ class Reflection extends ReflectionClass implements CreatableInterface, Reflecti
      */
     public static function deep(object|string $instance): static
     {
-        return static::create(Instance::deep($instance) ?? $instance);
+        return Instance::deep($instance) |> fn (?string $namespace) => $namespace ?? $instance |> static::create(...);
     }
 
     /**
@@ -32,7 +32,7 @@ class Reflection extends ReflectionClass implements CreatableInterface, Reflecti
      */
     final public function doesntHaveMethod(string $method): bool
     {
-        return Normalizer::not($this->hasMethod($method));
+        return $this->hasMethod($method) |> Normalizer::not(...);
     }
 
     /**
@@ -40,6 +40,6 @@ class Reflection extends ReflectionClass implements CreatableInterface, Reflecti
      */
     final public function doesntHaveProperty(string $property): bool
     {
-        return Normalizer::not($this->hasProperty($property));
+        return $this->hasProperty($property) |> Normalizer::not(...);
     }
 }

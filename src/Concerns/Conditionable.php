@@ -31,9 +31,7 @@ trait Conditionable
      */
     protected function condition(bool $value, mixed $condition = null, mixed $handler = null): mixed
     {
-        $condition = Normalizer::boolean(
-            Value::for($condition)->get($this, $condition)
-        ) === $value;
+        $condition = Value::for($condition)->get($this, $condition) |> Normalizer::boolean(...) === $value;
 
         if (func_num_args() === 2) {
             return Condition::create($this, $condition);

@@ -41,7 +41,7 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface
     /**
      * Open a stream from the given URI and mode.
      */
-    public static function open(string $uri, string $mode): self
+    public static function open(string $uri, string $mode = 'w+'): self
     {
         $handler = Filesystem::open($uri, $mode);
 
@@ -49,9 +49,7 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface
             return static::create($handler);
         }
 
-        InvalidArgumentException::create()
-            ->message('Failed to open `%s`', $uri)
-            ->throw();
+        InvalidArgumentException::create()->message('Failed to open `%s`', $uri)->throw();
     }
 
     /**
@@ -96,7 +94,7 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface
      */
     public function adapter(): AdapterInterface
     {
-        return $this->adapter ??= Adapter::build($this->body());
+        return $this->adapter ??= $this->body() |> Adapter::build(...);
     }
 
     /**
@@ -154,7 +152,7 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface
      */
     final public function unleash(bool $mode = true): self
     {
-        return $this->await(Normalizer::not($mode));
+        return Normalizer::not($mode) |> $this->await(...);
     }
 
     /**
@@ -270,7 +268,7 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface
             return $this->record($bytes);
         }
 
-        return $this->write($destination->contents());
+        return $destination->contents() |> $this->write(...);
     }
 
     /**
@@ -282,7 +280,7 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface
             return $this->paste($contents);
         }
 
-        return $this->record($this->adapter()->write($contents));
+        return $this->adapter()->write($contents) |> $this->record(...);
     }
 
     /**

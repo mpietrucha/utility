@@ -20,7 +20,7 @@ trait InteractsWithCondition
      */
     public static function is(): ContextInterface
     {
-        return Context::is(static::condition());
+        return static::condition() |> Context::is(...);
     }
 
     /**
@@ -30,7 +30,7 @@ trait InteractsWithCondition
      */
     public static function not(): ContextInterface
     {
-        return Context::not(static::condition());
+        return static::condition() |> Context::not(...);
     }
 
     /**

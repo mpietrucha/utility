@@ -25,7 +25,7 @@ trait InteractsWithCollection
      */
     public function collect(): Collection
     {
-        return Collection::create($this->all());
+        return $this->all() |> Collection::create(...);
     }
 
     /**
@@ -33,6 +33,6 @@ trait InteractsWithCollection
      */
     public function lazy(): LazyCollection
     {
-        return LazyCollection::create($this->all(...));
+        return $this->all(...) |> LazyCollection::create(...);
     }
 }

@@ -2,13 +2,13 @@
 
 namespace Mpietrucha\Utility\Stream;
 
+use Fork\Nyholm\Psr7\Stream;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Filesystem;
 use Mpietrucha\Utility\Normalizer;
 use Mpietrucha\Utility\Stream\Contracts\AdapterInterface;
 use Mpietrucha\Utility\Type;
-use Nyholm\Psr7\Stream;
 
 /**
  * @method static \Mpietrucha\Utility\Stream\Contracts\AdapterInterface build(mixed $body)
@@ -58,7 +58,7 @@ class Adapter extends Stream implements AdapterInterface, CreatableInterface
      */
     public function isAttached(): bool
     {
-        return Type::resource($this->getResource());
+        return $this->getResource() |> Type::resource(...);
     }
 
     /**
@@ -66,7 +66,7 @@ class Adapter extends Stream implements AdapterInterface, CreatableInterface
      */
     public function isDetached(): bool
     {
-        return Normalizer::not($this->isAttached());
+        return $this->isAttached() |> Normalizer::not(...);
     }
 
     /**
@@ -85,11 +85,7 @@ class Adapter extends Stream implements AdapterInterface, CreatableInterface
     {
         $uri = $this->getUri();
 
-        if (Type::null($uri) || Filesystem::unexists($uri)) {
-            return null;
-        }
-
-        return $uri;
+        return Type::null($uri) || Filesystem::unexists($uri) ? null : $uri;
     }
 
     /**
