@@ -73,9 +73,11 @@ class Finder implements CreatableInterface, FinderInterface
     {
         $this->cache()->validate($identity = $this->identity());
 
-        $response = $this->cache()->get($identity) ?? $this->run();
+        if ($response = $this->cache()->get($identity)) {
+            return $response;
+        }
 
-        $this->cache()->set($identity, $response);
+        $this->cache()->set($identity, $response = $this->run());
 
         return $response;
     }

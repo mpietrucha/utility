@@ -46,8 +46,10 @@ abstract class Filesystem
      *
      * @return resource|null
      */
-    public static function open(string $path, string $mode): mixed
+    public static function open(string $path, ?string $mode = null): mixed
     {
+        $mode ??= 'w+';
+
         return @fopen($path, $mode) ?: null;
     }
 

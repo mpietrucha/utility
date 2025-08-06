@@ -28,24 +28,29 @@ class File extends Fresh
 
     public function get(string $identity): ?EnumerableInterface
     {
-        [$delimiter, $key] = [static::delimiter(), 0];
-
         if ($this->unexists($identity)) {
             return null;
         }
 
-        $lines = $this->file($identity) |> Filesystem::lines(...);
+        $response = $this->file($identity) |> Filesystem::lines(...);
 
-        return $lines->map->explode($delimiter)->keyBy($key)->mapSpread(Result::build(...));
+        return $response->pipeThrough([
+            fn (EnumerableInterface $response) => static::delimiter() |> $lines->map->explode(...),
+            fn (EnumerableInterface $response) => $lines->keyBy(0),
+            fn (EnumerableInterface $response) => $lines->mapSpread(Result::build(...)),
+        ]);
     }
 
     public function set(string $identity, EnumerableInterface $response): void
     {
-        [$delimiter, $eol] = [static::delimiter(), Str::eol(...)];
+        $file = $this->file($identity) |> Stream::open(...);
 
-        $output = $this->file($identity) |> Stream::open(...);
-
-        $response->map->toArray()->map->join($delimiter)->map($eol)->each($output->write(...));
+        $response->pipeThrough([
+            fn (EnumerableInterface $response) => $response->map->toArray(),
+            fn (EnumerableInterface $response) => static::delimiter() |> $response->map->join(...),
+            fn (EnumerableInterface $response) => $response->map(Str::eol(...)),
+            fn (EnumerableInterface $response) => $response->each($file->write(...)),
+        ]);
     }
 
     protected static function delimiter(): string
@@ -58,8 +63,8 @@ class File extends Fresh
         return Filesystem\Path::absolute($identity, $this->directory());
     }
 
-    protected function directory(): string
+    protected function directory(?string $base = null, ?string $name = null, int $level = 2): string
     {
-        return $this->directory ??= Filesystem\Cache::directory();
+        return $this->directory ??= Filesystem\Path::cache($name, $base, $level);
     }
 }

@@ -55,6 +55,20 @@ abstract class Instance
     }
 
     /**
+     * Resolve the file path of the given instance.
+     */
+    public static function file(object|string $instance): ?string
+    {
+        $namespace = static::namespace($instance);
+
+        if (Type::null($namespace)) {
+            return null;
+        }
+
+        return Reflection::create($namespace)->getFileName();
+    }
+
+    /**
      * Recursively resolve the most distant parent class of the given instance.
      *
      * @return class-string|null
@@ -70,16 +84,22 @@ abstract class Instance
 
     /**
      * @param  null|callable(): string  $serialize
-     * @param  null|callable(): string  $hash
      */
-    public static function serialize(object $instance, ?callable $serialize = null, ?callable $hash = null): string
+    public static function serialize(object $instance, ?callable $serialize = null): string
     {
         $serialize ??= serialize(...);
 
-        $hashable = Type::callable($hash);
+        return Value::attempt($serialize)->string($instance);
+    }
 
-        $response = Value::attempt($serialize)->stringable($instance)->when($hashable)->pipe($hash);
+    /**
+     * @param  null|callable(): string  $hash
+     * @param  null|callable(): string  $serialize
+     */
+    public static function hash(object $instance, ?callable $hash = null, ?callable $serialize = null): string
+    {
+        $hash ??= Hash::md5(...);
 
-        return Normalizer::string($response);
+        return static::serialize($instance, $serialize) |> $hash(...) |> Normalizer::string(...);
     }
 }

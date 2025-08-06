@@ -24,7 +24,9 @@ class Reflection extends ReflectionClass implements CreatableInterface, Reflecti
      */
     public static function deep(object|string $instance): static
     {
-        return Instance::deep($instance) |> fn (?string $namespace) => $namespace ?? $instance |> static::create(...);
+        $deep = Instance::deep($instance);
+
+        return static::create($deep ?? $instance);
     }
 
     /**

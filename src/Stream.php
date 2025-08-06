@@ -41,7 +41,7 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface
     /**
      * Open a stream from the given URI and mode.
      */
-    public static function open(string $uri, string $mode = 'w+'): self
+    public static function open(string $uri, ?string $mode = null): self
     {
         $handler = Filesystem::open($uri, $mode);
 
@@ -57,7 +57,7 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface
      */
     public static function temporary(): self
     {
-        return static::open('php://temporary', 'r+');
+        return static::open('php://temporary');
     }
 
     /**

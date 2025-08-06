@@ -2,4 +2,5 @@ vendor
 composer.lock
 .phpactor.json
 src/Finder/.cache
+src/Fork/.cache
 a.php

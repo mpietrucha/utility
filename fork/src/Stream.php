@@ -2,7 +2,7 @@
 
 namespace Mpietrucha\Fork;
 
-use Mpietrucha\Utility\Fork\Contracts\ContentInterface;
+use Mpietrucha\Utility\Fork\Contracts\SourceInterface;
 use Mpietrucha\Utility\Fork\Transformer;
 
 class Stream extends Transformer
@@ -12,7 +12,7 @@ class Stream extends Transformer
         return \Nyholm\Psr7\Stream::class;
     }
 
-    public function transform(ContentInterface $content): void
+    public function transform(SourceInterface $source): void
     {
 
     }

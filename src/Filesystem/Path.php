@@ -2,6 +2,7 @@
 
 namespace Mpietrucha\Utility\Filesystem;
 
+use Mpietrucha\Utility\Backtrace;
 use Mpietrucha\Utility\Filesystem;
 use Mpietrucha\Utility\Filesystem\Concerns\InteractsWithCondition;
 use Symfony\Component\Filesystem\Path as Adapter;
@@ -40,8 +41,10 @@ abstract class Path
     /**
      * Get the directory portion of the given path.
      */
-    public static function directory(string $path, int $level = 1): string
+    public static function directory(string $path, ?int $level = null): string
     {
+        $level ??= 1;
+
         $directory = Adapter::getDirectory($path);
 
         if ($level === 1) {
@@ -89,6 +92,19 @@ abstract class Path
     public static function relative(string $path, string $base): string
     {
         return Adapter::makeRelative($path, $base);
+    }
+
+    public static function cache(?string $base = null, ?string $name = null, ?int $level = null): string
+    {
+        $name ??= '.cache';
+
+        $base ??= Backtrace::get()->skip(1)->first()->file();
+
+        $directory = static::absolute($name, static::directory($base, $level));
+
+        Filesystem::ensureDirectoryExists($directory);
+
+        return $directory;
     }
 
     /**
