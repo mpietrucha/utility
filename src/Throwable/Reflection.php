@@ -61,7 +61,7 @@ class Reflection implements PipeableInterface, ReflectionInterface, TappableInte
      */
     public function frame(FrameInterface $frame): static
     {
-        [Frame::FILE->value => $file, Frame::LINE->value => $line] = $frame->toArray();
+        [$file, $line] = [$frame->file(), $frame->line()];
 
         Type::string($file) && $this->file($file);
 

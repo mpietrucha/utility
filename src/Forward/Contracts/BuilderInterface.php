@@ -18,5 +18,5 @@ interface BuilderInterface extends ArrayableInterface
      * Build and return a fully configured Forward instance
      * based on the current builder configuration.
      */
-    public function get(): ForwardInterface;
+    public function build(): ForwardInterface;
 }

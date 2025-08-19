@@ -38,24 +38,39 @@ class Str extends \Illuminate\Support\Str
         return sprintf($string, ...$arguments);
     }
 
-    public static function eol(?string $string = null): string
+    public static function eol(?string $append = null): string
     {
-        return $string . PHP_EOL;
+        return PHP_EOL . $append;
+    }
+
+    public static function tab(?string $append = null): string
+    {
+        return "\t" . $append;
+    }
+
+    public static function slash(?string $append = null): string
+    {
+        return '/' . $append;
+    }
+
+    public static function backslash(?string $append = null): string
+    {
+        return '\\' . $append;
     }
 
     /**
      * @return \Mpietrucha\Utility\Collection<int, string>
      */
-    public static function explode(string $string, string $delimiter, int $limit = PHP_INT_MAX): EnumerableInterface
+    public static function explode(string $string, string $delimiter, ?int $limit = null): EnumerableInterface
     {
-        return explode($delimiter, $string, $limit) |> Collection::create(...);
+        return static::of($string)->explode($delimiter, $limit);
     }
 
     /**
      * @return \Mpietrucha\Utility\Collection<int, string>
      */
-    public static function lines(string $string, string $delimiter = PHP_EOL, int $limit = PHP_INT_MAX): EnumerableInterface
+    public static function lines(string $string, ?int $limit = null, ?string $delimiter = null): EnumerableInterface
     {
-        return static::explode($string, $delimiter, $limit);
+        return static::of($string)->lines($limit, $delimiter);
     }
 }

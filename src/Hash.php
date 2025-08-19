@@ -4,8 +4,15 @@ namespace Mpietrucha\Utility;
 
 abstract class Hash
 {
-    public static function md5(string $input): string
+    public static function __callStatic(string $method, array $arguments): string
     {
-        return md5($input);
+        $handler = hash(...);
+
+        return Value::for($handler)->get($method, ...$arguments);
+    }
+
+    final public static function default(): string
+    {
+        return 'md5';
     }
 }

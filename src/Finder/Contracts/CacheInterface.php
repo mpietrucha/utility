@@ -6,6 +6,8 @@ use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 
 interface CacheInterface
 {
+    public function flush(): void;
+
     /**
      * @phpstan-assert-if-true \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Finder\Contracts\ResultInterface> $this->get()
      *
@@ -20,9 +22,9 @@ interface CacheInterface
      */
     public function unexists(string $identity): bool;
 
-    public function validate(string $identity): void;
-
     public function delete(string $identity): void;
+
+    public function validate(string $identity, string $summit): void;
 
     /**
      * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Finder\Contracts\ResultInterface>|null

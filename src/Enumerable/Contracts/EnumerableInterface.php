@@ -8,6 +8,7 @@ use Mpietrucha\Utility\Contracts\ConditionableInterface;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Contracts\PipeableInterface;
 use Mpietrucha\Utility\Contracts\TappableInterface;
+use Mpietrucha\Utility\Enumerable\Normalizer;
 
 /**
  * @template TKey of array-key
@@ -46,4 +47,17 @@ use Mpietrucha\Utility\Contracts\TappableInterface;
  */
 interface EnumerableInterface extends ArrayableInterface, CreatableInterface, InteractsWithCollectionInterface, PipeableInterface, TappableInterface, ConditionableInterface, Enumerable
 {
+    public static function from(mixed ...$items): static;
+
+     public function of(): Normalizer;
+
+     public function hash(?string $algorithm = null): string;
+
+     public function whereNot(callable|string $key, mixed $operator = null, mixed $value = null): static;
+
+     public function replaceNth(int|string $key, mixed $value): static;
+
+     public function replaceFirst(mixed $value): static;
+
+     public function replaceLast(mixed $value): static;
 }

@@ -336,11 +336,9 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface
      */
     public function get(): string
     {
-        $pointer = $this->tell();
-
         $response = $this->toString();
 
-        return $this->pass($response)->restore($pointer);
+        return $this->tell() |> $this->pass($response)->restore(...);
     }
 
     /**

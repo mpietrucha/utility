@@ -2,12 +2,14 @@
 
 namespace Mpietrucha\Utility\Concerns;
 
+use Mpietrucha\Utility\Stringable as Adapter;
+
 trait Stringable
 {
     /**
      * Convert the instance to its string representation.
      */
-    public function __toString(): string
+    final public function __toString(): string
     {
         return $this->toString();
     }
@@ -18,5 +20,10 @@ trait Stringable
     public function toString(): string
     {
         return '';
+    }
+
+    final public function toStringable(): Adapter
+    {
+        return $this->toString() |> Adapter::create(...);
     }
 }

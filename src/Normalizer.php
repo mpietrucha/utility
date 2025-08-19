@@ -35,17 +35,7 @@ abstract class Normalizer
      */
     public static function stringable(mixed $value): Stringable
     {
-        return Stringable::create($value);
-    }
-
-    /**
-     * Convert the given value to an array.
-     *
-     * @return array<int|string, mixed>
-     */
-    public static function array(mixed $value): array
-    {
-        return static::collection($value)->toArray();
+        return static::string($value) |> Stringable::create(...);
     }
 
     /**
@@ -56,5 +46,15 @@ abstract class Normalizer
     public static function collection(mixed $value): EnumerableInterface
     {
         return Collection::create($value);
+    }
+
+    /**
+     * Convert the given value to an array.
+     *
+     * @return array<int|string, mixed>
+     */
+    public static function array(mixed $value): array
+    {
+        return static::collection($value)->toArray();
     }
 }

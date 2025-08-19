@@ -3,10 +3,12 @@
 namespace Mpietrucha\Utility;
 
 use Illuminate\Filesystem\Filesystem as Adapter;
+use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Enumerable\LazyCollection;
 use Mpietrucha\Utility\Filesystem\Concerns\InteractsWithCondition;
 use Mpietrucha\Utility\Filesystem\Concerns\InteractsWithExistence;
 use Mpietrucha\Utility\Filesystem\Condition;
+use Mpietrucha\Utility\Finder\Builder;
 use Mpietrucha\Utility\Forward\Concerns\Bridgeable;
 
 /**
@@ -34,6 +36,14 @@ abstract class Filesystem
     }
 
     /**
+     * Get the underlying Illuminate filesystem adapter instance.
+     */
+    public static function adapter(): Adapter
+    {
+        return static::$adapter ??= new Adapter;
+    }
+
+    /**
      * Get the current working directory or null if unavailable.
      */
     public static function cwd(): ?string
@@ -53,6 +63,11 @@ abstract class Filesystem
         return @fopen($path, $mode) ?: null;
     }
 
+    public static function touch(string $path, ?int $modified = null, ?int $accessed = null): bool
+    {
+        return touch($path, $modified, $accessed);
+    }
+
     /**
      * Read the file line by line into a lazy collection of stringable objects.
      *
@@ -60,7 +75,41 @@ abstract class Filesystem
      */
     public static function lines(string $file): LazyCollection
     {
-        return static::adapter()->lines($file)->pipe(LazyCollection::create(...))->map(Stringable::create(...));
+        $lines = LazyCollection::create(...) |> static::adapter()->lines($file)->pipe(...);
+
+        return $lines->of()->stringables();
+    }
+
+    public static function hash(string $path, ?string $algorithm = null): string
+    {
+        $algorithm ??= Hash::default();
+
+        return static::adapter()->hash($path, $algorithm);
+    }
+
+    public static function imprint(string $path, ?string $algorithm = null): ?string
+    {
+        if (static::unexists($path)) {
+            return null;
+        }
+
+        $timestamp = static::lastModified($path);
+
+        if (static::not()->directory($path)) {
+            return static::hash($timestamp, $algorithm);
+        }
+
+        $algorithm ??= Hash::default();
+
+        $directories = Finder::uncached(function (Builder $builder) use ($path) {
+            $builder->in($path);
+        })->directories()->get();
+
+        return $directories->pipeThrough([
+            fn (EnumerableInterface $directories) => $directories->map->lastModified(),
+            fn (EnumerableInterface $directories) => $directories->merge($timestamp),
+            fn (EnumerableInterface $directories) => $directories->hash($algorithm),
+        ]);
     }
 
     /**
@@ -69,13 +118,5 @@ abstract class Filesystem
     protected static function condition(): Condition\Filesystem
     {
         return Condition\Filesystem::create();
-    }
-
-    /**
-     * Get the underlying Illuminate filesystem adapter instance.
-     */
-    protected static function adapter(): Adapter
-    {
-        return static::$adapter ??= new Adapter;
     }
 }

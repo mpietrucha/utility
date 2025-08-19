@@ -89,17 +89,32 @@ abstract class Instance
     {
         $serialize ??= serialize(...);
 
-        return Value::attempt($serialize)->string($instance);
+        return Value::for($serialize)->string($instance);
     }
 
     /**
      * @param  null|callable(): string  $hash
      * @param  null|callable(): string  $serialize
      */
-    public static function hash(object $instance, ?callable $hash = null, ?callable $serialize = null): string
+    public static function hash(object $instance, ?string $algorithm = null, ?callable $serialize = null): string
     {
-        $hash ??= Hash::md5(...);
+        $algorithm ??= Hash::default();
 
-        return static::serialize($instance, $serialize) |> $hash(...) |> Normalizer::string(...);
+        return static::serialize($instance, $serialize) |> Hash::$algorithm(...);
+    }
+
+    public static function alias(object|string $class, string $alias): ?string
+    {
+        $class = static::namespace($class) |> Normalizer::string(...);
+
+        if (static::unexists($class)) {
+            return null;
+        }
+
+        if (@class_alias($class, $alias) |> Normalizer::not(...)) {
+            return null;
+        }
+
+        return static::file($class);
     }
 }

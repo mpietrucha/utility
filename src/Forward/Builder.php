@@ -86,7 +86,7 @@ class Builder implements BuilderInterface, CreatableInterface
     /**
      * Build and return the fully configured Forward instance.
      */
-    public function get(): ForwardInterface
+    public function build(): ForwardInterface
     {
         return Forward::create(...$this->toArray());
     }

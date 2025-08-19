@@ -13,7 +13,8 @@ trait Supportable
      */
     public static function supported(mixed ...$arguments): bool
     {
-        $bridge = Forward::namespace(__METHOD__)->proxy();
+        // $bridge = __METHOD__ |> Forward::namespace(...)->proxy();
+        // $bridge = Forward::builder(static::class)->method(__METHOD__)->build()->proxy();
 
         return $bridge->supportable(...$arguments) |> Normalizer::boolean(...);
     }

@@ -5,7 +5,6 @@ namespace Mpietrucha\Utility\Concerns;
 use Closure;
 use Mpietrucha\Utility\Reflection;
 use Mpietrucha\Utility\Value;
-use Mpietrucha\Utility\Value\Evaluation;
 
 trait Transformable
 {
@@ -14,10 +13,11 @@ trait Transformable
      */
     public function transform(mixed $evaluable, mixed ...$arguments): mixed
     {
-        return $this->transformable()
-            |> Value::for(...)
-            |> fn (Evaluation $evaluation) => $evaluation->eval($arguments)
-            |> fn (mixed $value) => Value::pipe($value, $evaluable);
+        $evaluation = $this->transformer() |> $this->transformable(...) |> Value::for(...);
+
+        $value = $evaluation->eval($arguments);
+
+        return Value::pipe($value, $evaluable)->get();
     }
 
     /**
@@ -31,16 +31,14 @@ trait Transformable
     /**
      * Retrieve a Closure representing the transformable method, or null if it doesn't exist.
      */
-    protected function transformable(): ?Closure
+    protected function transformable(string $method): ?Closure
     {
         $reflection = Reflection::create($this);
-
-        $method = $this->transformer();
 
         if ($reflection->doesntHaveMethod($method)) {
             return null;
         }
 
-        return $reflection->getMethod($method)->getClosure();
+        return $reflection->getMethod($method)->getClosure($this);
     }
 }

@@ -2,88 +2,34 @@
 
 namespace Mpietrucha\Utility\Finder;
 
-use Mpietrucha\Utility\Enumerable\LazyCollection;
-use Mpietrucha\Utility\Filesystem\Path;
-use Mpietrucha\Utility\Finder\Contracts\AdapterInterface;
+use Mpietrucha\Utility\Concerns\Uninstanceable;
+use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
+use Mpietrucha\Utility\Finder\Concerns\InteractsWithLoop;
 use Mpietrucha\Utility\Finder\Contracts\LoopInterface;
-use Mpietrucha\Utility\Type;
+use Symfony\Component\Finder\Finder as Adapter;
 
-abstract class Loop implements LoopInterface
+class Loop implements LoopInterface
 {
-    /**
-     * @return \Mpietrucha\Utility\Enumerable\LazyCollection<string, \Mpietrucha\Utility\Finder\Result>
-     */
-    public static function run(AdapterInterface $adapter, ?string $input, ?int $limit, ?int $deepness): LazyCollection
+    use InteractsWithLoop, Uninstanceable;
+
+    final public static function run(Adapter $adapter, ?string $input, ?int $altitude): EnumerableInterface
     {
-        $handler = static::fresh($adapter);
+        $files = static::files();
 
-        $response = LazyCollection::empty();
+        $adapter = static::adapter($adapter);
 
-        while (true) {
-            if (static::exceeded($input, $deepness)) {
+        while ($input |> static::available(...)) {
+            $files = static::adapter($adapter, $files)->in($input) |> static::files(...);
+
+            if (static::finished($input, $altitude)) {
                 break;
             }
 
-            $builder = static::fresh($handler);
+            [$input, $altitude] = static::next($input, $altitude);
 
-            $builder->in($input);
-
-            $response = LazyCollection::create($builder)->merge($response);
-
-            if (static::fulfilled($response, $limit)) {
-                break;
-            }
-
-            $directory = Path::name($input);
-
-            [$handler, $input, $deepness] = static::next($adapter, $input, $deepness);
-
-            $adapter->exclude($directory);
+            $adapter->exclude($input);
         }
 
-        return $response->map(Result::create(...));
-    }
-
-    protected static function fresh(AdapterInterface $adapter): AdapterInterface
-    {
-        return clone $adapter;
-    }
-
-    /**
-     * @phpstan-assert-if-false string $input
-     */
-    protected static function exceeded(?string $input, ?int $deepness): bool
-    {
-        if (Type::null($input)) {
-            return true;
-        }
-
-        if ($input === Path::root($input)) {
-            return true;
-        }
-
-        return Type::integer($deepness) && $deepness <= 1;
-    }
-
-    /**
-     * @param  \Mpietrucha\Utility\Enumerable\LazyCollection<string, \Mpietrucha\Utility\Finder\Result>  $response
-     */
-    protected static function fulfilled(LazyCollection $response, ?int $limit): bool
-    {
-        $target ??= 1;
-
-        return $response->count() >= $target;
-    }
-
-    /**
-     * @return array{0: \Mpietrucha\Utility\Finder\Contracts\AdapterInterface, 1: string, 2: int|null}
-     */
-    protected static function next(AdapterInterface $adapter, string $input, ?int $deepness): array
-    {
-        $input = Path::directory($input);
-
-        Type::integer($deepness) && $deepness--;
-
-        return [static::fresh($adapter), $input, $deepness];
+        return static::response($files);
     }
 }

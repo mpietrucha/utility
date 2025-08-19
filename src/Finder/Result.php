@@ -2,6 +2,7 @@
 
 namespace Mpietrucha\Utility\Finder;
 
+use Mpietrucha\Utility\Arr;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Concerns\Stringable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
@@ -23,7 +24,9 @@ class Result implements CreatableInterface, ResultInterface
      */
     public function __call(string $method, array $arguments): mixed
     {
-        return $this->forward(Filesystem::class)->get($method, $this->get(), ...$arguments);
+        $arguments = Arr::prepend($arguments, $this->get());
+
+        return $this->forward(Filesystem::class)->eval($method, $arguments);
     }
 
     public static function build(string $file, string $path, string $name): static
@@ -33,7 +36,11 @@ class Result implements CreatableInterface, ResultInterface
 
     public function toArray(): array
     {
-        return [$this->get(), $this->file()->getRelativePath(), $this->file()->getRelativePathname()];
+        return [
+            $this->get(),
+            $this->file()->getRelativePath(),
+            $this->file()->getRelativePathname(),
+        ];
     }
 
     public function toString(): string

@@ -4,9 +4,9 @@ namespace Mpietrucha\Utility\Fork\Contracts;
 
 interface StorageInterface
 {
-    public function flush(): void;
-
     public function validate(): void;
+
+    public function flush(): void;
 
     public function identify(TransformerInterface $transformer): string;
 

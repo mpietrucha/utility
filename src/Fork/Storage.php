@@ -9,13 +9,20 @@ use Mpietrucha\Utility\Fork\Contracts\StorageInterface;
 use Mpietrucha\Utility\Fork\Contracts\TransformerInterface;
 use Mpietrucha\Utility\Hash;
 use Mpietrucha\Utility\Instance;
+use Mpietrucha\Utility\Lottery;
+use Mpietrucha\Utility\Lottery\Contracts\LotteryInterface;
 
 class Storage implements CreatableInterface, StorageInterface
 {
     use Creatable;
 
-    public function __construct(protected ?string $directory = null)
+    public function __construct(protected ?string $directory = null, protected ?LotteryInterface $lottery = null)
     {
+    }
+
+    public function validate(): void
+    {
+        $this->flush(...) |> $this->lottery()->wins(...);
     }
 
     public function flush(): void
@@ -23,15 +30,13 @@ class Storage implements CreatableInterface, StorageInterface
         $this->directory() |> Filesystem::cleanDirectory(...);
     }
 
-    public function validate(): void
-    {
-    }
-
     public function identify(TransformerInterface $transformer): string
     {
         $file = $transformer->file();
 
-        return Filesystem::hash($file) . Instance::hash($transformer) |> Hash::md5(...);
+        $transformer = Instance::file($transformer);
+
+        return Filesystem::hash($file) . Filesystem::hash($transformer) |> Hash::md5(...);
     }
 
     public function store(TransformerInterface $transformer): string
@@ -45,18 +50,23 @@ class Storage implements CreatableInterface, StorageInterface
 
     public function transform(TransformerInterface $transformer): string
     {
-        $source = $transformer->file() |> Filesystem::get(...) |> $transformer::source(...);
+        $body = $transformer->file() |> Filesystem::get(...) |> $transformer->body(...);
 
-        return $transformer->transform($source) |> $source->get(...);
+        return $transformer->transform($body) |> $body->toString(...);
     }
 
     public function file(string $identity): string
     {
-        return Filesystem\Path::absolute($identity, $this->directory());
+        return Filesystem\Path::join($this->directory(), $identity);
     }
 
     protected function directory(): string
     {
-        return $this->directory ??= Filesystem\Path::cache();
+        return $this->directory ??= Filesystem\Touch::directory('.storage', __DIR__);
+    }
+
+    protected function lottery(): LotteryInterface
+    {
+        return $this->lottery ??= Lottery::odds(1, 1000);
     }
 }

@@ -2,9 +2,9 @@
 
 namespace Mpietrucha\Utility\Filesystem;
 
-use Mpietrucha\Utility\Backtrace;
 use Mpietrucha\Utility\Filesystem;
 use Mpietrucha\Utility\Filesystem\Concerns\InteractsWithCondition;
+use Mpietrucha\Utility\Type;
 use Symfony\Component\Filesystem\Path as Adapter;
 
 abstract class Path
@@ -13,6 +13,11 @@ abstract class Path
      * @use \Mpietrucha\Utility\Filesystem\Concerns\InteractsWithCondition<\Mpietrucha\Utility\Filesystem\Condition\Path>
      */
     use InteractsWithCondition;
+
+    public static function join(string ...$paths): string
+    {
+        return Adapter::join(...$paths);
+    }
 
     /**
      * Get the name portion of the given path.
@@ -47,7 +52,7 @@ abstract class Path
 
         $directory = Adapter::getDirectory($path);
 
-        if ($level === 1) {
+        if ($level <= 1) {
             return $directory;
         }
 
@@ -94,17 +99,23 @@ abstract class Path
         return Adapter::makeRelative($path, $base);
     }
 
-    public static function cache(?string $base = null, ?string $name = null, ?int $level = null): string
+    /**
+     * Returns canonicalized absolute pathname
+     */
+    public static function current(string $path): string
     {
-        $name ??= '.cache';
+        $canonicalized = static::canonicalize($path);
 
-        $base ??= Backtrace::get()->skip(1)->first()->file();
+        return realpath($canonicalized) ?: $canonicalized;
+    }
 
-        $directory = static::absolute($name, static::directory($base, $level));
+    public static function build(string $path, ?string $base = null): string
+    {
+        if (Type::null($base)) {
+            return static::current($path);
+        }
 
-        Filesystem::ensureDirectoryExists($directory);
-
-        return $directory;
+        return static::absolute($path, $base);
     }
 
     /**

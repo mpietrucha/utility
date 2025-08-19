@@ -2,14 +2,13 @@
 
 namespace Mpietrucha\Utility;
 
+use Closure;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
-use Mpietrucha\Utility\Finder\Adapter;
 use Mpietrucha\Utility\Finder\Builder;
 use Mpietrucha\Utility\Finder\Cache;
 use Mpietrucha\Utility\Finder\Concerns\InteractsWithFinder;
-use Mpietrucha\Utility\Finder\Contracts\AdapterInterface;
 use Mpietrucha\Utility\Finder\Contracts\BuilderInterface;
 use Mpietrucha\Utility\Finder\Contracts\CacheInterface;
 use Mpietrucha\Utility\Finder\Contracts\FinderInterface;
@@ -17,22 +16,20 @@ use Mpietrucha\Utility\Finder\Contracts\IdentifierInterface;
 use Mpietrucha\Utility\Finder\Identifier;
 use Mpietrucha\Utility\Finder\Loop;
 use Mpietrucha\Utility\Forward\Concerns\Forwardable;
+use Symfony\Component\Finder\Finder as Adapter;
 
 /**
- * @mixin \Mpietrucha\Utility\Finder\Contracts\AdapterInterface
+ * @mixin \Symfony\Component\Finder\Finder
  */
 class Finder implements CreatableInterface, FinderInterface
 {
     use Creatable, Forwardable, InteractsWithFinder;
 
-    protected ?string $identity = null;
-
     public function __construct(
         protected ?string $input = null,
-        protected ?int $limit = null,
-        protected ?int $deepness = null,
+        protected ?int $altitude = null,
+        protected ?Adapter $adapter = null,
         protected ?CacheInterface $cache = null,
-        protected ?AdapterInterface $adapter = null,
         protected ?IdentifierInterface $identifier = null,
     ) {
     }
@@ -40,7 +37,7 @@ class Finder implements CreatableInterface, FinderInterface
     /**
      * @param  array<int|string, mixed>  $arguments
      */
-    public function __call(string $method, array $arguments): static
+    public function __call(string $method, array $arguments): mixed
     {
         $adapter = $this->adapter();
 
@@ -54,9 +51,16 @@ class Finder implements CreatableInterface, FinderInterface
         return Builder::create();
     }
 
-    public function adapter(): AdapterInterface
+    public static function uncached(?Closure $configuration = null): static
     {
-        return $this->adapter ??= Adapter\Finder::create();
+        $builder = Cache\None::create() |> static::builder()->cache(...);
+
+        return $builder->tap($configuration)->build();
+    }
+
+    public function adapter(): Adapter
+    {
+        return $this->adapter ??= Adapter::create();
     }
 
     public function cache(): CacheInterface
@@ -66,12 +70,12 @@ class Finder implements CreatableInterface, FinderInterface
 
     public function identifier(): IdentifierInterface
     {
-        return $this->identifier ??= Identifier\Serializable::create();
+        return $this->identifier ??= Identifier\Hash::create();
     }
 
     public function get(): EnumerableInterface
     {
-        $this->cache()->validate($identity = $this->identity());
+        $this->cache()->validate($identity = $this->identity(), $this->summit());
 
         if ($response = $this->cache()->get($identity)) {
             return $response;
@@ -84,7 +88,7 @@ class Finder implements CreatableInterface, FinderInterface
 
     protected function run(): EnumerableInterface
     {
-        return Loop::run($this->adapter(), $this->input(), $this->limit(), $this->deepness());
+        return Loop::run($this->adapter(), $this->input(), $this->altitude());
     }
 
     protected function input(): ?string
@@ -92,18 +96,18 @@ class Finder implements CreatableInterface, FinderInterface
         return $this->input ??= Filesystem::cwd();
     }
 
-    protected function limit(): ?int
+    protected function altitude(): ?int
     {
-        return $this->limit;
-    }
-
-    protected function deepness(): ?int
-    {
-        return $this->deepness;
+        return $this->altitude;
     }
 
     protected function identity(): string
     {
-        return $this->identity ??= $this->identifier()->identify($this);
+        return $this->identifier()->identify($this);
+    }
+
+    protected function summit(): string
+    {
+        return Filesystem\Path::directory($this->input(), $this->altitude());
     }
 }

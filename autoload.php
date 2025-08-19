@@ -1,8 +1,8 @@
 <?php
 
-use Mpietrucha\Utility\Fork\Bucket;
+use Mpietrucha\Utility\Fork;
 
-Bucket::create()->load([
+Fork::create()->load([
     \Mpietrucha\Fork\Stream::create(),
     \Mpietrucha\Fork\HigherOrderCollectionProxyHelper::create(),
 ]);

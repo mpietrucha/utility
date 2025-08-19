@@ -33,19 +33,40 @@ class Stringable extends \Illuminate\Support\Stringable implements Conditionable
         return parent::toString();
     }
 
+    public function toStringable(): static
+    {
+        return clone $this;
+    }
+
+    public function sprintf(null|float|int|string ...$arguments): static
+    {
+        return Str::sprintf($this->toString(), ...$arguments) |> static::create(...);
+    }
+
+    public function hash(?string $algorithm = null): static
+    {
+        $algorithm ??= Hash::default();
+
+        return parent::hash($algorithm);
+    }
+
     /**
      * @return \Mpietrucha\Utility\Collection<int, string>
      */
-    public function explode(mixed $delimiter, mixed $limit = PHP_INT_MAX): EnumerableInterface
+    public function explode(mixed $delimiter, mixed $limit = null): EnumerableInterface
     {
+        $limit ??= PHP_INT_MAX;
+
         return parent::explode($delimiter, $limit) |> Collection::create(...);
     }
 
     /**
      * @return \Mpietrucha\Utility\Collection<int, string>
      */
-    public function lines(string $delimiter = PHP_EOL, int $limit = PHP_INT_MAX): EnumerableInterface
+    public function lines(?int $limit = null, ?string $delimiter = null): EnumerableInterface
     {
+        $delimiter ??= Str::eol();
+
         return $this->explode($delimiter, $limit);
     }
 }

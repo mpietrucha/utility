@@ -12,6 +12,10 @@ trait Routeable
      */
     public static function route(mixed $value, mixed ...$arguments): static
     {
-        return $value instanceof static ? $value : static::create(...$arguments);
+        if ($value instanceof static) {
+            return $value;
+        }
+
+        return static::create(...$arguments);
     }
 }

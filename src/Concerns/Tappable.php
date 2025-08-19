@@ -18,6 +18,6 @@ trait Tappable
     {
         Value::pipe($this, $evaluable)->eval($arguments);
 
-        return func_num_args() === 1 ? Tap::create($this) : $this;
+        return func_num_args() === 0 ? Tap::create($this) : $this;
     }
 }

@@ -12,6 +12,10 @@ trait Wrappable
      */
     public static function wrap(mixed $value, mixed ...$arguments): static
     {
-        return $value instanceof static ? $value : static::create($value, ...$arguments);
+        if ($value instanceof static) {
+            return $value;
+        }
+
+        return static::create($value, ...$arguments);
     }
 }

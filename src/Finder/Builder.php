@@ -3,28 +3,27 @@
 namespace Mpietrucha\Utility\Finder;
 
 use Mpietrucha\Utility\Concerns\Creatable;
+use Mpietrucha\Utility\Concerns\Tappable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Finder;
 use Mpietrucha\Utility\Finder\Concerns\InteractsWithFinder;
-use Mpietrucha\Utility\Finder\Contracts\AdapterInterface;
 use Mpietrucha\Utility\Finder\Contracts\BuilderInterface;
 use Mpietrucha\Utility\Finder\Contracts\CacheInterface;
 use Mpietrucha\Utility\Finder\Contracts\FinderInterface;
 use Mpietrucha\Utility\Finder\Contracts\IdentifierInterface;
+use Symfony\Component\Finder\Finder as Adapter;
 
 class Builder implements BuilderInterface, CreatableInterface
 {
-    use Creatable, InteractsWithFinder;
+    use Creatable, InteractsWithFinder, Tappable;
 
     protected ?string $input = null;
 
-    protected ?int $limit = null;
+    protected ?int $altitude = null;
 
-    protected ?int $deepness = null;
+    protected ?Adapter $adapter = null;
 
     protected ?CacheInterface $cache = null;
-
-    protected ?AdapterInterface $adapter = null;
 
     protected ?IdentifierInterface $identifier = null;
 
@@ -32,10 +31,9 @@ class Builder implements BuilderInterface, CreatableInterface
     {
         return [
             $this->input,
-            $this->limit,
-            $this->deepness,
-            $this->cache,
+            $this->altitude,
             $this->adapter,
+            $this->cache,
             $this->identifier,
         ];
     }
@@ -47,7 +45,7 @@ class Builder implements BuilderInterface, CreatableInterface
         return $this;
     }
 
-    public function adapter(AdapterInterface $adapter): static
+    public function adapter(Adapter $adapter): static
     {
         $this->adapter = $adapter;
 
@@ -61,7 +59,7 @@ class Builder implements BuilderInterface, CreatableInterface
         return $this;
     }
 
-    public function get(): FinderInterface
+    public function build(): FinderInterface
     {
         return Finder::create(...$this->toArray());
     }

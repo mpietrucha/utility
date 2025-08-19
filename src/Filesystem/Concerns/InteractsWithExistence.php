@@ -15,7 +15,7 @@ trait InteractsWithExistence
      */
     public static function exists(string $path): bool
     {
-        return Filesystem::exists($path);
+        return Filesystem::adapter()->exists($path);
     }
 
     /**

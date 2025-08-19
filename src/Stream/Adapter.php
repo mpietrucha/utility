@@ -4,6 +4,7 @@ namespace Mpietrucha\Utility\Stream;
 
 use Fork\Nyholm\Psr7\Stream;
 use Mpietrucha\Utility\Concerns\Creatable;
+use Mpietrucha\Utility\Concerns\Stringable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Filesystem;
 use Mpietrucha\Utility\Normalizer;
@@ -15,7 +16,7 @@ use Mpietrucha\Utility\Type;
  */
 class Adapter extends Stream implements AdapterInterface, CreatableInterface
 {
-    use Creatable;
+    use Creatable, Stringable;
 
     /**
      * Copy data from the source adapter to the destination adapter and

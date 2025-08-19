@@ -4,27 +4,20 @@ namespace Mpietrucha\Utility\Fork;
 
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
-use Mpietrucha\Utility\Fork\Contracts\SourceInterface;
+use Mpietrucha\Utility\Fork\Contracts\BodyInterface;
 use Mpietrucha\Utility\Fork\Contracts\TransformerInterface;
 use Mpietrucha\Utility\Instance;
 use Mpietrucha\Utility\Normalizer;
-use Mpietrucha\Utility\Str;
-use Mpietrucha\Utility\Symbol;
 
 abstract class Transformer implements CreatableInterface, TransformerInterface
 {
     use Creatable;
 
-    protected ?string $location = null;
-
-    public static function source(string $content): SourceInterface
-    {
-        return Source::create($content);
-    }
+    protected ?string $file = null;
 
     public function file(): string
     {
-        return $this->location ??= $this->locate();
+        return $this->file ??= $this->find();
     }
 
     public function prefix(): string
@@ -34,14 +27,25 @@ abstract class Transformer implements CreatableInterface, TransformerInterface
 
     public function namespace(): string
     {
-        $delimiter = Symbol::namespace();
-
-        $prefix = $this->prefix() |> Str::of(...);
-
-        return $this->class() |> $prefix->trim($delimiter)->wrap($delimiter)->append(...);
+        return Instance\FQN::join($this->prefix(), $this->class());
     }
 
-    protected function locate(): string
+    public function body(string $content): BodyInterface
+    {
+        $names = [
+            $this->class() |> Transformer\Normalizer::name(...),
+            $this->namespace() |> Transformer\Normalizer::name(...),
+        ];
+
+        $namespaces = [
+            $this->class() |> Transformer\Normalizer::namespace(...),
+            $this->namespace() |> Transformer\Normalizer::namespace(...),
+        ];
+
+        return Body::create($content)->replace(...$names)->replace(...$namespaces);
+    }
+
+    protected function find(): string
     {
         return $this->class() |> Instance::file(...) |> Normalizer::string(...);
     }

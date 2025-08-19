@@ -3,7 +3,6 @@
 namespace Mpietrucha\Utility\Concerns;
 
 use Mpietrucha\Utility\Forward\Condition;
-use Mpietrucha\Utility\Normalizer;
 use Mpietrucha\Utility\Value;
 
 trait Conditionable
@@ -31,7 +30,7 @@ trait Conditionable
      */
     protected function condition(bool $value, mixed $condition = null, mixed $handler = null): mixed
     {
-        $condition = Value::for($condition)->get($this, $condition) |> Normalizer::boolean(...) === $value;
+        $condition = Value::for($condition)->boolean($this, $condition) === $value;
 
         if (func_num_args() === 2) {
             return Condition::create($this, $condition);
