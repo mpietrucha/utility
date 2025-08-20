@@ -53,6 +53,8 @@ interface EnumerableInterface extends ArrayableInterface, CreatableInterface, In
 
      public function hash(?string $algorithm = null): string;
 
+     public function firstMap(mixed $handler): mixed;
+
      public function whereNot(callable|string $key, mixed $operator = null, mixed $value = null): static;
 
      public function replaceNth(int|string $key, mixed $value): static;

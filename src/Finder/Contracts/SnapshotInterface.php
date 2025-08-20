@@ -2,7 +2,7 @@
 
 namespace Mpietrucha\Utility\Finder\Contracts;
 
-interface ImprintInterface
+interface SnapshotInterface
 {
     public function get(string $input): string;
 

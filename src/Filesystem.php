@@ -3,12 +3,12 @@
 namespace Mpietrucha\Utility;
 
 use Illuminate\Filesystem\Filesystem as Adapter;
-use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Enumerable\LazyCollection;
 use Mpietrucha\Utility\Filesystem\Concerns\InteractsWithCondition;
 use Mpietrucha\Utility\Filesystem\Concerns\InteractsWithExistence;
 use Mpietrucha\Utility\Filesystem\Condition;
-use Mpietrucha\Utility\Finder\Builder;
+use Mpietrucha\Utility\Filesystem\File;
+use Mpietrucha\Utility\Filesystem\Snapshot;
 use Mpietrucha\Utility\Forward\Concerns\Bridgeable;
 
 /**
@@ -87,29 +87,9 @@ abstract class Filesystem
         return static::adapter()->hash($path, $algorithm);
     }
 
-    public static function imprint(string $path, ?string $algorithm = null): ?string
+    public static function snapshot(string $path, ?string $algorithm = null): ?string
     {
-        if (static::unexists($path)) {
-            return null;
-        }
-
-        $timestamp = static::lastModified($path);
-
-        if (static::not()->directory($path)) {
-            return static::hash($timestamp, $algorithm);
-        }
-
-        $algorithm ??= Hash::default();
-
-        $directories = Finder::uncached(function (Builder $builder) use ($path) {
-            $builder->in($path);
-        })->directories()->get();
-
-        return $directories->pipeThrough([
-            fn (EnumerableInterface $directories) => $directories->map->lastModified(),
-            fn (EnumerableInterface $directories) => $directories->merge($timestamp),
-            fn (EnumerableInterface $directories) => $directories->hash($algorithm),
-        ]);
+        return Snapshot::create()->get($path, $algorithm);
     }
 
     /**

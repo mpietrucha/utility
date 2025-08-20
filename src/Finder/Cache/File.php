@@ -4,9 +4,8 @@ namespace Mpietrucha\Utility\Finder\Cache;
 
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Filesystem;
-use Mpietrucha\Utility\Finder\Contracts\ImprintInterface;
-use Mpietrucha\Utility\Finder\Imprint;
-use Mpietrucha\Utility\Finder\Result;
+use Mpietrucha\Utility\Finder\Contracts\SnapshotInterface;
+use Mpietrucha\Utility\Finder\Snapshot;
 use Mpietrucha\Utility\Lottery;
 use Mpietrucha\Utility\Lottery\Contracts\LotteryInterface;
 use Mpietrucha\Utility\Str;
@@ -17,7 +16,7 @@ class File extends None
     public function __construct(
         protected ?string $directory = null,
         protected ?LotteryInterface $lottery = null,
-        protected ?ImprintInterface $imprint = null,
+        protected ?SnapshotInterface $snapshot = null,
     ) {
     }
 
@@ -40,7 +39,7 @@ class File extends None
     {
         $this->flush(...) |> $this->lottery()->wins(...);
 
-        $this->imprint()->expired($summit) && $this->delete($identity);
+        $this->snapshot()->expired($summit) && $this->delete($identity);
     }
 
     public function get(string $identity): ?EnumerableInterface
@@ -54,7 +53,7 @@ class File extends None
         return $response->pipeThrough([
             fn (EnumerableInterface $response) => Str::tab() |> $response->map->explode(...),
             fn (EnumerableInterface $response) => $response->keyBy(0),
-            fn (EnumerableInterface $response) => Result::build(...) |> $response->mapSpread(...),
+            fn (EnumerableInterface $response) => Filesystem\File::create(...) |> $response->mapSpread(...),
         ]);
     }
 
@@ -86,8 +85,8 @@ class File extends None
         return $this->lottery ??= Lottery::odds(1, 1000);
     }
 
-    protected function imprint(): ImprintInterface
+    protected function snapshot(): SnapshotInterface
     {
-        return $this->imprint ??= Imprint\Timestamp::create();
+        return $this->snapshot ??= Snapshot\Timestamp::create();
     }
 }

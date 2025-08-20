@@ -16,6 +16,8 @@ class Evaluation implements CreatableInterface, EvaluationInterface
 {
     use Creatable, Forwardable;
 
+    protected mixed $previous = null;
+
     /**
      * Create a new evaluation instance from the given evaluable value.
      */
@@ -65,6 +67,11 @@ class Evaluation implements CreatableInterface, EvaluationInterface
         return $this->supported() |> Normalizer::not(...);
     }
 
+    public function previous(): mixed
+    {
+        return $this->previous;
+    }
+
     /**
      * Evaluate the callable with the given arguments and return the result.
      */
@@ -81,6 +88,6 @@ class Evaluation implements CreatableInterface, EvaluationInterface
     {
         $value = $this->evaluable();
 
-        return $this->supported() ? $value(...$arguments) : $value;
+        return $this->previous = $this->supported() ? $value(...$arguments) : $value;
     }
 }

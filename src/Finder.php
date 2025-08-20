@@ -60,7 +60,7 @@ class Finder implements CreatableInterface, FinderInterface
 
     public function adapter(): Adapter
     {
-        return $this->adapter ??= Adapter::create();
+        return $this->adapter ??= Adapter::create()->ignoreUnreadableDirs();
     }
 
     public function cache(): CacheInterface

@@ -1,12 +1,12 @@
 <?php
 
-namespace Mpietrucha\Utility\Finder\Imprint;
+namespace Mpietrucha\Utility\Finder\Snapshot;
 
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
-use Mpietrucha\Utility\Finder\Contracts\ImprintInterface;
+use Mpietrucha\Utility\Finder\Contracts\SnapshotInterface;
 
-class None implements CreatableInterface, ImprintInterface
+class None implements CreatableInterface, SnapshotInterface
 {
     use Creatable;
 

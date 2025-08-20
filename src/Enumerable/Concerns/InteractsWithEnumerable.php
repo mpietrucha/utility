@@ -2,12 +2,14 @@
 
 namespace Mpietrucha\Utility\Enumerable\Concerns;
 
+use Mpietrucha\Utility\Arr;
 use Mpietrucha\Utility\Concerns\Conditionable;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Concerns\Pipeable;
 use Mpietrucha\Utility\Concerns\Tappable;
 use Mpietrucha\Utility\Enumerable\Normalizer;
 use Mpietrucha\Utility\Hash;
+use Mpietrucha\Utility\Type;
 use Mpietrucha\Utility\Value;
 
 /**
@@ -23,6 +25,17 @@ trait InteractsWithEnumerable
      * @use \Mpietrucha\Utility\Enumerable\Concerns\InteractsWithCollection<TKey, TValue>
      */
     use Conditionable, Creatable, InteractsWithCollection, Pipeable, Tappable;
+
+    protected static array $forwarders = [
+        'firstMap',
+    ];
+
+    public function __get(mixed $key): mixed
+    {
+        static::$forwarders = Arr::map(static::$forwarders, static::proxy(...)) |> Arr::whereNotNull(...);
+
+        return parent::__get($key);
+    }
 
     public static function from(mixed ...$items): static
     {
@@ -59,6 +72,13 @@ trait InteractsWithEnumerable
         $algorithm ??= Hash::default();
 
         return $this->toJson() |> Hash::$algorithm(...);
+    }
+
+    public function firstMap(mixed $handler): mixed
+    {
+        $value = $this->first($handler = Value::for($handler));
+
+        return Type::null($value) ? $value : $handler->previous();
     }
 
     public function whereNot(callable|string $key, mixed $operator = null, mixed $value = null): static

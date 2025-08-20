@@ -22,4 +22,6 @@ interface EvaluableInterface
      * @phpstan-assert-if-false callable $this->evaluable()
      */
     public function unsupported(): bool;
+
+    public function previous(): mixed;
 }

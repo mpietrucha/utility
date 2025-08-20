@@ -4,8 +4,8 @@ namespace Mpietrucha\Utility\Finder\Concerns;
 
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Enumerable\LazyCollection;
+use Mpietrucha\Utility\Filesystem\File;
 use Mpietrucha\Utility\Filesystem\Path;
-use Mpietrucha\Utility\Finder\Result;
 use Mpietrucha\Utility\Type;
 use Symfony\Component\Finder\Finder as Adapter;
 
@@ -42,6 +42,6 @@ trait InteractsWithLoop
 
     public static function response(EnumerableInterface $files): EnumerableInterface
     {
-        return Result::create(...) |> $files->map(...);
+        return File::create(...) |> $files->map(...);
     }
 }

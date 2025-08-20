@@ -20,7 +20,7 @@ interface FinderInterface
     public function identifier(): IdentifierInterface;
 
     /**
-     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Finder\Contracts\ResultInterface>
+     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Filesystem\Contracts\FileInterfacee>
      */
     public function get(): EnumerableInterface;
 }
