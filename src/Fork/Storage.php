@@ -11,6 +11,7 @@ use Mpietrucha\Utility\Hash;
 use Mpietrucha\Utility\Instance;
 use Mpietrucha\Utility\Lottery;
 use Mpietrucha\Utility\Lottery\Contracts\LotteryInterface;
+use Mpietrucha\Utility\Normalizer;
 
 class Storage implements CreatableInterface, StorageInterface
 {
@@ -34,7 +35,7 @@ class Storage implements CreatableInterface, StorageInterface
     {
         $file = $transformer->file();
 
-        $transformer = Instance::file($transformer);
+        $transformer = Instance::file($transformer) |> Normalizer::string(...);
 
         return Filesystem::hash($file) . Filesystem::hash($transformer) |> Hash::md5(...);
     }
@@ -52,7 +53,9 @@ class Storage implements CreatableInterface, StorageInterface
     {
         $body = $transformer->file() |> Filesystem::get(...) |> $transformer->body(...);
 
-        return $transformer->transform($body) |> $body->toString(...);
+        $transformer->transform($body);
+
+        return $body->toString();
     }
 
     public function file(string $identity): string

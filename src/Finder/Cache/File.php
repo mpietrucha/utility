@@ -51,6 +51,7 @@ class File extends None
         $response = $this->file($identity) |> Filesystem::lines(...);
 
         return $response->pipeThrough([
+            fn (EnumerableInterface $response) => $response->of()->stringables(),
             fn (EnumerableInterface $response) => Str::tab() |> $response->map->explode(...),
             fn (EnumerableInterface $response) => $response->keyBy(0),
             fn (EnumerableInterface $response) => Filesystem\File::create(...) |> $response->mapSpread(...),

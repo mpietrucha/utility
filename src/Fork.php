@@ -13,6 +13,9 @@ class Fork implements CreatableInterface
 {
     use Creatable;
 
+    /**
+     * @var \Mpietrucha\Utility\Collection<string, string>|null
+     */
     protected static ?Collection $transformers = null;
 
     public function __construct(protected ?StorageInterface $storage = null)
@@ -31,6 +34,7 @@ class Fork implements CreatableInterface
     {
         $transformers = Collection::create($transformers)->whereInstanceOf(TransformerInterface::class);
 
+        /** @phpstan-ignore-next-line  */
         $this->add(...) |> $transformers->each(...);
     }
 

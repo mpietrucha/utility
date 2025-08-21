@@ -12,19 +12,20 @@ class Loop implements LoopInterface
 {
     use InteractsWithLoop, Uninstanceable;
 
-    final public static function run(Adapter $adapter, ?string $input, ?int $altitude): EnumerableInterface
+    final public static function run(Adapter $adapter, string $input, ?int $altitude): EnumerableInterface
     {
         $files = static::files();
 
         $adapter = static::adapter($adapter);
 
         while ($input |> static::available(...)) {
-            $files = static::adapter($adapter, $files)->in($input) |> static::files(...);
+            $files = static::adapter($adapter)->in($input) |> static::files(...);
 
             if (static::finished($input, $altitude)) {
                 break;
             }
 
+            /** @var int $altitude */
             [$input, $altitude] = static::next($input, $altitude);
 
             $adapter->exclude($input);

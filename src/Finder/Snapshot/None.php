@@ -10,9 +10,9 @@ class None implements CreatableInterface, SnapshotInterface
 {
     use Creatable;
 
-    public function get(string $input): string
+    public function get(string $input): ?string
     {
-        return $input;
+        return null;
     }
 
     public function expired(string $input): bool

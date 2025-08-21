@@ -14,6 +14,11 @@ class HigherOrderCollectionProxyHelper extends Transformer
         return \Larastan\Larastan\Support\HigherOrderCollectionProxyHelper::class;
     }
 
+    public function namespace(): string
+    {
+        return $this->class();
+    }
+
     public function transform(BodyInterface $body): void
     {
         Str::sprintf('use %s as SupportCollection;', EnumerableInterface::class) |> $body->line(7)->set(...);

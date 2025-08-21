@@ -26,6 +26,9 @@ trait InteractsWithEnumerable
      */
     use Conditionable, Creatable, InteractsWithCollection, Pipeable, Tappable;
 
+    /**
+     * @var array<int, string>
+     */
     protected static array $forwarders = [
         'firstMap',
     ];
@@ -86,8 +89,13 @@ trait InteractsWithEnumerable
         return $this->operatorForWhere(...func_get_args()) |> $this->reject(...);
     }
 
-    public function replaceNth(int|string $key, mixed $value): static
+    public function replaceNth(null|int|string $key, mixed $value): static
     {
+        if (Type::null($key)) {
+            return $this;
+        }
+
+        /** @var TKey $key */
         return [$key => $this->get($key) |> Value::for($value)->get(...)] |> $this->replace(...);
     }
 

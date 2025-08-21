@@ -3,5 +3,5 @@ composer.lock
 .phpactor.json
 src/Finder/.cache
 src/Finder/snapshots.json
-src/Fork/.cache
+src/Fork/.storage
 a.php

@@ -10,6 +10,9 @@ use Mpietrucha\Utility\Type;
 
 abstract class Alias
 {
+    /**
+     * @var \Mpietrucha\Utility\Collection<string, string>|null
+     */
     protected static ?Collection $aliases = null;
 
     public static function transformer(TransformerInterface $transformer): void
@@ -58,6 +61,9 @@ abstract class Alias
         return FQN::namespace($namespace);
     }
 
+    /**
+     * @return \Mpietrucha\Utility\Collection<string, string>
+     */
     protected static function aliases(): Collection
     {
         return static::$aliases ??= Collection::create();

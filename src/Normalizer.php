@@ -57,4 +57,14 @@ abstract class Normalizer
     {
         return static::collection($value)->toArray();
     }
+
+    public static function integer(mixed $value): int
+    {
+        return Number::integer($value);
+    }
+
+    public static function float(mixed $value): float
+    {
+        return Number::float($value);
+    }
 }

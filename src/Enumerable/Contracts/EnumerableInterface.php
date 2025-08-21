@@ -44,6 +44,7 @@ use Mpietrucha\Utility\Enumerable\Normalizer;
  * @property-read \Illuminate\Support\HigherOrderCollectionProxy<'takeWhile', TValue, static> $takeWhile
  * @property-read \Illuminate\Support\HigherOrderCollectionProxy<'unique', TValue, static> $unique
  * @property-read \Illuminate\Support\HigherOrderCollectionProxy<'until', TValue, static> $until
+ * @property-read \Illuminate\Support\HigherOrderCollectionProxy<'firstMap', TValue, static> $firstMap
  */
 interface EnumerableInterface extends ArrayableInterface, CreatableInterface, InteractsWithCollectionInterface, PipeableInterface, TappableInterface, ConditionableInterface, Enumerable
 {
@@ -57,7 +58,7 @@ interface EnumerableInterface extends ArrayableInterface, CreatableInterface, In
 
      public function whereNot(callable|string $key, mixed $operator = null, mixed $value = null): static;
 
-     public function replaceNth(int|string $key, mixed $value): static;
+     public function replaceNth(null|int|string $key, mixed $value): static;
 
      public function replaceFirst(mixed $value): static;
 

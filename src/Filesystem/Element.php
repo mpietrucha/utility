@@ -6,12 +6,12 @@ use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Concerns\Stringable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Filesystem;
-use Mpietrucha\Utility\Filesystem\Contracts\FileInterface;
+use Mpietrucha\Utility\Filesystem\Contracts\ElementInterface;
 use Mpietrucha\Utility\Forward\Concerns\Forwardable;
 use Mpietrucha\Utility\Normalizer;
 use Symfony\Component\Finder\SplFileInfo;
 
-class File extends SplFileInfo implements CreatableInterface, FileInterface
+class Element extends SplFileInfo implements CreatableInterface, ElementInterface
 {
     use Creatable, Forwardable, Stringable;
 
@@ -22,6 +22,9 @@ class File extends SplFileInfo implements CreatableInterface, FileInterface
         parent::__construct($filename, $relativePath, $relativePathname);
     }
 
+    /**
+     * @param  array<int, mixed>  $arguments
+     */
     public function __call(string $method, array $arguments): mixed
     {
         return $this->forward(Filesystem::class)->get($method, $this->toString(), ...$arguments);

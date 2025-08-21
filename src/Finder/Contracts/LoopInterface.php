@@ -15,7 +15,7 @@ interface LoopInterface
      */
     public static function files(?Adapter $adapter = null, ?EnumerableInterface $files = null): EnumerableInterface;
 
-    public static function available(?string $input): bool;
+    public static function available(string $input): bool;
 
     public static function finished(string $input, ?int $altitude): bool;
 
@@ -26,12 +26,12 @@ interface LoopInterface
 
     /**
      * @param  \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Symfony\Component\Finder\SplFileInfo>  $files
-     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Filesystem\Contracts\FileInterface>
+     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Filesystem\Contracts\ElementInterface>
      */
     public static function response(EnumerableInterface $files): EnumerableInterface;
 
     /**
-     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Filesystem\Contracts\FileInterface>
+     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Filesystem\Contracts\ElementInterface>
      */
-    public static function run(Adapter $adapter, ?string $input, ?int $altitude): EnumerableInterface;
+    public static function run(Adapter $adapter, string $input, ?int $altitude): EnumerableInterface;
 }

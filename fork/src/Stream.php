@@ -15,6 +15,8 @@ class Stream extends Transformer
 
     public function transform(BodyInterface $body): void
     {
+        $body->line(14)->clear();
+
         $body->line(21)->replace('private', 'protected');
 
         $body->line(60) |> $this->exception(...);

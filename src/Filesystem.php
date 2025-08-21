@@ -69,22 +69,20 @@ abstract class Filesystem
     }
 
     /**
-     * Read the file line by line into a lazy collection of stringable objects.
+     * Read the file line by line into a lazy collection of strings.
      *
-     * @return \Mpietrucha\Utility\Enumerable\LazyCollection<int, \Mpietrucha\Utility\Stringable>
+     * @return \Mpietrucha\Utility\Enumerable\LazyCollection<int, string>
      */
     public static function lines(string $file): LazyCollection
     {
-        $lines = LazyCollection::create(...) |> static::adapter()->lines($file)->pipe(...);
-
-        return $lines->of()->stringables();
+        return LazyCollection::create(...) |> static::adapter()->lines($file)->pipe(...);
     }
 
-    public static function hash(string $path, ?string $algorithm = null): string
+    public static function hash(string $path, ?string $algorithm = null): ?string
     {
         $algorithm ??= Hash::default();
 
-        return static::adapter()->hash($path, $algorithm);
+        return static::adapter()->hash($path, $algorithm) ?: null;
     }
 
     public static function snapshot(string $path, ?string $algorithm = null): ?string

@@ -6,6 +6,7 @@ namespace Mpietrucha\PHPStan\Errors;
 
 use Mpietrucha\Utility\Filesystem;
 use Mpietrucha\Utility\Str;
+use Mpietrucha\Utility\Type;
 use PhpParser\Node;
 use PHPStan\Analyser\Error;
 use PHPStan\Analyser\IgnoreErrorExtension;
@@ -62,18 +63,26 @@ final class CreatableExtension implements IgnoreErrorExtension
 
     protected function implements(Scope $scope): bool
     {
+        if ($scope->isInClass() === false) {
+            return false;
+        }
+
         $interface = self::interface();
 
-        return $scope->getClassReflection()?->implementsInterface($interface) === true;
+        return $scope->getClassReflection()->implementsInterface($interface) === true;
     }
 
     protected function declares(Error $error, string $code): bool
     {
-        $line = $error->getLine() - 1;
+        $lines = $error->getFilePath() |> Filesystem::lines(...);
 
-        $file = $error->getFilePath();
+        $line = $error->getLine() - 1 |> $lines->get(...);
 
-        return Filesystem::lines($file)->get($line)?->is($code) === true;
+        if (Type::null($line)) {
+            return false;
+        }
+
+        return Str::is($code, $line);
     }
 
     protected static function trait(): string

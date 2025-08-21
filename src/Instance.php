@@ -65,7 +65,7 @@ abstract class Instance
             return null;
         }
 
-        return Reflection::create($namespace)->getFileName();
+        return Reflection::create($namespace)->getFileName() ?: null;
     }
 
     /**
@@ -93,7 +93,6 @@ abstract class Instance
     }
 
     /**
-     * @param  null|callable(): string  $hash
      * @param  null|callable(): string  $serialize
      */
     public static function hash(object $instance, ?string $algorithm = null, ?callable $serialize = null): string

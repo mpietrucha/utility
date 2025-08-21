@@ -4,7 +4,8 @@ namespace Mpietrucha\Utility\Finder\Concerns;
 
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Enumerable\LazyCollection;
-use Mpietrucha\Utility\Filesystem\File;
+use Mpietrucha\Utility\Filesystem;
+use Mpietrucha\Utility\Filesystem\Element;
 use Mpietrucha\Utility\Filesystem\Path;
 use Mpietrucha\Utility\Type;
 use Symfony\Component\Finder\Finder as Adapter;
@@ -21,9 +22,9 @@ trait InteractsWithLoop
         return LazyCollection::create($adapter);
     }
 
-    public static function available(?string $input): bool
+    public static function available(string $input): bool
     {
-        return Type::string($input);
+        return Filesystem::exists($input);
     }
 
     public static function finished(string $input, ?int $altitude): bool
@@ -42,6 +43,6 @@ trait InteractsWithLoop
 
     public static function response(EnumerableInterface $files): EnumerableInterface
     {
-        return File::create(...) |> $files->map(...);
+        return Element::create(...) |> $files->map(...);
     }
 }

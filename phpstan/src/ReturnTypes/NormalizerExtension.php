@@ -39,7 +39,7 @@ final class NormalizerExtension implements DynamicStaticMethodReturnTypeExtensio
 
         $argument = $scope->getType($value);
 
-        return $this->types($argument)->pipe($this->union(...));
+        return $this->union(...) |> $this->types($argument)->pipe(...);
     }
 
     /**
@@ -49,7 +49,7 @@ final class NormalizerExtension implements DynamicStaticMethodReturnTypeExtensio
     {
         $types = TypeUtils::flattenTypes($argument);
 
-        return Collection::create($types)->map($this->type(...));
+        return $this->type(...) |> Collection::create($types)->map(...);
     }
 
     protected function type(Type $type): Type

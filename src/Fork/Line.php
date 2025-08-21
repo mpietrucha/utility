@@ -5,9 +5,13 @@ namespace Mpietrucha\Utility\Fork;
 use Mpietrucha\Utility\Collection;
 use Mpietrucha\Utility\Fork\Contracts\BodyInterface;
 use Mpietrucha\Utility\Str;
+use Mpietrucha\Utility\Type;
 
 class Line extends Section
 {
+    /**
+     * @var \Mpietrucha\Utility\Collection<int, string>
+     */
     protected ?Collection $lines = null;
 
     public function __construct(BodyInterface $body, protected int $line)
@@ -31,9 +35,17 @@ class Line extends Section
     {
         $line = $this->line() |> $this->lines()->get(...);
 
+        if (Type::null($line)) {
+            return;
+        }
+
+        /** @var string $line */
         Str::replace($search, $content, $line) |> $this->set(...);
     }
 
+    /**
+     * @return \Mpietrucha\Utility\Collection<int, string>
+     */
     protected function lines(): Collection
     {
         return $this->lines ??= $this->body()->toStringable()->lines();

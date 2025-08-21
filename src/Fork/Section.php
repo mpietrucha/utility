@@ -7,6 +7,7 @@ use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Fork\Concerns\InteractsWithContent;
 use Mpietrucha\Utility\Fork\Contracts\BodyInterface;
 use Mpietrucha\Utility\Fork\Contracts\SectionInterface;
+use Mpietrucha\Utility\Value;
 
 class Section implements CreatableInterface, SectionInterface
 {

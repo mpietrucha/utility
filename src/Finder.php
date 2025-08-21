@@ -37,7 +37,7 @@ class Finder implements CreatableInterface, FinderInterface
     /**
      * @param  array<int|string, mixed>  $arguments
      */
-    public function __call(string $method, array $arguments): mixed
+    public function __call(string $method, array $arguments): static
     {
         $adapter = $this->adapter();
 
@@ -86,14 +86,17 @@ class Finder implements CreatableInterface, FinderInterface
         return $response;
     }
 
+    /**
+     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Filesystem\Contracts\ElementInterface>
+     */
     protected function run(): EnumerableInterface
     {
         return Loop::run($this->adapter(), $this->input(), $this->altitude());
     }
 
-    protected function input(): ?string
+    protected function input(): string
     {
-        return $this->input ??= Filesystem::cwd();
+        return $this->input ??= Filesystem::cwd() |> Normalizer::string(...);
     }
 
     protected function altitude(): ?int

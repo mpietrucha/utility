@@ -15,6 +15,9 @@ class Lottery implements CreatableInterface, LotteryInterface, PipeableInterface
 {
     use Creatable, Pipeable, Tappable;
 
+    /**
+     * @var \Mpietrucha\Utility\Collection<int, callable>|null
+     */
     protected ?Collection $callbacks = null;
 
     public function __construct(protected mixed $evaluable)
@@ -83,7 +86,7 @@ class Lottery implements CreatableInterface, LotteryInterface, PipeableInterface
 
     protected function call(bool $wins): mixed
     {
-        return $this->callbacks()->get($wins) |> $this->eval(...);
+        return Normalizer::integer($wins) |> $this->callbacks()->get(...) |> $this->eval(...);
     }
 
     protected function eval(mixed $evaluable): mixed
@@ -96,6 +99,9 @@ class Lottery implements CreatableInterface, LotteryInterface, PipeableInterface
         return $this->evaluable;
     }
 
+    /**
+     * @return \Mpietrucha\Utility\Collection<int, callable>
+     */
     protected function callbacks(): Collection
     {
         return $this->callbacks ??= Collection::create();
