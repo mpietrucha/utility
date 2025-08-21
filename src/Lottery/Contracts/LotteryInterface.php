@@ -6,17 +6,17 @@ interface LotteryInterface
 {
     public function __invoke(): mixed;
 
-    public static function odds(int $chances, int $of): LotteryInterface;
+    public static function odds(int $chances, int $of): static;
 
-    public static function percentage(int $percentage): LotteryInterface;
+    public static function percentage(int $percentage): static;
 
-    public static function win(): LotteryInterface;
+    public static function win(): static;
 
-    public static function lose(): LotteryInterface;
+    public static function lose(): static;
 
-    public function won(callable $won): LotteryInterface;
+    public function won(callable $won): static;
 
-    public function lost(callable $lost): LotteryInterface;
+    public function lost(callable $lost): static;
 
     public function wins(?callable $won = null, ?callable $lost = null): bool;
 

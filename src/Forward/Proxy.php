@@ -46,7 +46,7 @@ class Proxy implements CreatableInterface, ProxyInterface
      *
      * @param  string|array<int, string>  $methods
      */
-    public static function allow(array|string $methods): MethodsInterface
+    public static function allow(array|string $methods): Methods
     {
         return Methods::create()->allow($methods);
     }
@@ -56,7 +56,7 @@ class Proxy implements CreatableInterface, ProxyInterface
      *
      * @param  string|array<int, string>  $methods
      */
-    public static function deny(array|string $methods): MethodsInterface
+    public static function deny(array|string $methods): Methods
     {
         return Methods::create()->deny($methods);
     }

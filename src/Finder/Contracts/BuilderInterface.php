@@ -16,11 +16,11 @@ interface BuilderInterface extends ArrayableInterface, TappableInterface
      */
     public function toArray(): array;
 
-    public function cache(CacheInterface $cache): BuilderInterface;
+    public function cache(CacheInterface $cache): static;
 
-    public function adapter(Adapter $adapter): BuilderInterface;
+    public function adapter(Adapter $adapter): static;
 
-    public function identifier(IdentifierInterface $identifier): BuilderInterface;
+    public function identifier(IdentifierInterface $identifier): static;
 
     /**
      * Build and return a fully configured Finder instance

@@ -8,6 +8,7 @@ use Mpietrucha\Utility\Finder\Contracts\SnapshotInterface;
 use Mpietrucha\Utility\Finder\Snapshot;
 use Mpietrucha\Utility\Lottery;
 use Mpietrucha\Utility\Lottery\Contracts\LotteryInterface;
+use Mpietrucha\Utility\Normalizer;
 use Mpietrucha\Utility\Str;
 use Mpietrucha\Utility\Stream;
 
@@ -51,10 +52,10 @@ class File extends None
         $response = $this->file($identity) |> Filesystem::lines(...);
 
         return $response->pipeThrough([
-            fn (EnumerableInterface $response) => $response->of()->stringables(),
+            fn (EnumerableInterface $response) => $response->mapToStringables(),
             fn (EnumerableInterface $response) => Str::tab() |> $response->map->explode(...),
-            fn (EnumerableInterface $response) => $response->keyBy(0),
-            fn (EnumerableInterface $response) => Filesystem\File::create(...) |> $response->mapSpread(...),
+            fn (EnumerableInterface $response) => Normalizer::string(0) |> $response->keyBy(...),
+            fn (EnumerableInterface $response) => Filesystem\Element::create(...) |> $response->mapSpread(...),
         ]);
     }
 
@@ -63,7 +64,7 @@ class File extends None
         $file = $this->file($identity) |> Stream::open(...);
 
         $response->pipeThrough([
-            fn (EnumerableInterface $response) => $response->of()->collections(),
+            fn (EnumerableInterface $response) => $response->mapToCollections(),
             fn (EnumerableInterface $response) => Str::tab() |> $response->map->join(...),
             fn (EnumerableInterface $response) => Str::eol(...) |> $response->map(...),
             fn (EnumerableInterface $response) => Str::trim(...) |> $response->replaceFirst(...),

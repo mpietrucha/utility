@@ -17,7 +17,7 @@ trait InteractsWithLoop
         return clone $adapter;
     }
 
-    public static function files(?Adapter $adapter = null, ?EnumerableInterface $files = null): EnumerableInterface
+    public static function files(?Adapter $adapter = null): EnumerableInterface
     {
         return LazyCollection::create($adapter);
     }

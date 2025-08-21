@@ -25,14 +25,14 @@ interface MethodsInterface
      *
      * @param  string|array<int, string>  $methods
      */
-    public function deny(array|string $methods): MethodsInterface;
+    public function deny(array|string $methods): static;
 
     /**
      * Add the given method(s) to the allowed list.
      *
      * @param  string|array<int, string>  $methods
      */
-    public function allow(array|string $methods): MethodsInterface;
+    public function allow(array|string $methods): static;
 
     /**
      * Ensure that the given method is valid in the context of the provided instance.

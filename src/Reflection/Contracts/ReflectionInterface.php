@@ -7,7 +7,7 @@ interface ReflectionInterface
     /**
      * Create a reflection for the deepest parent class of the given instance or class name.
      */
-    public static function deep(object|string $instance): ReflectionInterface;
+    public static function deep(object|string $instance): static;
 
     /**
      * Determine whether the reflected class lacks the given method.

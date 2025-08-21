@@ -11,4 +11,18 @@ interface ProxyInterface
      * @param  array<int|string, mixed>  $arguments
      */
     public function __call(string $method, array $arguments): mixed;
+
+    /**
+     * Create a method restriction allowing only the specified methods.
+     *
+     * @param  string|array<int, string>  $methods
+     */
+    public static function allow(array|string $methods): MethodsInterface;
+
+    /**
+     * Create a method restriction denying the specified methods.
+     *
+     * @param  string|array<int, string>  $methods
+     */
+    public static function deny(array|string $methods): MethodsInterface;
 }

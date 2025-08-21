@@ -19,7 +19,7 @@ class Loop implements LoopInterface
         $adapter = static::adapter($adapter);
 
         while ($input |> static::available(...)) {
-            $files = static::adapter($adapter)->in($input) |> static::files(...);
+            $files = static::adapter($adapter)->in($input) |> static::files(...) |> $files->merge(...);
 
             if (static::finished($input, $altitude)) {
                 break;

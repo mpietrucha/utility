@@ -2,7 +2,7 @@
 
 namespace Mpietrucha\Utility;
 
-use Mpietrucha\Utility\Enumerable\Concerns\InteractsWithEnumerable;
+use Mpietrucha\Utility\Enumerable\Concerns\Enumerable;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 
 /**
@@ -17,7 +17,7 @@ use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 class Collection extends \Illuminate\Support\Collection implements EnumerableInterface
 {
     /**
-     * @use \Mpietrucha\Utility\Enumerable\Concerns\InteractsWithEnumerable<TKey, TValue>
+     * @use \Mpietrucha\Utility\Enumerable\Concerns\Enumerable<TKey, TValue>
      */
-    use InteractsWithEnumerable;
+    use Enumerable;
 }

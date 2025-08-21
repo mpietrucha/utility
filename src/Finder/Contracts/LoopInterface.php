@@ -10,10 +10,9 @@ interface LoopInterface
     public static function adapter(Adapter $adapter): Adapter;
 
     /**
-     * @param  \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Symfony\Component\Finder\SplFileInfo>|null  $files
      * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Symfony\Component\Finder\SplFileInfo>
      */
-    public static function files(?Adapter $adapter = null, ?EnumerableInterface $files = null): EnumerableInterface;
+    public static function files(?Adapter $adapter = null): EnumerableInterface;
 
     public static function available(string $input): bool;
 

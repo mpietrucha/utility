@@ -3,11 +3,13 @@
 namespace Mpietrucha\Utility\Enumerable\Contracts;
 
 use Illuminate\Support\Enumerable;
+use Mpietrucha\Utility\Collection;
 use Mpietrucha\Utility\Contracts\ArrayableInterface;
 use Mpietrucha\Utility\Contracts\ConditionableInterface;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Contracts\PipeableInterface;
 use Mpietrucha\Utility\Contracts\TappableInterface;
+use Mpietrucha\Utility\Enumerable\LazyCollection;
 use Mpietrucha\Utility\Enumerable\Normalizer;
 
 /**
@@ -16,7 +18,6 @@ use Mpietrucha\Utility\Enumerable\Normalizer;
  * @template-covariant TValue
  *
  * @extends \Mpietrucha\Utility\Contracts\ArrayableInterface<TKey, TValue>
- * @extends \Mpietrucha\Utility\Enumerable\Contracts\InteractsWithCollectionInterface<TKey, TValue>
  * @extends \Illuminate\Support\Enumerable<TKey, TValue>
  *
  * @property-read \Illuminate\Support\HigherOrderCollectionProxy<'average', TValue, static> $average
@@ -46,21 +47,48 @@ use Mpietrucha\Utility\Enumerable\Normalizer;
  * @property-read \Illuminate\Support\HigherOrderCollectionProxy<'until', TValue, static> $until
  * @property-read \Illuminate\Support\HigherOrderCollectionProxy<'firstMap', TValue, static> $firstMap
  */
-interface EnumerableInterface extends ArrayableInterface, CreatableInterface, InteractsWithCollectionInterface, PipeableInterface, TappableInterface, ConditionableInterface, Enumerable
+interface EnumerableInterface extends ArrayableInterface, CreatableInterface, PipeableInterface, TappableInterface, ConditionableInterface, Enumerable
 {
     public static function from(mixed ...$items): static;
 
-     public function of(): Normalizer;
+    /**
+    * @return array<TKey, TValue>
+    */
+    public function all(): array;
 
-     public function hash(?string $algorithm = null): string;
+    /**
+    * @return \Mpietrucha\Utility\Collection<TKey, TValue>
+    */
+    public function collect(): Collection;
 
-     public function firstMap(mixed $handler): mixed;
+    /**
+    * @return \Mpietrucha\Utility\Enumerable\LazyCollection<TKey, TValue>
+    */
+    public function lazy(): LazyCollection;
 
-     public function whereNot(callable|string $key, mixed $operator = null, mixed $value = null): static;
+    public function hash(?string $algorithm = null): string;
 
-     public function replaceNth(null|int|string $key, mixed $value): static;
+    public function whereNot(callable|string $key, mixed $operator = null, mixed $value = null): static;
 
-     public function replaceFirst(mixed $value): static;
+    public function replaceNth(null|int|string $key, mixed $value): static;
 
-     public function replaceLast(mixed $value): static;
+    public function replaceFirst(mixed $value): static;
+
+    public function replaceLast(mixed $value): static;
+
+    public function mapToBooleans(): static;
+
+    public function mapToStrings(): static;
+
+    public function mapToStringables(): static;
+
+    public function mapToCollections(): static;
+
+    public function mapToArrays(): static;
+
+    public function mapToIntegers(): static;
+
+    public function mapToFloats(): static;
+
+    public function firstMap(mixed $handler): mixed;
 }

@@ -2,8 +2,6 @@
 
 namespace Mpietrucha\Utility;
 
-use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
-
 abstract class Normalizer
 {
     /**
@@ -41,9 +39,9 @@ abstract class Normalizer
     /**
      * Wrap the given value in a collection instance.
      *
-     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int|string, mixed>
+     * @return \Mpietrucha\Utility\Collection<int|string, mixed>
      */
-    public static function collection(mixed $value): EnumerableInterface
+    public static function collection(mixed $value): Collection
     {
         return Collection::create($value);
     }

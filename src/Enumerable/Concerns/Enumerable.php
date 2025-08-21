@@ -3,12 +3,14 @@
 namespace Mpietrucha\Utility\Enumerable\Concerns;
 
 use Mpietrucha\Utility\Arr;
+use Mpietrucha\Utility\Collection;
 use Mpietrucha\Utility\Concerns\Conditionable;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Concerns\Pipeable;
 use Mpietrucha\Utility\Concerns\Tappable;
-use Mpietrucha\Utility\Enumerable\Normalizer;
+use Mpietrucha\Utility\Enumerable\LazyCollection;
 use Mpietrucha\Utility\Hash;
+use Mpietrucha\Utility\Normalizer;
 use Mpietrucha\Utility\Type;
 use Mpietrucha\Utility\Value;
 
@@ -19,12 +21,9 @@ use Mpietrucha\Utility\Value;
  *
  * @internal
  */
-trait InteractsWithEnumerable
+trait Enumerable
 {
-    /**
-     * @use \Mpietrucha\Utility\Enumerable\Concerns\InteractsWithCollection<TKey, TValue>
-     */
-    use Conditionable, Creatable, InteractsWithCollection, Pipeable, Tappable;
+    use Conditionable, Creatable, Pipeable, Tappable;
 
     /**
      * @var array<int, string>
@@ -46,8 +45,6 @@ trait InteractsWithEnumerable
     }
 
     /**
-     * Convert the collection to a plain array.
-     *
      * @return array<TKey, TValue>
      */
     public function toArray(): array
@@ -55,19 +52,19 @@ trait InteractsWithEnumerable
         return parent::toArray();
     }
 
-    /**
-     * Get all of the items in the collection as an array.
-     *
-     * @return array<TKey, TValue>
-     */
     public function all(): array
     {
         return parent::all();
     }
 
-    public function of(): Normalizer
+    public function collect(): Collection
     {
-        return Normalizer::create($this);
+        return Collection::create($this);
+    }
+
+    public function lazy(): LazyCollection
+    {
+        return LazyCollection::create($this);
     }
 
     public function hash(?string $algorithm = null): string
@@ -75,13 +72,6 @@ trait InteractsWithEnumerable
         $algorithm ??= Hash::default();
 
         return $this->toJson() |> Hash::$algorithm(...);
-    }
-
-    public function firstMap(mixed $handler): mixed
-    {
-        $value = $this->first($handler = Value::for($handler));
-
-        return Type::null($value) ? $value : $handler->previous();
     }
 
     public function whereNot(callable|string $key, mixed $operator = null, mixed $value = null): static
@@ -107,5 +97,47 @@ trait InteractsWithEnumerable
     public function replaceLast(mixed $value): static
     {
         return $this->replaceNth($this->keys()->last(), $value);
+    }
+
+    public function mapToBooleans(): static
+    {
+        return Normalizer::boolean(...) |> $this->map(...);
+    }
+
+    public function mapToStrings(): static
+    {
+        return Normalizer::string(...) |> $this->map(...);
+    }
+
+    public function mapToStringables(): static
+    {
+        return Normalizer::stringable(...) |> $this->map(...);
+    }
+
+    public function mapToCollections(): static
+    {
+        return Normalizer::collection(...) |> $this->map(...);
+    }
+
+    public function mapToArrays(): static
+    {
+        return Normalizer::array(...) |> $this->map(...);
+    }
+
+    public function mapToIntegers(): static
+    {
+        return Normalizer::integer(...) |> $this->map(...);
+    }
+
+    public function mapToFloats(): static
+    {
+        return Normalizer::float(...) |> $this->map(...);
+    }
+
+    public function firstMap(mixed $handler): mixed
+    {
+        $value = $this->first($handler = Value::for($handler));
+
+        return Type::null($value) ? $value : $handler->previous();
     }
 }

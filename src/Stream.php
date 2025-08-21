@@ -41,7 +41,7 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface
     /**
      * Open a stream from the given URI and mode.
      */
-    public static function open(string $uri, ?string $mode = null): self
+    public static function open(string $uri, ?string $mode = null): static
     {
         $handler = Filesystem::open($uri, $mode);
 
@@ -55,7 +55,7 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface
     /**
      * Create a temporary in-memory stream.
      */
-    public static function temporary(): self
+    public static function temporary(): static
     {
         return static::open('php://temporary');
     }
@@ -63,7 +63,7 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface
     /**
      * Create a stream from standard input.
      */
-    public static function input(): self
+    public static function input(): static
     {
         return static::create(STDIN);
     }
@@ -71,7 +71,7 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface
     /**
      * Create a stream from standard output.
      */
-    public static function output(): self
+    public static function output(): static
     {
         return static::create(STDOUT);
     }
@@ -140,7 +140,7 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface
     /**
      * Set the stream's blocking mode using the underlying adapter.
      */
-    public function await(bool $mode = true): self
+    public function await(bool $mode = true): static
     {
         Adapter::await($this->adapter(), $mode);
 
@@ -150,7 +150,7 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface
     /**
      * Reverse the blocking mode on the underlying stream adapter.
      */
-    final public function unleash(bool $mode = true): self
+    final public function unleash(bool $mode = true): static
     {
         return Normalizer::not($mode) |> $this->await(...);
     }
@@ -206,7 +206,7 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface
     /**
      * Move the stream pointer to a specific position.
      */
-    public function seek(int $pointer, int $mode = SEEK_SET): self
+    public function seek(int $pointer, int $mode = SEEK_SET): static
     {
         $this->adapter()->seek($pointer, $mode);
 
@@ -216,7 +216,7 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface
     /**
      * Rewind the stream pointer to the beginning.
      */
-    public function rewind(): self
+    public function rewind(): static
     {
         $this->adapter()->rewind();
 
@@ -226,7 +226,7 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface
     /**
      * Restore the stream pointer to a specific position or rewind it.
      */
-    public function restore(?int $pointer = null, int $mode = SEEK_SET): self
+    public function restore(?int $pointer = null, int $mode = SEEK_SET): static
     {
         if ($this->not()->seekable()) {
             return $this;
@@ -250,7 +250,7 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface
     /**
      * Copy contents from the source stream into this stream using the adapter's resource.
      */
-    public function copy(StreamInterface $source): self
+    public function copy(StreamInterface $source): static
     {
         $source->paste($source);
 
@@ -260,7 +260,7 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface
     /**
      * Transfer contents from this stream into the destination stream.
      */
-    public function paste(StreamInterface $destination): self
+    public function paste(StreamInterface $destination): static
     {
         $bytes = Adapter::copy($this->adapter(), $destination->adapter());
 
@@ -274,7 +274,7 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface
     /**
      * Write the given contents or stream to this stream using the adapter.
      */
-    public function write(StreamInterface|string $contents): self
+    public function write(StreamInterface|string $contents): static
     {
         if ($contents instanceof StreamInterface) {
             return $this->paste($contents);
@@ -286,7 +286,7 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface
     /**
      * Overwrite the stream contents with the given data.
      */
-    public function set(StreamInterface|string $contents): self
+    public function set(StreamInterface|string $contents): static
     {
         return $this->restore()->write($contents);
     }
@@ -352,7 +352,7 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface
     /**
      * Store the number of bytes written to the stream.
      */
-    protected function record(int $bytes): self
+    protected function record(int $bytes): static
     {
         $this->bytes = $bytes;
 

@@ -6,9 +6,9 @@ use Mpietrucha\Utility\Contracts\StringableInterface;
 
 interface BodyInterface extends InteractsWithSectionInterface, StringableInterface
 {
-    public function clear(string $content): BodyInterface;
+    public function clear(string $content): static;
 
-    public function set(string $content): BodyInterface;
+    public function set(string $content): static;
 
-    public function replace(string $search, string $content): BodyInterface;
+    public function replace(string $search, string $content): static;
 }

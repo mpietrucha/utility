@@ -2,6 +2,9 @@
 
 namespace Mpietrucha\Utility;
 
+/**
+ * @method static string md5(string $content)
+ */
 abstract class Hash
 {
     /**

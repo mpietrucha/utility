@@ -48,7 +48,7 @@ class Methods implements CreatableInterface, MethodsInterface
     /**
      * Add the given method names to the denied list.
      */
-    public function deny(array|string $methods): self
+    public function deny(array|string $methods): static
     {
         $this->denied()->push(...Normalizer::array($methods));
 
@@ -58,7 +58,7 @@ class Methods implements CreatableInterface, MethodsInterface
     /**
      * Add the given method names to the allowed list.
      */
-    public function allow(array|string $methods): self
+    public function allow(array|string $methods): static
     {
         $this->allowed()->push(...Normalizer::array($methods));
 
