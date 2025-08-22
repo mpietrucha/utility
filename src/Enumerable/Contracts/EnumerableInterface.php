@@ -2,12 +2,14 @@
 
 namespace Mpietrucha\Utility\Enumerable\Contracts;
 
+use Countable;
 use Illuminate\Support\Enumerable;
 use Mpietrucha\Utility\Collection;
 use Mpietrucha\Utility\Contracts\ArrayableInterface;
 use Mpietrucha\Utility\Contracts\ConditionableInterface;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Contracts\PipeableInterface;
+use Mpietrucha\Utility\Contracts\StringableInterface;
 use Mpietrucha\Utility\Contracts\TappableInterface;
 use Mpietrucha\Utility\Enumerable\LazyCollection;
 use Mpietrucha\Utility\Enumerable\Normalizer;
@@ -47,7 +49,7 @@ use Mpietrucha\Utility\Enumerable\Normalizer;
  * @property-read \Illuminate\Support\HigherOrderCollectionProxy<'until', TValue, static> $until
  * @property-read \Illuminate\Support\HigherOrderCollectionProxy<'firstMap', TValue, static> $firstMap
  */
-interface EnumerableInterface extends ArrayableInterface, CreatableInterface, PipeableInterface, TappableInterface, ConditionableInterface, Enumerable
+interface EnumerableInterface extends Countable, StringableInterface, ArrayableInterface, CreatableInterface, PipeableInterface, TappableInterface, ConditionableInterface, Enumerable
 {
     public static function from(mixed ...$items): static;
 

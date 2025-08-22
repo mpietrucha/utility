@@ -18,6 +18,8 @@ parameters:
         - phpstan
     ignoreErrors:
         - identifier: "trait.unused"
+        - identifier: "arguments.count"
+        - identifier: "callable.nonNativeMethod"
     typeAliases:
         RawBacktraceFrame: "array{function: string, line?: int, file?: string, class?: class-string, type?: '->'|'::', args?: array<string, mixed>, object?: object}"
     stubFiles:

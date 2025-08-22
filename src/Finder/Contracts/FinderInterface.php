@@ -2,10 +2,11 @@
 
 namespace Mpietrucha\Utility\Finder\Contracts;
 
+use Countable;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Symfony\Component\Finder\Finder as Adapter;
 
-interface FinderInterface
+interface FinderInterface extends Countable
 {
     public static function builder(): BuilderInterface;
 

@@ -32,6 +32,11 @@ class Finder extends None
      */
     protected function directories(string $input): EnumerableInterface
     {
-        return Adapter::uncached()->directories()->in($input)->get();
+        return $this->adapter()->in($input)->get();
+    }
+
+    protected function adapter(): Adapter
+    {
+        return Adapter::uncached()->directories();
     }
 }

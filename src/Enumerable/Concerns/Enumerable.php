@@ -7,6 +7,7 @@ use Mpietrucha\Utility\Collection;
 use Mpietrucha\Utility\Concerns\Conditionable;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Concerns\Pipeable;
+use Mpietrucha\Utility\Concerns\Stringable;
 use Mpietrucha\Utility\Concerns\Tappable;
 use Mpietrucha\Utility\Enumerable\LazyCollection;
 use Mpietrucha\Utility\Hash;
@@ -23,7 +24,7 @@ use Mpietrucha\Utility\Value;
  */
 trait Enumerable
 {
-    use Conditionable, Creatable, Pipeable, Tappable;
+    use Conditionable, Creatable, Pipeable, Stringable, Tappable;
 
     /**
      * @var array<int, string>
@@ -52,16 +53,27 @@ trait Enumerable
         return parent::toArray();
     }
 
+    public function toString(): string
+    {
+        return $this->toJson();
+    }
+
     public function all(): array
     {
         return parent::all();
     }
 
+    /**
+     * @return \Mpietrucha\Utility\Collection<TKey, TValue>
+     */
     public function collect(): Collection
     {
         return Collection::create($this);
     }
 
+    /**
+     * @return \Mpietrucha\Utility\Enumerable\LazyCollection<TKey, TValue>
+     */
     public function lazy(): LazyCollection
     {
         return LazyCollection::create($this);
@@ -71,7 +83,7 @@ trait Enumerable
     {
         $algorithm ??= Hash::default();
 
-        return $this->toJson() |> Hash::$algorithm(...);
+        return $this->toString() |> Hash::$algorithm(...);
     }
 
     public function whereNot(callable|string $key, mixed $operator = null, mixed $value = null): static
@@ -136,7 +148,9 @@ trait Enumerable
 
     public function firstMap(mixed $handler): mixed
     {
-        $value = $this->first($handler = Value::for($handler));
+        $handler = Value::for($handler);
+
+        $value = $this->first($handler);
 
         return Type::null($value) ? $value : $handler->previous();
     }

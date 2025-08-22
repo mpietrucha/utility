@@ -3,10 +3,10 @@
 namespace Mpietrucha\Utility\Finder\Snapshot;
 
 use Mpietrucha\Utility\Collection;
-use Mpietrucha\Utility\Filesystem;
+use Mpietrucha\Utility\Filesystem as Adapter;
 use Mpietrucha\Utility\Type;
 
-class Timestamp extends None
+class Filesystem extends None
 {
     protected static ?string $file = null;
 
@@ -26,12 +26,12 @@ class Timestamp extends None
     {
         [$file, $snapshots] = [static::file(), static::snapshots()->toJson()];
 
-        Filesystem::put($file, $snapshots);
+        Adapter::put($file, $snapshots);
     }
 
     public function get(string $input): ?string
     {
-        return Filesystem::snapshot($input);
+        return Adapter::snapshot($input);
     }
 
     public function expired(string $input): bool
@@ -56,11 +56,11 @@ class Timestamp extends None
      */
     protected static function snapshots(): Collection
     {
-        return static::$snapshots ??= static::file() |> Filesystem::json(...) |> Collection::create(...);
+        return static::$snapshots ??= static::file() |> Adapter::json(...) |> Collection::create(...);
     }
 
     protected static function file(): string
     {
-        return static::$file ??= Filesystem\Touch::file('../snapshots.json', __DIR__);
+        return static::$file ??= Adapter\Touch::file('../snapshots.json', __DIR__);
     }
 }

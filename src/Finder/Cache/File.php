@@ -89,6 +89,6 @@ class File extends None
 
     protected function snapshot(): SnapshotInterface
     {
-        return $this->snapshot ??= Snapshot\Timestamp::create();
+        return $this->snapshot ??= Snapshot\Filesystem::create();
     }
 }

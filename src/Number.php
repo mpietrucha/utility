@@ -4,21 +4,21 @@ namespace Mpietrucha\Utility;
 
 abstract class Number extends \Illuminate\Support\Number
 {
-    public static function integer(mixed $value): int
+    public static function integer(mixed $value, ?string $locale = null): int
     {
         if (Type::integer($value)) {
             return $value;
         }
 
-        return Normalizer::string($value) |> static::parseInt(...);
+        return static::parseInt(Normalizer::string($value), $locale);
     }
 
-    public static function float(mixed $value): float
+    public static function float(mixed $value, ?string $locale = null): float
     {
         if (Type::float($value)) {
             return $value;
         }
 
-        return Normalizer::string($value) |> static::parseFloat(...);
+        return static::parseFloat(Normalizer::string($value), $locale);
     }
 }
