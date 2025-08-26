@@ -3,6 +3,7 @@
 namespace Mpietrucha\Utility\Contracts;
 
 use Illuminate\Contracts\Support\Arrayable;
+use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 
 /**
  * @template TKey of array-key
@@ -19,4 +20,9 @@ interface ArrayableInterface extends Arrayable
      * @return array<TKey, TValue>
      */
     public function toArray(): array;
+
+    /**
+     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<TKey, TValue>
+     */
+    public function toCollection(): EnumerableInterface;
 }

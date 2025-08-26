@@ -93,4 +93,6 @@ interface EnumerableInterface extends Countable, StringableInterface, ArrayableI
     public function mapToFloats(): static;
 
     public function firstMap(mixed $handler): mixed;
+
+    public function pipeSpreadInto(mixed $handler): mixed;
 }

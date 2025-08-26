@@ -4,6 +4,7 @@ namespace Mpietrucha\Utility\Enumerable\Concerns;
 
 use Mpietrucha\Utility\Arr;
 use Mpietrucha\Utility\Collection;
+use Mpietrucha\Utility\Concerns\Arrayable;
 use Mpietrucha\Utility\Concerns\Conditionable;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Concerns\Pipeable;
@@ -24,7 +25,7 @@ use Mpietrucha\Utility\Value;
  */
 trait Enumerable
 {
-    use Conditionable, Creatable, Pipeable, Stringable, Tappable;
+    use Arrayable, Conditionable, Creatable, Pipeable, Stringable, Tappable;
 
     /**
      * @var array<int, string>
@@ -153,5 +154,10 @@ trait Enumerable
         $value = $this->first($handler);
 
         return Type::null($value) ? $value : $handler->previous();
+    }
+
+    public function pipeSpreadInto(mixed $handler): mixed
+    {
+        return $this->toArray() |> Value::for($handler)->eval(...);
     }
 }

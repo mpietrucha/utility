@@ -2,6 +2,7 @@
 
 namespace Mpietrucha\Utility\Finder;
 
+use Mpietrucha\Utility\Concerns\Arrayable;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Concerns\Tappable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
@@ -15,7 +16,7 @@ use Symfony\Component\Finder\Finder as Adapter;
 
 class Builder implements BuilderInterface, CreatableInterface
 {
-    use Creatable, InteractsWithFinder, Tappable;
+    use Arrayable, Creatable, InteractsWithFinder, Tappable;
 
     protected ?string $input = null;
 
@@ -61,6 +62,6 @@ class Builder implements BuilderInterface, CreatableInterface
 
     public function build(): FinderInterface
     {
-        return Finder::create(...$this->toArray());
+        return Finder::create(...) |> $this->toCollection()->pipeSpreadInto(...);
     }
 }

@@ -2,16 +2,16 @@
 
 namespace Mpietrucha\Utility\Backtrace;
 
-use Mpietrucha\Utility\Arr;
 use Mpietrucha\Utility\Backtrace\Contracts\FrameInterface;
 use Mpietrucha\Utility\Collection;
+use Mpietrucha\Utility\Concerns\Arrayable;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Concerns\Pipeable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 
 class Frame implements CreatableInterface, FrameInterface
 {
-    use Creatable, Pipeable;
+    use Arrayable, Creatable, Pipeable;
 
     /**
      * Create a new Frame instance from a raw backtrace frame array.
@@ -95,6 +95,6 @@ class Frame implements CreatableInterface, FrameInterface
      */
     protected function get(Property $property): mixed
     {
-        return Arr::get($this->toArray(), $property->value);
+        return $property->value |> $this->toCollection()->get(...);
     }
 }

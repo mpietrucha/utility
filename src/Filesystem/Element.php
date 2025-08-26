@@ -2,6 +2,7 @@
 
 namespace Mpietrucha\Utility\Filesystem;
 
+use Mpietrucha\Utility\Concerns\Arrayable;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Concerns\Stringable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
@@ -13,7 +14,7 @@ use Symfony\Component\Finder\SplFileInfo;
 
 class Element extends SplFileInfo implements CreatableInterface, ElementInterface
 {
-    use Creatable, Forwardable, Stringable;
+    use Arrayable, Creatable, Forwardable, Stringable;
 
     public function __construct(string $filename, ?string $relativePath = null, ?string $relativePathname = null)
     {

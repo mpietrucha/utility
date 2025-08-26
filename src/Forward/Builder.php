@@ -2,6 +2,7 @@
 
 namespace Mpietrucha\Utility\Forward;
 
+use Mpietrucha\Utility\Concerns\Arrayable;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Forward;
@@ -12,7 +13,7 @@ use Mpietrucha\Utility\Forward\Contracts\ForwardInterface;
 
 class Builder implements BuilderInterface, CreatableInterface
 {
-    use Creatable;
+    use Arrayable, Creatable;
 
     protected null|object|string $source = null;
 
@@ -88,6 +89,6 @@ class Builder implements BuilderInterface, CreatableInterface
      */
     public function build(): ForwardInterface
     {
-        return Forward::create(...$this->toArray());
+        return Forward::create(...) |> $this->toCollection()->pipeSpreadInto(...);
     }
 }
