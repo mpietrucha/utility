@@ -54,13 +54,13 @@
         "post-update-cmd": [
             "@composer normalize"
         ],
-        "lint": "pint -v",
+        "lint": "pint --verbose --parallel",
         "prettier:config": "curl -sSLO https://raw.githubusercontent.com/mpietrucha/prettier/refs/heads/main/dist/.prettierrc",
         "test": [
             "@test:lint",
             "@test:types"
         ],
-        "test:lint": "pint --test -v",
+        "test:lint": "@lint --test",
         "test:types": "phpstan analyse --ansi"
     }
 }
