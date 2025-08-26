@@ -55,7 +55,7 @@
             "@composer normalize"
         ],
         "lint": "pint -v",
-        "prettier:config": "curl -sSL https://raw.githubusercontent.com/mpietrucha/prettier-config-synchronizer/refs/heads/main/synchronize | bash",
+        "prettier:config": "curl -sSLO https://raw.githubusercontent.com/mpietrucha/prettier/refs/heads/main/dist/.prettierrc",
         "test": [
             "@test:lint",
             "@test:types"
