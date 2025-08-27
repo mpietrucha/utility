@@ -94,6 +94,6 @@ class Adapter extends Stream implements AdapterInterface, CreatableInterface
      */
     public function toString(): string
     {
-        return (string) $this;
+        return parent::__toString();
     }
 }
