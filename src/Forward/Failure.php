@@ -34,11 +34,11 @@ class Failure implements CreatableInterface, FailureInterface
     /**
      * Process and rethrow the given throwable with enhanced metadata and messaging.
      */
-    public function handle(ThrowableInterface $throwable, string $to): void
+    public function handle(ThrowableInterface $throwable, string $method): void
     {
         $backtrace = $this->backtrace($backtrace = $throwable->backtrace());
 
-        $message = $this->message($throwable->value()->getMessage(), $to);
+        $message = $this->message($throwable->value()->getMessage(), $method);
 
         $frame = $this->frame($backtrace);
 
@@ -69,11 +69,11 @@ class Failure implements CreatableInterface, FailureInterface
     /**
      * Format an error message by replacing the original method context with the forwarded context.
      */
-    protected function message(string $message, string $to): string
+    protected function message(string $message, string $method): string
     {
-        $from = Str::sprintf('%s::%s', $this->destination(), $this->forward()->method() ?? $to);
+        $to = Str::sprintf('%s::%s', $this->destination(), $this->forward()->method() ?? $method);
 
-        $to = Str::sprintf('%s::%s', $this->source(), $to);
+        $from = Str::sprintf('%s::%s', $this->source(), $method);
 
         return Str::replace($from, $to, $message);
     }

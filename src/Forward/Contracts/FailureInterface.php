@@ -14,5 +14,5 @@ interface FailureInterface
     /**
      * Handle a throwable that occurred when forwarding a call to the given method.
      */
-    public function handle(ThrowableInterface $throwable, string $to): void;
+    public function handle(ThrowableInterface $throwable, string $method): void;
 }

@@ -2,21 +2,22 @@
 
 namespace Mpietrucha\Utility\Concerns;
 
-use Mpietrucha\Utility\Forward;
+use Mpietrucha\Utility\Forward\Concerns\Bridgeable;
 use Mpietrucha\Utility\Normalizer;
 
 trait Supportable
 {
+    use Bridgeable;
+
     /**
      * Determine whether the given arguments are supported by forwarding
      * a supportability check through the dynamic proxy.
      */
     public static function supported(mixed ...$arguments): bool
     {
-        // $bridge = __METHOD__ |> Forward::namespace(...)->proxy();
-        // $bridge = Forward::builder(static::class)->method(__METHOD__)->build()->proxy();
+        $relay = __FUNCTION__ |> static::relay(...);
 
-        return $bridge->supportable(...$arguments) |> Normalizer::boolean(...);
+        return $relay->supportable(...$arguments) |> Normalizer::boolean(...);
     }
 
     /**
@@ -25,7 +26,9 @@ trait Supportable
      */
     final public static function unsupported(mixed ...$arguments): bool
     {
-        return static::supported(...$arguments) |> Normalizer::not(...);
+        $relay = __FUNCTION__ |> static::relay(...);
+
+        return $relay->supportable(...$arguments) |> Normalizer::not(...);
     }
 
     /**

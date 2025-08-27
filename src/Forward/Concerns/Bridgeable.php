@@ -9,11 +9,16 @@ use Mpietrucha\Utility\Forward\Contracts\ProxyInterface;
 
 trait Bridgeable
 {
+    protected static function relay(string $method, null|object|string $destination = null): ProxyInterface
+    {
+        return static::proxy($destination, $method);
+    }
+
     /**
      * Create a proxy for the given destination and method, forwarding allowed calls
      * using an optional methods filter.
      */
-    protected static function proxy(null|object|string $destination, ?string $method = null, ?MethodsInterface $methods = null): ProxyInterface
+    protected static function proxy(null|object|string $destination = null, ?string $method = null, ?MethodsInterface $methods = null): ProxyInterface
     {
         return static::bridge($destination, $method)->proxy($methods);
     }
@@ -22,7 +27,7 @@ trait Bridgeable
      * Create a Forward instance bridging the given destination and method,
      * defaulting the source to the calling class.
      */
-    protected static function bridge(null|object|string $destination, ?string $method = null): ForwardInterface
+    protected static function bridge(null|object|string $destination = null, ?string $method = null): ForwardInterface
     {
         $destination ??= static::class;
 

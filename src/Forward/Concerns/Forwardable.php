@@ -8,6 +8,11 @@ use Mpietrucha\Utility\Forward\Contracts\ProxyInterface;
 
 trait Forwardable
 {
+    protected function relay(string $method, null|object|string $destination = null): ProxyInterface
+    {
+        return $this->proxy($destination, $method);
+    }
+
     /**
      * Create a proxy that forwards allowed method calls to the given destination,
      * optionally specifying a default method name.
