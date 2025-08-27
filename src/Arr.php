@@ -21,7 +21,7 @@ class Arr extends \Illuminate\Support\Arr
      *
      * @param  iterable<int|string, mixed>  $array
      */
-    public static function empty(iterable $array): bool
+    public static function isEmpty(iterable $array): bool
     {
         return static::count($array) === 0;
     }
@@ -31,9 +31,9 @@ class Arr extends \Illuminate\Support\Arr
      *
      * @param  iterable<int|string, mixed>  $array
      */
-    public static function filled(iterable $array): bool
+    final public static function isNotEmpty(iterable $array): bool
     {
-        return static::empty($array) |> Normalizer::not(...);
+        return static::isEmpty($array) |> Normalizer::not(...);
     }
 
     /**
@@ -41,8 +41,13 @@ class Arr extends \Illuminate\Support\Arr
      *
      * @param  array<int|string, mixed>  $array
      */
-    public static function in(mixed $value, array $array): bool
+    public static function contains(mixed $value, array $array): bool
     {
         return in_array($value, $array);
+    }
+
+    final public static function doesntContain(mixed $value, array $array): bool
+    {
+        return static::contains($value, $array) |> Normalizer::not(...);
     }
 }

@@ -56,7 +56,7 @@ final class NormalizerExtension implements DynamicStaticMethodReturnTypeExtensio
     {
         $constans = $type->getConstantArrays();
 
-        if (Arr::filled($constans)) {
+        if (Arr::isNotEmpty($constans)) {
             return $this->union($constans);
         }
 
