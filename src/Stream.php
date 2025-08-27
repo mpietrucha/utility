@@ -252,7 +252,7 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface
      */
     public function copy(StreamInterface $source): static
     {
-        $source->paste($source);
+        $source->paste($this);
 
         return $this;
     }
