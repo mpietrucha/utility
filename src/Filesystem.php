@@ -63,6 +63,11 @@ abstract class Filesystem
         return @fopen($path, $mode) ?: null;
     }
 
+    public static function temporary(): mixed
+    {
+        return tmpfile() ?: null;
+    }
+
     public static function touch(string $path, ?int $modified = null, ?int $accessed = null): bool
     {
         return touch($path, $modified, $accessed);
