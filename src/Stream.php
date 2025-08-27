@@ -338,7 +338,11 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface
     {
         $response = $this->toString();
 
-        return $this->tell() |> $this->pass($response)->restore(...);
+        if ($this->not()->seekable()) {
+            return $response;
+        }
+
+        return $this->pass($response)->restore($restore);
     }
 
     /**
