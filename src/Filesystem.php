@@ -100,6 +100,13 @@ abstract class Filesystem
         return static::get($path) |> Tokenizer::create(...);
     }
 
+    public static function namespace(string $path, bool $canonicalized = false): ?string
+    {
+        $path = static::tokenize($path)->path();
+
+        return $canonicalized ? $path->canonicalize() : $path->get();
+    }
+
     /**
      * Create a condition handler specific to the filesystem.
      */
