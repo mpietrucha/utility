@@ -4,6 +4,7 @@ namespace Mpietrucha\Utility\Filesystem;
 
 use Mpietrucha\Utility\Filesystem;
 use Mpietrucha\Utility\Filesystem\Concerns\InteractsWithCondition;
+use Mpietrucha\Utility\Str;
 use Mpietrucha\Utility\Type;
 use Symfony\Component\Filesystem\Path as Adapter;
 
@@ -13,6 +14,11 @@ abstract class Path
      * @use \Mpietrucha\Utility\Filesystem\Concerns\InteractsWithCondition<\Mpietrucha\Utility\Filesystem\Condition\Path>
      */
     use InteractsWithCondition;
+
+    public static function delimiter(): string
+    {
+        return Str::slash();
+    }
 
     public static function join(string ...$paths): string
     {

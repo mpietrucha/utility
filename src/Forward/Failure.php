@@ -71,9 +71,9 @@ class Failure implements CreatableInterface, FailureInterface
      */
     protected function message(string $message, string $method): string
     {
-        $to = Str::sprintf('%s::%s', $this->destination(), $this->forward()->method() ?? $method);
+        $to = Str::sprintf('%s::%s', $this->source(), $this->forward()->method() ?? $method);
 
-        $from = Str::sprintf('%s::%s', $this->source(), $method);
+        $from = Str::sprintf('%s::%s', $this->destination(), $method);
 
         return Str::replace($from, $to, $message);
     }

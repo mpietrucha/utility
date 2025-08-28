@@ -95,6 +95,11 @@ abstract class Filesystem
         return Snapshot::create()->get($path, $algorithm);
     }
 
+    public static function tokenize(string $path): Tokenizer
+    {
+        return static::get($path) |> Tokenizer::create(...);
+    }
+
     /**
      * Create a condition handler specific to the filesystem.
      */

@@ -7,6 +7,7 @@ use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Fork\Contracts\BodyInterface;
 use Mpietrucha\Utility\Fork\Contracts\TransformerInterface;
 use Mpietrucha\Utility\Instance;
+use Mpietrucha\Utility\Instance\Path;
 use Mpietrucha\Utility\Normalizer;
 
 abstract class Transformer implements CreatableInterface, TransformerInterface
@@ -27,7 +28,7 @@ abstract class Transformer implements CreatableInterface, TransformerInterface
 
     public function namespace(): string
     {
-        return Instance\FQN::join($this->prefix(), $this->class());
+        return Path::join($this->prefix(), $this->class());
     }
 
     public function body(string $content): BodyInterface

@@ -46,6 +46,11 @@ class Arr extends \Illuminate\Support\Arr
         return in_array($value, $array);
     }
 
+    /**
+     * Determine if the given value doesn`t exists in the provided array.
+     *
+     * @param  array<int|string, mixed>  $array
+     */
     final public static function doesntContain(mixed $value, array $array): bool
     {
         return static::contains($value, $array) |> Normalizer::not(...);

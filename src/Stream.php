@@ -342,7 +342,7 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface
             return $response;
         }
 
-        return $this->pass($response)->restore($restore);
+        return $this->tell() |> $this->pass($response)->restore(...);
     }
 
     /**

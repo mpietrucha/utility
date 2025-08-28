@@ -5,7 +5,7 @@ namespace Mpietrucha\Utility\Fork;
 use Mpietrucha\Utility\Collection;
 use Mpietrucha\Utility\Fork\Contracts\TransformerInterface;
 use Mpietrucha\Utility\Instance;
-use Mpietrucha\Utility\Instance\FQN;
+use Mpietrucha\Utility\Instance\Path;
 use Mpietrucha\Utility\Type;
 
 abstract class Alias
@@ -51,14 +51,14 @@ abstract class Alias
 
     protected static function build(string $namespace, string $alias): ?string
     {
-        $class = FQN::join($namespace, FQN::name($alias));
+        $class = Path::join($namespace, Path::name($alias));
 
         return Instance::alias($class, $alias);
     }
 
     protected static function normalize(string $namespace): string
     {
-        return FQN::namespace($namespace);
+        return Path::namespace($namespace);
     }
 
     /**

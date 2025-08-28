@@ -41,6 +41,6 @@ abstract class Backtrace
      */
     protected static function build(array $backtrace): EnumerableInterface
     {
-        return Collection::create($backtrace)->map(Frame::create(...));
+        return Frame::create(...) |> Collection::create($backtrace)->map(...);
     }
 }
