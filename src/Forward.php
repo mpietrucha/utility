@@ -126,6 +126,15 @@ class Forward implements ForwardInterface, WrappableInterface
         return $result->value();
     }
 
+    public function guess(string $method, array $arguments, callable $source): mixed
+    {
+        $parameters = Reflection::callable($source)->getNumberOfParameters();
+
+        $arguments = Arr::skip($arguments, $parameters);
+
+        return $this->eval($method, $arguments);
+    }
+
     /**
      * Pass a failed Result to the failure handler for processing.
      */

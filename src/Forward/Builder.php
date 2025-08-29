@@ -89,6 +89,6 @@ class Builder implements BuilderInterface, CreatableInterface
      */
     public function build(): ForwardInterface
     {
-        return Forward::create(...) |> $this->toCollection()->pipeSpreadInto(...);
+        return Forward::create(...) |> $this->toCollection()->pipeSpread(...);
     }
 }

@@ -50,7 +50,7 @@ class Methods implements CreatableInterface, MethodsInterface
      */
     public function deny(array|string $methods): static
     {
-        $this->denied()->push(...Normalizer::array($methods));
+        $this->denied()->push(...) |> Collection::create($methods)->pipeSpread(...);
 
         return $this;
     }
@@ -60,7 +60,7 @@ class Methods implements CreatableInterface, MethodsInterface
      */
     public function allow(array|string $methods): static
     {
-        $this->allowed()->push(...Normalizer::array($methods));
+        $this->allowed()->push(...) |> Collection::create($methods)->pipeSpread(...);
 
         return $this;
     }
@@ -79,7 +79,7 @@ class Methods implements CreatableInterface, MethodsInterface
     public function valid(string $method): bool
     {
         if ($this->denied()->contains($method)) {
-            return true;
+            return false;
         }
 
         return $this->allowed()->isEmpty() || $this->allowed()->contains($method);

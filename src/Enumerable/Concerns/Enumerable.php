@@ -10,6 +10,8 @@ use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Concerns\Pipeable;
 use Mpietrucha\Utility\Concerns\Stringable;
 use Mpietrucha\Utility\Concerns\Tappable;
+use Mpietrucha\Utility\Concerns\Wrappable;
+use Mpietrucha\Utility\Enumerable\Filter;
 use Mpietrucha\Utility\Enumerable\LazyCollection;
 use Mpietrucha\Utility\Hash;
 use Mpietrucha\Utility\Normalizer;
@@ -25,7 +27,9 @@ use Mpietrucha\Utility\Value;
  */
 trait Enumerable
 {
-    use Arrayable, Conditionable, Creatable, Pipeable, Stringable, Tappable;
+    use Arrayable, Conditionable, Creatable, Pipeable, Stringable, Tappable, Wrappable {
+        wrap as bind;
+    }
 
     /**
      * @var array<int, string>
@@ -92,6 +96,56 @@ trait Enumerable
         return $this->operatorForWhere(...func_get_args()) |> $this->reject(...);
     }
 
+    public function whereValue(mixed $values, bool $strict = false): static
+    {
+        return Filter\Value::create($values, $strict) |> $this->filter(...);
+    }
+
+    final public function whereValueStrict(mixed $values): static
+    {
+        return $this->whereValue($values, true);
+    }
+
+    public function whereValueExactly(mixed $values): static
+    {
+        return Filter\Value::wrap($values) |> $this->whereValueStrict(...);
+    }
+
+    public function whereNotValue(mixed $value, bool $strict = false): static
+    {
+        return Filter\Value::create($value, $strict) |> $this->reject(...);
+    }
+
+    final public function whereNotValueStrict(mixed $values): static
+    {
+        return $this->whereNotValue($values, true);
+    }
+
+    public function whereNotValueExactly(mixed $values): static
+    {
+        return Filter\Value::wrap($values) |> $this->whereNotValueStrict(...);
+    }
+
+    public function whereType(mixed $types): static
+    {
+        return Filter\Type::create($types) |> $this->filter(...);
+    }
+
+    public function whereNotType(mixed $types): static
+    {
+        return Filter\Type::create($types) |> $this->reject(...);
+    }
+
+    public function whereInstance(mixed $instances): static
+    {
+        return Filter\Instance::create($instances) |> $this->filter(...);
+    }
+
+    public function whereNotInstance(mixed $instances): static
+    {
+        return Filter\Instance::create($instances) |> $this->reject(...);
+    }
+
     public function replaceNth(null|int|string $key, mixed $value): static
     {
         if (Type::null($key)) {
@@ -104,12 +158,16 @@ trait Enumerable
 
     public function replaceFirst(mixed $value): static
     {
-        return $this->replaceNth($this->keys()->first(), $value);
+        $key = $this->keys()->first();
+
+        return $this->replaceNth($key, $value);
     }
 
     public function replaceLast(mixed $value): static
     {
-        return $this->replaceNth($this->keys()->last(), $value);
+        $key = $this->keys()->last();
+
+        return $this->replaceNth($key, $value);
     }
 
     public function mapToBooleans(): static
@@ -156,7 +214,7 @@ trait Enumerable
         return Type::null($value) ? $value : $handler->previous();
     }
 
-    public function pipeSpreadInto(mixed $handler): mixed
+    public function pipeSpread(mixed $handler): mixed
     {
         return $this->toArray() |> Value::for($handler)->eval(...);
     }

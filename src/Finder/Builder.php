@@ -62,6 +62,6 @@ class Builder implements BuilderInterface, CreatableInterface
 
     public function build(): FinderInterface
     {
-        return Finder::create(...) |> $this->toCollection()->pipeSpreadInto(...);
+        return Finder::create(...) |> $this->toCollection()->pipeSpread(...);
     }
 }

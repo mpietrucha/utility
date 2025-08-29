@@ -4,8 +4,9 @@ namespace Mpietrucha\Utility;
 
 use Mpietrucha\Utility\Forward\Context;
 use Mpietrucha\Utility\Forward\Contracts\ContextInterface;
+use Mpietrucha\Utility\Type\Contracts\TypeInterface;
 
-abstract class Type
+abstract class Type implements TypeInterface
 {
     /**
      * Create a new forward context that negates the type check.
@@ -29,6 +30,14 @@ abstract class Type
     public static function get(mixed $value): string
     {
         return get_debug_type($value);
+    }
+
+    /**
+     * Determine if the given value is given type.
+     */
+    public static function is(mixed $value, string $type): bool
+    {
+        return static::get($value) |> Str::of($type)->is(...);
     }
 
     /**

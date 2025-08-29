@@ -9,9 +9,9 @@ use Mpietrucha\Utility\Forward\Contracts\ProxyInterface;
 
 trait Bridgeable
 {
-    protected static function relay(string $method, null|object|string $destination = null): ProxyInterface
+    protected static function relay(string $method, null|object|string $destination = null, ?MethodsInterface $methods = null): ProxyInterface
     {
-        return static::proxy($destination, $method);
+        return static::proxy($destination, $method, $methods);
     }
 
     /**

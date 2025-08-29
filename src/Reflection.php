@@ -2,6 +2,8 @@
 
 namespace Mpietrucha\Utility;
 
+use Closure;
+use Laravel\SerializableClosure\Support\ReflectionClosure;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Reflection\Contracts\ReflectionInterface;
@@ -27,6 +29,11 @@ class Reflection extends ReflectionClass implements CreatableInterface, Reflecti
         $deep = Instance::deep($instance);
 
         return static::create($deep ?? $instance);
+    }
+
+    public static function callable(callable $callable, ?string $code = null): ReflectionClosure
+    {
+        return new ReflectionClosure(Closure::fromCallable($callable), $code);
     }
 
     /**

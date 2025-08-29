@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Mpietrucha\PHPStan\Errors;
 
-use Mpietrucha\PHPStan\Support\Error\Line;
+use Mpietrucha\Utility\Filesystem;
 use Mpietrucha\Utility\Str;
 use PhpParser\Node;
 use PHPStan\Analyser\Error;
@@ -44,7 +44,7 @@ final class CreatableExtension implements IgnoreErrorExtension
             return false;
         }
 
-        if (Line::for($error)->is('*::create(*)*') == false) {
+        if ($this->interactsWithCode($error, '*::create(*)*') === false) {
             return false;
         }
 
@@ -67,6 +67,15 @@ final class CreatableExtension implements IgnoreErrorExtension
         }
 
         return self::interface() |>$scope->getClassReflection()->implementsInterface(...);
+    }
+
+    protected function interactsWithCode(Error $error, string $code): bool
+    {
+        $lines = $error->getFilePath() |> Filesystem::lines(...);
+
+        $line = $error->getLine() - 1 |> $lines->get(...);
+
+        return Str::is($code, $line);
     }
 
     protected static function trait(): string

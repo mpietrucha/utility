@@ -28,7 +28,9 @@ class Element extends SplFileInfo implements CreatableInterface, ElementInterfac
      */
     public function __call(string $method, array $arguments): mixed
     {
-        return $this->forward(Filesystem::class)->get($method, $this->toString(), ...$arguments);
+        $forward = Filesystem::class |> $this->forward(...);
+
+        return $forward->get($method, $this->toString(), ...$arguments);
     }
 
     public function toString(): string

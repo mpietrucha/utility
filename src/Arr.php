@@ -41,7 +41,7 @@ class Arr extends \Illuminate\Support\Arr
      *
      * @param  array<int|string, mixed>  $array
      */
-    public static function contains(mixed $value, array $array): bool
+    public static function contains(array $array, mixed $value): bool
     {
         return in_array($value, $array);
     }
@@ -51,8 +51,34 @@ class Arr extends \Illuminate\Support\Arr
      *
      * @param  array<int|string, mixed>  $array
      */
-    final public static function doesntContain(mixed $value, array $array): bool
+    final public static function doesntContain(array $array, mixed $value): bool
     {
         return static::contains($value, $array) |> Normalizer::not(...);
+    }
+
+    /**
+     * @return array<int, mixed>
+     */
+    public static function overlap(mixed $value): array
+    {
+        return [$value];
+    }
+
+    /**
+     * @param  array<int|string,  mixed>  $array
+     * @return array<int|string,  mixed> $array
+     */
+    public static function slice(array $array, int $offset, ?int $length = null): array
+    {
+        return array_slice($array, $offset, $length);
+    }
+
+    /**
+     * @param  array<int|string,  mixed>  $array
+     * @return array<int|string,  mixed> $array
+     */
+    public static function skip(array $array, int $count): array
+    {
+        return static::slice($array, $count);
     }
 }

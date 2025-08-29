@@ -53,6 +53,8 @@ interface EnumerableInterface extends Countable, StringableInterface, ArrayableI
 {
     public static function from(mixed ...$items): static;
 
+    public static function bind(mixed $value): static;
+
     /**
     * @return array<TKey, TValue>
     */
@@ -71,6 +73,26 @@ interface EnumerableInterface extends Countable, StringableInterface, ArrayableI
     public function hash(?string $algorithm = null): string;
 
     public function whereNot(callable|string $key, mixed $operator = null, mixed $value = null): static;
+
+    public function whereValue(mixed $values, bool $strict = false): static;
+
+    public function whereValueStrict(mixed $values): static;
+
+    public function whereValueExactly(mixed $values): static;
+
+    public function whereNotValue(mixed $values, bool $strict): static;
+
+    public function whereNotValueStrict(mixed $values): static;
+
+    public function whereNotValueExactly(mixed $values): static;
+
+    public function whereType(mixed $types): static;
+
+    public function whereNotType(mixed $types): static;
+
+    public function whereInstance(mixed $instances): static;
+
+    public function whereNotInstance(mixed $instances): static;
 
     public function replaceNth(null|int|string $key, mixed $value): static;
 
@@ -94,5 +116,5 @@ interface EnumerableInterface extends Countable, StringableInterface, ArrayableI
 
     public function firstMap(mixed $handler): mixed;
 
-    public function pipeSpreadInto(mixed $handler): mixed;
+    public function pipeSpread(mixed $handler): mixed;
 }

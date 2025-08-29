@@ -18,7 +18,11 @@ class Attempt extends Evaluation implements AttemptInterface
     {
         $forward = $this->eval($arguments) |> $this->forward(...);
 
-        return $forward->eval($method, $arguments);
+        if ($this->unsupported()) {
+            return $forward->get($method);
+        }
+
+        return $forward->guess($method, $arguments, $this->evaluable());
     }
 
     /**

@@ -30,9 +30,11 @@ class Evaluation implements CreatableInterface, EvaluationInterface
      */
     public function __call(string $method, array $arguments): mixed
     {
+        $forward = Normalizer::class |> $this->forward(...);
+
         $value = $this->eval($arguments);
 
-        return $this->forward(Normalizer::class)->get($method, $value);
+        return $forward->get($method, $value);
     }
 
     /**

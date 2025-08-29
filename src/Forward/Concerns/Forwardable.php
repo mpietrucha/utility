@@ -4,22 +4,23 @@ namespace Mpietrucha\Utility\Forward\Concerns;
 
 use Mpietrucha\Utility\Forward;
 use Mpietrucha\Utility\Forward\Contracts\ForwardInterface;
+use Mpietrucha\Utility\Forward\Contracts\MethodsInterface;
 use Mpietrucha\Utility\Forward\Contracts\ProxyInterface;
 
 trait Forwardable
 {
-    protected function relay(string $method, null|object|string $destination = null): ProxyInterface
+    protected function relay(string $method, null|object|string $destination = null, ?MethodsInterface $methods = null): ProxyInterface
     {
-        return $this->proxy($destination, $method);
+        return $this->proxy($destination, $method, $methods);
     }
 
     /**
      * Create a proxy that forwards allowed method calls to the given destination,
      * optionally specifying a default method name.
      */
-    protected function proxy(null|object|string $destination = null, ?string $method = null): ProxyInterface
+    protected function proxy(null|object|string $destination = null, ?string $method = null, ?MethodsInterface $methods = null): ProxyInterface
     {
-        return $this->forward($destination, $method)->proxy();
+        return $this->forward($destination, $method)->proxy($methods);
     }
 
     /**

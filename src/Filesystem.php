@@ -30,9 +30,9 @@ abstract class Filesystem
      */
     public static function __callStatic(string $method, array $arguments): mixed
     {
-        $adapter = static::adapter();
+        $bridge = static::adapter() |> static::bridge(...);
 
-        return static::bridge($adapter)->eval($method, $arguments);
+        return $bridge->eval($method, $arguments);
     }
 
     /**

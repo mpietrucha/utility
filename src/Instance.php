@@ -41,6 +41,14 @@ abstract class Instance
     }
 
     /**
+     * Determine if not the instance is or extends the specified class or object.
+     */
+    final public static function not(object|string $instance, object|string $value): bool
+    {
+        return static::is($instance, $value) |> Normalizer::not(...);
+    }
+
+    /**
      * Resolve the fully qualified class name of the given instance.
      *
      * @return class-string|null

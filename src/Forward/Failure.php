@@ -63,7 +63,7 @@ class Failure implements CreatableInterface, FailureInterface
      */
     protected function backtrace(EnumerableInterface $backtrace): EnumerableInterface
     {
-        return $backtrace->skip(10);
+        return $backtrace->skip(11);
     }
 
     /**

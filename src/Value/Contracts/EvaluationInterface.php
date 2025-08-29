@@ -12,7 +12,7 @@ interface EvaluationInterface extends EvaluableInterface
     /**
      * Evaluate the callable with variadic arguments and return the result.
      */
-    public function get(): mixed;
+    public function get(mixed ...$arguments): mixed;
 
     /**
      *  Evaluate the callable using the given array of arguments.

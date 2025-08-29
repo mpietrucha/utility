@@ -37,7 +37,11 @@ class Result implements CreatableInterface, ResultInterface
      */
     public function __call(string $method, array $arguments): mixed
     {
-        return $this->forward(Normalizer::class)->get($method, $this->value());
+        $forward = Normalizer::class |> $this->forward(...);
+
+        $value = $this->value();
+
+        return $forward->get($method, $value);
     }
 
     /**
