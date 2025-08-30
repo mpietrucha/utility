@@ -14,7 +14,7 @@ class Snapshot extends None
      */
     protected static ?Collection $handlers = null;
 
-    public static function handler(SnapshotInterface $handler, int $index = 0): void
+    public static function use(SnapshotInterface $handler, int $index = 0): void
     {
         static::handlers()->splice($index, 0, Arr::wrap($handler));
     }
