@@ -1,5 +1,15 @@
 services:
   -
+    class: Larastan\Larastan\Support\HigherOrderCollectionProxyHelper
+  -
+    class: Larastan\Larastan\Methods\HigherOrderCollectionProxyExtension
+    tags:
+        - phpstan.broker.methodsClassReflectionExtension
+  -
+    class: Larastan\Larastan\Properties\HigherOrderCollectionProxyPropertyExtension
+    tags:
+        - phpstan.broker.propertiesClassReflectionExtension
+  -
     class: Mpietrucha\PHPStan\Errors\CreatableExtension
     tags:
         - phpstan.ignoreErrorExtension
@@ -7,3 +17,10 @@ services:
     class: Mpietrucha\PHPStan\ReturnTypes\NormalizerExtension
     tags:
         - phpstan.broker.dynamicStaticMethodReturnTypeExtension
+parameters:
+    typeAliases:
+        RawBacktraceFrame: "array{function: string, line?: int, file?: string, class?: class-string, type?: '->'|'::', args?: array<string, mixed>, object?: object}"
+    stubFiles:
+        - phpstan/stubs/Arrayable.stub
+        - %currentWorkingDirectory%/vendor/larastan/larastan/stubs/common/Support/Str.stub
+        - phpstan/stubs/HigherOrderCollectionProxy.stub

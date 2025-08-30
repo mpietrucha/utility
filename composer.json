@@ -24,7 +24,7 @@
         "symfony/process": "^7.3"
     },
     "require-dev": {
-        "ergebnis/composer-normalize": "^2.47",
+        "ergebnis/composer-normalize": "dev-main",
         "larastan/larastan": "^3.4",
         "laravel/pint": "^1.22",
         "phpstan/phpstan": "^2.1",
@@ -35,12 +35,16 @@
     "autoload": {
         "psr-4": {
             "Mpietrucha\\Fork\\": "fork/src",
-            "Mpietrucha\\PHPStan\\": "phpstan/src",
             "Mpietrucha\\Utility\\": "src/"
         },
         "files": [
             "autoload.php"
         ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Mpietrucha\\PHPStan\\": "phpstan/src"
+        }
     },
     "config": {
         "allow-plugins": {

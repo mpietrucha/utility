@@ -1,16 +1,5 @@
 includes:
     - extension.neon
-services:
-    -
-        class: Larastan\Larastan\Support\HigherOrderCollectionProxyHelper
-    -
-        class: Larastan\Larastan\Methods\HigherOrderCollectionProxyExtension
-        tags:
-            - phpstan.broker.methodsClassReflectionExtension
-    -
-        class: Larastan\Larastan\Properties\HigherOrderCollectionProxyPropertyExtension
-        tags:
-            - phpstan.broker.propertiesClassReflectionExtension
 parameters:
     level: 8
     paths:
@@ -20,9 +9,3 @@ parameters:
         - identifier: "trait.unused"
         - identifier: "arguments.count"
         - identifier: "callable.nonNativeMethod"
-    typeAliases:
-        RawBacktraceFrame: "array{function: string, line?: int, file?: string, class?: class-string, type?: '->'|'::', args?: array<string, mixed>, object?: object}"
-    stubFiles:
-        - phpstan/stubs/Arrayable.stub
-        - vendor/larastan/larastan/stubs/common/Support/Str.stub
-        - phpstan/stubs/HigherOrderCollectionProxy.stub
