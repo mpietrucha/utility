@@ -17,6 +17,7 @@ use Mpietrucha\Utility\Hash;
 use Mpietrucha\Utility\Normalizer;
 use Mpietrucha\Utility\Type;
 use Mpietrucha\Utility\Value;
+use Traversable;
 
 /**
  * @template TKey of array-key
@@ -56,6 +57,14 @@ trait Enumerable
     public function toArray(): array
     {
         return parent::toArray();
+    }
+
+    /**
+     * @return \Traversable<TKey, TValue>
+     */
+    public function getIterator(): Traversable
+    {
+        return parent::getIterator();
     }
 
     public function toString(): string

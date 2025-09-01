@@ -4,6 +4,7 @@ namespace Mpietrucha\Utility\Concerns;
 
 use Mpietrucha\Utility\Collection;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
+use Traversable;
 
 trait Arrayable
 {
@@ -15,5 +16,10 @@ trait Arrayable
     public function toCollection(): EnumerableInterface
     {
         return $this->toArray() |> Collection::create(...);
+    }
+
+    public function getIterator(): Traversable
+    {
+        return $this->toCollection()->getIterator();
     }
 }

@@ -3,6 +3,7 @@
 namespace Mpietrucha\Utility\Contracts;
 
 use Illuminate\Contracts\Support\Arrayable;
+use IteratorAggregate;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 
 /**
@@ -10,9 +11,10 @@ use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
  *
  * @template-covariant TValue
  *
+ * @extends \IteratorAggregate<TKey, TValue>
  * @extends \Illuminate\Contracts\Support\Arrayable<TKey, TValue>
  */
-interface ArrayableInterface extends Arrayable
+interface ArrayableInterface extends Arrayable, IteratorAggregate
 {
     /**
      * Convert the instance to an array.
