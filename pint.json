@@ -8,5 +8,5 @@
             "spacing": "one"
         }
     },
-    "exclude": ["vendor", "src/Enumerable/Contracts/EnumerableInterface.php"]
+    "notPath": ["src/Enumerable/Contracts/EnumerableInterface.php"]
 }

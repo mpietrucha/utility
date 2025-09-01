@@ -1,6 +1,6 @@
 <?php
 
-namespace Mpietrucha\Fork;
+namespace Mpietrucha\Fork\Larastan;
 
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Fork\Contracts\BodyInterface;
@@ -12,11 +12,6 @@ class HigherOrderCollectionProxyHelper extends Transformer
     public function class(): string
     {
         return \Larastan\Larastan\Support\HigherOrderCollectionProxyHelper::class;
-    }
-
-    public function namespace(): string
-    {
-        return $this->class();
     }
 
     public function transform(BodyInterface $body): void

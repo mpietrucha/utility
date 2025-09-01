@@ -1,12 +1,12 @@
 services:
   -
-    class: Larastan\Larastan\Support\HigherOrderCollectionProxyHelper
+    class: Fork\Larastan\Larastan\Support\HigherOrderCollectionProxyHelper
   -
-    class: Larastan\Larastan\Methods\HigherOrderCollectionProxyExtension
+    class: Fork\Larastan\Larastan\Methods\HigherOrderCollectionProxyExtension
     tags:
         - phpstan.broker.methodsClassReflectionExtension
   -
-    class: Larastan\Larastan\Properties\HigherOrderCollectionProxyPropertyExtension
+    class: Fork\Larastan\Larastan\Properties\HigherOrderCollectionProxyPropertyExtension
     tags:
         - phpstan.broker.propertiesClassReflectionExtension
   -

@@ -12,7 +12,6 @@ use Mpietrucha\Utility\Contracts\PipeableInterface;
 use Mpietrucha\Utility\Contracts\StringableInterface;
 use Mpietrucha\Utility\Contracts\TappableInterface;
 use Mpietrucha\Utility\Enumerable\LazyCollection;
-use Mpietrucha\Utility\Enumerable\Normalizer;
 
 /**
  * @template TKey of array-key
@@ -49,25 +48,25 @@ use Mpietrucha\Utility\Enumerable\Normalizer;
  * @property-read \Illuminate\Support\HigherOrderCollectionProxy<'until', TValue, static> $until
  * @property-read \Illuminate\Support\HigherOrderCollectionProxy<'firstMap', TValue, static> $firstMap
  */
-interface EnumerableInterface extends Countable, StringableInterface, ArrayableInterface, CreatableInterface, PipeableInterface, TappableInterface, ConditionableInterface, Enumerable
+ interface EnumerableInterface extends Countable, StringableInterface, ArrayableInterface, CreatableInterface, PipeableInterface, TappableInterface, ConditionableInterface, Enumerable
 {
     public static function from(mixed ...$items): static;
 
     public static function bind(mixed $value): static;
 
     /**
-    * @return array<TKey, TValue>
-    */
+     * @return array<TKey, TValue>
+     */
     public function all(): array;
 
     /**
-    * @return \Mpietrucha\Utility\Collection<TKey, TValue>
-    */
+     * @return \Mpietrucha\Utility\Collection<TKey, TValue>
+     */
     public function collect(): Collection;
 
     /**
-    * @return \Mpietrucha\Utility\Enumerable\LazyCollection<TKey, TValue>
-    */
+     * @return \Mpietrucha\Utility\Enumerable\LazyCollection<TKey, TValue>
+     */
     public function lazy(): LazyCollection;
 
     public function hash(?string $algorithm = null): string;

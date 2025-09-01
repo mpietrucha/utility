@@ -14,6 +14,7 @@
         "php": "^8.5",
         "illuminate/filesystem": "^12.18",
         "illuminate/support": "^12.12",
+        "larastan/larastan": "^3.4",
         "laravel/serializable-closure": "^2.0",
         "nunomaduro/collision": "^8.8",
         "nyholm/psr7": "^1.8",
@@ -25,7 +26,6 @@
     },
     "require-dev": {
         "ergebnis/composer-normalize": "dev-main",
-        "larastan/larastan": "^3.4",
         "laravel/pint": "^1.22",
         "phpstan/phpstan": "^2.1",
         "symfony/var-dumper": "^7.2"
@@ -35,16 +35,12 @@
     "autoload": {
         "psr-4": {
             "Mpietrucha\\Fork\\": "fork/src",
+            "Mpietrucha\\PHPStan\\": "phpstan/src",
             "Mpietrucha\\Utility\\": "src/"
         },
         "files": [
             "autoload.php"
         ]
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Mpietrucha\\PHPStan\\": "phpstan/src"
-        }
     },
     "config": {
         "allow-plugins": {
