@@ -45,9 +45,7 @@ class Stringable extends \Illuminate\Support\Stringable implements Conditionable
 
     public function hash(?string $algorithm = null): static
     {
-        $algorithm ??= Hash::default();
-
-        return parent::hash($algorithm);
+        return Hash::algorithm($algorithm) |> parent::hash(...);
     }
 
     /**

@@ -54,6 +54,8 @@ use Mpietrucha\Utility\Enumerable\LazyCollection;
 
     public static function bind(mixed $value): static;
 
+    public static function sequence(int $number, mixed $value = null): static;
+
     /**
      * @return array<TKey, TValue>
      */

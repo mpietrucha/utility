@@ -15,7 +15,9 @@ abstract class Type implements TypeInterface
      */
     public static function not(): ContextInterface
     {
-        return Context::not(static::class, Context::deny('get'));
+        return Context::not(static::class, Context::deny([
+            'get',
+        ]));
     }
 
     /**

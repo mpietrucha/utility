@@ -29,7 +29,7 @@ use Traversable;
 trait Enumerable
 {
     use Arrayable, Conditionable, Creatable, Pipeable, Stringable, Tappable, Wrappable {
-        wrap as bind;
+        Wrappable::wrap as bind;
     }
 
     /**
@@ -49,6 +49,11 @@ trait Enumerable
     public static function from(mixed ...$items): static
     {
         return static::create($items);
+    }
+
+    public static function sequence(int $number, mixed $value = null): static
+    {
+        return static::times($number, Value::for($value));
     }
 
     /**
@@ -95,9 +100,7 @@ trait Enumerable
 
     public function hash(?string $algorithm = null): string
     {
-        $algorithm ??= Hash::default();
-
-        return $this->toString() |> Hash::$algorithm(...);
+        return $this->toString() |> Hash::bind($algorithm);
     }
 
     public function whereNot(callable|string $key, mixed $operator = null, mixed $value = null): static

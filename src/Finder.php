@@ -15,6 +15,7 @@ use Mpietrucha\Utility\Finder\Contracts\FinderInterface;
 use Mpietrucha\Utility\Finder\Contracts\IdentifierInterface;
 use Mpietrucha\Utility\Finder\Identifier;
 use Mpietrucha\Utility\Finder\Loop;
+use Mpietrucha\Utility\Finder\Reflection;
 use Mpietrucha\Utility\Forward\Concerns\Forwardable;
 use Symfony\Component\Finder\Finder as Adapter;
 
@@ -60,6 +61,11 @@ class Finder implements CreatableInterface, FinderInterface
         protected ?CacheInterface $cache = null,
         protected ?IdentifierInterface $identifier = null,
     ) {
+        Type::string($input) && $this->in($input);
+
+        Reflection::refresh($adapter);
+
+        $this->adapter()->ignoreUnreadableDirs();
     }
 
     /**
@@ -88,7 +94,7 @@ class Finder implements CreatableInterface, FinderInterface
 
     public function adapter(): Adapter
     {
-        return $this->adapter ??= Adapter::create()->ignoreUnreadableDirs();
+        return $this->adapter ??= Adapter::create();
     }
 
     public function cache(): CacheInterface
@@ -120,7 +126,7 @@ class Finder implements CreatableInterface, FinderInterface
     }
 
     /**
-     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Filesystem\Contracts\ElementInterface>
+     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Filesystem\Contracts\RecordInterface>
      */
     protected function run(): EnumerableInterface
     {

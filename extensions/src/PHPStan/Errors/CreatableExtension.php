@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Mpietrucha\PHPStan\Errors;
+namespace Mpietrucha\Extensions\PHPStan\Errors;
 
 use Mpietrucha\Utility\Filesystem;
 use Mpietrucha\Utility\Str;

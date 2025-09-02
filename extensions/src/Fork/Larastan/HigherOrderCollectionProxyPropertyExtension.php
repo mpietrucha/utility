@@ -1,6 +1,6 @@
 <?php
 
-namespace Mpietrucha\Fork\Larastan;
+namespace Mpietrucha\Extensions\Fork\Larastan;
 
 class HigherOrderCollectionProxyPropertyExtension extends HigherOrderCollectionProxyExtension
 {

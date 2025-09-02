@@ -25,12 +25,12 @@ interface LoopInterface
 
     /**
      * @param  \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Symfony\Component\Finder\SplFileInfo>  $files
-     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Filesystem\Contracts\ElementInterface>
+     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Filesystem\Contracts\RecordInterface>
      */
     public static function response(EnumerableInterface $files): EnumerableInterface;
 
     /**
-     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Filesystem\Contracts\ElementInterface>
+     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Filesystem\Contracts\RecordInterface>
      */
     public static function run(Adapter $adapter, string $input, ?int $altitude): EnumerableInterface;
 }

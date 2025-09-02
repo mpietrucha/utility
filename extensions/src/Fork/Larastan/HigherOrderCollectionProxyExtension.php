@@ -1,9 +1,11 @@
 <?php
 
-namespace Mpietrucha\Fork\Larastan;
+namespace Mpietrucha\Extensions\Fork\Larastan;
 
+use Fork\Larastan\Larastan\Support\HigherOrderCollectionProxyHelper;
 use Mpietrucha\Utility\Fork\Contracts\BodyInterface;
 use Mpietrucha\Utility\Fork\Transformer;
+use Mpietrucha\Utility\Str;
 
 class HigherOrderCollectionProxyExtension extends Transformer
 {
@@ -14,6 +16,6 @@ class HigherOrderCollectionProxyExtension extends Transformer
 
     public function transform(BodyInterface $body): void
     {
-        $body->line(8)->set('use Fork\Larastan\Larastan\Support\HigherOrderCollectionProxyHelper;');
+        Str::sprintf('use %s;', HigherOrderCollectionProxyHelper::class) |> $body->line(8)->set(...);
     }
 }

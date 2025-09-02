@@ -105,9 +105,7 @@ abstract class Instance
      */
     public static function hash(object $instance, ?string $algorithm = null, ?callable $serialize = null): string
     {
-        $algorithm ??= Hash::default();
-
-        return static::serialize($instance, $serialize) |> Hash::$algorithm(...);
+        return static::serialize($instance, $serialize) |> Hash::bind($algorithm);
     }
 
     public static function alias(object|string $class, string $alias): ?string

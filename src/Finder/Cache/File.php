@@ -55,7 +55,7 @@ class File extends None
             fn (EnumerableInterface $response) => $response->mapToStringables(),
             fn (EnumerableInterface $response) => Str::tab() |> $response->map->explode(...),
             fn (EnumerableInterface $response) => Normalizer::string(0) |> $response->keyBy(...),
-            fn (EnumerableInterface $response) => Filesystem\Element::create(...) |> $response->mapSpread(...),
+            fn (EnumerableInterface $response) => Filesystem\Record::create(...) |> $response->mapSpread(...),
         ]);
     }
 

@@ -14,9 +14,7 @@ class Loop implements LoopInterface
 
     final public static function run(Adapter $adapter, string $input, ?int $altitude): EnumerableInterface
     {
-        $files = static::files();
-
-        $adapter = static::adapter($adapter);
+        [$files, $adapter] = [static::files(), static::adapter($adapter)];
 
         while ($input |> static::available(...)) {
             $files = static::adapter($adapter)->in($input) |> static::files(...) |> $files->merge(...);

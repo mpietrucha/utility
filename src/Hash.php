@@ -66,6 +66,10 @@ namespace Mpietrucha\Utility;
  */
 abstract class Hash
 {
+    public const string DEFAULT = 'md5';
+
+    protected static ?string $algorithm = null;
+
     /**
      * @param  array{0: string}  $arguments
      */
@@ -78,8 +82,18 @@ abstract class Hash
         return Value::for($handler)->get($method, ...$arguments);
     }
 
-    final public static function default(): string
+    public static function default(string $algorithm): void
     {
-        return 'md5';
+        static::$algorithm = $algorithm;
+    }
+
+    public static function algorithm(?string $algorithm = null): string
+    {
+        return $algorithm ?? static::$algorithm ?? static::DEFAULT;
+    }
+
+    public static function bind(?string $algorithm = null): callable
+    {
+        return static::{static::algorithm($algorithm)}(...);
     }
 }

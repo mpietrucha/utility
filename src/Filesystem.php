@@ -85,7 +85,7 @@ abstract class Filesystem
 
     public static function hash(string $path, ?string $algorithm = null): ?string
     {
-        $algorithm ??= Hash::default();
+        $algorithm = Hash::algorithm($algorithm);
 
         return static::adapter()->hash($path, $algorithm) ?: null;
     }

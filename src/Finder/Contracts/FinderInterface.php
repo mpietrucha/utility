@@ -21,7 +21,7 @@ interface FinderInterface extends Countable
     public function identifier(): IdentifierInterface;
 
     /**
-     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Filesystem\Contracts\ElementInterface>
+     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Filesystem\Contracts\RecordInterface>
      */
     public function get(): EnumerableInterface;
 }

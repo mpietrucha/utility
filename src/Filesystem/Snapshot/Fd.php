@@ -24,9 +24,7 @@ class Fd extends None
             return null;
         }
 
-        $algorithm ??= Hash::default();
-
-        return $process->getOutput() |> Hash::$algorithm(...);
+        return $process->getOutput() |> Hash::bind($algorithm);
     }
 
     protected function command(string $input): string

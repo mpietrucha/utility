@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Mpietrucha\PHPStan\ReturnTypes;
+namespace Mpietrucha\Extensions\PHPStan\ReturnTypes;
 
 use Mpietrucha\Utility\Arr;
 use Mpietrucha\Utility\Collection;

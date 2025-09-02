@@ -1,10 +1,12 @@
 <?php
 
+use Mpietrucha\Extensions\Fork\Larastan;
+use Mpietrucha\Extensions\Fork\Stream;
 use Mpietrucha\Utility\Fork;
 
 Fork::create()->load([
-    \Mpietrucha\Fork\Stream::create(),
-    \Mpietrucha\Fork\Larastan\HigherOrderCollectionProxyHelper::create(),
-    \Mpietrucha\Fork\Larastan\HigherOrderCollectionProxyExtension::create(),
-    \Mpietrucha\Fork\Larastan\HigherOrderCollectionProxyPropertyExtension::create(),
+    Stream::create(),
+    Larastan\HigherOrderCollectionProxyHelper::create(),
+    Larastan\HigherOrderCollectionProxyExtension::create(),
+    Larastan\HigherOrderCollectionProxyPropertyExtension::create(),
 ]);

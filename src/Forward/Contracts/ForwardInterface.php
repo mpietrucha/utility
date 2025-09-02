@@ -62,4 +62,9 @@ interface ForwardInterface
      * @param  array<int|string, mixed>  $arguments
      */
     public function guess(string $method, array $arguments, callable $source): mixed;
+
+    /**
+     * @param  array<int|string, mixed>  $arguments
+     */
+    public function compose(string $method, mixed $argument, array $arguments): mixed;
 }

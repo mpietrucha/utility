@@ -5,7 +5,7 @@ namespace Mpietrucha\Utility\Filesystem\Snapshot;
 use Mpietrucha\Utility\Arr;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Filesystem;
-use Mpietrucha\Utility\Filesystem\Element;
+use Mpietrucha\Utility\Filesystem\Record;
 use Mpietrucha\Utility\Finder as Adapter;
 
 class Finder extends None
@@ -21,14 +21,14 @@ class Finder extends None
         }
 
         return $this->directories($input)->pipeThrough([
-            fn (EnumerableInterface $directories) => Element::create($input) |> Arr::wrap(...) |> $directories->merge(...),
+            fn (EnumerableInterface $directories) => Record::create($input) |> Arr::wrap(...) |> $directories->merge(...),
             fn (EnumerableInterface $directories) => $directories->map->lastModified(),
             fn (EnumerableInterface $directories) => $directories->hash($algorithm),
         ]);
     }
 
     /**
-     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Filesystem\Contracts\ElementInterface>
+     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Filesystem\Contracts\RecordInterface>
      */
     protected function directories(string $input): EnumerableInterface
     {

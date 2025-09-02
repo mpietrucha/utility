@@ -135,6 +135,13 @@ class Forward implements ForwardInterface, WrappableInterface
         return $this->eval($method, $arguments);
     }
 
+    public function compose(string $method, mixed $argument, array $arguments): mixed
+    {
+        $arguments = Arr::prepend($argument, $arguments);
+
+        return $this->eval($method, $arguments);
+    }
+
     /**
      * Pass a failed Result to the failure handler for processing.
      */

@@ -8,6 +8,6 @@ use Mpietrucha\Utility\Contracts\StringableInterface;
 /**
  * @extends \Mpietrucha\Utility\Contracts\ArrayableInterface<int, string>
  */
-interface ElementInterface extends ArrayableInterface, StringableInterface
+interface RecordInterface extends ArrayableInterface, StringableInterface
 {
 }

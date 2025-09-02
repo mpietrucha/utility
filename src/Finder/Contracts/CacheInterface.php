@@ -9,7 +9,7 @@ interface CacheInterface
     public function flush(): void;
 
     /**
-     * @phpstan-assert-if-true \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Filesystem\Contracts\ElementInterface> $this->get()
+     * @phpstan-assert-if-true \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Filesystem\Contracts\RecordInterface> $this->get()
      *
      * @phpstan-assert-if-false null $this->get()
      */
@@ -18,7 +18,7 @@ interface CacheInterface
     /**
      * @phpstan-assert-if-true null $this->get()
      *
-     * @phpstan-assert-if-false \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Filesystem\Contracts\ElementInterface> $this->get()
+     * @phpstan-assert-if-false \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Filesystem\Contracts\RecordInterface> $this->get()
      */
     public function unexists(string $identity): bool;
 
@@ -27,12 +27,12 @@ interface CacheInterface
     public function validate(string $identity, string $summit): void;
 
     /**
-     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Filesystem\Contracts\ElementInterface>|null
+     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Filesystem\Contracts\RecordInterface>|null
      */
     public function get(string $identity): ?EnumerableInterface;
 
     /**
-     * @param  \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Filesystem\Contracts\ElementInterface>  $response
+     * @param  \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Filesystem\Contracts\RecordInterface>  $response
      */
     public function set(string $identity, EnumerableInterface $response): void;
 }

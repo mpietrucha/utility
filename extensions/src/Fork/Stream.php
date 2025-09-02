@@ -1,6 +1,6 @@
 <?php
 
-namespace Mpietrucha\Fork;
+namespace Mpietrucha\Extensions\Fork;
 
 use Mpietrucha\Utility\Fork\Contracts\BodyInterface;
 use Mpietrucha\Utility\Fork\Contracts\SectionInterface;
@@ -23,17 +23,17 @@ class Stream extends Transformer
 
         $body->line(77)->replace('create', 'build');
 
-        $body->line(77)->replace(': StreamInterface', ': static');
+        $body->line(77)->replace('StreamInterface', 'static');
 
         $body->line(95) |> $this->exception(...);
 
-        $body->line(98)->replace('new self', 'new static');
+        $body->line(98)->replace('self', 'static');
 
         $body->line(133)->replace('private', 'protected');
     }
 
     protected function exception(SectionInterface $section): void
     {
-        $section->replace('Stream::', "' . static::class . '::");
+        $section->replace('Stream', "' . static::class . '");
     }
 }

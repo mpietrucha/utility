@@ -10,17 +10,21 @@ services:
     tags:
         - phpstan.broker.propertiesClassReflectionExtension
   -
-    class: Mpietrucha\PHPStan\Errors\CreatableExtension
+    class: Mpietrucha\Extensions\PHPStan\Errors\CreatableExtension
     tags:
         - phpstan.ignoreErrorExtension
   -
-    class: Mpietrucha\PHPStan\ReturnTypes\NormalizerExtension
+    class: Mpietrucha\Extensions\PHPStan\ReturnTypes\NormalizerExtension
     tags:
         - phpstan.broker.dynamicStaticMethodReturnTypeExtension
+  -
+    class: Mpietrucha\Extensions\PHPStan\Stubs\InternalExtension
+    tags:
+        - phpstan.stubFilesExtension
+  -
+    class: Mpietrucha\Extensions\PHPStan\Stubs\ExternalExtension
+    tags:
+        - phpstan.stubFilesExtension
 parameters:
     typeAliases:
         RawBacktraceFrame: "array{function: string, line?: int, file?: string, class?: class-string, type?: '->'|'::', args?: array<string, mixed>, object?: object}"
-    stubFiles:
-        - phpstan/stubs/Arrayable.stub
-        - %currentWorkingDirectory%/vendor/larastan/larastan/stubs/common/Support/Str.stub
-        - phpstan/stubs/HigherOrderCollectionProxy.stub

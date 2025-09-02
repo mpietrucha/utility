@@ -1,6 +1,6 @@
 <?php
 
-namespace Mpietrucha\Fork\Larastan;
+namespace Mpietrucha\Extensions\Fork\Larastan;
 
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Fork\Contracts\BodyInterface;
