@@ -3,7 +3,7 @@
 namespace Mpietrucha\Utility\Finder\Concerns;
 
 use Mpietrucha\Utility\Filesystem\Path;
-use Mpietrucha\Utility\Throwable\RuntimeException;
+use Mpietrucha\Utility\Finder\Exception\InputAppendNotAllowedException;
 
 trait InteractsWithFinder
 {
@@ -16,9 +16,7 @@ trait InteractsWithFinder
 
     public function append(): static
     {
-        RuntimeException::create()
-            ->message('%s::append() is not supported', static::class)
-            ->throw();
+        InputAppendNotAllowedException::build($this)->throw();
     }
 
     public function climb(int $altitude = PHP_INT_MAX): static

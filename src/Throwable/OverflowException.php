@@ -2,15 +2,10 @@
 
 namespace Mpietrucha\Utility\Throwable;
 
-use Mpietrucha\Utility\Throwable;
+use Mpietrucha\Utility\Throwable\Concerns\Throwable;
+use Mpietrucha\Utility\Throwable\Contracts\ThrowableInterface;
 
-class OverflowException extends Throwable
+class OverflowException extends \OverflowException implements ThrowableInterface
 {
-    /**
-     * Create a wrapped OverflowException instance.
-     */
-    final protected function __construct(\OverflowException $throwable = new \OverflowException)
-    {
-        parent::__construct($throwable);
-    }
+    use Throwable;
 }

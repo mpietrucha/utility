@@ -2,29 +2,11 @@
 
 namespace Mpietrucha\Utility;
 
-use Mpietrucha\Utility\Throwable\Contracts\ThrowableInterface;
 use Mpietrucha\Utility\Throwable\Reflection;
-use Mpietrucha\Utility\Value\Result;
+use Mpietrucha\Utility\Throwable\Concerns\InteractsWithThrowable;
+use Mpietrucha\Utility\Throwable\Contracts\InteractsWithThrowableInterface;
 
-class Throwable extends Reflection implements ThrowableInterface
+class Throwable extends Reflection implements InteractsWithThrowableInterface
 {
-    /**
-     * Throw the underhood throwable
-     *
-     * @throws \Throwable
-     */
-    public function throw(): never
-    {
-        $this->notify();
-
-        throw $this->value();
-    }
-
-    /**
-     * Notify custom listeners about the current throwable
-     */
-    protected function notify(): void
-    {
-        Result::previous($this);
-    }
+    use InteractsWithThrowable;
 }

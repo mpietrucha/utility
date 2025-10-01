@@ -105,8 +105,8 @@ class Methods implements CreatableInterface, MethodsInterface
         }
 
         RuntimeException::create()
-            ->configure(4)
-            ->message('Method `%s` is not allowed in context of %s::class', $method, $instance)
+            ->align(3)
+            ->message('Call to %s::%s() method is prohibited', $instance, $method)
             ->throw();
     }
 }

@@ -2,15 +2,10 @@
 
 namespace Mpietrucha\Utility\Throwable;
 
-use Mpietrucha\Utility\Throwable;
+use Mpietrucha\Utility\Throwable\Concerns\Throwable;
+use Mpietrucha\Utility\Throwable\Contracts\ThrowableInterface;
 
-class Exception extends Throwable
+class Exception extends \Exception implements ThrowableInterface
 {
-    /**
-     * Create a wrapped Exception instance.
-     */
-    final protected function __construct(\Exception $throwable = new \Exception)
-    {
-        parent::__construct($throwable);
-    }
+    use Throwable;
 }

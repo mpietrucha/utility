@@ -2,6 +2,8 @@
 
 namespace Mpietrucha\Utility;
 
+use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
+
 abstract class Instance
 {
     /**
@@ -121,5 +123,15 @@ abstract class Instance
         }
 
         return static::file($class);
+    }
+
+    /**
+     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, class-string>
+     */
+    public static function parents(object|string $instance): EnumerableInterface
+    {
+        $parents = @class_parents($instance) |> Collection::create(...);
+
+        return $parents->filter()->values();
     }
 }

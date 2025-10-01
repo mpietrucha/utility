@@ -8,7 +8,7 @@ use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Forward\Concerns\Forwardable;
 use Mpietrucha\Utility\Instance;
 use Mpietrucha\Utility\Normalizer;
-use Mpietrucha\Utility\Throwable\Contracts\ThrowableInterface;
+use Mpietrucha\Utility\Throwable\Contracts\InteractsWithThrowableInterface;
 use Mpietrucha\Utility\Type;
 use Mpietrucha\Utility\Value\Contracts\ResultInterface;
 use Throwable;
@@ -20,16 +20,13 @@ class Result implements CreatableInterface, ResultInterface
 {
     use Creatable, Forwardable;
 
-    protected ?ThrowableInterface $throwable = null;
-
-    protected static ?ThrowableInterface $previous = null;
+    protected ?InteractsWithThrowableInterface $throwable = null;
 
     /**
-     * Create a new result instance from the given value and optional failure.
+     * Create a new result instance from the given value and optional error.
      */
-    public function __construct(protected mixed $value, protected ?Throwable $failure)
+    public function __construct(protected mixed $value, protected ?Throwable $error)
     {
-        $this->throwable = static::utilize($failure);
     }
 
     /**
@@ -45,14 +42,6 @@ class Result implements CreatableInterface, ResultInterface
     }
 
     /**
-     * Store the last processed throwable for later association.
-     */
-    public static function previous(ThrowableInterface $previous): void
-    {
-        static::$previous = $previous;
-    }
-
-    /**
      * Get the raw value returned by the evaluation.
      */
     public function value(): mixed
@@ -63,21 +52,21 @@ class Result implements CreatableInterface, ResultInterface
     /**
      * Get the original throwable captured during the evaluation, if any.
      */
-    public function failure(): ?Throwable
+    public function error(): ?Throwable
     {
-        return $this->failure;
+        return $this->error;
     }
 
     /**
      * Get (or build) the wrapped throwable representation, or null on success.
      */
-    public function throwable(): ?ThrowableInterface
+    public function throwable(): ?InteractsWithThrowableInterface
     {
         if ($this->succeeded()) {
             return null;
         }
 
-        return $this->throwable ??= $this->failure() |> Utility\Throwable::create(...);
+        return $this->throwable ??= $this->error() |> Utility\Throwable::wrap(...);
     }
 
     /**
@@ -85,7 +74,7 @@ class Result implements CreatableInterface, ResultInterface
      */
     public function succeeded(): bool
     {
-        return $this->failure() |> Type::null(...);
+        return $this->error() |> Type::null(...);
     }
 
     /**
@@ -97,7 +86,7 @@ class Result implements CreatableInterface, ResultInterface
     }
 
     /**
-     * Check if the captured failure matches the given throwable type.
+     * Check if the captured error matches the given throwable type.
      */
     public function caught(object|string $throwable): bool
     {
@@ -105,18 +94,6 @@ class Result implements CreatableInterface, ResultInterface
             return false;
         }
 
-        return Instance::is($this->failure(), $throwable) || Instance::is($this->throwable(), $throwable);
-    }
-
-    /**
-     * Associate the previously processed throwable with the current failure when identical.
-     */
-    protected static function utilize(?Throwable $failure): ?ThrowableInterface
-    {
-        $previous = static::$previous;
-
-        static::$previous = null;
-
-        return $previous?->value() === $failure ? $previous : null;
+        return Instance::is($this->throwable()->value(), $throwable);
     }
 }

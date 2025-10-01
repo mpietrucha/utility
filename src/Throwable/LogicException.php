@@ -2,15 +2,10 @@
 
 namespace Mpietrucha\Utility\Throwable;
 
-use Mpietrucha\Utility\Throwable;
+use Mpietrucha\Utility\Throwable\Concerns\Throwable;
+use Mpietrucha\Utility\Throwable\Contracts\ThrowableInterface;
 
-class LogicException extends Throwable
+class LogicException extends \LogicException implements ThrowableInterface
 {
-    /**
-     * Create a wrapped LogicException instance.
-     */
-    final protected function __construct(\LogicException $throwable = new \LogicException)
-    {
-        parent::__construct($throwable);
-    }
+    use Throwable;
 }

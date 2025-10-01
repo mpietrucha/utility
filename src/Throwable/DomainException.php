@@ -2,15 +2,10 @@
 
 namespace Mpietrucha\Utility\Throwable;
 
-use Mpietrucha\Utility\Throwable;
+use Mpietrucha\Utility\Throwable\Concerns\Throwable;
+use Mpietrucha\Utility\Throwable\Contracts\ThrowableInterface;
 
-class DomainException extends Throwable
+class DomainException extends \DomainException implements ThrowableInterface
 {
-    /**
-     * Create a wrapped DomainException instance.
-     */
-    final protected function __construct(\DomainException $throwable = new \DomainException)
-    {
-        parent::__construct($throwable);
-    }
+    use Throwable;
 }

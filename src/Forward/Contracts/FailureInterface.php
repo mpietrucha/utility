@@ -2,7 +2,7 @@
 
 namespace Mpietrucha\Utility\Forward\Contracts;
 
-use Mpietrucha\Utility\Throwable\Contracts\ThrowableInterface;
+use Mpietrucha\Utility\Throwable\Contracts\InteractsWithThrowableInterface;
 
 interface FailureInterface
 {
@@ -14,5 +14,5 @@ interface FailureInterface
     /**
      * Handle a throwable that occurred when forwarding a call to the given method.
      */
-    public function handle(ThrowableInterface $throwable, string $method): void;
+    public function handle(InteractsWithThrowableInterface $throwable, string $method): void;
 }

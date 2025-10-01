@@ -1,0 +1,156 @@
+<?php
+
+namespace Mpietrucha\Utility\Throwable\Concerns;
+
+use Mpietrucha\Utility\Backtrace;
+use Mpietrucha\Utility\Backtrace\Contracts\FrameInterface;
+use Mpietrucha\Utility\Concerns\Wrappable;
+use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
+use Mpietrucha\Utility\Normalizer;
+use Mpietrucha\Utility\Reflection as Adapter;
+use Mpietrucha\Utility\Str;
+use Mpietrucha\Utility\Throwable\Property;
+use Mpietrucha\Utility\Throwable\Synchronizer;
+use Throwable;
+
+trait InteractsWithReflection
+{
+    use Wrappable;
+
+    /**
+     * @var \Mpietrucha\Utility\Reflection<object>|null
+     */
+    protected ?Adapter $adapter = null;
+
+    /**
+     * @var \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface>|null
+     */
+    protected ?EnumerableInterface $backtrace = null;
+
+    public function __construct(protected Throwable $throwable)
+    {
+    }
+
+    /**
+     * Populate the reflected file and line from the given stack frame.
+     */
+    public function synchronize(FrameInterface $frame): static
+    {
+        Synchronizer::each($frame, $this->set(...));
+
+        return $this;
+    }
+
+    /**
+     * Override the throwable's error code.
+     */
+    public function code(int $code): static
+    {
+        return $this->set(Property::CODE, $code);
+    }
+
+    /**
+     * Override the throwable's source line number.
+     */
+    public function line(int $line): static
+    {
+        return $this->set(Property::LINE, $line);
+    }
+
+    /**
+     * Override the throwable's source file path.
+     */
+    public function file(string $file): static
+    {
+        return $this->set(Property::FILE, $file);
+    }
+
+    /**
+     * Replace the throwable's stack trace with the given trace array.
+     */
+    public function trace(iterable $backtrace): static
+    {
+        return $this->reset(Property::TRACE, Normalizer::array($backtrace));
+    }
+
+    /**
+     * Format and set a new exception message.
+     */
+    public function message(string $message, mixed ...$arguments): static
+    {
+        return $this->set(Property::MESSAGE, Str::sprintf($message, ...$arguments));
+    }
+
+    /**
+     * Set the previous throwable in the exception chain.
+     */
+    public function previous(?Throwable $previous): static
+    {
+        return $this->set(Property::PREVIOUS, $previous);
+    }
+
+    public function skip(int $frames = 1): static
+    {
+        return $this->backtrace()->skip($frames) |> $this->trace(...);
+    }
+
+    public function align(int $frames = 1): static
+    {
+        $this->backtrace()->last() |> $this->synchronize(...);
+
+        $this->skip($frames);
+
+        if ($this->backtrace()->isEmpty()) {
+            return $this;
+        }
+
+        return $this->backtrace()->first() |> $this->synchronize(...);
+    }
+
+    /**
+     * Get the underlying throwable instance.
+     */
+    public function value(): Throwable
+    {
+        return $this->throwable;
+    }
+
+    /**
+     * Lazily build and return the throwable's backtrace frames.
+     *
+     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface>
+     */
+    public function backtrace(): EnumerableInterface
+    {
+        return $this->backtrace ??= Backtrace::throwable($this);
+    }
+
+    /**
+     * Write a raw property value directly onto the underlying throwable.
+     */
+    protected function set(Property $property, mixed $value): static
+    {
+        $property = $property->value |> $this->adapter()->getProperty(...);
+
+        $property->setValue($this->value(), $value);
+
+        return $this;
+    }
+
+    protected function reset(Property $property, mixed $value): static
+    {
+        $this->backtrace = null;
+
+        return $this->set($property, $value);
+    }
+
+    /**
+     * Get a cached reflection adapter for the underlying throwable class.
+     *
+     * @return \Mpietrucha\Utility\Reflection<object>
+     */
+    protected function adapter(): Adapter
+    {
+        return $this->adapter ??= $this->value() |> Adapter::deep(...);
+    }
+}

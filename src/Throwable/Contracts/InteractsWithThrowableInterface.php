@@ -2,12 +2,10 @@
 
 namespace Mpietrucha\Utility\Throwable\Contracts;
 
-use Throwable;
-
-interface InteractsWithThrowableInterface
+interface InteractsWithThrowableInterface extends ReflectionInterface
 {
     /**
-     * Get the underlying throwable instance.
+     * Throw the underlying throwable after applying any configured modifications.
      */
-    public function value(): Throwable;
+    public function throw(): never;
 }

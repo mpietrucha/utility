@@ -19,6 +19,11 @@ class Snapshot extends None
         static::handlers()->splice($index, 0, Arr::wrap($handler));
     }
 
+    public static function flush(): void
+    {
+        static::$handlers = null;
+    }
+
     public function get(string $input, ?string $algorithm = null): ?string
     {
         return static::handlers()->firstMap->get($input, $algorithm);

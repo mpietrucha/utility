@@ -43,7 +43,7 @@ abstract class Normalizer
      */
     public static function collection(mixed $value): Collection
     {
-        return Collection::create($value);
+        return Collection::wrap($value);
     }
 
     /**

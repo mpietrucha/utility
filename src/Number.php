@@ -10,6 +10,7 @@ abstract class Number extends \Illuminate\Support\Number
             return $value;
         }
 
+        /** @phpstan-ignore-next-line */
         return static::parseInt(Normalizer::string($value), $locale);
     }
 
@@ -19,6 +20,7 @@ abstract class Number extends \Illuminate\Support\Number
             return $value;
         }
 
+        /** @phpstan-ignore-next-line */
         return static::parseFloat(Normalizer::string($value), $locale);
     }
 }

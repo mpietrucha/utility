@@ -2,15 +2,10 @@
 
 namespace Mpietrucha\Utility\Throwable;
 
-use Mpietrucha\Utility\Throwable;
+use Mpietrucha\Utility\Throwable\Concerns\Throwable;
+use Mpietrucha\Utility\Throwable\Contracts\ThrowableInterface;
 
-class RuntimeException extends Throwable
+class RuntimeException extends \RuntimeException implements ThrowableInterface
 {
-    /**
-     * Create a wrapped RuntimeException instance.
-     */
-    final protected function __construct(\RuntimeException $throwable = new \RuntimeException)
-    {
-        parent::__construct($throwable);
-    }
+    use Throwable;
 }

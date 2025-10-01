@@ -2,15 +2,10 @@
 
 namespace Mpietrucha\Utility\Throwable;
 
-use Mpietrucha\Utility\Throwable;
+use Mpietrucha\Utility\Throwable\Concerns\Throwable;
+use Mpietrucha\Utility\Throwable\Contracts\ThrowableInterface;
 
-class LengthException extends Throwable
+class LengthException extends \LengthException implements ThrowableInterface
 {
-    /**
-     * Create a wrapped LengthException instance.
-     */
-    final protected function __construct(\LengthException $throwable = new \LengthException)
-    {
-        parent::__construct($throwable);
-    }
+    use Throwable;
 }

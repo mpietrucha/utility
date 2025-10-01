@@ -2,15 +2,10 @@
 
 namespace Mpietrucha\Utility\Throwable;
 
-use Mpietrucha\Utility\Throwable;
+use Mpietrucha\Utility\Throwable\Concerns\Throwable;
+use Mpietrucha\Utility\Throwable\Contracts\ThrowableInterface;
 
-class OutOfRangeException extends Throwable
+class OutOfRangeException extends \OutOfRangeException implements ThrowableInterface
 {
-    /**
-     * Create a wrapped OutOfRangeException instance.
-     */
-    final protected function __construct(\OutOfRangeException $throwable = new \OutOfRangeException)
-    {
-        parent::__construct($throwable);
-    }
+    use Throwable;
 }

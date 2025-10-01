@@ -2,15 +2,10 @@
 
 namespace Mpietrucha\Utility\Throwable;
 
-use Mpietrucha\Utility\Throwable;
+use Mpietrucha\Utility\Throwable\Concerns\Throwable;
+use Mpietrucha\Utility\Throwable\Contracts\ThrowableInterface;
 
-class UnderflowException extends Throwable
+class UnderflowException extends \UnderflowException implements ThrowableInterface
 {
-    /**
-     * Create a wrapped UnderflowException instance.
-     */
-    final protected function __construct(\UnderflowException $throwable = new \UnderflowException)
-    {
-        parent::__construct($throwable);
-    }
+    use Throwable;
 }

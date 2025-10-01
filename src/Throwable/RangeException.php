@@ -2,15 +2,10 @@
 
 namespace Mpietrucha\Utility\Throwable;
 
-use Mpietrucha\Utility\Throwable;
+use Mpietrucha\Utility\Throwable\Concerns\Throwable;
+use Mpietrucha\Utility\Throwable\Contracts\ThrowableInterface;
 
-class RangeException extends Throwable
+class RangeException extends \RangeException implements ThrowableInterface
 {
-    /**
-     * Create a wrapped RangeException instance.
-     */
-    final protected function __construct(\RangeException $throwable = new \RangeException)
-    {
-        parent::__construct($throwable);
-    }
+    use Throwable;
 }

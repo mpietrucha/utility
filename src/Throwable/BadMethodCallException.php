@@ -2,15 +2,10 @@
 
 namespace Mpietrucha\Utility\Throwable;
 
-use Mpietrucha\Utility\Throwable;
+use Mpietrucha\Utility\Throwable\Concerns\Throwable;
+use Mpietrucha\Utility\Throwable\Contracts\ThrowableInterface;
 
-class BadMethodCallException extends Throwable
+class BadMethodCallException extends \BadMethodCallException implements ThrowableInterface
 {
-    /**
-     * Create a wrapped BadMethodCallException instance.
-     */
-    final protected function __construct(\BadMethodCallException $throwable = new \BadMethodCallException)
-    {
-        parent::__construct($throwable);
-    }
+    use Throwable;
 }

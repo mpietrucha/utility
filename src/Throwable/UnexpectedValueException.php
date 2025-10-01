@@ -2,15 +2,10 @@
 
 namespace Mpietrucha\Utility\Throwable;
 
-use Mpietrucha\Utility\Throwable;
+use Mpietrucha\Utility\Throwable\Concerns\Throwable;
+use Mpietrucha\Utility\Throwable\Contracts\ThrowableInterface;
 
-class UnexpectedValueException extends Throwable
+class UnexpectedValueException extends \UnexpectedValueException implements ThrowableInterface
 {
-    /**
-     * Create a wrapped UnexpectedValueException instance.
-     */
-    final protected function __construct(\UnexpectedValueException $throwable = new \UnexpectedValueException)
-    {
-        parent::__construct($throwable);
-    }
+    use Throwable;
 }

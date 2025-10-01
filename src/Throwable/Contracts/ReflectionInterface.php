@@ -3,21 +3,16 @@
 namespace Mpietrucha\Utility\Throwable\Contracts;
 
 use Mpietrucha\Utility\Backtrace\Contracts\FrameInterface;
-use Mpietrucha\Utility\Contracts\CreatableInterface;
+use Mpietrucha\Utility\Contracts\WrappableInterface;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Throwable;
 
-interface ReflectionInterface extends CreatableInterface, InteractsWithThrowableInterface
+interface ReflectionInterface extends WrappableInterface
 {
-    /**
-     * Configure the throwable's metadata, including trace and frame.
-     */
-    public function configure(): static;
-
     /**
      * Apply file and line information from the given frame.
      */
-    public function frame(FrameInterface $frame): static;
+    public function synchronize(FrameInterface $frame): static;
 
     /**
      * Set a custom error code on the throwable.
@@ -36,13 +31,15 @@ interface ReflectionInterface extends CreatableInterface, InteractsWithThrowable
 
     /**
      * Replace the throwable's stack trace.
+     *
+     * @param  iterable<int, RawBacktraceFrame>  $backtrace
      */
-    public function trace(mixed $backtrace): static;
+    public function trace(iterable $backtrace): static;
 
     /**
      * Set a custom error message on the throwable.
      */
-    public function message(mixed $message): static;
+    public function message(string $message): static;
 
     /**
      * Set the previous throwable in the exception chain.
@@ -50,9 +47,24 @@ interface ReflectionInterface extends CreatableInterface, InteractsWithThrowable
     public function previous(?Throwable $previous): static;
 
     /**
+     * Skip the throwable's stack trace frames.
+     */
+    public function skip(int $frames = 1): static;
+
+    /**
+     * Skip the throwable's stack trace frames and align to first frame.
+     */
+    public function align(int $frames = 1): static;
+
+    /**
+     * Get the underlying throwable instance.
+     */
+    public function value(): Throwable;
+
+    /**
      * Get the parsed backtrace frames associated with the throwable.
      *
-     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Frame>
+     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface>
      */
     public function backtrace(): EnumerableInterface;
 }

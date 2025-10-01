@@ -4,8 +4,9 @@ namespace Mpietrucha\Utility\Error\Contracts;
 
 interface HandlerInterface
 {
-    /**
-     * Register the error handler.
-     */
-    public static function register(): void;
+    public function provider(): object;
+
+    public function due(): bool;
+
+    public function capture(): void;
 }

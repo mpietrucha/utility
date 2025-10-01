@@ -9,8 +9,8 @@ use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Forward\Contracts\FailureInterface;
 use Mpietrucha\Utility\Forward\Contracts\ForwardInterface;
 use Mpietrucha\Utility\Instance;
-use Mpietrucha\Utility\Str;
-use Mpietrucha\Utility\Throwable\Contracts\ThrowableInterface;
+use Mpietrucha\Utility\Throwable\Contracts\InteractsWithThrowableInterface;
+use Mpietrucha\Utility\Type;
 
 class Failure implements CreatableInterface, FailureInterface
 {
@@ -34,15 +34,15 @@ class Failure implements CreatableInterface, FailureInterface
     /**
      * Process and rethrow the given throwable with enhanced metadata and messaging.
      */
-    public function handle(ThrowableInterface $throwable, string $method): void
+    public function handle(InteractsWithThrowableInterface $throwable, string $method): void
     {
-        $backtrace = $this->backtrace($backtrace = $throwable->backtrace());
+        $backtrace = $throwable->backtrace() |> $this->backtrace(...);
 
         $message = $this->message($throwable->value()->getMessage(), $method);
 
         $frame = $this->frame($backtrace);
 
-        $throwable->frame($frame)->message($message)->trace($backtrace)->throw();
+        $throwable->synchronize($frame)->message($message)->trace($backtrace)->throw();
     }
 
     /**
@@ -63,19 +63,26 @@ class Failure implements CreatableInterface, FailureInterface
      */
     protected function backtrace(EnumerableInterface $backtrace): EnumerableInterface
     {
-        return $backtrace->skip(11);
-    }
+        return match (true) {
+            Failure\Backtrace::proxied($backtrace) => Failure\Frames::proxied(),
+            default => Failure\Frames::unproxied()
+        } |> $backtrace->skip(...);
+   }
 
     /**
      * Format an error message by replacing the original method context with the forwarded context.
      */
     protected function message(string $message, string $method): string
     {
-        $to = Str::sprintf('%s::%s', $this->source(), $this->forward()->method() ?? $method);
+        [$source, $destination] = [$this->source(), $this->destination()];
 
-        $from = Str::sprintf('%s::%s', $this->destination(), $method);
+        if (Type::null($source) || Type::null($destination)) {
+            return $message;
+        }
 
-        return Str::replace($from, $to, $message);
+        $from = Failure\Message::get($source, $this->forward()->method() ?? $method);
+
+        return Failure\Message::build($message, $from, Failure\Message::get($destination, $method));
     }
 
     /**

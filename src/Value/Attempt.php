@@ -47,13 +47,13 @@ class Attempt extends Evaluation implements AttemptInterface
      */
     public function eval(array $arguments): ResultInterface
     {
-        $value = $failure = null;
+        $value = $error = null;
 
         try {
             $value = parent::eval($arguments);
-        } catch (Throwable $failure) {
+        } catch (Throwable $error) {
         }
 
-        return Result::create($value, $failure);
+        return Result::create($value, $error);
     }
 }
