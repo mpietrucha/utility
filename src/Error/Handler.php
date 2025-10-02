@@ -3,50 +3,53 @@
 namespace Mpietrucha\Utility\Error;
 
 use Mpietrucha\Utility\Collection;
+use Mpietrucha\Utility\Error\Contracts\BuilderInterface;
 use Mpietrucha\Utility\Error\Contracts\HandlerInterface;
 
 abstract class Handler
 {
     /**
-    * @var \Mpietrucha\Utility\Collection<int, \Mpietrucha\Utility\Error\Contracts\HandlerInterface>
-    */
-    protected static ?Collection $handlers = null;
+     * @var \Mpietrucha\Utility\Collection<int, \Mpietrucha\Utility\Error\Contracts\HandlerInterface>|null
+     */
+    protected static ?Collection $adapters = null;
 
-    public static function use(HandlerInterface $handler): void
+    public static function builder(object $adapter): BuilderInterface
     {
-        static::all()->push($handler);
+        return Builder::create($adapter);
     }
 
-    public static function flush(): void
+    public static function add(HandlerInterface $adapter): void
     {
-        static::$handlers = null;
+        static::all()->prepend($adapter);
     }
 
-    public static function capture(): object
+    public static function capture(?HandlerInterface $adapter = null): HandlerInterface
     {
-        $handler = static::get();
+        Level::set(Level::ALL ^ Level::DEPRECATED);
 
-        $handler->capture();
+        $adapter ??= static::get();
 
-        return $handler;
+        $adapter->capture();
+
+        return $adapter;
     }
 
     public static function get(): HandlerInterface
     {
-        return static::all()->last->due();
+        return static::all()->first->supported();
     }
 
     /**
-    * @return \Mpietrucha\Utility\Collection<int, \Mpietrucha\Utility\Error\Contracts\HandlerInterface>
-    */
-    public static function all(): Collection
+     * @return \Mpietrucha\Utility\Collection<int, \Mpietrucha\Utility\Error\Contracts\HandlerInterface>
+     */
+    protected static function all(): Collection
     {
-        return static::$handlers ??= static::defaults() |> Collection::create(...);
+        return static::$adapters ??= static::defaults() |> Collection::create(...);
     }
 
     /**
-    * @return array<int, \Mpietrucha\Utility\Error\Contracts\HandlerInterface>
-    */
+     * @return array<int, \Mpietrucha\Utility\Error\Contracts\HandlerInterface>
+     */
     protected static function defaults(): array
     {
         return [

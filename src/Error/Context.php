@@ -8,8 +8,8 @@ use Mpietrucha\Utility\Normalizer;
 abstract class Context
 {
     /**
-    * @var array<int, string>
-    */
+     * @var array<int, string>
+     */
     protected static array $consoles = [
         'cli',
         'phpdb',
@@ -26,8 +26,8 @@ abstract class Context
     }
 
     /**
-    * @return array<int, string>
-    */
+     * @return array<int, string>
+     */
     protected static function consoles(): array
     {
         return static::$consoles;

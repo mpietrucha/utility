@@ -8,7 +8,7 @@ use Mpietrucha\Utility\Type;
 
 trait Throwable
 {
-    use InteractsWithThrowable;
+    use InteractsWithConfigurator, InteractsWithThrowable;
 
     public function __construct()
     {

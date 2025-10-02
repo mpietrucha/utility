@@ -16,7 +16,7 @@ trait InteractsWithFinder
 
     public function append(): static
     {
-        InputAppendNotAllowedException::build($this)->throw();
+        InputAppendNotAllowedException::for($this)->throw();
     }
 
     public function climb(int $altitude = PHP_INT_MAX): static

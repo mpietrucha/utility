@@ -2,6 +2,7 @@
 
 namespace Mpietrucha\Utility\Forward;
 
+use Mpietrucha\Utility\Arr;
 use Mpietrucha\Utility\Concerns\Arrayable;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
@@ -10,6 +11,7 @@ use Mpietrucha\Utility\Forward\Contracts\BuilderInterface;
 use Mpietrucha\Utility\Forward\Contracts\EvaluableInterface;
 use Mpietrucha\Utility\Forward\Contracts\FailureInterface;
 use Mpietrucha\Utility\Forward\Contracts\ForwardInterface;
+use Mpietrucha\Utility\Type;
 
 class Builder implements BuilderInterface, CreatableInterface
 {
@@ -30,6 +32,11 @@ class Builder implements BuilderInterface, CreatableInterface
     {
     }
 
+    public static function destination(object|string $destination): static
+    {
+        return static::create($destination);
+    }
+
     /**
      * Get the builder’s current configuration as an ordered array.
      */
@@ -45,21 +52,28 @@ class Builder implements BuilderInterface, CreatableInterface
     }
 
     /**
-     * Specify the source class or object that the forward should appear to originate from.
+     * Specify a default method name to be invoked by the forward.
      */
-    public function source(object|string $source): self
+    public function method(string $method): static
     {
-        $this->source = $source;
+        $this->method = $method;
 
         return $this;
     }
 
-    /**
-     * Specify a default method name to be invoked by the forward.
-     */
-    public function method(string $method): self
+    public function relay(?string $method = null): static
     {
-        $this->method = $method;
+        return $this->source($this->toArray() |> Arr::first(...), $method);
+    }
+
+    /**
+     * Specify the source class or object that the forward should appear to originate from.
+     */
+    public function source(object|string $source, ?string $method = null): static
+    {
+        Type::string($method) && $this->method($method);
+
+        $this->source = $source;
 
         return $this;
     }
@@ -67,7 +81,7 @@ class Builder implements BuilderInterface, CreatableInterface
     /**
      * Attach a custom failure handler to the forward configuration.
      */
-    public function failable(FailureInterface $failure): self
+    public function failable(FailureInterface $failure): static
     {
         $this->failure = $failure;
 
@@ -77,7 +91,7 @@ class Builder implements BuilderInterface, CreatableInterface
     /**
      * Attach a pre-built evaluable callback to the forward configuration.
      */
-    public function evaluable(EvaluableInterface $evaluable): self
+    public function evaluable(EvaluableInterface $evaluable): static
     {
         $this->evaluable = $evaluable;
 

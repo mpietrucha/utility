@@ -67,7 +67,7 @@ class Failure implements CreatableInterface, FailureInterface
             Failure\Backtrace::proxied($backtrace) => Failure\Frames::proxied(),
             default => Failure\Frames::unproxied()
         } |> $backtrace->skip(...);
-   }
+    }
 
     /**
      * Format an error message by replacing the original method context with the forwarded context.
@@ -80,9 +80,9 @@ class Failure implements CreatableInterface, FailureInterface
             return $message;
         }
 
-        $from = Failure\Message::get($source, $this->forward()->method() ?? $method);
+        $to = Failure\Message::get($source, $this->forward()->method() ?? $method);
 
-        return Failure\Message::build($message, $from, Failure\Message::get($destination, $method));
+        return Failure\Message::build($message, Failure\Message::get($destination, $method), $to);
     }
 
     /**

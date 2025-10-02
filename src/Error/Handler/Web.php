@@ -7,18 +7,18 @@ use Spatie\Ignition\Ignition;
 
 class Web extends None
 {
-    public function provider(): Ignition
+    public function adapter(): Ignition
     {
         return Ignition::make()->setTheme('dark');
     }
 
-    public function due(): bool
+    public function supported(): bool
     {
         return Context::web();
     }
 
     public function capture(): void
     {
-        $this->provider()->register();
+        $this->adapter()->register();
     }
 }

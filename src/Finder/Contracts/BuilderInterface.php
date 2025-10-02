@@ -9,7 +9,7 @@ use Symfony\Component\Finder\Finder as Adapter;
 /**
  * @extends \Mpietrucha\Utility\Contracts\ArrayableInterface<int, mixed>
  */
-interface BuilderInterface extends ArrayableInterface, TappableInterface
+interface BuilderInterface extends ArrayableInterface, InteractsWithFinderInterface, TappableInterface
 {
     /**
      * @return array{0: string|null, 1: int|null, 2: \Symfony\Component\Finder\Finder|null, 3: \Mpietrucha\Utility\Finder\Contracts\CacheInterface|null, 4: \Mpietrucha\Utility\Finder\Contracts\IdentifierInterface|null}

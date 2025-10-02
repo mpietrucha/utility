@@ -3,7 +3,6 @@
 namespace Mpietrucha\Utility\Forward\Failure;
 
 use Mpietrucha\Utility\Str;
-use Mpietrucha\Utility\Type;
 
 abstract class Message
 {

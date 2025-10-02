@@ -7,8 +7,8 @@ use Mpietrucha\Utility\Throwable\BadMethodCallException;
 
 class InputAppendNotAllowedException extends BadMethodCallException
 {
-    public function configure(FinderInterface $finder): void
+    public function configure(FinderInterface $finder): string
     {
-        $this->message('%s::append() method is not allowed in this finder instance', $finder);
+        return '%s::append() method is not allowed in this finder instance';
     }
 }

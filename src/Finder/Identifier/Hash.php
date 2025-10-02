@@ -12,8 +12,8 @@ class Hash implements CreatableInterface, IdentifierInterface
 {
     use Creatable;
 
-    public function identify(FinderInterface $finder, ?string $algorithm = null, ?callable $serialize = null): string
+    public function identify(FinderInterface $finder, ?string $algorithm = null): string
     {
-        return Instance::hash($finder, $algorithm, $serialize);
+        return Instance::hash($finder, $algorithm);
     }
 }

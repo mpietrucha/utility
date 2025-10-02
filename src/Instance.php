@@ -2,6 +2,7 @@
 
 namespace Mpietrucha\Utility;
 
+use Laravel\SerializableClosure\SerializableClosure;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 
 abstract class Instance
@@ -92,22 +93,18 @@ abstract class Instance
         return static::namespace($instance);
     }
 
-    /**
-     * @param  null|callable(): string  $serialize
-     */
-    public static function serialize(object $instance, ?callable $serialize = null): string
+    public static function serialize(object $instance, ?string $secret = null): string
     {
-        $serialize ??= serialize(...);
+        Type::string($secret) && SerializableClosure::setSecretKey($secret);
 
-        return Value::for($serialize)->string($instance);
+        $evaluation = serialize(...) |> Value::for(...);
+
+        return new SerializableClosure(fn () => $instance) |> $evaluation->string(...);
     }
 
-    /**
-     * @param  null|callable(): string  $serialize
-     */
-    public static function hash(object $instance, ?string $algorithm = null, ?callable $serialize = null): string
+    public static function hash(object $instance, ?string $algorithm = null): string
     {
-        return static::serialize($instance, $serialize) |> Hash::bind($algorithm);
+        return static::serialize($instance) |> Hash::bind($algorithm);
     }
 
     public static function alias(object|string $class, string $alias): ?string

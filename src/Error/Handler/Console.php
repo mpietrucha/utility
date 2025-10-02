@@ -3,25 +3,22 @@
 namespace Mpietrucha\Utility\Error\Handler;
 
 use Mpietrucha\Utility\Error\Context;
-use Mpietrucha\Utility\Error\Level;
 use NunoMaduro\Collision\Provider;
 
 class Console extends None
 {
-    public function provider(): Provider
+    public function adapter(): Provider
     {
         return new Provider;
     }
 
-    public function due(): bool
+    public function supported(): bool
     {
         return Context::console();
     }
 
     public function capture(): void
     {
-        $this->provider()->register();
-
-        Level::set(Level::ALL ^ Level::DEPRECATED);
+        $this->adapter()->register();
     }
 }

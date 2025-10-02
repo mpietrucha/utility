@@ -39,21 +39,21 @@ class Builder implements BuilderInterface, CreatableInterface
         ];
     }
 
-    public function cache(CacheInterface $cache): static
+    public function cache(?CacheInterface $cache): static
     {
         $this->cache = $cache;
 
         return $this;
     }
 
-    public function adapter(Adapter $adapter): static
+    public function adapter(?Adapter $adapter): static
     {
         $this->adapter = $adapter;
 
         return $this;
     }
 
-    public function identifier(IdentifierInterface $identifier): static
+    public function identifier(?IdentifierInterface $identifier): static
     {
         $this->identifier = $identifier;
 

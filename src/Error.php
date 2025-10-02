@@ -13,9 +13,9 @@ abstract class Error
         return Level::use($level);
     }
 
-    public static function capture(): object
+    public static function capture(?HandlerInterface $handler = null): HandlerInterface
     {
-        return Handler::capture();
+        return Handler::capture($handler);
     }
 
     public static function handler(): HandlerInterface
