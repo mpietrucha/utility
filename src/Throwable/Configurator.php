@@ -44,19 +44,19 @@ class Configurator implements ConfiguratorInterface, CreatableInterface
         return $this->configurator ??= static::default();
     }
 
-    public function eval(array $arguments, ?string $method = null): ThrowableInterface
-    {
-        $this->forward($method)->eval($this->configurator(), $arguments);
-
-        return $this->throwable();
-    }
-
-    protected function forward(?string $method): ForwardInterface
+    public function forward(?string $method = null): ForwardInterface
     {
         $builder = $this->throwable() |> Forward::builder(...);
 
         $builder->relay($method);
 
         return $builder->build();
+    }
+
+    public function eval(array $arguments, ?string $method = null): ThrowableInterface
+    {
+        $this->forward($method)->eval($this->configurator(), $arguments);
+
+        return $this->throwable();
     }
 }
