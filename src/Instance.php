@@ -54,7 +54,7 @@ abstract class Instance
     /**
      * Resolve the fully qualified class name of the given instance.
      *
-     * @return class-string|null
+     * @return ($instance is object ? class-string : class-string|null)
      */
     public static function namespace(object|string $instance): ?string
     {
@@ -82,7 +82,7 @@ abstract class Instance
     /**
      * Recursively resolve the most distant parent class of the given instance.
      *
-     * @return class-string|null
+     * @return ($instance is object ? class-string : class-string|null)
      */
     public static function deep(object|string $instance): ?string
     {

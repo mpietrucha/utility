@@ -3,12 +3,19 @@
 namespace Mpietrucha\Utility\Finder\Exception;
 
 use Mpietrucha\Utility\Finder\Contracts\FinderInterface;
+use Mpietrucha\Utility\Instance;
 use Mpietrucha\Utility\Throwable\BadMethodCallException;
 
 class InputAppendNotAllowedException extends BadMethodCallException
 {
-    public function configure(FinderInterface $finder): string
+    /**
+     * @return array{0: string, 1: class-string}
+     */
+    public function configure(FinderInterface $finder): array
     {
-        return '%s::append() method is not allowed in this finder instance';
+        return [
+            '%s::append() method is not allowed in this finder instance',
+            Instance::namespace($finder),
+        ];
     }
 }

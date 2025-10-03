@@ -2,12 +2,14 @@
 
 namespace Mpietrucha\Utility\Throwable;
 
+use Mpietrucha\Utility\Arr;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Forward;
 use Mpietrucha\Utility\Forward\Contracts\ForwardInterface;
 use Mpietrucha\Utility\Throwable\Contracts\ConfiguratorInterface;
 use Mpietrucha\Utility\Throwable\Contracts\ThrowableInterface;
+use Mpietrucha\Utility\Type;
 
 class Configurator implements ConfiguratorInterface, CreatableInterface
 {
@@ -55,8 +57,25 @@ class Configurator implements ConfiguratorInterface, CreatableInterface
 
     public function eval(array $arguments, ?string $method = null): ThrowableInterface
     {
-        $this->forward($method)->eval($this->configurator(), $arguments);
+        $response = $this->forward($method)->eval($this->configurator(), $arguments);
 
-        return $this->throwable();
+        return $this->hydrate($response, $arguments);
+    }
+
+    /**
+     * @param  array<int|string, mixed>  $arguments
+     */
+    protected function hydrate(mixed $response, array $arguments): ThrowableInterface
+    {
+        if (Type::string($response)) {
+            $response = Arr::prepend($arguments, $response);
+        }
+
+        /** @phpstan-ignore-next-line */
+        if (Arr::first($response) |> Type::not()->string(...)) {
+            return $this->throwable();
+        }
+
+        return $this->throwable()->message(...$response);
     }
 }
