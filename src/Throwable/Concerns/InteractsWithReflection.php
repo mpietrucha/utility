@@ -2,6 +2,7 @@
 
 namespace Mpietrucha\Utility\Throwable\Concerns;
 
+use Mpietrucha\Utility\Arr;
 use Mpietrucha\Utility\Backtrace;
 use Mpietrucha\Utility\Backtrace\Contracts\FrameInterface;
 use Mpietrucha\Utility\Concerns\Wrappable;
@@ -11,6 +12,7 @@ use Mpietrucha\Utility\Reflection as Adapter;
 use Mpietrucha\Utility\Str;
 use Mpietrucha\Utility\Throwable\Property;
 use Mpietrucha\Utility\Throwable\Synchronizer;
+use Mpietrucha\Utility\Type;
 use Throwable;
 
 trait InteractsWithReflection
@@ -70,7 +72,9 @@ trait InteractsWithReflection
      */
     public function trace(iterable $backtrace): static
     {
-        return $this->reset(Property::TRACE, Normalizer::array($backtrace));
+        $backtrace = Normalizer::array($backtrace) |> Arr::values(...);
+
+        return $this->reset(Property::TRACE, $backtrace);
     }
 
     /**
@@ -78,7 +82,9 @@ trait InteractsWithReflection
      */
     public function message(string $message, mixed ...$arguments): static
     {
-        return $this->set(Property::MESSAGE, Str::sprintf($message, ...$arguments));
+        $message = Str::sprintf($message, ...$arguments);
+
+        return $this->set(Property::MESSAGE, $message);
     }
 
     /**
@@ -94,17 +100,19 @@ trait InteractsWithReflection
         return $this->backtrace()->skip($frames) |> $this->trace(...);
     }
 
-    public function align(int $frames = 1): static
+    public function align(int $index = 0): static
     {
-        $this->backtrace()->last() |> $this->synchronize(...);
-
-        $this->skip($frames);
-
-        if ($this->backtrace()->isEmpty()) {
+        if ($index < 0) {
             return $this;
         }
 
-        return $this->backtrace()->first() |> $this->synchronize(...);
+        $frame = $this->backtrace()->get($index);
+
+        if (Type::null($frame)) {
+            return $this->align(--$index);
+        }
+
+        return $this->skip(++$index)->synchronize($frame);
     }
 
     /**

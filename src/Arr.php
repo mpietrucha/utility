@@ -81,4 +81,13 @@ class Arr extends \Illuminate\Support\Arr
     {
         return static::slice($array, $count);
     }
+
+    /**
+     * @param  array<int|string, mixed>  $array
+     * @return array<int, mixed>
+     */
+    public static function values(array $array): array
+    {
+        return array_values($array);
+    }
 }

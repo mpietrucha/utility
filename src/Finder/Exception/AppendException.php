@@ -6,7 +6,7 @@ use Mpietrucha\Utility\Finder\Contracts\FinderInterface;
 use Mpietrucha\Utility\Instance;
 use Mpietrucha\Utility\Throwable\BadMethodCallException;
 
-class InputAppendNotAllowedException extends BadMethodCallException
+class AppendException extends BadMethodCallException
 {
     /**
      * @return array{0: string, 1: class-string}

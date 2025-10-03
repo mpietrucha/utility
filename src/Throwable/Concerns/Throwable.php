@@ -4,7 +4,7 @@ namespace Mpietrucha\Utility\Throwable\Concerns;
 
 use Mpietrucha\Utility\Instance;
 use Mpietrucha\Utility\Throwable\Contracts\ThrowableInterface;
-use Mpietrucha\Utility\Type;
+use Mpietrucha\Utility\Throwable\Purifier;
 
 trait Throwable
 {
@@ -12,7 +12,7 @@ trait Throwable
 
     public function __construct()
     {
-        $this->clean();
+        $this->purify();
     }
 
     /**
@@ -23,14 +23,8 @@ trait Throwable
         return $this;
     }
 
-    protected function clean(): void
+    protected function purify(): void
     {
-        $namespace = $this->backtrace()->first()?->namespace();
-
-        if (Type::null($namespace)) {
-            return;
-        }
-
-        Instance::is($this, $namespace) && $this->align()->clean();
+        Purifier::each($this->backtrace(), $this->align(...));
     }
 }

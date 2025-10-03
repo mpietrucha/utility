@@ -54,7 +54,7 @@ interface ReflectionInterface extends WrappableInterface
     /**
      * Skip the throwable's stack trace frames and align to first frame.
      */
-    public function align(int $frames = 1): static;
+    public function align(int $index = 0): static;
 
     /**
      * Get the underlying throwable instance.

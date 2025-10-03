@@ -6,9 +6,9 @@ use Mpietrucha\Utility\Collection;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Forward\Contracts\MethodsInterface;
+use Mpietrucha\Utility\Forward\Exception\ProhibitedException;
 use Mpietrucha\Utility\Instance;
 use Mpietrucha\Utility\Normalizer;
-use Mpietrucha\Utility\Throwable\RuntimeException;
 use Mpietrucha\Utility\Type;
 
 class Methods implements CreatableInterface, MethodsInterface
@@ -104,9 +104,6 @@ class Methods implements CreatableInterface, MethodsInterface
             return;
         }
 
-        RuntimeException::create()
-            ->align(3)
-            ->message('Call to %s::%s() method is prohibited', $instance, $method)
-            ->throw();
+        ProhibitedException::for($instance, $method)->throw();
     }
 }
