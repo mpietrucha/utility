@@ -4,13 +4,13 @@ namespace Mpietrucha\Utility\Finder\Cache;
 
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Filesystem;
+use Mpietrucha\Utility\Filesystem\Stream;
 use Mpietrucha\Utility\Finder\Contracts\SnapshotInterface;
 use Mpietrucha\Utility\Finder\Snapshot;
 use Mpietrucha\Utility\Lottery;
 use Mpietrucha\Utility\Lottery\Contracts\LotteryInterface;
 use Mpietrucha\Utility\Normalizer;
 use Mpietrucha\Utility\Str;
-use Mpietrucha\Utility\Stream;
 
 class File extends None
 {

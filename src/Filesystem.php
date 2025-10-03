@@ -7,8 +7,6 @@ use Mpietrucha\Utility\Enumerable\LazyCollection;
 use Mpietrucha\Utility\Filesystem\Concerns\InteractsWithCondition;
 use Mpietrucha\Utility\Filesystem\Concerns\InteractsWithExistence;
 use Mpietrucha\Utility\Filesystem\Condition;
-use Mpietrucha\Utility\Filesystem\File;
-use Mpietrucha\Utility\Filesystem\Snapshot;
 use Mpietrucha\Utility\Forward\Concerns\Bridgeable;
 
 /**
@@ -68,9 +66,22 @@ abstract class Filesystem
         return tmpfile() ?: null;
     }
 
+    /**
+     * Create a temporary ephemeral file.
+     */
+    public static function ephemeral(?string $name = null): string
+    {
+        return Filesystem\Ephemeral::get($name);
+    }
+
     public static function touch(string $path, ?int $modified = null, ?int $accessed = null): bool
     {
         return touch($path, $modified, $accessed);
+    }
+
+    public static function executable(string $path): bool
+    {
+        return is_executable($path);
     }
 
     /**
@@ -92,7 +103,7 @@ abstract class Filesystem
 
     public static function snapshot(string $path, ?string $algorithm = null): ?string
     {
-        return Snapshot::create()->get($path, $algorithm);
+        return Filesystem\Snapshot::create()->get($path, $algorithm);
     }
 
     public static function tokenize(string $path): Tokenizer

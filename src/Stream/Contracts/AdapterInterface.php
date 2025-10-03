@@ -8,6 +8,23 @@ use Psr\Http\Message\StreamInterface;
 interface AdapterInterface extends StreamInterface, StringableInterface
 {
     /**
+     * Creates a new adapter
+     */
+    public static function build(mixed $body): static;
+
+    /**
+     * Copy data from the source adapter to the destination adapter and
+     * return the number of bytes copied, or null if either stream is detached.
+     */
+    public static function copy(AdapterInterface $source, AdapterInterface $destination): ?int;
+
+    /**
+     * Set the blocking mode on the given adapter’s resource and return the
+     * operation status, or false if the stream is detached.
+     */
+    public static function await(AdapterInterface $adapter, bool $mode = true): bool;
+
+    /**
      * Retrieve the underlying stream resource handled by the adapter.
      */
     public function getResource(): mixed;

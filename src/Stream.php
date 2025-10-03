@@ -10,13 +10,13 @@ use Mpietrucha\Utility\Contracts\PassableInterface;
 use Mpietrucha\Utility\Forward\Context;
 use Mpietrucha\Utility\Forward\Contracts\ContextInterface;
 use Mpietrucha\Utility\Stream\Adapter;
+use Mpietrucha\Utility\Stream\Concerns\InteractsWithFilesystem;
 use Mpietrucha\Utility\Stream\Contracts\AdapterInterface;
 use Mpietrucha\Utility\Stream\Contracts\StreamInterface;
-use Mpietrucha\Utility\Throwable\InvalidArgumentException;
 
 class Stream implements CreatableInterface, PassableInterface, StreamInterface
 {
-    use Creatable, Passable, Stringable;
+    use Creatable, InteractsWithFilesystem, Passable, Stringable;
 
     protected ?int $bytes = null;
 
@@ -39,28 +39,6 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface
     }
 
     /**
-     * Open a stream from the given URI and mode.
-     */
-    public static function open(string $uri, ?string $mode = null): static
-    {
-        $handler = Filesystem::open($uri, $mode);
-
-        if (Type::resource($handler)) {
-            return static::create($handler);
-        }
-
-        InvalidArgumentException::create()->message('Failed to open `%s`', $uri)->throw();
-    }
-
-    /**
-     * Create a temporary in-memory stream.
-     */
-    public static function temporary(): static
-    {
-        return static::open('php://temporary');
-    }
-
-    /**
      * Create a stream from standard input.
      */
     public static function input(): static
@@ -78,8 +56,6 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface
 
     /**
      * Create a forward context that negates selected stream capabilities.
-     *
-     * @return \Mpietrucha\Utility\Forward\Context<static>
      */
     public function not(): ContextInterface
     {

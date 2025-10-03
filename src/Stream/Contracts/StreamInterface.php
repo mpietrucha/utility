@@ -2,12 +2,31 @@
 
 namespace Mpietrucha\Utility\Stream\Contracts;
 
-interface StreamInterface
+use Mpietrucha\Utility\Forward\Contracts\ContextInterface;
+
+interface StreamInterface extends InteractsWithFilesystemInterface
 {
+    /**
+     * Create a stream from standard input.
+     */
+    public static function input(): static;
+
+    /**
+     * Create a stream from standard output.
+     */
+    public static function output(): static;
+
     /**
      * Get the underlying stream adapter instance.
      */
     public function adapter(): AdapterInterface;
+
+    /**
+     * Create a forward context that negates selected stream capabilities.
+     *
+     * @return \Mpietrucha\Utility\Forward\Context<static>
+     */
+    public function not(): ContextInterface;
 
     /**
      * Retrieve the raw resource managed by the stream.
