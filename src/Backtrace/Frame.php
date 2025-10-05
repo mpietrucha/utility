@@ -8,6 +8,9 @@ use Mpietrucha\Utility\Concerns\Arrayable;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Concerns\Pipeable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
+use Mpietrucha\Utility\Instance;
+use Mpietrucha\Utility\Normalizer;
+use Mpietrucha\Utility\Type;
 
 class Frame implements CreatableInterface, FrameInterface
 {
@@ -72,6 +75,22 @@ class Frame implements CreatableInterface, FrameInterface
     public function namespace(): ?string
     {
         return Property::NAMESPACE |> $this->get(...);
+    }
+
+    public function internal(object|string $value): bool
+    {
+        $namespace = $this->namespace();
+
+        if (Type::null($namespace)) {
+            return false;
+        }
+
+        return Instance::is($namespace, $value);
+    }
+
+    final public function external(object|string $value): bool
+    {
+        return $this->internal($value) |> Normalizer::not(...);
     }
 
     /**

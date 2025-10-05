@@ -39,6 +39,16 @@ interface FrameInterface extends ArrayableInterface, PipeableInterface
     public function namespace(): ?string;
 
     /**
+     * @php-assert-if-true class-string $this->namespace()
+     */
+    public function internal(object|string $value): bool;
+
+    /**
+     * @phpstan-assert-if-false class-string $this->namespace()
+     */
+    public function external(object|string $value): bool;
+
+    /**
      * Get the object instance associated with the backtrace frame.
      */
     public function instance(): ?object;

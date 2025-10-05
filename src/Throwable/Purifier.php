@@ -6,9 +6,6 @@ use Mpietrucha\Utility\Backtrace\Contracts\FrameInterface;
 use Mpietrucha\Utility\Concerns\Compatible;
 use Mpietrucha\Utility\Contracts\CompatibleInterface;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
-use Mpietrucha\Utility\Instance;
-use Mpietrucha\Utility\Throwable\Contracts\ThrowableInterface;
-use Mpietrucha\Utility\Type;
 use Mpietrucha\Utility\Value;
 
 abstract class Purifier implements CompatibleInterface
@@ -42,12 +39,6 @@ abstract class Purifier implements CompatibleInterface
 
     protected static function compatibility(FrameInterface $frame): bool
     {
-        $namespace = $frame->namespace();
-
-        if (Type::null($namespace)) {
-            return false;
-        }
-
-        return Instance::is($namespace, ThrowableInterface::class);
+        return $frame->internal(FrameInterface::class);
     }
 }

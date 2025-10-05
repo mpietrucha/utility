@@ -38,7 +38,7 @@
             "Mpietrucha\\Utility\\": "src/"
         },
         "files": [
-            "autoload.php"
+            "bootstrap.php"
         ]
     },
     "config": {
