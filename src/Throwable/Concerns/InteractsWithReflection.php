@@ -38,7 +38,7 @@ trait InteractsWithReflection
      */
     public function synchronize(FrameInterface $frame): static
     {
-        Synchronizer::each($frame, $this->set(...));
+        $this->set(...) |> Synchronizer::groups($frame)->eachSpread(...);
 
         return $this;
     }

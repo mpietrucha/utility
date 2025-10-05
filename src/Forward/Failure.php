@@ -76,7 +76,11 @@ class Failure implements CreatableInterface, FailureInterface
     {
         [$source, $destination] = [$this->source(), $this->destination()];
 
-        if (Type::null($source) || Type::null($destination)) {
+        if (Type::null($source)) {
+            return $message;
+        }
+
+        if (Type::null($destination)) {
             return $message;
         }
 

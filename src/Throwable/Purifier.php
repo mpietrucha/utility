@@ -6,18 +6,15 @@ use Mpietrucha\Utility\Backtrace\Contracts\FrameInterface;
 use Mpietrucha\Utility\Concerns\Compatible;
 use Mpietrucha\Utility\Contracts\CompatibleInterface;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
-use Mpietrucha\Utility\Value;
+use Mpietrucha\Utility\Throwable\Contracts\ThrowableInterface;
 
 abstract class Purifier implements CompatibleInterface
 {
     use Compatible;
 
-    /**
-     * @param  \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface>  $backtrace
-     */
-    public static function each(EnumerableInterface $backtrace, mixed $callback): void
+    public static function namespace(): string
     {
-        static::index($backtrace) |> Value::for($callback)->get(...);
+        return ThrowableInterface::class;
     }
 
     /**
@@ -39,6 +36,6 @@ abstract class Purifier implements CompatibleInterface
 
     protected static function compatibility(FrameInterface $frame): bool
     {
-        return $frame->internal(FrameInterface::class);
+        return static::namespace() |> $frame->internal(...);
     }
 }

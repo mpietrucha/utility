@@ -25,6 +25,6 @@ trait Throwable
 
     protected function purify(): void
     {
-        Purifier::each($this->backtrace(), $this->align(...));
+        $this->backtrace() |> Purifier::index(...) |> $this->align(...);
     }
 }

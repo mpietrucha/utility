@@ -3,17 +3,22 @@
 namespace Mpietrucha\Utility\Forward\Failure;
 
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
+use Mpietrucha\Utility\Forward\Contracts\ProxyInterface;
 use Mpietrucha\Utility\Normalizer;
-use Mpietrucha\Utility\Type;
 
 abstract class Backtrace
 {
+    public static function proxy(): string
+    {
+        return ProxyInterface::class;
+    }
+
     /**
      * @param  \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface>  $backtrace
      */
     public static function proxied(EnumerableInterface $backtrace): bool
     {
-        return Frame::proxy(...) |> $backtrace->first(...) |> Type::not()->null(...);
+        return static::proxy() |> $backtrace->first->internal(...) |> Normalizer::boolean(...);
     }
 
     /**

@@ -14,11 +14,6 @@ abstract class Synchronizer extends None
      */
     protected static ?EnumerableInterface $properties = null;
 
-    public static function each(FrameInterface $frame, callable $callback): void
-    {
-        static::groups($frame)->eachSpread($callback);
-    }
-
     /**
      * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, array{0: \Mpietrucha\Utility\Throwable\Property, 1: mixed}>
      */
