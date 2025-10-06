@@ -28,9 +28,7 @@ class Adapter extends Stream implements AdapterInterface, CreatableInterface
             return null;
         }
 
-        $pointer = $source->tell();
-
-        return stream_copy_to_stream($source->getResource(), $destination->getResource()) ?: null;
+        return @stream_copy_to_stream($source->getResource(), $destination->getResource()) ?: null;
     }
 
     /**

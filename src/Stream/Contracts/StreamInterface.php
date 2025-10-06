@@ -116,12 +116,12 @@ interface StreamInterface extends InteractsWithFilesystemInterface
     /**
      * Copy contents from the given source stream into this stream.
      */
-    public function copy(StreamInterface $source): static;
+    public function copy(StreamInterface $destination): static;
 
     /**
      * Transfer contents from this stream into the given destination stream.
      */
-    public function paste(StreamInterface $destination): static;
+    public function paste(StreamInterface $source): static;
 
     /**
      * Write the given string or stream contents into this stream.

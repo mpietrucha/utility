@@ -18,7 +18,7 @@ abstract class Transformer implements CreatableInterface, TransformerInterface
 
     public function file(): string
     {
-        return $this->file ??= $this->find();
+        return $this->file ??= $this->class() |> Instance::file(...) |> Normalizer::string(...);
     }
 
     public function prefix(): string
@@ -44,10 +44,5 @@ abstract class Transformer implements CreatableInterface, TransformerInterface
         ];
 
         return Body::create($content)->replace(...$names)->replace(...$namespaces);
-    }
-
-    protected function find(): string
-    {
-        return $this->class() |> Instance::file(...) |> Normalizer::string(...);
     }
 }

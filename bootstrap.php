@@ -10,6 +10,6 @@ Ephemeral::flush();
 Fork::create()->load([
     Stream::create(),
     Larastan\HigherOrderCollectionProxyHelper::create(),
-    Larastan\HigherOrderCollectionProxyExtension::create(),
-    Larastan\HigherOrderCollectionProxyPropertyExtension::create(),
+    // Larastan\HigherOrderCollectionProxyExtension::create(),
+    // Larastan\HigherOrderCollectionProxyPropertyExtension::create(),
 ]);

@@ -226,9 +226,9 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface
     /**
      * Copy contents from the source stream into this stream using the adapter's resource.
      */
-    public function copy(StreamInterface $source): static
+    public function copy(StreamInterface $detination): static
     {
-        $source->paste($this);
+        $detination->paste($this);
 
         return $this;
     }
@@ -236,15 +236,15 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface
     /**
      * Transfer contents from this stream into the destination stream.
      */
-    public function paste(StreamInterface $destination): static
+    public function paste(StreamInterface $source): static
     {
-        $bytes = Adapter::copy($this->adapter(), $destination->adapter());
+        $bytes = Adapter::copy($source->adapter(), $this->adapter());
 
         if (Type::integer($bytes)) {
             return $this->record($bytes);
         }
 
-        return $destination->contents() |> $this->write(...);
+        return $source->contents() |> $this->write(...);
     }
 
     /**

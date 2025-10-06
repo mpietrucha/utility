@@ -61,6 +61,10 @@ class File extends None
 
     public function set(string $identity, EnumerableInterface $response): void
     {
+        if ($response->isEmpty()) {
+            return;
+        }
+
         $file = $this->file($identity) |> Stream::open(...);
 
         $response->pipeThrough([
