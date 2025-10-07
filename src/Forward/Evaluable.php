@@ -39,7 +39,10 @@ class Evaluable implements CreatableInterface, EvaluableInterface
      */
     public static function call(string $method, array $arguments, object $source): mixed
     {
-        return (fn () => $this->$method(...$arguments))->call($source);
+        /** @phpstan-ignore-next-line */
+        $closure = fn () => $this->$method(...$arguments);
+
+        return $closure->call($source);
     }
 
     /**
@@ -50,7 +53,9 @@ class Evaluable implements CreatableInterface, EvaluableInterface
      */
     public static function bind(string $method, array $arguments, string $source): mixed
     {
-        return (fn () => static::$method(...$arguments))->bindTo(null, $source)();
+        $closure = fn () => static::$method(...$arguments);
+
+        return $closure->bindTo(null, $source)();
     }
 
     /**

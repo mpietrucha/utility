@@ -10,7 +10,7 @@ interface PathInterface
 
     public function name(): ?TokenInterface;
 
-    public function get(): ?TokenInterface;
-
     public function canonicalize(): ?TokenInterface;
+
+    public function get(bool $canonicalized = false): ?TokenInterface;
 }

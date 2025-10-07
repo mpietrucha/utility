@@ -3,6 +3,7 @@
 namespace Mpietrucha\Utility\Fork;
 
 use Mpietrucha\Utility\Collection;
+use Mpietrucha\Utility\Composer;
 use Mpietrucha\Utility\Fork\Contracts\TransformerInterface;
 use Mpietrucha\Utility\Instance;
 use Mpietrucha\Utility\Instance\Path;
@@ -26,7 +27,7 @@ abstract class Alias
     {
         [$namespace, $alias] = [static::normalize($class), static::normalize($alias)];
 
-        if (Instance::unexists($class)) {
+        if (Composer::autoload()->unexists($class)) {
             return;
         }
 
@@ -51,9 +52,9 @@ abstract class Alias
 
     protected static function build(string $namespace, string $alias): ?string
     {
-        $class = Path::join($namespace, Path::name($alias));
+        $name = Path::name($alias);
 
-        return Instance::alias($class, $alias);
+        return Instance::alias(Path::join($namespace, $name), $alias);
     }
 
     protected static function normalize(string $namespace): string

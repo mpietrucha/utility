@@ -2,11 +2,11 @@
 
 namespace Mpietrucha\Utility\Fork;
 
+use Mpietrucha\Utility\Composer;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Fork\Contracts\BodyInterface;
 use Mpietrucha\Utility\Fork\Contracts\TransformerInterface;
-use Mpietrucha\Utility\Instance;
 use Mpietrucha\Utility\Instance\Path;
 use Mpietrucha\Utility\Normalizer;
 
@@ -18,7 +18,7 @@ abstract class Transformer implements CreatableInterface, TransformerInterface
 
     public function file(): string
     {
-        return $this->file ??= $this->class() |> Instance::file(...) |> Normalizer::string(...);
+        return $this->file ??= $this->class() |> Composer::autoload()->file(...) |> Normalizer::string(...);
     }
 
     public function prefix(): string

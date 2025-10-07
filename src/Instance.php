@@ -12,21 +12,29 @@ abstract class Instance
      *
      * @phpstan-assert-if-true object|class-string $instance
      */
-    public static function exists(object|string $instance): bool
+    public static function exists(object|string $instance, bool $autoload = false): bool
     {
         if (Type::object($instance)) {
             return true;
         }
 
-        return class_exists($instance) || trait_exists($instance) || interface_exists($instance);
+        if (class_exists($instance, $autoload)) {
+            return true;
+        }
+
+        if (interface_exists($instance, $autoload)) {
+            return true;
+        }
+
+        return trait_exists($instance, $autoload);
     }
 
     /**
      * Determine if the given instance does not refer to any known class, interface, or trait.
      */
-    final public static function unexists(object|string $instance): bool
+    final public static function unexists(object|string $instance, bool $autoload = false): bool
     {
-        return static::exists($instance) |> Normalizer::not(...);
+        return static::exists($instance, $autoload) |> Normalizer::not(...);
     }
 
     /**
@@ -56,13 +64,13 @@ abstract class Instance
      *
      * @return ($instance is object ? class-string : class-string|null)
      */
-    public static function namespace(object|string $instance): ?string
+    public static function namespace(object|string $instance, bool $autoload = false): ?string
     {
         if (Type::object($instance)) {
             return Type::get($instance);
         }
 
-        return static::exists($instance) ? $instance : null;
+        return static::exists($instance, $autoload) ? $instance : null;
     }
 
     /**
@@ -74,6 +82,12 @@ abstract class Instance
 
         if (Type::null($namespace)) {
             return null;
+        }
+
+        $file = Composer::autoload()->file($namespace);
+
+        if (Type::string($file)) {
+            return $file;
         }
 
         return Reflection::create($namespace)->getFileName() ?: null;
@@ -107,15 +121,15 @@ abstract class Instance
         return static::serialize($instance) |> Hash::bind($algorithm);
     }
 
-    public static function alias(object|string $class, string $alias): ?string
+    public static function alias(object|string $class, string $alias, bool $autoload = true): ?string
     {
-        $class = static::namespace($class) |> Normalizer::string(...);
+        $class = static::namespace($class, $autoload) |> Normalizer::string(...);
 
         if (static::unexists($class)) {
             return null;
         }
 
-        if (@class_alias($class, $alias) |> Normalizer::not(...)) {
+        if (@class_alias($class, $alias, false) |> Normalizer::not(...)) {
             return null;
         }
 

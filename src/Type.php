@@ -4,9 +4,9 @@ namespace Mpietrucha\Utility;
 
 use Mpietrucha\Utility\Forward\Context;
 use Mpietrucha\Utility\Forward\Contracts\ContextInterface;
-use Mpietrucha\Utility\Type\Contracts\TypeInterface;
+use Mpietrucha\Utility\Type\Contracts\InteractsWithTypesInterface;
 
-abstract class Type implements TypeInterface
+abstract class Type implements InteractsWithTypesInterface
 {
     /**
      * Create a new forward context that negates the type check.

@@ -4,6 +4,7 @@ namespace Mpietrucha\Utility\Enumerable;
 
 use Mpietrucha\Utility\Enumerable\Concerns\Enumerable;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
+use Mpietrucha\Utility\Value;
 
 /**
  * @template TKey of array-key
@@ -20,4 +21,11 @@ class LazyCollection extends \Illuminate\Support\LazyCollection implements Enume
      * @use \Mpietrucha\Utility\Enumerable\Concerns\Enumerable<TKey, TValue>
      */
     use Enumerable;
+
+    public static function initialize(mixed $handler, mixed ...$arguments): static
+    {
+        $evaluable = Value::for($handler);
+
+        return static::create(fn () => $evaluable->eval($arguments));
+    }
 }

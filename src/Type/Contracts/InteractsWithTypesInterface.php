@@ -2,7 +2,7 @@
 
 namespace Mpietrucha\Utility\Type\Contracts;
 
-interface TypeInterface
+interface InteractsWithTypesInterface
 {
     public const string STRING = 'string';
 

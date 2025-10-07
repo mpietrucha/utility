@@ -38,14 +38,18 @@ class Path implements CreatableInterface, PathInterface
         ]);
     }
 
-    public function get(): ?TokenInterface
-    {
-        return Path\Name::get() |> $this->build(...);
-    }
-
     public function canonicalize(): ?TokenInterface
     {
         return Path\Name::canonicalized() |> $this->build(...);
+    }
+
+    public function get(bool $canonicalized = false): ?TokenInterface
+    {
+        if ($canonicalized) {
+            return $this->canonicalize();
+        }
+
+        return Path\Name::get() |> $this->build(...);
     }
 
     protected function build(int $id): ?TokenInterface
