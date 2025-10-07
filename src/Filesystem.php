@@ -76,7 +76,7 @@ abstract class Filesystem
 
     public static function touch(string $path, ?int $modified = null, ?int $accessed = null): bool
     {
-        return touch($path, $modified, $accessed);
+        return @touch($path, $modified, $accessed);
     }
 
     public static function executable(string $path): bool

@@ -84,7 +84,7 @@ class Composer implements ComposerInterface, CreatableInterface
 
     protected function cwd(): ?string
     {
-        return $this->cwd;
+        return $this->cwd ??= Filesystem::cwd();
     }
 
     protected function adapter(): Adapter

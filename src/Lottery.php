@@ -8,6 +8,7 @@ use Mpietrucha\Utility\Concerns\Tappable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Contracts\PipeableInterface;
 use Mpietrucha\Utility\Contracts\TappableInterface;
+use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Lottery\Adapter;
 use Mpietrucha\Utility\Lottery\Contracts\LotteryInterface;
 
@@ -102,7 +103,7 @@ class Lottery implements CreatableInterface, LotteryInterface, PipeableInterface
     /**
      * @return \Mpietrucha\Utility\Collection<int, callable>
      */
-    protected function callbacks(): Collection
+    protected function callbacks(): EnumerableInterface
     {
         return $this->callbacks ??= Collection::create();
     }

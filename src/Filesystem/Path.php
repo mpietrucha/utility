@@ -92,36 +92,36 @@ abstract class Path
     /**
      * Create an absolute path by combining the given relative path with a base path.
      */
-    public static function absolute(string $path, string $base): string
+    public static function absolute(string $path, string $directory): string
     {
-        return Adapter::makeAbsolute($path, $base);
+        return Adapter::makeAbsolute($path, $directory);
     }
 
     /**
      * Create a relative path from one path to another base path.
      */
-    public static function relative(string $path, string $base): string
+    public static function relative(string $path, string $directory): string
     {
-        return Adapter::makeRelative($path, $base);
+        return Adapter::makeRelative($path, $directory);
     }
 
     /**
      * Returns canonicalized absolute pathname
      */
-    public static function current(string $path): string
+    public static function get(string $path): string
     {
         $canonicalized = static::canonicalize($path);
 
         return realpath($canonicalized) ?: $canonicalized;
     }
 
-    public static function build(string $path, ?string $base = null): string
+    public static function build(string $path, ?string $directory = null): string
     {
-        if (Type::null($base)) {
-            return static::current($path);
+        if (Type::null($directory)) {
+            return static::get($path);
         }
 
-        return static::absolute($path, $base);
+        return static::absolute($path, $directory);
     }
 
     /**

@@ -20,14 +20,12 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface
 
     protected ?int $bytes = null;
 
-    protected ?AdapterInterface $adapter = null;
-
     /**
      * Create a new stream instance with the given body and optionally bootstrap it.
      */
-    public function __construct(protected mixed $body, bool $bootstrap = true)
+    public function __construct(protected mixed $body, protected ?AdapterInterface $adapter = null)
     {
-        $bootstrap && $this->adapter();
+        $this->adapter();
     }
 
     /**

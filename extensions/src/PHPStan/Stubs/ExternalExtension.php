@@ -27,7 +27,7 @@ class ExternalExtension implements StubFilesExtension
     {
         $defaults = static::defaults();
 
-        return Arr::map($defaults, Path::current(...));
+        return Arr::map($defaults, Path::get(...));
     }
 
     /**

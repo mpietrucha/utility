@@ -7,9 +7,9 @@ use Mpietrucha\Utility\Finder\Exception\AppendException;
 
 trait InteractsWithFinder
 {
-    public function in(string $input, ?string $base = null): static
+    public function in(string $input, ?string $directory = null): static
     {
-        $this->input = Path::build($input, $base);
+        $this->input = Path::build($input, $directory);
 
         return $this;
     }

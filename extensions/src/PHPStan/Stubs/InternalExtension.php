@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Mpietrucha\Extensions\PHPStan\Stubs;
 
+use Mpietrucha\Utility\Filesystem\Path;
 use Mpietrucha\Utility\Finder;
 use PHPStan\PhpDoc\StubFilesExtension;
 
@@ -17,10 +18,11 @@ final class InternalExtension implements StubFilesExtension
      */
     public function getFiles(): array
     {
-        return Finder::uncached()->in('../../../stubs', __DIR__)
+        $finder = Path::directory(__DIR__, 3) |> Finder::create()
+            ->path('storage/stubs')
             ->files()
-            ->get()
-            ->keys()
-            ->toArray();
+            ->in(...);
+
+        return $finder->get()->keys()->toArray();
     }
 }

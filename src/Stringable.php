@@ -49,14 +49,6 @@ class Stringable extends \Illuminate\Support\Stringable implements Conditionable
     }
 
     /**
-     * @param  string|array<int, string>  $needles
-     */
-    public function doesntContain(array|string $needles, bool $ignoreCase = false): bool
-    {
-        return $this->contains($needles, $ignoreCase) |> Normalizer::not(...);
-    }
-
-    /**
      * @return \Mpietrucha\Utility\Collection<int, string>
      */
     public function explode(mixed $delimiter, mixed $limit = null): EnumerableInterface

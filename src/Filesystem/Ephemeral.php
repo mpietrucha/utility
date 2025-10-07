@@ -3,6 +3,8 @@
 namespace Mpietrucha\Utility\Filesystem;
 
 use Mpietrucha\Utility\Filesystem;
+use Mpietrucha\Utility\Lottery;
+use Mpietrucha\Utility\Lottery\Contracts\LotteryInterface;
 use Mpietrucha\Utility\Str;
 
 abstract class Ephemeral
@@ -22,6 +24,14 @@ abstract class Ephemeral
     public static function flush(): void
     {
         static::storage() |> Filesystem::deleteDirectory(...);
+    }
+
+    public static function validate(?LotteryInterface $lottery = null): void
+    {
+        $lottery ??= Lottery::odds(1, 500);
+
+        /** @phpstan-ignore-next-line */
+        static::flush(...) |> $lottery->wins(...);
     }
 
     public static function get(?string $name = null): string
