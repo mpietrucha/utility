@@ -3,7 +3,7 @@
 namespace Mpietrucha\Utility\Composer\Cursor;
 
 use Mpietrucha\Utility\Composer\Contracts\CursorInterface;
-use Mpietrucha\Utility\Composer\Exception\CursorException;
+use Mpietrucha\Utility\Composer\Exception\CursorInputException;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
@@ -16,7 +16,7 @@ class Generator implements CreatableInterface, CursorInterface
 
     public function get(string $input): EnumerableInterface
     {
-        Filesystem::unexists($input) && CursorException::for($input)->throw();
+        Filesystem::unexists($input) && CursorInputException::for($input)->throw();
 
         $require = Filesystem::getRequire(...);
 

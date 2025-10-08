@@ -18,7 +18,7 @@ final class InternalExtension implements StubFilesExtension
      */
     public function getFiles(): array
     {
-        $finder = Path::directory(__DIR__, 3) |> Finder::create()
+        $finder = Path::directory(__DIR__, 3) |> Finder::uncached()
             ->path('storage/stubs')
             ->files()
             ->in(...);

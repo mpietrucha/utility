@@ -66,7 +66,7 @@ final class CreatableExtension implements IgnoreErrorExtension
             return false;
         }
 
-        return self::interface() |>$scope->getClassReflection()->implementsInterface(...);
+        return self::interface() |> $scope->getClassReflection()->implementsInterface(...);
     }
 
     protected function interactsWithCode(Error $error, string $code): bool

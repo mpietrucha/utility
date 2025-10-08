@@ -6,10 +6,9 @@ use Mpietrucha\Utility\Collection;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Forward\Contracts\MethodsInterface;
-use Mpietrucha\Utility\Forward\Exception\ProhibitedException;
+use Mpietrucha\Utility\Forward\Exception\MethodException;
 use Mpietrucha\Utility\Instance;
 use Mpietrucha\Utility\Normalizer;
-use Mpietrucha\Utility\Type;
 
 class Methods implements CreatableInterface, MethodsInterface
 {
@@ -18,10 +17,10 @@ class Methods implements CreatableInterface, MethodsInterface
     /**
      * Create a new Methods instance.
      *
-     * @param  \Mpietrucha\Utility\Collection<int, string>  $allowed
-     * @param  \Mpietrucha\Utility\Collection<int, string>  $denied
+     * @param  \Mpietrucha\Utility\Collection<int, string>|null  $allowed
+     * @param  \Mpietrucha\Utility\Collection<int, string>|null  $denied
      */
-    public function __construct(protected Collection $allowed = new Collection, protected Collection $denied = new Collection)
+    public function __construct(protected ?Collection $allowed = null, protected ?Collection $denied = null)
     {
     }
 
@@ -32,7 +31,7 @@ class Methods implements CreatableInterface, MethodsInterface
      */
     public function allowed(): Collection
     {
-        return $this->allowed;
+        return $this->allowed ??= Collection::create();
     }
 
     /**
@@ -42,7 +41,7 @@ class Methods implements CreatableInterface, MethodsInterface
      */
     public function denied(): Collection
     {
-        return $this->denied;
+        return $this->denied ??= Collection::create();
     }
 
     /**
@@ -70,7 +69,11 @@ class Methods implements CreatableInterface, MethodsInterface
      */
     public function validate(string $method, object|string $instance): void
     {
-        $this->invalid($method) && $this->fail($method, $instance);
+        if ($this->valid($method, $instance)) {
+            return;
+        }
+
+        MethodException::for($instance, $method)->throw();
     }
 
     /**
@@ -91,19 +94,5 @@ class Methods implements CreatableInterface, MethodsInterface
     public function invalid(string $method): bool
     {
         return $this->valid($method) |> Normalizer::not(...);
-    }
-
-    /**
-     * Throw an exception for an invalid method.
-     */
-    protected function fail(string $method, object|string $instance): void
-    {
-        $instance = Instance::namespace($instance);
-
-        if (Type::null($instance)) {
-            return;
-        }
-
-        ProhibitedException::for($instance, $method)->throw();
     }
 }

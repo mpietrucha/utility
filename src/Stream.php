@@ -57,10 +57,12 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface
      */
     public function not(): ContextInterface
     {
-        return Context::not($this, Context::allow([
+        $methods = Context::allow([
             'seekable',
             'writable',
-        ]));
+        ]);
+
+        return Context::not($this, $methods);
     }
 
     /**

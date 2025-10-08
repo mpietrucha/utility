@@ -15,9 +15,11 @@ abstract class Type implements InteractsWithTypesInterface
      */
     public static function not(): ContextInterface
     {
-        return Context::not(static::class, Context::deny([
+        $methods = Context::deny([
             'get',
-        ]));
+        ]);
+
+        return Context::not(static::class, $methods);
     }
 
     /**

@@ -13,9 +13,9 @@ class Filesystem implements CreatableInterface
     /**
      * Determine if the given path exists as a file or directory.
      */
-    public function present(string $path): bool
+    public function exists(string $path): bool
     {
-        return $this->file($path) || $this->directory($path);
+        return Adapter::exists($path);
     }
 
     /**

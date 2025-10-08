@@ -12,7 +12,7 @@ class Fd extends None
 {
     public function get(string $input, ?string $algorithm = null): ?string
     {
-        if (Filesystem::not()->present($input)) {
+        if (Filesystem::not()->exists($input)) {
             return null;
         }
 

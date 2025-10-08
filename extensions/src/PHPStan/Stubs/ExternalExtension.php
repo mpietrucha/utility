@@ -11,7 +11,7 @@ use PHPStan\PhpDoc\StubFilesExtension;
 /**
  * @internal
  */
-class ExternalExtension implements StubFilesExtension
+final class ExternalExtension implements StubFilesExtension
 {
     /**
      * @var array<int, string>
@@ -25,7 +25,7 @@ class ExternalExtension implements StubFilesExtension
      */
     public function getFiles(): array
     {
-        $defaults = static::defaults();
+        $defaults = self::defaults();
 
         return Arr::map($defaults, Path::get(...));
     }
@@ -35,6 +35,6 @@ class ExternalExtension implements StubFilesExtension
      */
     protected static function defaults(): array
     {
-        return static::$defaults;
+        return self::$defaults;
     }
 }

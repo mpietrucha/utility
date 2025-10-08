@@ -21,7 +21,7 @@ class Condition extends Proxy
     {
         $conditionable = $this->conditionable;
 
-        if (Normalizer::not($this->condition)) {
+        if ($this->condition |> Normalizer::not(...)) {
             return $conditionable;
         }
 
