@@ -5,6 +5,7 @@ namespace Mpietrucha\Utility\Fork;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Filesystem;
+use Mpietrucha\Utility\Filesystem\Concerns\InteractsWithOutput;
 use Mpietrucha\Utility\Fork\Contracts\StorageInterface;
 use Mpietrucha\Utility\Fork\Contracts\TransformerInterface;
 use Mpietrucha\Utility\Hash;
@@ -15,7 +16,7 @@ use Mpietrucha\Utility\Normalizer;
 
 class Storage implements CreatableInterface, StorageInterface
 {
-    use Creatable;
+    use Creatable, InteractsWithOutput;
 
     public function __construct(protected ?string $directory = null, protected ?LotteryInterface $lottery = null)
     {
@@ -65,11 +66,16 @@ class Storage implements CreatableInterface, StorageInterface
 
     protected function directory(): string
     {
-        return $this->directory ??= Filesystem\Touch::directory('.storage', __DIR__);
+        return $this->directory ??= static::output();
     }
 
     protected function lottery(): LotteryInterface
     {
         return $this->lottery ??= Lottery::odds(1, 1000);
+    }
+
+    protected static function seed(): string
+    {
+        return Filesystem\Touch::directory('.storage', __DIR__);
     }
 }

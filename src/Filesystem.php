@@ -67,7 +67,7 @@ abstract class Filesystem
     }
 
     /**
-     * Create a temporary ephemeral file.
+     * Create an ephemeral file.
      */
     public static function ephemeral(?string $name = null): string
     {

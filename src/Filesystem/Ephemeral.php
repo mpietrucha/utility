@@ -3,27 +3,19 @@
 namespace Mpietrucha\Utility\Filesystem;
 
 use Mpietrucha\Utility\Filesystem;
+use Mpietrucha\Utility\Filesystem\Concerns\InteractsWithOutput;
+use Mpietrucha\Utility\Filesystem\Contracts\InteractsWithOutputInterface;
 use Mpietrucha\Utility\Lottery;
 use Mpietrucha\Utility\Lottery\Contracts\LotteryInterface;
 use Mpietrucha\Utility\Str;
 
-abstract class Ephemeral
+abstract class Ephemeral implements InteractsWithOutputInterface
 {
-    protected static ?string $storage = null;
-
-    public static function use(string $storage): void
-    {
-        static::$storage = $storage;
-    }
-
-    public static function storage(): string
-    {
-        return static::$storage ??= Touch::directory('ephemerals', sys_get_temp_dir());
-    }
+    use InteractsWithOutput;
 
     public static function flush(): void
     {
-        static::storage() |> Filesystem::deleteDirectory(...);
+        static::output() |> Filesystem::deleteDirectory(...);
     }
 
     public static function validate(?LotteryInterface $lottery = null): void
@@ -38,6 +30,11 @@ abstract class Ephemeral
     {
         $name ??= Str::random(64);
 
-        return @tempnam(static::storage(), $name);
+        return @tempnam(static::output(), $name);
+    }
+
+    protected static function seed(): string
+    {
+        return Touch::directory('ephemerals', sys_get_temp_dir());
     }
 }

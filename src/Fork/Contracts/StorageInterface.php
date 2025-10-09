@@ -2,7 +2,9 @@
 
 namespace Mpietrucha\Utility\Fork\Contracts;
 
-interface StorageInterface
+use Mpietrucha\Utility\Filesystem\Contracts\InteractsWithOutputInterface;
+
+interface StorageInterface extends InteractsWithOutputInterface
 {
     public function validate(): void;
 

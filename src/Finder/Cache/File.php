@@ -4,6 +4,8 @@ namespace Mpietrucha\Utility\Finder\Cache;
 
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Filesystem;
+use Mpietrucha\Utility\Filesystem\Concerns\InteractsWithOutput;
+use Mpietrucha\Utility\Filesystem\Contracts\InteractsWithOutputInterface;
 use Mpietrucha\Utility\Filesystem\Stream;
 use Mpietrucha\Utility\Finder\Contracts\SnapshotInterface;
 use Mpietrucha\Utility\Finder\Snapshot;
@@ -12,8 +14,10 @@ use Mpietrucha\Utility\Lottery\Contracts\LotteryInterface;
 use Mpietrucha\Utility\Normalizer;
 use Mpietrucha\Utility\Str;
 
-class File extends None
+class File extends None implements InteractsWithOutputInterface
 {
+    use InteractsWithOutput;
+
     public function __construct(
         protected ?string $directory = null,
         protected ?LotteryInterface $lottery = null,
@@ -83,7 +87,7 @@ class File extends None
 
     protected function directory(): string
     {
-        return $this->directory ??= Filesystem\Touch::directory('../.cache', __DIR__);
+        return $this->directory ??= static::output();
     }
 
     protected function lottery(): LotteryInterface
@@ -94,5 +98,10 @@ class File extends None
     protected function snapshot(): SnapshotInterface
     {
         return $this->snapshot ??= Snapshot\Filesystem::create();
+    }
+
+    protected static function seed(): string
+    {
+        return Filesystem\Touch::directory('../.cache', __DIR__);
     }
 }

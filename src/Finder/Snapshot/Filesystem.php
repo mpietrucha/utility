@@ -4,29 +4,21 @@ namespace Mpietrucha\Utility\Finder\Snapshot;
 
 use Mpietrucha\Utility\Collection;
 use Mpietrucha\Utility\Filesystem as Adapter;
+use Mpietrucha\Utility\Filesystem\Concerns\InteractsWithOutput;
+use Mpietrucha\Utility\Filesystem\Contracts\InteractsWithOutputInterface;
 use Mpietrucha\Utility\Type;
 
-class Filesystem extends None
+class Filesystem extends None implements InteractsWithOutputInterface
 {
-    protected static ?string $file = null;
+    use InteractsWithOutput;
 
     /**
      * @var \Mpietrucha\Utility\Collection<string, string>|null
      */
-    protected static ?Collection $snapshots = null;
+    protected ?Collection $snapshots = null;
 
-    public static function use(string $file): void
+    public function __construct(protected ?string $file = null)
     {
-        static::$file = $file;
-
-        static::$snapshots = null;
-    }
-
-    public static function update(): void
-    {
-        [$file, $snapshots] = [static::file(), static::snapshots()->toJson()];
-
-        Adapter::put($file, $snapshots);
     }
 
     public function get(string $input): ?string
@@ -42,25 +34,35 @@ class Filesystem extends None
             return true;
         }
 
-        if (static::snapshots()->get($input) === $snapshot) {
+        if ($this->snapshots()->get($input) === $snapshot) {
             return false;
         }
 
-        static::update(...) |> static::snapshots()->put($input, $snapshot)->tap(...);
+        $this->update(...) |> $this->snapshots()->put($input, $snapshot)->tap(...);
 
         return true;
+    }
+
+    protected function update(): void
+    {
+        Adapter::put($this->file(), $this->snapshots()->toJson());
     }
 
     /**
      * @return \Mpietrucha\Utility\Collection<string, string>
      */
-    protected static function snapshots(): Collection
+    protected function snapshots(): Collection
     {
-        return static::$snapshots ??= static::file() |> Adapter::json(...) |> Collection::create(...);
+        return $this->snapshots ??= $this->file() |> Adapter::json(...) |> Collection::create(...);
     }
 
-    protected static function file(): string
+    protected function file(): string
     {
-        return static::$file ??= Adapter\Touch::file('../snapshots.json', __DIR__);
+        return $this->file ??= static::output();
+    }
+
+    protected static function seed(): string
+    {
+        return Adapter\Touch::file('../snapshots.json', __DIR__);
     }
 }
