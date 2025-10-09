@@ -2,7 +2,6 @@
 
 namespace Mpietrucha\Utility\Filesystem;
 
-use Mpietrucha\Utility\Filesystem;
 use Mpietrucha\Utility\Stream as Adapter;
 use Mpietrucha\Utility\Stream\Concerns\InteractsWithFilesystem;
 use Mpietrucha\Utility\Stream\Contracts\InteractsWithFilesystemInterface;
@@ -14,6 +13,6 @@ abstract class Stream implements InteractsWithFilesystemInterface
 
     public static function temporary(): StreamInterface
     {
-        return Filesystem::temporary() |> Adapter::create(...);
+        return Temporary::resource(...) |> Adapter::create(...);
     }
 }

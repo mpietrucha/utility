@@ -61,11 +61,6 @@ abstract class Filesystem
         return @fopen($path, $mode) ?: null;
     }
 
-    public static function temporary(): mixed
-    {
-        return Filesystem\Temporary::file();
-    }
-
     /**
      * Create an ephemeral file.
      */

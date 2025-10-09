@@ -4,7 +4,6 @@ namespace Mpietrucha\Utility\Filesystem;
 
 use Mpietrucha\Utility\Filesystem\Concerns\InteractsWithOutput;
 use Mpietrucha\Utility\Filesystem\Contracts\InteractsWithOutputInterface;
-use Mpietrucha\Utility\Finder;
 use Mpietrucha\Utility\Lottery;
 use Mpietrucha\Utility\Lottery\Contracts\LotteryInterface;
 
@@ -14,13 +13,7 @@ abstract class Ephemeral implements InteractsWithOutputInterface
 
     public static function flush(): void
     {
-        $finder = static::output() |> Finder::uncached()
-            ->files()
-            ->in(...);
-
-        $ephemerals = Extension::unexists(...) |> $finder->get()->filter(...);
-
-        $ephemerals->each->delete();
+        static::output() |> Temporary::flush(...);
     }
 
     public static function validate(?LotteryInterface $lottery = null): void
@@ -33,7 +26,9 @@ abstract class Ephemeral implements InteractsWithOutputInterface
 
     public static function get(?string $name = null): string
     {
-        return Temporary::name(static::output(), $name);
+        $directory = static::output();
+
+        return Temporary::file($name, $directory);
     }
 
     protected static function seed(): string

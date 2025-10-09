@@ -27,7 +27,7 @@ class File extends None implements InteractsWithOutputInterface
 
     public function flush(): void
     {
-        $this->directory() |> Filesystem::cleanDirectory(...);
+        $this->directory() |> Filesystem\Temporary::flush(...);
     }
 
     public function exists(string $identity): bool
@@ -102,6 +102,6 @@ class File extends None implements InteractsWithOutputInterface
 
     protected static function seed(): string
     {
-        return Filesystem\Touch::directory('../.cache', __DIR__);
+        return Filesystem\Touch::directory('.cache', Filesystem\Temporary::directory());
     }
 }

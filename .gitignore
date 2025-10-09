@@ -2,7 +2,4 @@
 vendor
 composer.lock
 .phpactor.json
-src/Finder/.cache
-src/Finder/snapshots.json
-src/Fork/.storage
 a.php

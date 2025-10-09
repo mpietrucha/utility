@@ -63,6 +63,6 @@ class Filesystem extends None implements InteractsWithOutputInterface
 
     protected static function seed(): string
     {
-        return Adapter\Touch::file('../snapshots.json', __DIR__);
+        return Adapter\Touch::file('snapshots.json', Adapter\Temporary::directory());
     }
 }

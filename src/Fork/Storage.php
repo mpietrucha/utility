@@ -29,7 +29,7 @@ class Storage implements CreatableInterface, StorageInterface
 
     public function flush(): void
     {
-        $this->directory() |> Filesystem::cleanDirectory(...);
+        $this->directory() |> Filesystem\Temporary::flush(...);
     }
 
     public function identify(TransformerInterface $transformer): string
@@ -76,6 +76,6 @@ class Storage implements CreatableInterface, StorageInterface
 
     protected static function seed(): string
     {
-        return Filesystem\Touch::directory('.storage', __DIR__);
+        return Filesystem\Touch::directory('.storage', Filesystem\Temporary::directory());
     }
 }
