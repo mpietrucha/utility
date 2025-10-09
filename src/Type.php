@@ -27,7 +27,7 @@ abstract class Type implements InteractsWithTypesInterface
      *
      * @template T
      *
-     * @phpstan-param T $value
+     * @param  T  $value
      *
      * @phpstan-return (T is object ? class-string<T> : string)
      */

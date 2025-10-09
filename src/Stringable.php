@@ -38,7 +38,7 @@ class Stringable extends \Illuminate\Support\Stringable implements Conditionable
         return clone $this;
     }
 
-    public function sprintf(null|float|int|string ...$arguments): static
+    public function sprintf(mixed ...$arguments): static
     {
         return Str::sprintf($this->toString(), ...$arguments) |> static::create(...);
     }

@@ -33,7 +33,7 @@ class Str extends \Illuminate\Support\Str
     /**
      * Format a string using the given arguments.
      */
-    public static function sprintf(string $string, null|float|int|string ...$arguments): string
+    public static function sprintf(string $string, mixed ...$arguments): string
     {
         return sprintf($string, ...$arguments);
     }

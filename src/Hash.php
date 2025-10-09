@@ -2,6 +2,8 @@
 
 namespace Mpietrucha\Utility;
 
+use Mpietrucha\Utility\Hash\Exception\HashException;
+
 /**
  * @method static string md2(string $content)
  * @method static string md4(string $content)
@@ -66,8 +68,6 @@ namespace Mpietrucha\Utility;
  */
 abstract class Hash
 {
-    public const string DEFAULT = 'md5';
-
     protected static ?string $algorithm = null;
 
     /**
@@ -77,19 +77,25 @@ abstract class Hash
     {
         $method = Str::of($method)->camel()->replace([',', '/'], '_');
 
-        $handler = hash(...);
+        $evaluation = hash(...) |> Value::attempt(...);
 
-        return Value::for($handler)->get($method, ...$arguments);
+        $result = Arr::prepend($arguments, $method) |> $evaluation->eval(...);
+
+        if ($result->succeeded()) {
+            return $result->value();
+        }
+
+        HashException::for($result)->throw();
     }
 
-    public static function default(string $algorithm): void
+    public static function use(string $algorithm): void
     {
         static::$algorithm = $algorithm;
     }
 
     public static function algorithm(?string $algorithm = null): string
     {
-        return $algorithm ?? static::$algorithm ?? static::DEFAULT;
+        return $algorithm ?? static::$algorithm ?? 'md5';
     }
 
     public static function bind(?string $algorithm = null): callable

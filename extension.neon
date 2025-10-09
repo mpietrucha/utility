@@ -18,6 +18,14 @@ services:
     tags:
         - phpstan.broker.dynamicStaticMethodReturnTypeExtension
   -
+    class: Mpietrucha\Extensions\PHPStan\ReturnTypes\TapExtension
+    tags:
+        - phpstan.broker.dynamicMethodReturnTypeExtension
+  -
+    class: Mpietrucha\Extensions\PHPStan\ReturnTypes\PassExtension
+    tags:
+        - phpstan.broker.dynamicMethodReturnTypeExtension
+  -
     class: Mpietrucha\Extensions\PHPStan\Stubs\InternalExtension
     tags:
         - phpstan.stubFilesExtension
