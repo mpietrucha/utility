@@ -2,9 +2,9 @@
 
 namespace Mpietrucha\Utility\Filesystem;
 
-use Mpietrucha\Utility\Filesystem;
 use Mpietrucha\Utility\Filesystem\Concerns\InteractsWithOutput;
 use Mpietrucha\Utility\Filesystem\Contracts\InteractsWithOutputInterface;
+use Mpietrucha\Utility\Finder;
 use Mpietrucha\Utility\Lottery;
 use Mpietrucha\Utility\Lottery\Contracts\LotteryInterface;
 use Mpietrucha\Utility\Str;
@@ -15,7 +15,13 @@ abstract class Ephemeral implements InteractsWithOutputInterface
 
     public static function flush(): void
     {
-        static::output() |> Filesystem::deleteDirectory(...);
+        $finder = static::output() |> Finder::uncached()
+            ->files()
+            ->in(...);
+
+        $ephemerals = Extension::unexists(...) |> $finder->get()->filter(...);
+
+        $ephemerals->each->delete();
     }
 
     public static function validate(?LotteryInterface $lottery = null): void

@@ -25,7 +25,7 @@ abstract class Handler
 
     public static function capture(?HandlerInterface $adapter = null): HandlerInterface
     {
-        Level::set(Level::ALL ^ Level::DEPRECATED);
+        Level::hide(Level::DEPRECATED);
 
         $adapter ??= static::get();
 

@@ -20,4 +20,14 @@ abstract class Level implements InteractsWithLevelsInterface
     {
         return static::use();
     }
+
+    public static function hide(int $level): int
+    {
+        return static::set(static::get() ^ $level);
+    }
+
+    public static function show(int $level): int
+    {
+        return static::set(static::get() & $level);
+    }
 }
