@@ -63,7 +63,7 @@ abstract class Filesystem
 
     public static function temporary(): mixed
     {
-        return tmpfile() ?: null;
+        return Filesystem\Temporary::file();
     }
 
     /**

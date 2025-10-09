@@ -7,7 +7,6 @@ use Mpietrucha\Utility\Filesystem\Contracts\InteractsWithOutputInterface;
 use Mpietrucha\Utility\Finder;
 use Mpietrucha\Utility\Lottery;
 use Mpietrucha\Utility\Lottery\Contracts\LotteryInterface;
-use Mpietrucha\Utility\Str;
 
 abstract class Ephemeral implements InteractsWithOutputInterface
 {
@@ -34,13 +33,11 @@ abstract class Ephemeral implements InteractsWithOutputInterface
 
     public static function get(?string $name = null): string
     {
-        $name ??= Str::random(64);
-
-        return @tempnam(static::output(), $name);
+        return Temporary::name(static::output(), $name);
     }
 
     protected static function seed(): string
     {
-        return Touch::directory('ephemerals', sys_get_temp_dir());
+        return Touch::directory('ephemerals', Temporary::directory());
     }
 }
