@@ -2,6 +2,7 @@
 
 namespace Mpietrucha\Utility;
 
+use Closure;
 use Mpietrucha\Utility\Value\Attempt;
 use Mpietrucha\Utility\Value\Contracts\AttemptInterface;
 use Mpietrucha\Utility\Value\Contracts\EvaluationInterface;
@@ -39,5 +40,10 @@ abstract class Value
     public static function pipe(mixed $value, mixed $evaluable): PipeInterface
     {
         return Pipe::create($value, $evaluable);
+    }
+
+    public static function bind(mixed evaluable, ?array $arguments = null): Closure
+    {
+        return Evaluation::bind($evaluable, $arguments);
     }
 }

@@ -73,9 +73,9 @@ class Finder implements CreatableInterface, FinderInterface
      */
     public function __call(string $method, array $arguments): static
     {
-        $adapter = $this->adapter();
+        $forward = $this->adapter() |> $this->forward(...);
 
-        $this->forward($adapter)->eval($method, $arguments);
+        $forward->eval($method, $arguments);
 
         return $this;
     }

@@ -2,6 +2,7 @@
 
 namespace Mpietrucha\Utility\Value;
 
+use Closure;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Forward\Concerns\Forwardable;
@@ -23,6 +24,13 @@ class Evaluation implements CreatableInterface, EvaluationInterface
      */
     public function __construct(protected mixed $evaluable)
     {
+    }
+
+    public static function bind(mixed $evaluable, ?array $arguments): Closure
+    {
+        $evaluation = static::create($evaluable);
+
+        return fn () => Normalizer::array($arguments) |> $evaluation->eval(...);
     }
 
     /**

@@ -17,6 +17,20 @@ abstract class Temporary
         $files->each->delete();
     }
 
+
+    public static function name(?string $name = null, bool $unique = false): string
+    {
+        if (Type::null($name)) {
+            return Str::random(32);
+        }
+
+        if ($unique === true) {
+            return $name . static::name();
+        }
+
+        return $name . static::hash($name);
+    }
+
     /**
      * @return resource|null
      */

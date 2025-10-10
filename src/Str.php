@@ -30,6 +30,11 @@ class Str extends \Illuminate\Support\Str
         return static::isEmpty($string) |> Normalizer::not(...);
     }
 
+    public static function hash(string $string, ?string $algorithm = null): string
+    {
+        return static::of($string)->hash($algorithm);
+    }
+
     /**
      * Format a string using the given arguments.
      */
