@@ -24,8 +24,6 @@ class LazyCollection extends \Illuminate\Support\LazyCollection implements Enume
 
     public static function initialize(mixed $handler, mixed ...$arguments): static
     {
-        $evaluable = Value::for($handler);
-
-        return static::create(fn () => $evaluable->eval($arguments));
+        return Value::bind($handler, $arguments) |> static::create(...);
     }
 }
