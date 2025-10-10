@@ -4,13 +4,13 @@ namespace Mpietrucha\Utility\Finder\Snapshot;
 
 use Mpietrucha\Utility\Collection;
 use Mpietrucha\Utility\Filesystem as Adapter;
-use Mpietrucha\Utility\Filesystem\Concerns\InteractsWithOutput;
-use Mpietrucha\Utility\Filesystem\Contracts\InteractsWithOutputInterface;
 use Mpietrucha\Utility\Type;
+use Mpietrucha\Utility\Utilizer\Concerns\Utilizable;
+use Mpietrucha\Utility\Utilizer\Contracts\UtilizableInterface;
 
-class Filesystem extends None implements InteractsWithOutputInterface
+class Filesystem extends None implements UtilizableInterface
 {
-    use InteractsWithOutput;
+    use Utilizable\Strings;
 
     /**
      * @var \Mpietrucha\Utility\Collection<string, string>|null
@@ -58,11 +58,11 @@ class Filesystem extends None implements InteractsWithOutputInterface
 
     protected function file(): string
     {
-        return $this->file ??= static::output();
+        return $this->file ??= static::utilize();
     }
 
-    protected static function seed(): string
+    protected static function hydrate(): string
     {
-        return Adapter\Touch::file('snapshots.json', Adapter\Temporary::directory());
+        return Adapter\Temporary::file('snapshots.json');
     }
 }

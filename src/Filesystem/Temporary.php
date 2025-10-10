@@ -2,14 +2,25 @@
 
 namespace Mpietrucha\Utility\Filesystem;
 
+use Mpietrucha\Utility\Filesystem;
+use Mpietrucha\Utility\Filesystem\Contracts\InteractsWithTemporaryInterface;
 use Mpietrucha\Utility\Finder;
-use Mpietrucha\Utility\Str;
+use Mpietrucha\Utility\Type;
+use Mpietrucha\Utility\Utilizer\Concerns\Utilizable;
+use Mpietrucha\Utility\Utilizer\Contracts\UtilizableInterface;
 
-abstract class Temporary
+abstract class Temporary implements InteractsWithTemporaryInterface, UtilizableInterface
 {
+    use Utilizable\Strings;
+
+    public static function purge(): void
+    {
+        static::directory() |> static::flush(...);
+    }
+
     public static function flush(string $directory): void
     {
-        $files = Extension::unexists(...) |> Finder::uncached()->in($directory)
+        $files = Temporary\Name::compatible(...) |> Finder::uncached()->in($directory)
             ->files()
             ->get()
             ->filter(...);
@@ -17,18 +28,9 @@ abstract class Temporary
         $files->each->delete();
     }
 
-
     public static function name(?string $name = null, bool $unique = false): string
     {
-        if (Type::null($name)) {
-            return Str::random(32);
-        }
-
-        if ($unique === true) {
-            return $name . static::name();
-        }
-
-        return $name . static::hash($name);
+        return Temporary\Name::get($name, $unique);
     }
 
     /**
@@ -39,22 +41,41 @@ abstract class Temporary
         return tmpfile() ?: null;
     }
 
-    public static function name(): string
+    public static function directory(?string $name = null, bool $unique = false): string
     {
-        return Str::random(63);
+        $directory = static::utilize() |> Temporary\Directory::get(...);
+
+        if (Type::null($name)) {
+            return $directory;
+        }
+
+        return static::get($name, $directory, $unique) |> Touch::directory(...);
     }
 
-    public static function directory(): string
+    public static function file(?string $name, ?string $directory = null, bool $unique = false): string
     {
-        return sys_get_temp_dir();
+        return static::get($name, $directory, $unique) |> Touch::file(...);
     }
 
-    public static function file(?string $name = null, ?string $directory = null): string
+    public static function get(?string $name = null, ?string $directory = null, bool $unique = false): string
     {
-        $directory ??= static::directory();
+        $temporary = static::build($name, $directory, $unique);
 
-        $name ??= static::name();
+        if ($unique === false) {
+            return $temporary;
+        }
 
-        return @tempnam($directory, $name);
+        if (Filesystem::unexists($temporary)) {
+            return $temporary;
+        }
+
+        return static::get($name, $directory, $unique);
+    }
+
+    protected static function build(?string $name = null, ?string $directory = null, bool $unique = false): string
+    {
+        $name = static::name($name, $unique);
+
+        return Path::build($name, $directory ?? static::directory());
     }
 }

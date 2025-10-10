@@ -14,6 +14,10 @@ services:
     tags:
         - phpstan.ignoreErrorExtension
   -
+    class: Mpietrucha\Extensions\PHPStan\Errors\ForwardExtension
+    tags:
+        - phpstan.ignoreErrorExtension
+  -
     class: Mpietrucha\Extensions\PHPStan\ReturnTypes\NormalizerExtension
     tags:
         - phpstan.broker.dynamicStaticMethodReturnTypeExtension

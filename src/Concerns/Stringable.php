@@ -19,7 +19,7 @@ trait Stringable
      */
     public function toString(): string
     {
-        return '';
+        return Str::none();
     }
 
     final public function toStringable(): Adapter

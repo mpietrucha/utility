@@ -20,14 +20,14 @@ final class CreatableExtension implements IgnoreErrorExtension
     {
         $trait = $this->usesTrait($scope);
 
-        if ($trait & $this->interactsWithUnsafeNewStatic($error)) {
+        if ($trait & $this->interactsWithIdentifier($error)) {
             return true;
         }
 
         return $this->interactsWithCreatable($error, $scope, $trait);
     }
 
-    protected function interactsWithUnsafeNewStatic(Error $error): bool
+    protected function interactsWithIdentifier(Error $error): bool
     {
         return $error->getIdentifier() === 'new.static';
     }

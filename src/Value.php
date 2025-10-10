@@ -42,7 +42,10 @@ abstract class Value
         return Pipe::create($value, $evaluable);
     }
 
-    public static function bind(mixed evaluable, ?array $arguments = null): Closure
+    /**
+     * @param  array<int|string, mixed>|null  $arguments
+     */
+    public static function bind(mixed $evaluable, ?array $arguments = null): Closure
     {
         return Evaluation::bind($evaluable, $arguments);
     }

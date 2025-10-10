@@ -2,18 +2,18 @@
 
 namespace Mpietrucha\Utility\Filesystem;
 
-use Mpietrucha\Utility\Filesystem\Concerns\InteractsWithOutput;
-use Mpietrucha\Utility\Filesystem\Contracts\InteractsWithOutputInterface;
 use Mpietrucha\Utility\Lottery;
 use Mpietrucha\Utility\Lottery\Contracts\LotteryInterface;
+use Mpietrucha\Utility\Utilizer\Concerns\Utilizable;
+use Mpietrucha\Utility\Utilizer\Contracts\UtilizableInterface;
 
-abstract class Ephemeral implements InteractsWithOutputInterface
+abstract class Ephemeral implements UtilizableInterface
 {
-    use InteractsWithOutput;
+    use Utilizable\Strings;
 
     public static function flush(): void
     {
-        static::output() |> Temporary::flush(...);
+        static::utilize() |> Temporary::flush(...);
     }
 
     public static function validate(?LotteryInterface $lottery = null): void
@@ -26,13 +26,13 @@ abstract class Ephemeral implements InteractsWithOutputInterface
 
     public static function get(?string $name = null): string
     {
-        $directory = static::output();
+        $directory = static::utilize();
 
-        return Temporary::file($name, $directory);
+        return Temporary::file($name, $directory, Temporary::UNIQUE);
     }
 
-    protected static function seed(): string
+    protected static function hydrate(): string
     {
-        return Touch::directory('ephemerals', Temporary::directory());
+        return Temporary::directory('ephemerals');
     }
 }

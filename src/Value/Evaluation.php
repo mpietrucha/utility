@@ -26,13 +26,6 @@ class Evaluation implements CreatableInterface, EvaluationInterface
     {
     }
 
-    public static function bind(mixed $evaluable, ?array $arguments): Closure
-    {
-        $evaluation = static::create($evaluable);
-
-        return fn () => Normalizer::array($arguments) |> $evaluation->eval(...);
-    }
-
     /**
      * @param  array<int, mixed>  $arguments
      */
@@ -51,6 +44,16 @@ class Evaluation implements CreatableInterface, EvaluationInterface
     public function __invoke(mixed ...$arguments): mixed
     {
         return $this->eval($arguments);
+    }
+
+    /**
+     * @param  array<int|string, mixed>|null  $arguments
+     */
+    public static function bind(mixed $evaluable, ?array $arguments): Closure
+    {
+        $evaluation = static::create($evaluable);
+
+        return fn () => Normalizer::array($arguments) |> $evaluation->eval(...);
     }
 
     /**

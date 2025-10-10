@@ -48,6 +48,11 @@ class Str extends \Illuminate\Support\Str
         return PHP_EOL . $append;
     }
 
+    public static function none(?string $append = null): string
+    {
+        return '' . $append;
+    }
+
     public static function tab(?string $append = null): string
     {
         return "\t" . $append;

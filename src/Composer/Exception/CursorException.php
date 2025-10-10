@@ -4,7 +4,7 @@ namespace Mpietrucha\Utility\Composer\Exception;
 
 use Mpietrucha\Utility\Throwable\InvalidArgumentException;
 
-class CursorInputException extends InvalidArgumentException
+class CursorException extends InvalidArgumentException
 {
     public function configure(string $input): string
     {

@@ -2,29 +2,12 @@
 
 namespace Mpietrucha\Utility\Hash\Exception;
 
-use ArgumentCountError;
-use Mpietrucha\Utility\Str;
-use Mpietrucha\Utility\Throwable\RuntimeException;
-use Mpietrucha\Utility\Value\Contracts\ResultInterface;
-use Throwable;
-use TypeError;
+use Mpietrucha\Utility\Throwable\BadMethodCallException;
 
-class HashException extends RuntimeException
+class HashException extends BadMethodCallException
 {
-    public function configure(ResultInterface|Throwable $throwable): string
+    public function configure(string $algorithm): string
     {
-        if ($throwable instanceof ResultInterface) {
-            return $throwable->error() |> $this->configure(...);
-        }
-
-        if ($throwable instanceof ArgumentCountError) {
-            return 'Hash data is missing';
-        }
-
-        if ($throwable instanceof TypeError) {
-            return 'Hash data must be a string';
-        }
-
-        return Str::after($throwable->getMessage(), 'hash(): ');
+        return 'Hash algorithm `%s` does not exists';
     }
 }
