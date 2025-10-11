@@ -6,6 +6,9 @@ use Mpietrucha\Utility\Filesystem;
 use Mpietrucha\Utility\Stream;
 use Mpietrucha\Utility\Stream\Contracts\StreamInterface;
 
+/**
+ * @internal
+ */
 trait InteractsWithFilesystem
 {
     /**

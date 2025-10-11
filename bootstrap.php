@@ -4,6 +4,7 @@ use Mpietrucha\Extensions\Fork\Larastan;
 use Mpietrucha\Extensions\Fork\Stream;
 use Mpietrucha\Utility\Benchmark;
 use Mpietrucha\Utility\Filesystem\Ephemeral;
+use Mpietrucha\Utility\Filesystem\Temporary;
 use Mpietrucha\Utility\Fork;
 
 Benchmark::start();

@@ -6,6 +6,9 @@ use Mpietrucha\Utility\Throwable\Configurator;
 use Mpietrucha\Utility\Throwable\Contracts\ConfiguratorInterface;
 use Mpietrucha\Utility\Throwable\Contracts\ThrowableInterface;
 
+/**
+ * @internal
+ */
 trait InteractsWithConfigurator
 {
     public static function configurator(): ConfiguratorInterface
