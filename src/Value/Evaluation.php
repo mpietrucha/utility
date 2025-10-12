@@ -46,6 +46,11 @@ class Evaluation implements CreatableInterface, EvaluationInterface
         return $this->eval($arguments);
     }
 
+    public static function identity(mixed $evaluable): Closure
+    {
+        return fn () => $evaluable;
+    }
+
     /**
      * @param  array<array-key, mixed>|null  $arguments
      */

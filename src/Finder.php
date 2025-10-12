@@ -2,7 +2,6 @@
 
 namespace Mpietrucha\Utility;
 
-use Closure;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
@@ -54,7 +53,7 @@ class Finder implements CreatableInterface, FinderInterface
         return Builder::create();
     }
 
-    public static function uncached(?Closure $configuration = null): static
+    public static function uncached(?callable $configuration = null): static
     {
         $builder = Cache\None::create() |> static::builder()->cache(...);
 

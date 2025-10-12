@@ -2,10 +2,11 @@
 
 namespace Mpietrucha\Utility;
 
-use Laravel\SerializableClosure\SerializableClosure;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
+use Mpietrucha\Utility\Instance\Contracts\InteractsWithInstanceInterface;
+use Mpietrucha\Utility\Instance\Serializer;
 
-abstract class Instance
+abstract class Instance implements InteractsWithInstanceInterface
 {
     /**
      * Determine if the given instance refers to an existing class, interface, or trait.
@@ -76,18 +77,18 @@ abstract class Instance
     /**
      * Resolve the file path of the given instance.
      */
-    public static function file(object|string $instance): ?string
+    public static function file(object|string $instance, bool $autoload = false): ?string
     {
-        $namespace = static::namespace($instance);
-
-        if (Type::null($namespace)) {
-            return null;
-        }
+        $namespace = Type::string($instance) ? $instance : static::namespace($instance);
 
         $file = Composer::autoload()->file($namespace);
 
         if (Type::string($file)) {
             return $file;
+        }
+
+        if (static::unexists($namespace, $autoload)) {
+            return null;
         }
 
         return Reflection::create($namespace)->getFileName() ?: null;
@@ -107,13 +108,14 @@ abstract class Instance
         return static::namespace($instance);
     }
 
-    public static function serialize(object $instance, ?string $secret = null): string
+    public static function serialize(object $instance): string
     {
-        Type::string($secret) && SerializableClosure::setSecretKey($secret);
+        return Serializer::serialize($instance);
+    }
 
-        $evaluation = serialize(...) |> Value::for(...);
-
-        return new SerializableClosure(fn () => $instance) |> $evaluation->string(...);
+    public static function unserialize(string $instance): object
+    {
+        return Serializer::unserialize($instance);
     }
 
     public static function hash(object $instance, ?string $algorithm = null): string
@@ -129,7 +131,7 @@ abstract class Instance
             return null;
         }
 
-        if (@class_alias($class, $alias, false) |> Normalizer::not(...)) {
+        if (@class_alias($class, $alias) |> Normalizer::not(...)) {
             return null;
         }
 

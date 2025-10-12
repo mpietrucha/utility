@@ -8,10 +8,8 @@ use Mpietrucha\Utility\Filesystem;
 use Mpietrucha\Utility\Fork\Contracts\StorageInterface;
 use Mpietrucha\Utility\Fork\Contracts\TransformerInterface;
 use Mpietrucha\Utility\Hash;
-use Mpietrucha\Utility\Instance;
 use Mpietrucha\Utility\Lottery;
 use Mpietrucha\Utility\Lottery\Contracts\LotteryInterface;
-use Mpietrucha\Utility\Normalizer;
 use Mpietrucha\Utility\Utilizer\Concerns\Utilizable;
 
 class Storage implements CreatableInterface, StorageInterface
@@ -36,30 +34,34 @@ class Storage implements CreatableInterface, StorageInterface
     {
         $file = $transformer->file();
 
-        $transformer = Instance::file($transformer) |> Normalizer::string(...);
+        $transformer = Instance\File::get($transformer);
 
-        return Filesystem::hash($file) . Filesystem::hash($transformer) |> Hash::md5(...);
+        return Filesystem::hash($file) . Filesystem::hash($file) |> Hash::md5(...);
     }
 
     public function store(TransformerInterface $transformer): string
     {
         $file = $this->identify($transformer) |> $this->file(...);
 
-        Filesystem::not()->file($file) && Filesystem::put($file, $this->transform($transformer));
+        if (Filesystem::exists($file)) {
+            return $file;
+        }
+
+        Filesystem::put($file, $this->transform($transformer));
 
         return $file;
     }
 
     public function transform(TransformerInterface $transformer): string
     {
-        $body = $transformer->file() |> Filesystem::get(...) |> $transformer->body(...);
+        $content = $transformer->file() |> Filesystem::get(...) |> $transformer->content(...);
 
-        $transformer->transform($body);
+        $transformer->transform($content);
 
-        return $body->toString();
+        return $content->toString();
     }
 
-    public function file(string $identity): string
+    protected function file(string $identity): string
     {
         return Filesystem\Path::join($this->directory(), $identity);
     }
@@ -76,6 +78,6 @@ class Storage implements CreatableInterface, StorageInterface
 
     protected static function hydrate(): string
     {
-        return Filesystem\Temporary::directory('storage');
+        return Filesystem\Temporary::directory('forks');
     }
 }

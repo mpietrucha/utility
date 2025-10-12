@@ -2,78 +2,69 @@
 
 namespace Mpietrucha\Utility;
 
-use Mpietrucha\Utility\Concerns\Creatable;
-use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Fork\Alias;
+use Mpietrucha\Utility\Fork\Concerns\InteractsWithAutoload;
+use Mpietrucha\Utility\Fork\Contracts\InteractsWithAutoloadInterface;
 use Mpietrucha\Utility\Fork\Contracts\StorageInterface;
 use Mpietrucha\Utility\Fork\Contracts\TransformerInterface;
 use Mpietrucha\Utility\Fork\Storage;
+use Mpietrucha\Utility\Utilizer\Concerns\Utilizable;
+use Mpietrucha\Utility\Utilizer\Contracts\UtilizableInterface;
 
-class Fork implements CreatableInterface
+abstract class Fork implements InteractsWithAutoloadInterface, UtilizableInterface
 {
-    use Creatable;
-
     /**
-     * @var \Mpietrucha\Utility\Collection<string, string>|null
+     * @use \Mpietrucha\Utility\Fork\Concerns\InteractsWithAutoload<string, \Mpietrucha\Utility\Fork\Contracts\TransformerInterface>
      */
-    protected static ?Collection $transformers = null;
+    use InteractsWithAutoload, Utilizable;
 
-    public function __construct(protected ?StorageInterface $storage = null)
+    public static function use(?StorageInterface $storage = null): void
     {
-    }
-
-    public static function bootstrap(): bool
-    {
-        return static::transformers()->isEmpty() && static::register(...) |> spl_autoload_register(...);
+        static::utilizable($storage);
     }
 
     /**
-     * @param  array<int, \Mpietrucha\Utility\Fork\Contracts\TransformerInterface>  $transformers
+     * @param  array<array-key, \Mpietrucha\Utility\Fork\Contracts\TransformerInterface>  $transformers
      */
-    public function load(array $transformers): void
+    public static function load(array $transformers): void
     {
-        $transformers = Collection::create($transformers)->whereInstanceOf(TransformerInterface::class);
+        $transformers = Collection::create($transformers)->whereInstance(TransformerInterface::class);
 
-        /** @phpstan-ignore-next-line  */
-        $this->add(...) |> $transformers->each(...);
+        /** @phpstan-ignore-next-line */
+        static::add(...) |> $transformers->each(...);
     }
 
-    public function add(TransformerInterface $transformer): void
+    public static function add(TransformerInterface $transformer): void
     {
         static::bootstrap();
 
-        if ($transformer->file() |> Filesystem::not()->file(...)) {
-            return;
-        }
-
-        $this->storage()->validate();
-
         Alias::transformer($transformer);
 
-        static::transformers()->put($transformer->namespace(), $this->storage()->store($transformer));
+        static::autoload()->put($transformer->namespace(), $transformer);
     }
 
-    /**
-     * @return \Mpietrucha\Utility\Collection<string, string>
-     */
-    protected static function transformers(): Collection
+    protected static function require(string $fork): void
     {
-        return static::$transformers ??= Collection::create();
-    }
+        $transformer = static::autoload()->get($fork);
 
-    protected static function register(string $class): void
-    {
-        $file = static::transformers()->get($class) ?? Alias::get($class);
-
-        if (Type::null($file)) {
+        if (Type::null($transformer)) {
             return;
         }
 
-        Filesystem::requireOnce($file);
+        if ($transformer->file() |> Filesystem::unexists(...)) {
+            return;
+        }
+
+        static::storage()->store($transformer) |> Filesystem::requireOnce(...);
     }
 
-    protected function storage(): StorageInterface
+    protected static function storage(): StorageInterface
     {
-        return $this->storage ??= Storage::create();
+        return static::utilize();
+    }
+
+    protected static function hydrate(): StorageInterface
+    {
+        return Storage::create();
     }
 }

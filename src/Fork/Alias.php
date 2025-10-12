@@ -2,19 +2,20 @@
 
 namespace Mpietrucha\Utility\Fork;
 
-use Mpietrucha\Utility\Collection;
-use Mpietrucha\Utility\Composer;
+use Mpietrucha\Utility\Filesystem;
+use Mpietrucha\Utility\Fork\Concerns\InteractsWithAutoload;
+use Mpietrucha\Utility\Fork\Contracts\InteractsWithAutoloadInterface;
 use Mpietrucha\Utility\Fork\Contracts\TransformerInterface;
 use Mpietrucha\Utility\Instance;
 use Mpietrucha\Utility\Instance\Path;
 use Mpietrucha\Utility\Type;
 
-abstract class Alias
+abstract class Alias implements InteractsWithAutoloadInterface
 {
     /**
-     * @var \Mpietrucha\Utility\Collection<string, string>|null
+     * @use \Mpietrucha\Utility\Fork\Concerns\InteractsWithAutoload<string, string>
      */
-    protected static ?Collection $aliases = null;
+    use InteractsWithAutoload;
 
     public static function transformer(TransformerInterface $transformer): void
     {
@@ -27,27 +28,27 @@ abstract class Alias
     {
         [$namespace, $alias] = [static::normalize($class), static::normalize($alias)];
 
-        if (Composer::autoload()->unexists($class)) {
-            return;
-        }
-
         static::namespace($namespace, $alias);
     }
 
     public static function namespace(string $namespace, string $alias): void
     {
-        static::aliases()->put($alias, $namespace);
+        static::bootstrap();
+
+        static::autoload()->put($alias, $namespace);
     }
 
-    public static function get(string $alias): ?string
+    protected static function require(string $alias): void
     {
-        $namespace = static::normalize($alias) |> static::aliases()->get(...);
+        $namespace = static::normalize($alias) |> static::autoload()->get(...);
 
         if (Type::null($namespace)) {
-            return null;
+            return;
         }
 
-        return static::build($namespace, $alias);
+        $file = static::build($namespace, $alias);
+
+        Type::string($file) && Filesystem::requireOnce($file);
     }
 
     protected static function build(string $namespace, string $alias): ?string
@@ -60,13 +61,5 @@ abstract class Alias
     protected static function normalize(string $namespace): string
     {
         return Path::namespace($namespace);
-    }
-
-    /**
-     * @return \Mpietrucha\Utility\Collection<string, string>
-     */
-    protected static function aliases(): Collection
-    {
-        return static::$aliases ??= Collection::create();
     }
 }

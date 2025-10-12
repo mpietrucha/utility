@@ -10,7 +10,7 @@ Benchmark::start();
 
 Ephemeral::validate();
 
-Fork::create()->load([
+Fork::load([
     Stream::create(),
     Larastan\HigherOrderCollectionProxyHelper::create(),
     Larastan\HigherOrderCollectionProxyExtension::create(),

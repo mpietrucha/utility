@@ -42,6 +42,11 @@ abstract class Value
         return Pipe::create($value, $evaluable);
     }
 
+    public static function identity(mixed $evaluable): Closure
+    {
+        return Evaluation::identity($evaluable);
+    }
+
     /**
      * @param  array<array-key, mixed>|null  $arguments
      */

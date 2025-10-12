@@ -102,6 +102,6 @@ class File extends None implements UtilizableInterface
 
     protected static function hydrate(): string
     {
-        return Filesystem\Temporary::directory('cache');
+        return Filesystem\Temporary::directory('finder');
     }
 }

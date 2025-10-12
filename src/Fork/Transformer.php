@@ -2,13 +2,11 @@
 
 namespace Mpietrucha\Utility\Fork;
 
-use Mpietrucha\Utility\Composer;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
-use Mpietrucha\Utility\Fork\Contracts\BodyInterface;
+use Mpietrucha\Utility\Fork\Contracts\ContentInterface;
 use Mpietrucha\Utility\Fork\Contracts\TransformerInterface;
 use Mpietrucha\Utility\Instance\Path;
-use Mpietrucha\Utility\Normalizer;
 
 abstract class Transformer implements CreatableInterface, TransformerInterface
 {
@@ -16,9 +14,32 @@ abstract class Transformer implements CreatableInterface, TransformerInterface
 
     protected ?string $file = null;
 
+    public static function find(string $class): string
+    {
+        return Instance\File::get($class);
+    }
+
+    public static function join(string $namespace, string $class): string
+    {
+        return Path::join($namespace, $class);
+    }
+
+    public static function hydrate(ContentInterface $content, TransformerInterface $transformer): ContentInterface
+    {
+        $content->replace(
+            $transformer->class() |> Transformer\Normalizer::name(...),
+            $transformer->namespace() |> Transformer\Normalizer::name(...)
+        );
+
+        return $content->replace(
+            $transformer->class() |> Transformer\Normalizer::namespace(...),
+            $transformer->namespace() |> Transformer\Normalizer::namespace(...),
+        );
+    }
+
     public function file(): string
     {
-        return $this->file ??= $this->class() |> Composer::autoload()->file(...) |> Normalizer::string(...);
+        return $this->file ??= $this->class() |> static::find(...);
     }
 
     public function prefix(): string
@@ -28,21 +49,11 @@ abstract class Transformer implements CreatableInterface, TransformerInterface
 
     public function namespace(): string
     {
-        return Path::join($this->prefix(), $this->class());
+        return static::join($this->prefix(), $this->class());
     }
 
-    public function body(string $content): BodyInterface
+    public function content(string $content): ContentInterface
     {
-        $names = [
-            $this->class() |> Transformer\Normalizer::name(...),
-            $this->namespace() |> Transformer\Normalizer::name(...),
-        ];
-
-        $namespaces = [
-            $this->class() |> Transformer\Normalizer::namespace(...),
-            $this->namespace() |> Transformer\Normalizer::namespace(...),
-        ];
-
-        return Body::create($content)->replace(...$names)->replace(...$namespaces);
+        return static::hydrate(Content::create($content), $this);
     }
 }

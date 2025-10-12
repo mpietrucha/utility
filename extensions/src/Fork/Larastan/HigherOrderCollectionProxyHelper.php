@@ -3,7 +3,7 @@
 namespace Mpietrucha\Extensions\Fork\Larastan;
 
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
-use Mpietrucha\Utility\Fork\Contracts\BodyInterface;
+use Mpietrucha\Utility\Fork\Contracts\ContentInterface;
 use Mpietrucha\Utility\Fork\Transformer;
 use Mpietrucha\Utility\Str;
 
@@ -14,8 +14,8 @@ class HigherOrderCollectionProxyHelper extends Transformer
         return \Larastan\Larastan\Support\HigherOrderCollectionProxyHelper::class;
     }
 
-    public function transform(BodyInterface $body): void
+    public function transform(ContentInterface $content): void
     {
-        Str::sprintf('use %s as SupportCollection;', EnumerableInterface::class) |> $body->line(7)->set(...);
+        Str::sprintf('use %s as SupportCollection;', EnumerableInterface::class) |> $content->line(7)->set(...);
     }
 }

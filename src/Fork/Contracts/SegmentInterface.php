@@ -4,7 +4,7 @@ namespace Mpietrucha\Utility\Fork\Contracts;
 
 use Mpietrucha\Utility\Contracts\StringableInterface;
 
-interface SectionInterface extends StringableInterface
+interface SegmentInterface extends StringableInterface
 {
     public function clear(): void;
 

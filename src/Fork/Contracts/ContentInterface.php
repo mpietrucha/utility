@@ -4,7 +4,7 @@ namespace Mpietrucha\Utility\Fork\Contracts;
 
 use Mpietrucha\Utility\Contracts\StringableInterface;
 
-interface BodyInterface extends InteractsWithSectionInterface, StringableInterface
+interface ContentInterface extends InteractsWithSegmentInterface, StringableInterface
 {
     public function clear(string $content): static;
 

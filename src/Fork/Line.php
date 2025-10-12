@@ -3,20 +3,20 @@
 namespace Mpietrucha\Utility\Fork;
 
 use Mpietrucha\Utility\Collection;
-use Mpietrucha\Utility\Fork\Contracts\BodyInterface;
+use Mpietrucha\Utility\Fork\Contracts\ContentInterface;
 use Mpietrucha\Utility\Str;
 use Mpietrucha\Utility\Type;
 
-class Line extends Section
+class Line extends Segment
 {
     /**
      * @var \Mpietrucha\Utility\Collection<int, string>
      */
     protected ?Collection $lines = null;
 
-    public function __construct(BodyInterface $body, protected int $line)
+    public function __construct(ContentInterface $content, protected int $line)
     {
-        parent::__construct($body);
+        parent::__construct($content);
     }
 
     public function clear(): void
@@ -28,7 +28,7 @@ class Line extends Section
     {
         $this->lines()->put($this->line(), $content);
 
-        Str::eol() |> $this->lines()->join(...) |> $this->body()->set(...);
+        Str::eol() |> $this->lines()->join(...) |> $this->content()->set(...);
     }
 
     public function replace(string $search, string $content): void
@@ -48,7 +48,7 @@ class Line extends Section
      */
     protected function lines(): Collection
     {
-        return $this->lines ??= $this->body()->toStringable()->lines();
+        return $this->lines ??= $this->content()->toStringable()->lines();
     }
 
     protected function line(): int

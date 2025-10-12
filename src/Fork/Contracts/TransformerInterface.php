@@ -10,7 +10,7 @@ interface TransformerInterface
 
     public function namespace(): string;
 
-    public function body(string $content): BodyInterface;
+    public function content(string $content): ContentInterface;
 
-    public function transform(BodyInterface $body): void;
+    public function transform(ContentInterface $content): void;
 }
