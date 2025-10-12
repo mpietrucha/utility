@@ -39,7 +39,7 @@ abstract class Normalizer
     /**
      * Wrap the given value in a collection instance.
      *
-     * @return \Mpietrucha\Utility\Collection<int|string, mixed>
+     * @return \Mpietrucha\Utility\Collection<array-key, mixed>
      */
     public static function collection(mixed $value): Collection
     {
@@ -49,7 +49,7 @@ abstract class Normalizer
     /**
      * Convert the given value to an array.
      *
-     * @return array<int|string, mixed>
+     * @return array<array-key, mixed>
      */
     public static function array(mixed $value): array
     {

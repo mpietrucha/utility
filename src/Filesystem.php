@@ -24,7 +24,7 @@ abstract class Filesystem
     /**
      * Dynamically forward static method calls to the underlying filesystem adapter.
      *
-     * @param  array<int|string, mixed>  $arguments
+     * @param  array<array-key, mixed>  $arguments
      */
     public static function __callStatic(string $method, array $arguments): mixed
     {

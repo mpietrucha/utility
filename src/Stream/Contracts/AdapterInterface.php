@@ -2,16 +2,13 @@
 
 namespace Mpietrucha\Utility\Stream\Contracts;
 
+use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Contracts\StringableInterface;
+use Mpietrucha\Utility\Contracts\WrappableInterface;
 use Psr\Http\Message\StreamInterface;
 
-interface AdapterInterface extends StreamInterface, StringableInterface
+interface AdapterInterface extends CreatableInterface, StreamInterface, StringableInterface, WrappableInterface
 {
-    /**
-     * Creates a new adapter
-     */
-    public static function build(mixed $body): static;
-
     /**
      * Copy data from the source adapter to the destination adapter and
      * return the number of bytes copied, or null if either stream is detached.

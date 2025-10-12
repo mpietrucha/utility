@@ -9,7 +9,7 @@ interface EvaluableInterface
      * calling as an instance method if the source is instantiated,
      * or as a static method if the source is a class name.
      *
-     * @param  array<int|string, mixed>  $arguments
+     * @param  array<array-key, mixed>  $arguments
      */
     public function __invoke(string $method, array $arguments): mixed;
 

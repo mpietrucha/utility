@@ -4,10 +4,10 @@ namespace Mpietrucha\Utility\Hash\Exception;
 
 use Mpietrucha\Utility\Throwable\BadMethodCallException;
 
-class HashException extends BadMethodCallException
+class HashAlgorithmException extends BadMethodCallException
 {
     public function configure(string $algorithm): string
     {
-        return 'Hash algorithm `%s` does not exists';
+        return '`%s` is not supported hash algorithm';
     }
 }

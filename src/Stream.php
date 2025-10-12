@@ -20,12 +20,14 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface
 
     protected ?int $bytes = null;
 
+    protected AdapterInterface $adapter;
+
     /**
      * Create a new stream instance with the given body and optionally bootstrap it.
      */
-    public function __construct(protected mixed $body, protected ?AdapterInterface $adapter = null)
+    public function __construct(mixed $body)
     {
-        $this->adapter();
+        $this->adapter = Adapter::wrap($body);
     }
 
     /**
@@ -70,7 +72,7 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface
      */
     public function adapter(): AdapterInterface
     {
-        return $this->adapter ??= $this->body() |> Adapter::build(...);
+        return $this->adapter;
     }
 
     /**
@@ -319,14 +321,6 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface
         }
 
         return $this->tell() |> $this->pass($response)->restore(...);
-    }
-
-    /**
-     * Get the raw body value used to create the stream.
-     */
-    protected function body(): mixed
-    {
-        return $this->body;
     }
 
     /**

@@ -6,7 +6,7 @@ use Mpietrucha\Utility\Collection;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Forward\Contracts\MethodsInterface;
-use Mpietrucha\Utility\Forward\Exception\MethodException;
+use Mpietrucha\Utility\Forward\Exception\ProxyMethodException;
 use Mpietrucha\Utility\Instance;
 use Mpietrucha\Utility\Normalizer;
 
@@ -73,7 +73,7 @@ class Methods implements CreatableInterface, MethodsInterface
             return;
         }
 
-        MethodException::for($instance, $method)->throw();
+        ProxyMethodException::for($instance, $method)->throw();
     }
 
     /**

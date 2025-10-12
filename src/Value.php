@@ -43,7 +43,7 @@ abstract class Value
     }
 
     /**
-     * @param  array<int|string, mixed>|null  $arguments
+     * @param  array<array-key, mixed>|null  $arguments
      */
     public static function bind(mixed $evaluable, ?array $arguments = null): Closure
     {

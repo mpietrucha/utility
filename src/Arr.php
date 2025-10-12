@@ -9,7 +9,7 @@ class Arr extends \Illuminate\Support\Arr
     /**
      * Count the number of elements in the given iterable.
      *
-     * @param  iterable<int|string, mixed>  $array
+     * @param  iterable<array-key, mixed>  $array
      */
     public static function count(iterable $array): int
     {
@@ -19,7 +19,7 @@ class Arr extends \Illuminate\Support\Arr
     /**
      * Determine if the given iterable is empty.
      *
-     * @param  iterable<int|string, mixed>  $array
+     * @param  iterable<array-key, mixed>  $array
      */
     public static function isEmpty(iterable $array): bool
     {
@@ -29,7 +29,7 @@ class Arr extends \Illuminate\Support\Arr
     /**
      * Determine if the given iterable is not empty.
      *
-     * @param  iterable<int|string, mixed>  $array
+     * @param  iterable<array-key, mixed>  $array
      */
     final public static function isNotEmpty(iterable $array): bool
     {
@@ -39,7 +39,7 @@ class Arr extends \Illuminate\Support\Arr
     /**
      * Determine if the given value exists in the provided array.
      *
-     * @param  array<int|string, mixed>  $array
+     * @param  array<array-key, mixed>  $array
      */
     public static function contains(array $array, mixed $value): bool
     {
@@ -49,7 +49,7 @@ class Arr extends \Illuminate\Support\Arr
     /**
      * Determine if the given value doesn`t exists in the provided array.
      *
-     * @param  array<int|string, mixed>  $array
+     * @param  array<array-key, mixed>  $array
      */
     final public static function doesntContain(array $array, mixed $value): bool
     {
@@ -57,7 +57,10 @@ class Arr extends \Illuminate\Support\Arr
     }
 
     /**
-     * @return array<int, mixed>
+     * @template TValue
+     *
+     * @param  TValue  $value
+     * @return array<int, TValue>
      */
     public static function overlap(mixed $value): array
     {
@@ -65,8 +68,8 @@ class Arr extends \Illuminate\Support\Arr
     }
 
     /**
-     * @param  array<int|string,  mixed>  $array
-     * @return array<int|string,  mixed> $array
+     * @param  array<array-key,  mixed>  $array
+     * @return array<array-key,  mixed> $array
      */
     public static function slice(array $array, int $offset, ?int $length = null): array
     {
@@ -74,8 +77,8 @@ class Arr extends \Illuminate\Support\Arr
     }
 
     /**
-     * @param  array<int|string,  mixed>  $array
-     * @return array<int|string,  mixed> $array
+     * @param  array<array-key,  mixed>  $array
+     * @return array<array-key,  mixed> $array
      */
     public static function skip(array $array, int $count): array
     {
@@ -83,11 +86,33 @@ class Arr extends \Illuminate\Support\Arr
     }
 
     /**
-     * @param  array<int|string, mixed>  $array
-     * @return array<int, mixed>
+     * @template TValue
+     *
+     * @param  array<array-key, TValue>  $array
+     * @return array<int, TValue>
      */
     public static function values(array $array): array
     {
         return array_values($array);
+    }
+
+    /**
+     * @template TKey of array-key
+     * @template TValue
+     *
+     * @param  array<TKey, TValue>  $array
+     * @param  TValue  $value
+     * @param  TKey|null  $key
+     * @return array<TKey, TValue>
+     */
+    public static function append(array $array, mixed $value, null|int|string $key = null): array
+    {
+        if (Type::not()->null($key)) {
+            return [$key => $value] + $array;
+        }
+
+        array_push($array, $value);
+
+        return $array;
     }
 }

@@ -35,7 +35,7 @@ class Evaluable implements CreatableInterface, EvaluableInterface
     /**
      * Call an instance method on the given object using bound closure syntax.
      *
-     * @param  array<int|string, mixed>  $arguments
+     * @param  array<array-key, mixed>  $arguments
      */
     public static function call(string $method, array $arguments, object $source): mixed
     {
@@ -48,7 +48,7 @@ class Evaluable implements CreatableInterface, EvaluableInterface
     /**
      * Call a static method on the given class using a bound closure.
      *
-     * @param  array<int|string, mixed>  $arguments
+     * @param  array<array-key, mixed>  $arguments
      * @param  class-string  $source
      */
     public static function bind(string $method, array $arguments, string $source): mixed

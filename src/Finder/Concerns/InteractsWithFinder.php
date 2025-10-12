@@ -3,7 +3,7 @@
 namespace Mpietrucha\Utility\Finder\Concerns;
 
 use Mpietrucha\Utility\Filesystem\Path;
-use Mpietrucha\Utility\Finder\Exception\AppendException;
+use Mpietrucha\Utility\Finder\Exception\FinderAppendException;
 
 trait InteractsWithFinder
 {
@@ -16,7 +16,7 @@ trait InteractsWithFinder
 
     public function append(): static
     {
-        AppendException::for($this)->throw();
+        FinderAppendException::for($this)->throw();
     }
 
     public function climb(int $altitude = PHP_INT_MAX): static

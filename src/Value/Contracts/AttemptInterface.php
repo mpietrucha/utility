@@ -17,7 +17,7 @@ interface AttemptInterface extends EvaluableInterface
     /**
      * Evaluate the callable with the given argument array and return a ResultInterface instance.
      *
-     * @param  array<string|int, mixed>  $arguments
+     * @param  array<array-key, mixed>  $arguments
      */
     public function eval(array $arguments): ResultInterface;
 }

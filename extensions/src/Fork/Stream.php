@@ -21,8 +21,6 @@ class Stream extends Transformer
 
         $this->exception('Stream body must be a resource') |> $body->line(60)->set(...);
 
-        $body->line(77)->replace('create', 'build');
-
         $body->line(77)->replace('StreamInterface', 'static');
 
         $this->exception('Stream body must be a resource, string, or StreamInterface::class') |> $body->line(95)->set(...);

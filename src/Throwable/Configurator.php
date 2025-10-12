@@ -63,7 +63,7 @@ class Configurator implements ConfiguratorInterface, CreatableInterface
     }
 
     /**
-     * @param  array<int|string, mixed>  $arguments
+     * @param  array<array-key, mixed>  $arguments
      */
     protected function hydrate(mixed $response, array $arguments): ThrowableInterface
     {

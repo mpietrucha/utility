@@ -6,7 +6,7 @@ use Mpietrucha\Utility\Instance;
 use Mpietrucha\Utility\Normalizer;
 use Mpietrucha\Utility\Throwable\RuntimeException;
 
-class MethodException extends RuntimeException
+class ProxyMethodException extends RuntimeException
 {
     public function configure(string $method, object|string $instance): void
     {

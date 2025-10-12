@@ -7,7 +7,7 @@ use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 interface CursorInterface
 {
     /**
-     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int|string, mixed>
+     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<array-key, mixed>
      */
     public function get(string $input): EnumerableInterface;
 }

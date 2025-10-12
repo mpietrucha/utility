@@ -17,7 +17,7 @@ interface EvaluationInterface extends EvaluableInterface
     /**
      *  Evaluate the callable using the given array of arguments.
      *
-     * @param  array<string|int, mixed>  $arguments
+     * @param  array<array-key, mixed>  $arguments
      */
     public function eval(array $arguments): mixed;
 }

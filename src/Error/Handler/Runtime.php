@@ -2,12 +2,19 @@
 
 namespace Mpietrucha\Utility\Error\Handler;
 
+use Mpietrucha\Utility\Error\Builder;
+use Mpietrucha\Utility\Error\Contracts\BuilderInterface;
 use Mpietrucha\Utility\Value;
 
 class Runtime extends None
 {
     public function __construct(protected object $adapter, protected bool $supported = false, protected mixed $capturable = null)
     {
+    }
+
+    public static function builder(object $adapter): BuilderInterface
+    {
+        return Builder::create($adapter);
     }
 
     public function adapter(): object

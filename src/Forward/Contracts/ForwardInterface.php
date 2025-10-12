@@ -46,7 +46,7 @@ interface ForwardInterface
     /**
      * Attempt to invoke the given method, returning a Result object that captures the outcome.
      *
-     * @param  array<int|string, mixed>  $arguments
+     * @param  array<array-key, mixed>  $arguments
      */
     public function attempt(string $method, array $arguments): ResultInterface;
 
@@ -54,17 +54,17 @@ interface ForwardInterface
      * Evaluate the given method on the destination and return the result,
      * or throw an exception using the failure handler if the call fails.
      *
-     * @param  array<int|string, mixed>  $arguments
+     * @param  array<array-key, mixed>  $arguments
      */
     public function eval(string $method, array $arguments): mixed;
 
     /**
-     * @param  array<int|string, mixed>  $arguments
+     * @param  array<array-key, mixed>  $arguments
      */
     public function guess(string $method, array $arguments, callable $source): mixed;
 
     /**
-     * @param  array<int|string, mixed>  $arguments
+     * @param  array<array-key, mixed>  $arguments
      */
     public function compose(string $method, mixed $argument, array $arguments): mixed;
 }

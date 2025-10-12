@@ -25,7 +25,7 @@ class Builder implements BuilderInterface, CreatableInterface
         return static::create($adapter);
     }
 
-    public function toArray(): array
+    final public function toArray(): array
     {
         return [
             $this->adapter,

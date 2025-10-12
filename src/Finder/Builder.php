@@ -28,7 +28,7 @@ class Builder implements BuilderInterface, CreatableInterface
 
     protected ?IdentifierInterface $identifier = null;
 
-    public function toArray(): array
+    final public function toArray(): array
     {
         return [
             $this->input,

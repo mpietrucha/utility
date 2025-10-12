@@ -22,7 +22,7 @@ class Autoload implements AutoloadInterface, CreatableInterface
     protected static ?AutoloadInterface $default = null;
 
     /**
-     * @param  \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int|string, mixed>  $cursor
+     * @param  \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<array-key, mixed>  $cursor
      */
     protected function __construct(protected EnumerableInterface $cursor, protected ?string $cwd = null)
     {

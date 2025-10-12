@@ -19,7 +19,7 @@ interface ConfiguratorInterface
     public function forward(?string $method = null): ForwardInterface;
 
     /**
-     * @param  array<int|string, mixed>  $arguments
+     * @param  array<array-key, mixed>  $arguments
      */
     public function eval(array $arguments, ?string $method = null): ThrowableInterface;
 }

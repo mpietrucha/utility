@@ -15,7 +15,7 @@ interface AutoloadInterface extends InteractsWithAutoloadInterface
     public function composer(): ComposerInterface;
 
     /**
-     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int|string, mixed>
+     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<array-key, mixed>
      */
     public function cursor(): EnumerableInterface;
 

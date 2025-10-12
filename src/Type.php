@@ -107,7 +107,7 @@ abstract class Type implements InteractsWithTypesInterface
     /**
      * Determine if the given value is an array.
      *
-     * @phpstan-assert-if-true array<int|string, mixed> $value
+     * @phpstan-assert-if-true array<array-key, mixed> $value
      */
     public static function array(mixed $value): bool
     {
@@ -157,7 +157,7 @@ abstract class Type implements InteractsWithTypesInterface
     /**
      * Determine if the given value is countable.
      *
-     * @phpstan-assert-if-true array<int|string, mixed>|\Countable $value
+     * @phpstan-assert-if-true array<array-key, mixed>|\Countable $value
      */
     public static function countable(mixed $value): bool
     {
@@ -167,7 +167,7 @@ abstract class Type implements InteractsWithTypesInterface
     /**
      * Determine if the given value is iterable.
      *
-     * @phpstan-assert-if-true iterable<int|string, mixed> $value
+     * @phpstan-assert-if-true iterable<array-key, mixed> $value
      */
     public static function iterable(mixed $value): bool
     {

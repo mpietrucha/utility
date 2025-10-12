@@ -3,10 +3,19 @@
 namespace Mpietrucha\Utility\Throwable\Contracts;
 
 use Mpietrucha\Utility\Backtrace\Contracts\FrameInterface;
+use Mpietrucha\Utility\Contracts\ArrayableInterface;
 use Mpietrucha\Utility\Throwable\Property;
 
-interface SynchronizerInterface
+/**
+ * @extends \Mpietrucha\Utility\Contracts\ArrayableInterface<int, mixed>
+ */
+interface SynchronizerInterface extends ArrayableInterface
 {
+    /**
+     * @return array{0: \Mpietrucha\Utility\Throwable\Property}
+     */
+    public function toArray(): array;
+
     /**
      * @return array{0: \Mpietrucha\Utility\Throwable\Property, 1: mixed}
      */
