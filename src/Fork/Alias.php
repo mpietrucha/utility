@@ -2,7 +2,6 @@
 
 namespace Mpietrucha\Utility\Fork;
 
-use Mpietrucha\Utility\Filesystem;
 use Mpietrucha\Utility\Fork\Concerns\InteractsWithAutoload;
 use Mpietrucha\Utility\Fork\Contracts\InteractsWithAutoloadInterface;
 use Mpietrucha\Utility\Fork\Contracts\TransformerInterface;
@@ -46,16 +45,9 @@ abstract class Alias implements InteractsWithAutoloadInterface
             return;
         }
 
-        $file = static::build($namespace, $alias);
-
-        Type::string($file) && Filesystem::requireOnce($file);
-    }
-
-    protected static function build(string $namespace, string $alias): ?string
-    {
         $name = Path::name($alias);
 
-        return Instance::alias(Path::join($namespace, $name), $alias);
+        Instance::alias(Path::join($namespace, $name), $alias);
     }
 
     protected static function normalize(string $namespace): string

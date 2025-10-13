@@ -63,7 +63,7 @@ class Storage implements CreatableInterface, StorageInterface
 
     protected function file(string $identity): string
     {
-        return Filesystem\Path::join($this->directory(), $identity);
+        return Filesystem\Temporary::get($identity, $this->directory());
     }
 
     protected function directory(): string

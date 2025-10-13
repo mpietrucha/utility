@@ -46,7 +46,7 @@
         "allow-plugins": {
             "ergebnis/composer-normalize": true
         },
-        "optimize-autoloader": false,
+        "optimize-autoloader": true,
         "sort-packages": true
     },
     "scripts": {
