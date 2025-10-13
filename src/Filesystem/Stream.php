@@ -13,6 +13,6 @@ abstract class Stream implements InteractsWithFilesystemInterface
 
     public static function temporary(): StreamInterface
     {
-        return Temporary::resource(...) |> Adapter::create(...);
+        return Temporary::resource() |> Adapter::create(...);
     }
 }

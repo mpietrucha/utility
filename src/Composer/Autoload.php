@@ -12,10 +12,11 @@ use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Filesystem\Path;
 use Mpietrucha\Utility\Normalizer;
 use Mpietrucha\Utility\Type;
+use Mpietrucha\Utility\Utilizer\Concerns\Utilizable;
 
 class Autoload implements AutoloadInterface, CreatableInterface
 {
-    use Creatable;
+    use Creatable, Utilizable\Strings;
 
     protected ?ComposerInterface $composer = null;
 
@@ -39,7 +40,9 @@ class Autoload implements AutoloadInterface, CreatableInterface
 
     public static function default(?CursorInterface $cursor = null): AutoloadInterface
     {
-        return static::load('vendor/composer/autoload_classmap.php', $cursor);
+        $input = static::utilize();
+
+        return static::load($input, $cursor);
     }
 
     public static function get(): AutoloadInterface
@@ -105,5 +108,10 @@ class Autoload implements AutoloadInterface, CreatableInterface
         }
 
         return $value;
+    }
+
+    protected static function hydrate(): string
+    {
+        return 'vendor/composer/autoload_classmap.php';
     }
 }

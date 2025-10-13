@@ -3,8 +3,9 @@
 namespace Mpietrucha\Utility\Composer\Contracts;
 
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
+use Mpietrucha\Utility\Utilizer\Contracts\UtilizableInterface;
 
-interface AutoloadInterface extends InteractsWithAutoloadInterface
+interface AutoloadInterface extends InteractsWithAutoloadInterface, UtilizableInterface
 {
     public static function load(string $input, ?CursorInterface $cursor = null, ?string $cwd = null): static;
 
