@@ -27,7 +27,7 @@
     },
     "require-dev": {
         "ergebnis/composer-normalize": "dev-main",
-        "laravel/pint": "^1.22",
+        "mpietrucha/pint": "^1.0",
         "phpstan/phpstan": "^2.1",
         "symfony/var-dumper": "^7.2"
     },
