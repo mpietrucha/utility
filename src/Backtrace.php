@@ -36,7 +36,7 @@ abstract class Backtrace
     /**
      * Transform raw backtrace frames into a typed enumerable of frame objects.
      *
-     * @param  array<int, RawBacktraceFrame>  $backtrace
+     * @param  list<RawBacktraceFrame>  $backtrace
      * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface>
      */
     protected static function build(array $backtrace): EnumerableInterface

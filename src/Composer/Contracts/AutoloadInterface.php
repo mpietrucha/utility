@@ -7,18 +7,16 @@ use Mpietrucha\Utility\Utilizer\Contracts\UtilizableInterface;
 
 interface AutoloadInterface extends InteractsWithAutoloadInterface, UtilizableInterface
 {
-    public static function load(string $input, ?CursorInterface $cursor = null, ?string $cwd = null): static;
+    public static function load(string $input, null|ComposerInterface|string $composer = null): static;
 
-    public static function default(?CursorInterface $cursor = null): AutoloadInterface;
-
-    public static function get(): AutoloadInterface;
+    public static function default(null|ComposerInterface|string $composer = null): static;
 
     public function composer(): ComposerInterface;
 
     /**
-     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<array-key, mixed>
+     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, string>
      */
-    public function cursor(): EnumerableInterface;
+    public function map(): EnumerableInterface;
 
     /**
      * @phpstan-assert-if-true string $this->file()

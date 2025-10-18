@@ -108,7 +108,7 @@ abstract class Filesystem
 
     public static function namespace(string $path, bool $canonicalized = false): ?string
     {
-        $namespace = Composer::autoload()->namespace($path, $canonicalized);
+        $namespace = Composer::get()->autoload()->namespace($path, $canonicalized);
 
         if (Type::string($namespace)) {
             return $namespace;

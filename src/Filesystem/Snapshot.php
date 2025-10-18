@@ -38,7 +38,7 @@ class Snapshot extends None
     }
 
     /**
-     * @return array<int, \Mpietrucha\Utility\Filesystem\Contracts\SnapshotInterface>
+     * @return list<\Mpietrucha\Utility\Filesystem\Contracts\SnapshotInterface>
      */
     protected static function defaults(): array
     {

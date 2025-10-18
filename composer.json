@@ -50,9 +50,6 @@
         "sort-packages": true
     },
     "scripts": {
-        "post-install-cmd": [
-            "@prettier:config"
-        ],
         "post-update-cmd": [
             "@composer normalize"
         ],
@@ -64,5 +61,6 @@
         ],
         "test:lint": "@lint --test",
         "test:types": "phpstan analyse --ansi"
-    }
+    },
+    "$schema": "https://getcomposer.org/schema.json"
 }

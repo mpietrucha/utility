@@ -6,15 +6,17 @@ use Mpietrucha\Utility\Composer\Adapter;
 use Mpietrucha\Utility\Composer\Autoload;
 use Mpietrucha\Utility\Composer\Contracts\AutoloadInterface;
 use Mpietrucha\Utility\Composer\Contracts\ComposerInterface;
-use Mpietrucha\Utility\Concerns\Creatable;
-use Mpietrucha\Utility\Contracts\CreatableInterface;
+use Mpietrucha\Utility\Concerns\Wrappable;
+use Mpietrucha\Utility\Utilizer\Concerns\Utilizable;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class Composer implements ComposerInterface, CreatableInterface
+class Composer implements ComposerInterface
 {
-    use Creatable;
+    use Utilizable\Strings, Wrappable;
 
     protected ?Adapter $adapter = null;
+
+    protected ?AutoloadInterface $autoload = null;
 
     protected static ?ComposerInterface $default = null;
 
@@ -22,19 +24,24 @@ class Composer implements ComposerInterface, CreatableInterface
     {
     }
 
-    public static function autoload(): AutoloadInterface
-    {
-        return Autoload::get();
-    }
-
     public static function default(): ComposerInterface
     {
-        return static::create();
+        return static::utilize() |> static::create(...);
     }
 
     public static function get(): ComposerInterface
     {
         return static::$default ??= static::default();
+    }
+
+    public function cwd(): ?string
+    {
+        return $this->cwd;
+    }
+
+    public function autoload(): AutoloadInterface
+    {
+        return $this->autoload ??= Autoload::default($this);
     }
 
     public function binary(?string $name = null): array
@@ -64,12 +71,22 @@ class Composer implements ComposerInterface, CreatableInterface
 
     public function require(array|string $packages, bool $dev = false, ?OutputInterface $output = null, ?string $binary = null): bool
     {
-        return $this->adapter()->requirePackages(static::normalize($packages), $dev, $output, $binary);
+        return $this->adapter()->requirePackages(
+            static::normalize($packages),
+            $dev,
+            $output,
+            $binary
+        );
     }
 
     public function remove(array|string $packages, bool $dev = false, ?OutputInterface $output = null, ?string $binary = null): bool
     {
-        return $this->adapter()->removePackages(static::normalize($packages), $dev, $output, $binary);
+        return $this->adapter()->removePackages(
+            static::normalize($packages),
+            $dev,
+            $output,
+            $binary
+        );
     }
 
     public function dump(null|array|string $extra = null, ?string $binary = null): int
@@ -82,22 +99,22 @@ class Composer implements ComposerInterface, CreatableInterface
         return $this->adapter()->dumpOptimized($binary);
     }
 
-    protected function cwd(): ?string
-    {
-        return $this->cwd ??= Filesystem::cwd();
-    }
-
     protected function adapter(): Adapter
     {
         return $this->adapter ??= $this->cwd() |> Adapter::create(...);
     }
 
     /**
-     * @param  null|string|array<int, string>  $value
-     * @return array<int, string>
+     * @param  null|string|list<string>  $value
+     * @return list<string>
      */
     protected static function normalize(null|array|string $value): array
     {
         return Normalizer::array($value);
+    }
+
+    protected static function hydrate(): ?string
+    {
+        return Filesystem::cwd();
     }
 }

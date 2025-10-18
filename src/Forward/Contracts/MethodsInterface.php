@@ -23,14 +23,14 @@ interface MethodsInterface
     /**
      * Add the given method(s) to the denied list.
      *
-     * @param  string|array<int, string>  $methods
+     * @param  string|list<string>  $methods
      */
     public function deny(array|string $methods): static;
 
     /**
      * Add the given method(s) to the allowed list.
      *
-     * @param  string|array<int, string>  $methods
+     * @param  string|list<string>  $methods
      */
     public function allow(array|string $methods): static;
 

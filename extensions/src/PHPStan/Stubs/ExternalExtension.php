@@ -14,14 +14,14 @@ use PHPStan\PhpDoc\StubFilesExtension;
 final class ExternalExtension implements StubFilesExtension
 {
     /**
-     * @var array<int, string>
+     * @var list<string>
      */
     protected static array $defaults = [
         'vendor/larastan/larastan/stubs/common/Support/Str.stub',
     ];
 
     /**
-     * @return array<int, string>
+     * @return array<array-key, string>
      */
     public function getFiles(): array
     {
@@ -31,7 +31,7 @@ final class ExternalExtension implements StubFilesExtension
     }
 
     /**
-     * @return array<int, string>
+     * @return array<array-key, string>
      */
     protected static function defaults(): array
     {

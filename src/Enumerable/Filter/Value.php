@@ -13,7 +13,7 @@ class Value extends None
     }
 
     /**
-     * @return array<int, mixed>
+     * @return list<mixed>
      */
     public static function wrap(mixed $value): array
     {

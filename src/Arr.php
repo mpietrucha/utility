@@ -53,14 +53,14 @@ class Arr extends \Illuminate\Support\Arr
      */
     final public static function doesntContain(array $array, mixed $value): bool
     {
-        return static::contains($value, $array) |> Normalizer::not(...);
+        return static::contains($array, $value) |> Normalizer::not(...);
     }
 
     /**
      * @template TValue
      *
      * @param  TValue  $value
-     * @return array<int, TValue>
+     * @return list<TValue>
      */
     public static function overlap(mixed $value): array
     {
@@ -89,7 +89,7 @@ class Arr extends \Illuminate\Support\Arr
      * @template TValue
      *
      * @param  array<array-key, TValue>  $array
-     * @return array<int, TValue>
+     * @return list<TValue>
      */
     public static function values(array $array): array
     {
@@ -114,5 +114,17 @@ class Arr extends \Illuminate\Support\Arr
         array_push($array, $value);
 
         return $array;
+    }
+
+    /**
+     * @template TKey of array-key
+     * @template TValue
+     *
+     * @param  array<TKey, TValue>  $array
+     * @return array<TValue, TKey>
+     */
+    public static function flip(array $array): array
+    {
+        return array_flip($array);
     }
 }

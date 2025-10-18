@@ -46,7 +46,7 @@ abstract class Handler
     }
 
     /**
-     * @return array<int, \Mpietrucha\Utility\Error\Contracts\HandlerInterface>
+     * @return list<\Mpietrucha\Utility\Error\Contracts\HandlerInterface>
      */
     protected static function defaults(): array
     {

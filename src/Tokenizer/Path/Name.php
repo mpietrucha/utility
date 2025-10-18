@@ -22,7 +22,7 @@ abstract class Name
     }
 
     /**
-     * @return array<int, int>
+     * @return list<int>
      */
     public static function previous(): array
     {

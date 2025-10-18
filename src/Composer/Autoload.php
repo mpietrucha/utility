@@ -5,7 +5,6 @@ namespace Mpietrucha\Utility\Composer;
 use Mpietrucha\Utility\Composer;
 use Mpietrucha\Utility\Composer\Contracts\AutoloadInterface;
 use Mpietrucha\Utility\Composer\Contracts\ComposerInterface;
-use Mpietrucha\Utility\Composer\Contracts\CursorInterface;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
@@ -18,41 +17,32 @@ class Autoload implements AutoloadInterface, CreatableInterface
 {
     use Creatable, Utilizable\Strings;
 
-    protected ?ComposerInterface $composer = null;
-
-    protected static ?AutoloadInterface $default = null;
-
     /**
-     * @param  \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<array-key, mixed>  $cursor
+     * @param  \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, string>  $map
      */
-    protected function __construct(protected EnumerableInterface $cursor, protected ?string $cwd = null)
+    protected function __construct(protected EnumerableInterface $map, protected ComposerInterface $composer)
     {
     }
 
-    public static function load(string $input, ?CursorInterface $cursor = null, ?string $cwd = null): static
+    public static function load(string $input, null|ComposerInterface|string $composer = null): static
     {
-        $input = Path::build($input, $cwd);
+        $composer = Composer::wrap($composer);
 
-        $cursor ??= Cursor\Generator::create();
+        $cwd = $composer->cwd();
 
-        return static::create($cursor->get($input), $cwd);
+        return static::create(Autoload\Map::get($input, $cwd), $composer);
     }
 
-    public static function default(?CursorInterface $cursor = null): AutoloadInterface
+    public static function default(null|ComposerInterface|string $composer = null): static
     {
         $input = static::utilize();
 
-        return static::load($input, $cursor);
-    }
-
-    public static function get(): AutoloadInterface
-    {
-        return static::$default ??= static::default();
+        return static::load($input, $composer);
     }
 
     public function composer(): ComposerInterface
     {
-        return $this->composer ??= $this->cwd() |> Composer::create(...);
+        return $this->composer;
     }
 
     public function dump(null|array|string $extra = null, ?string $binary = null): int
@@ -65,14 +55,14 @@ class Autoload implements AutoloadInterface, CreatableInterface
         return $this->composer()->optimize($binary);
     }
 
-    public function cursor(): EnumerableInterface
+    public function map(): EnumerableInterface
     {
-        return $this->cursor;
+        return $this->map;
     }
 
     public function exists(string $namespace): bool
     {
-        return $this->cursor()->has($namespace);
+        return $this->map()->has($namespace);
     }
 
     final public function unexists(string $namespace): bool
@@ -82,12 +72,12 @@ class Autoload implements AutoloadInterface, CreatableInterface
 
     public function file(string $namespace): ?string
     {
-        return $this->cursor()->get($namespace) |> static::normalize(...);
+        return $this->map()->get($namespace) |> static::normalize(...);
     }
 
     public function namespace(string $file, bool $canonicalized = false): ?string
     {
-        $namespace = $this->cursor()->search($file) |> static::normalize(...);
+        $namespace = $this->map()->search($file) |> static::normalize(...);
 
         if (Type::null($namespace)) {
             return null;
@@ -96,18 +86,9 @@ class Autoload implements AutoloadInterface, CreatableInterface
         return $canonicalized ? Path::canonicalize($namespace) : $namespace;
     }
 
-    protected function cwd(): ?string
-    {
-        return $this->cwd;
-    }
-
     protected static function normalize(mixed $value): ?string
     {
-        if (Type::not()->string($value)) {
-            return null;
-        }
-
-        return $value;
+        return Type::string($value) ? $value : null;
     }
 
     protected static function hydrate(): string

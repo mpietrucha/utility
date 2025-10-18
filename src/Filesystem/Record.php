@@ -31,7 +31,7 @@ class Record extends Adapter implements CreatableInterface, RecordInterface
     }
 
     /**
-     * @param  array<int, mixed>  $arguments
+     * @param  array<array-key, mixed>  $arguments
      */
     public function __call(string $method, array $arguments): mixed
     {
@@ -76,7 +76,7 @@ class Record extends Adapter implements CreatableInterface, RecordInterface
     }
 
     /**
-     * @param  array<int, mixed>  $input
+     * @param  array<array-key, mixed>  $input
      * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, string>
      */
     protected static function transform(array $input): EnumerableInterface

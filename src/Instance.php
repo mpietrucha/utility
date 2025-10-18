@@ -81,7 +81,7 @@ abstract class Instance implements InteractsWithInstanceInterface
     {
         $namespace = Type::string($instance) ? $instance : static::namespace($instance);
 
-        $file = Composer::autoload()->file($namespace);
+        $file = Composer::get()->autoload()->file($namespace);
 
         if (Type::string($file)) {
             return $file;

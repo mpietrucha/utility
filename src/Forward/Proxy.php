@@ -44,7 +44,7 @@ class Proxy implements CreatableInterface, ProxyInterface
     /**
      * Create a method restriction allowing only the specified methods.
      *
-     * @param  string|array<int, string>  $methods
+     * @param  string|list<string>  $methods
      */
     public static function allow(array|string $methods): Methods
     {
@@ -54,7 +54,7 @@ class Proxy implements CreatableInterface, ProxyInterface
     /**
      * Create a method restriction denying the specified methods.
      *
-     * @param  string|array<int, string>  $methods
+     * @param  string|list<string>  $methods
      */
     public static function deny(array|string $methods): Methods
     {

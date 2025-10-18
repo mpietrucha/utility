@@ -14,7 +14,7 @@ use PHPStan\PhpDoc\StubFilesExtension;
 final class InternalExtension implements StubFilesExtension
 {
     /**
-     * @return array<int, string>
+     * @return list<string>
      */
     public function getFiles(): array
     {

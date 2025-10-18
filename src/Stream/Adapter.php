@@ -10,9 +10,6 @@ use Mpietrucha\Utility\Normalizer;
 use Mpietrucha\Utility\Stream\Contracts\AdapterInterface;
 use Mpietrucha\Utility\Type;
 
-/**
- * @method static \Mpietrucha\Utility\Stream\Contracts\AdapterInterface build(mixed $body)
- */
 class Adapter extends Stream implements AdapterInterface
 {
     use Stringable, Wrappable;

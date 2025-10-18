@@ -27,7 +27,7 @@ class Evaluation implements CreatableInterface, EvaluationInterface
     }
 
     /**
-     * @param  array<int, mixed>  $arguments
+     * @param  array<array-key, mixed>  $arguments
      */
     public function __call(string $method, array $arguments): mixed
     {
@@ -46,7 +46,7 @@ class Evaluation implements CreatableInterface, EvaluationInterface
         return $this->eval($arguments);
     }
 
-    public static function identity(mixed $evaluable): Closure
+    public static function identity(mixed $evaluable = null): Closure
     {
         return fn () => $evaluable;
     }

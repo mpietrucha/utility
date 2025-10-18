@@ -12,7 +12,7 @@ use Throwable;
 class Attempt extends Evaluation implements AttemptInterface
 {
     /**
-     * @param  array<int, mixed>  $arguments
+     * @param  array<array-key, mixed>  $arguments
      */
     public function __call(string $method, array $arguments): mixed
     {

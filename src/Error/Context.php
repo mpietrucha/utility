@@ -8,7 +8,7 @@ use Mpietrucha\Utility\Normalizer;
 abstract class Context
 {
     /**
-     * @var array<int, string>
+     * @var list<string>
      */
     protected static array $consoles = [
         'cli',
@@ -26,7 +26,7 @@ abstract class Context
     }
 
     /**
-     * @return array<int, string>
+     * @return list<string>
      */
     protected static function consoles(): array
     {

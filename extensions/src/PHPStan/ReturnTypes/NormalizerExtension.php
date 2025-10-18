@@ -10,6 +10,7 @@ use Mpietrucha\Utility\Data;
 use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
+use PHPStan\Type\Accessory\AccessoryArrayListType;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\DynamicStaticMethodReturnTypeExtension;
 use PHPStan\Type\IntegerType;
@@ -54,25 +55,25 @@ final class NormalizerExtension implements DynamicStaticMethodReturnTypeExtensio
 
     protected function type(Type $type): Type
     {
-        $constans = $type->getConstantArrays();
+        $constants = $type->getConstantArrays();
 
-        if (Arr::isNotEmpty($constans)) {
-            return $this->union($constans);
+        if (Arr::isNotEmpty($constants)) {
+            return $this->union($constants) |> $this->list(...);
         }
 
         if ($type->isNull()->yes()) {
-            return $this->array();
+            return $this->list();
         }
 
-        if ($type->isArray()->yes()) {
+        if ($type->isArray()->yes() && $type->isList()->yes()) {
             return $type;
         }
 
         if ($type->isIterable()->no()) {
-            return $this->array(new IntegerType, $type);
+            return $this->list($type);
         }
 
-        return $this->array($type->getIterableKeyType(), $type->getIterableValueType());
+        return $type->getIterableValueType() |> $this->list(...);
     }
 
     /**
@@ -83,12 +84,12 @@ final class NormalizerExtension implements DynamicStaticMethodReturnTypeExtensio
         return TypeCombinator::union(...$types);
     }
 
-    protected function array(?Type $key = null, ?Type $value = null): ArrayType
+    protected function list(?Type $value = null): Type
     {
-        $key ??= new MixedType;
-
         $value ??= new MixedType;
 
-        return new ArrayType($key, $value);
+        $array = new ArrayType(new IntegerType, $value);
+
+        return TypeCombinator::intersect($array, new AccessoryArrayListType);
     }
 }

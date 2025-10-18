@@ -50,7 +50,7 @@ abstract class Synchronizer extends None
     }
 
     /**
-     * @return array<int, \Mpietrucha\Utility\Throwable\Contracts\SynchronizerInterface>
+     * @return list<\Mpietrucha\Utility\Throwable\Contracts\SynchronizerInterface>
      */
     final protected static function defaults(): array
     {

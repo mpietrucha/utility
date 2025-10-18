@@ -19,7 +19,7 @@ interface TokenInterface extends InteractsWithTokens, StringableInterface
     public function ignored(): bool;
 
     /**
-     * @param  int|string|array<int, int|string>  $kind
+     * @param  int|string|list<int|string>  $kind
      */
     public function is(array|int|string $kind): bool;
 }

@@ -33,7 +33,7 @@ trait Enumerable
     }
 
     /**
-     * @var array<int, string>
+     * @var list<string>
      */
     protected static array $forwarders = [
         'firstMap',
