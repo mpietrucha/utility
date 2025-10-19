@@ -6,6 +6,9 @@ use Closure;
 use Mpietrucha\Utility\Reflection;
 use Mpietrucha\Utility\Value;
 
+/**
+ * @phpstan-require-implements \Mpietrucha\Utility\Contracts\TransformableInterface
+ */
 trait Transformable
 {
     /**

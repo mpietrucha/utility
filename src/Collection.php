@@ -13,6 +13,8 @@ use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
  * @extends \Illuminate\Support\Collection<TKey, TValue>
  *
  * @implements \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<TKey, TValue>
+ *
+ * @phpstan-ignore-next-line class.missingImplements
  */
 class Collection extends \Illuminate\Support\Collection implements EnumerableInterface
 {

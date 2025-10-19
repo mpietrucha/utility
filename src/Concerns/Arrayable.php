@@ -6,6 +6,9 @@ use Mpietrucha\Utility\Collection;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Traversable;
 
+/**
+ * @phpstan-require-implements \Mpietrucha\Utility\Contracts\ArrayableInterface
+ */
 trait Arrayable
 {
     public function toArray(): array

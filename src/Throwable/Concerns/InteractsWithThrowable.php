@@ -2,6 +2,9 @@
 
 namespace Mpietrucha\Utility\Throwable\Concerns;
 
+/**
+ * @phpstan-require-implements \Mpietrucha\Utility\Throwable\Contracts\InteractsWithThrowableInterface
+ */
 trait InteractsWithThrowable
 {
     use InteractsWithReflection;

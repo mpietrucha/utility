@@ -4,6 +4,9 @@ namespace Mpietrucha\Utility\Concerns;
 
 use Mpietrucha\Utility\Value;
 
+/**
+ * @phpstan-require-implements \Mpietrucha\Utility\Contracts\PipeableInterface
+ */
 trait Pipeable
 {
     /**

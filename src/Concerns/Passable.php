@@ -5,6 +5,9 @@ namespace Mpietrucha\Utility\Concerns;
 use Mpietrucha\Utility\Forward\Contracts\PassInterface;
 use Mpietrucha\Utility\Forward\Pass;
 
+/**
+ * @phpstan-require-implements \Mpietrucha\Utility\Contracts\PassableInterface
+ */
 trait Passable
 {
     /**

@@ -4,6 +4,9 @@ namespace Mpietrucha\Utility\Concerns;
 
 use Mpietrucha\Utility\Stringable as Adapter;
 
+/**
+ * @phpstan-require-implements \Mpietrucha\Utility\Contracts\StringableInterface
+ */
 trait Stringable
 {
     /**

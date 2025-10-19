@@ -6,6 +6,9 @@ use Mpietrucha\Utility\Forward\Contracts\TapInterface;
 use Mpietrucha\Utility\Forward\Tap;
 use Mpietrucha\Utility\Value;
 
+/**
+ * @phpstan-require-implements \Mpietrucha\Utility\Contracts\TappableInterface
+ */
 trait Tappable
 {
     /**

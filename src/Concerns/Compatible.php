@@ -5,6 +5,9 @@ namespace Mpietrucha\Utility\Concerns;
 use Mpietrucha\Utility\Forward\Concerns\Bridgeable;
 use Mpietrucha\Utility\Normalizer;
 
+/**
+ * @phpstan-require-implements \Mpietrucha\Utility\Contracts\CompatibleInterface
+ */
 trait Compatible
 {
     use Bridgeable;

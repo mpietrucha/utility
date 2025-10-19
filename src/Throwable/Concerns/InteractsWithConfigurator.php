@@ -8,6 +8,8 @@ use Mpietrucha\Utility\Throwable\Contracts\ThrowableInterface;
 
 /**
  * @internal
+ *
+ * @phpstan-require-implements \Mpietrucha\Utility\Throwable\Contracts\InteractsWithConfiguratorInterface
  */
 trait InteractsWithConfigurator
 {

@@ -10,6 +10,8 @@ use Mpietrucha\Utility\Collection;
  * @template-covariant TValue
  *
  * @internal
+ *
+ * @phpstan-require-implements \Mpietrucha\Utility\Fork\Contracts\InteractsWithAutoloadInterface
  */
 trait InteractsWithAutoload
 {

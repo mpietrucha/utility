@@ -2,6 +2,9 @@
 
 namespace Mpietrucha\Utility\Concerns;
 
+/**
+ * @phpstan-require-implements \Mpietrucha\Utility\Contracts\WrappableInterface
+ */
 trait Wrappable
 {
     use Creatable;

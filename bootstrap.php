@@ -5,6 +5,9 @@ use Mpietrucha\Extensions\Fork\Stream;
 use Mpietrucha\Utility\Benchmark;
 use Mpietrucha\Utility\Filesystem\Ephemeral;
 use Mpietrucha\Utility\Fork;
+use Mpietrucha\Utility\Fork\Dependency;
+
+Dependency::bootstrap();
 
 Benchmark::start();
 

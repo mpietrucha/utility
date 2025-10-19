@@ -15,6 +15,9 @@ use Mpietrucha\Utility\Throwable\Synchronizer;
 use Mpietrucha\Utility\Type;
 use Throwable;
 
+/**
+ * @phpstan-require-implements \Mpietrucha\Utility\Throwable\Contracts\ReflectionInterface
+ */
 trait InteractsWithReflection
 {
     use Wrappable;

@@ -2,6 +2,9 @@
 
 namespace Mpietrucha\Utility\Concerns;
 
+/**
+ * @phpstan-require-implements \Mpietrucha\Utility\Contracts\RouteableInterface
+ */
 trait Routeable
 {
     use Creatable;

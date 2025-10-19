@@ -7,6 +7,7 @@ use Mpietrucha\Utility\Concerns\Arrayable;
 use Mpietrucha\Utility\Concerns\Compatible;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Concerns\Stringable;
+use Mpietrucha\Utility\Contracts\CompatibleInterface;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Filesystem;
@@ -15,7 +16,7 @@ use Mpietrucha\Utility\Forward\Concerns\Forwardable;
 use SplFileInfo;
 use Symfony\Component\Finder\SplFileInfo as Adapter;
 
-class Record extends Adapter implements CreatableInterface, RecordInterface
+class Record extends Adapter implements CompatibleInterface, CreatableInterface, RecordInterface
 {
     use Arrayable, Compatible, Creatable, Forwardable, Stringable {
         Compatible::relay insteadof Forwardable;

@@ -7,6 +7,7 @@ use Mpietrucha\Utility\Concerns\Passable;
 use Mpietrucha\Utility\Concerns\Stringable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Contracts\PassableInterface;
+use Mpietrucha\Utility\Contracts\StringableInterface;
 use Mpietrucha\Utility\Forward\Context;
 use Mpietrucha\Utility\Forward\Contracts\ContextInterface;
 use Mpietrucha\Utility\Stream\Adapter;
@@ -14,7 +15,7 @@ use Mpietrucha\Utility\Stream\Concerns\InteractsWithFilesystem;
 use Mpietrucha\Utility\Stream\Contracts\AdapterInterface;
 use Mpietrucha\Utility\Stream\Contracts\StreamInterface;
 
-class Stream implements CreatableInterface, PassableInterface, StreamInterface
+class Stream implements CreatableInterface, PassableInterface, StreamInterface, StringableInterface
 {
     use Creatable, InteractsWithFilesystem, Passable, Stringable;
 

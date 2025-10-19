@@ -6,6 +6,9 @@ use Mpietrucha\Utility\Instance;
 use Mpietrucha\Utility\Throwable\Contracts\ThrowableInterface;
 use Mpietrucha\Utility\Throwable\Purifier;
 
+/**
+ * @phpstan-require-implements \Mpietrucha\Utility\Throwable\Contracts\ThrowableInterface
+ */
 trait Throwable
 {
     use InteractsWithConfigurator, InteractsWithThrowable;

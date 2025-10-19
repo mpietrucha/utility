@@ -2,6 +2,9 @@
 
 namespace Mpietrucha\Utility\Utilizer\Concerns;
 
+/**
+ * @phpstan-require-implements \Mpietrucha\Utility\Utilizer\Contracts\UtilizableInterface
+ */
 trait Utilizable
 {
     protected static mixed $utilizable = null;

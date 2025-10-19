@@ -6,6 +6,9 @@ use Mpietrucha\Utility\Collection;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Hash\Exception\HashAlgorithmException;
 
+/**
+ * @phpstan-require-implements \Mpietrucha\Utility\Hash\Contracts\HashableInterface
+ */
 trait Hashable
 {
     /**

@@ -5,6 +5,9 @@ namespace Mpietrucha\Utility\Finder\Concerns;
 use Mpietrucha\Utility\Filesystem\Path;
 use Mpietrucha\Utility\Finder\Exception\FinderAppendException;
 
+/**
+ * @phpstan-require-implements \Mpietrucha\Utility\Finder\Contracts\InteractsWithFinderInterface
+ */
 trait InteractsWithFinder
 {
     public function in(string $input, ?string $directory = null): static

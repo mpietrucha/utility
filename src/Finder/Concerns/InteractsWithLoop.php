@@ -10,6 +10,9 @@ use Mpietrucha\Utility\Filesystem\Record;
 use Mpietrucha\Utility\Type;
 use Symfony\Component\Finder\Finder as Adapter;
 
+/**
+ * @phpstan-require-implements \Mpietrucha\Utility\Finder\Contracts\LoopInterface
+ */
 trait InteractsWithLoop
 {
     public static function adapter(Adapter $adapter): Adapter

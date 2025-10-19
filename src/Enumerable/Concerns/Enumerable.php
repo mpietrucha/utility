@@ -25,6 +25,8 @@ use Traversable;
  * @template-covariant TValue
  *
  * @internal
+ *
+ * @phpstan-require-implements \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface
  */
 trait Enumerable
 {

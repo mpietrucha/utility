@@ -5,6 +5,9 @@ namespace Mpietrucha\Utility\Concerns;
 use Mpietrucha\Utility\Forward\Condition;
 use Mpietrucha\Utility\Value;
 
+/**
+ * @phpstan-require-implements \Mpietrucha\Utility\Contracts\ConditionableInterface
+ */
 trait Conditionable
 {
     /**
