@@ -54,9 +54,15 @@ abstract class Path
      */
     public static function directory(string $path, ?int $level = null): string
     {
-        $level ??= 1;
+        if ($level === 0) {
+            return $path;
+        }
 
         $directory = Adapter::getDirectory($path);
+
+        if (Type::null($level)) {
+            return $directory;
+        }
 
         if ($level <= 1) {
             return $directory;
