@@ -4,24 +4,31 @@ namespace Mpietrucha\Utility;
 
 use Mpietrucha\Utility\Composer\Adapter;
 use Mpietrucha\Utility\Composer\Autoload;
+use Mpietrucha\Utility\Composer\Concerns\InteractsWithAdapter;
 use Mpietrucha\Utility\Composer\Contracts\AutoloadInterface;
 use Mpietrucha\Utility\Composer\Contracts\ComposerInterface;
 use Mpietrucha\Utility\Concerns\Wrappable;
+use Mpietrucha\Utility\Stream\Contracts\AdapterInterface;
 use Mpietrucha\Utility\Utilizer\Concerns\Utilizable;
-use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * @mixin \Mpietrucha\Utility\Composer\Contracts\AdapterInterface
+ */
 class Composer implements ComposerInterface
 {
-    use Utilizable\Strings, Wrappable;
+    use InteractsWithAdapter, Utilizable\String, Wrappable;
 
-    protected ?Adapter $adapter = null;
+    protected AdapterInterface $adapter;
 
     protected ?AutoloadInterface $autoload = null;
 
     protected static ?ComposerInterface $default = null;
 
-    public function __construct(protected ?string $cwd = null)
+    protected static string $wrappable = ComposerInterface::class;
+
+    public function __construct(null|AdapterInterface|string $adapter)
     {
+        $this->adapter = Adapter::wrap($adapter);
     }
 
     public static function default(): ComposerInterface
@@ -34,83 +41,14 @@ class Composer implements ComposerInterface
         return static::$default ??= static::default();
     }
 
-    public function cwd(): ?string
+    public function adapter(): AdapterInterface
     {
-        return $this->cwd;
+        return $this->adapter;
     }
 
     public function autoload(): AutoloadInterface
     {
         return $this->autoload ??= Autoload::default($this);
-    }
-
-    public function binary(?string $name = null): array
-    {
-        return $this->adapter()->findComposer($name);
-    }
-
-    public function file(): string
-    {
-        return $this->adapter()->findComposerFile();
-    }
-
-    public function exists(string $package): bool
-    {
-        return $this->adapter()->hasPackage($package);
-    }
-
-    final public function unexists(string $package): bool
-    {
-        return $this->exists($package) |> Normalizer::not(...);
-    }
-
-    public function configure(callable $callback): void
-    {
-        $this->adapter()->modify($callback);
-    }
-
-    public function require(array|string $packages, bool $dev = false, ?OutputInterface $output = null, ?string $binary = null): bool
-    {
-        return $this->adapter()->requirePackages(
-            static::normalize($packages),
-            $dev,
-            $output,
-            $binary
-        );
-    }
-
-    public function remove(array|string $packages, bool $dev = false, ?OutputInterface $output = null, ?string $binary = null): bool
-    {
-        return $this->adapter()->removePackages(
-            static::normalize($packages),
-            $dev,
-            $output,
-            $binary
-        );
-    }
-
-    public function dump(null|array|string $extra = null, ?string $binary = null): int
-    {
-        return $this->adapter()->dumpAutoloads(static::normalize($extra), $binary);
-    }
-
-    public function optimize(?string $binary = null): int
-    {
-        return $this->adapter()->dumpOptimized($binary);
-    }
-
-    protected function adapter(): Adapter
-    {
-        return $this->adapter ??= $this->cwd() |> Adapter::create(...);
-    }
-
-    /**
-     * @param  null|string|list<string>  $value
-     * @return list<string>
-     */
-    protected static function normalize(null|array|string $value): array
-    {
-        return Normalizer::array($value);
     }
 
     protected static function hydrate(): ?string

@@ -2,6 +2,9 @@
 
 namespace Mpietrucha\Utility\Concerns;
 
+use Mpietrucha\Utility\Instance\Property;
+use Mpietrucha\Utility\Normalizer;
+
 /**
  * @phpstan-require-implements \Mpietrucha\Utility\Contracts\RouteableInterface
  */
@@ -15,7 +18,14 @@ trait Routeable
      */
     public static function route(mixed $value, mixed ...$arguments): static
     {
-        if ($value instanceof static) {
+        $instance = static::class;
+
+        $instance = match (true) {
+            Property::exists($instance, 'routeable') => static::$routeable,
+            default => $instance
+        } |> Normalizer::string(...);
+
+        if ($value instanceof $instance) {
             return $value;
         }
 

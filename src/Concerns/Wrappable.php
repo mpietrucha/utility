@@ -2,6 +2,9 @@
 
 namespace Mpietrucha\Utility\Concerns;
 
+use Mpietrucha\Utility\Instance\Property;
+use Mpietrucha\Utility\Normalizer;
+
 /**
  * @phpstan-require-implements \Mpietrucha\Utility\Contracts\WrappableInterface
  */
@@ -15,7 +18,14 @@ trait Wrappable
      */
     public static function wrap(mixed $value, mixed ...$arguments): static
     {
-        if ($value instanceof static) {
+        $instance = static::class;
+
+        $instance = match (true) {
+            Property::exists($instance, 'wrappable') => static::$wrappable,
+            default => $instance
+        } |> Normalizer::string(...);
+
+        if ($value instanceof $instance) {
             return $value;
         }
 

@@ -4,7 +4,6 @@ namespace Mpietrucha\Utility;
 
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Instance\Contracts\InteractsWithInstanceInterface;
-use Mpietrucha\Utility\Instance\Serializer;
 
 abstract class Instance implements InteractsWithInstanceInterface
 {
@@ -110,12 +109,12 @@ abstract class Instance implements InteractsWithInstanceInterface
 
     public static function serialize(object $instance): string
     {
-        return Serializer::serialize($instance);
+        return Instance\Serializer::serialize($instance);
     }
 
     public static function unserialize(string $instance): object
     {
-        return Serializer::unserialize($instance);
+        return Instance\Serializer::unserialize($instance);
     }
 
     public static function hash(object $instance, ?string $algorithm = null): string

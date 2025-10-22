@@ -27,6 +27,11 @@ class Forward implements ForwardInterface, WrappableInterface
     use Wrappable;
 
     /**
+     * @var class-string
+     */
+    protected static string $wrappable = ForwardInterface::class;
+
+    /**
      * @param  class-string|object  $destination
      * @param  class-string|object|null  $source
      */

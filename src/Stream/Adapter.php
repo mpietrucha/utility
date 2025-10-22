@@ -15,29 +15,34 @@ class Adapter extends Stream implements AdapterInterface
     use Stringable, Wrappable;
 
     /**
+     * @var class-string
+     */
+    protected static string $wrappable = AdapterInterface::class;
+
+    /**
      * Copy data from the source adapter to the destination adapter and
      * return the number of bytes copied, or null if either stream is detached.
      */
-    public static function copy(AdapterInterface $source, AdapterInterface $destination): ?int
+    public function copy(AdapterInterface $source): ?int
     {
-        if ($source->isDetached() || $destination->isDetached()) {
+        if ($source->isDetached() || $this->isDetached()) {
             return null;
         }
 
-        return @stream_copy_to_stream($source->getResource(), $destination->getResource()) ?: null;
+        return @stream_copy_to_stream($source->getResource(), $this->getResource()) ?: null;
     }
 
     /**
      * Set the blocking mode on the given adapter’s resource and return the
      * operation status, or false if the stream is detached.
      */
-    public static function await(AdapterInterface $adapter, bool $mode = true): bool
+    public function await(bool $mode = true): bool
     {
-        if ($adapter->isDetached()) {
+        if ($this->isDetached()) {
             return false;
         }
 
-        return stream_set_blocking($adapter->getResource(), $mode);
+        return stream_set_blocking($this->getResource(), $mode);
     }
 
     /**

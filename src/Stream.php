@@ -121,7 +121,7 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface, 
      */
     public function await(bool $mode = true): static
     {
-        Adapter::await($this->adapter(), $mode);
+        $this->adapter()->await($mode);
 
         return $this;
     }
@@ -241,7 +241,7 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface, 
      */
     public function paste(StreamInterface $source): static
     {
-        $bytes = Adapter::copy($source->adapter(), $this->adapter());
+        $bytes = $source->adapter() |> $this->adapter()->copy(...);
 
         if (Type::integer($bytes)) {
             return $this->record($bytes);
