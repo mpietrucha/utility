@@ -30,6 +30,14 @@ services:
     tags:
         - phpstan.broker.dynamicMethodReturnTypeExtension
   -
+    class: Mpietrucha\Extensions\PHPStan\ReturnTypes\RouteableExtension
+    tags:
+        - phpstan.broker.dynamicStaticMethodReturnTypeExtension
+  -
+    class: Mpietrucha\Extensions\PHPStan\ReturnTypes\WrappableExtension
+    tags:
+        - phpstan.broker.dynamicStaticMethodReturnTypeExtension
+  -
     class: Mpietrucha\Extensions\PHPStan\Stubs\InternalExtension
     tags:
         - phpstan.stubFilesExtension

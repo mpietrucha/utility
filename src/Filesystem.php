@@ -7,6 +7,7 @@ use Mpietrucha\Utility\Enumerable\LazyCollection;
 use Mpietrucha\Utility\Filesystem\Concerns\InteractsWithCondition;
 use Mpietrucha\Utility\Filesystem\Concerns\InteractsWithExistence;
 use Mpietrucha\Utility\Filesystem\Condition;
+use Mpietrucha\Utility\Filesystem\Exception\UnavailableSystemCwdException;
 use Mpietrucha\Utility\Forward\Concerns\Bridgeable;
 
 /**
@@ -44,9 +45,9 @@ abstract class Filesystem
     /**
      * Get the current working directory or null if unavailable.
      */
-    public static function cwd(): ?string
+    public static function cwd(): string
     {
-        return getcwd() ?: null;
+        return getcwd() ?: UnavailableSystemCwdException::create()->throw();
     }
 
     /**

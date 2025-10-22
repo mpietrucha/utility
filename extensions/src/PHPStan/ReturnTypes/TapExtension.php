@@ -22,14 +22,14 @@ final class TapExtension implements DynamicMethodReturnTypeExtension
         return \Mpietrucha\Utility\Forward\Contracts\TapInterface::class;
     }
 
-    public function isMethodSupported(MethodReflection $reflection): bool
+    public function isMethodSupported(MethodReflection $method): bool
     {
         return true;
     }
 
-    public function getTypeFromMethodCall(MethodReflection $reflection, MethodCall $method, Scope $scope): Type
+    public function getTypeFromMethodCall(MethodReflection $method, MethodCall $call, Scope $scope): Type
     {
-        $tap = $method->var |> $scope->getType(...);
+        $tap = $call->var |> $scope->getType(...);
 
         $type = $tap->getTemplateType($this->getClass(), 'T');
 

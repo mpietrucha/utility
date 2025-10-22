@@ -69,7 +69,7 @@ class Arr extends \Illuminate\Support\Arr
 
     /**
      * @param  array<array-key,  mixed>  $array
-     * @return array<array-key,  mixed> $array
+     * @return array<array-key,  mixed>
      */
     public static function slice(array $array, int $offset, ?int $length = null): array
     {
@@ -77,8 +77,8 @@ class Arr extends \Illuminate\Support\Arr
     }
 
     /**
-     * @param  array<array-key,  mixed>  $array
-     * @return array<array-key,  mixed> $array
+     * @param  array<array-key, mixed>  $array
+     * @return array<array-key, mixed>
      */
     public static function skip(array $array, int $count): array
     {
@@ -126,5 +126,16 @@ class Arr extends \Illuminate\Support\Arr
     public static function flip(array $array): array
     {
         return array_flip($array);
+    }
+
+    /**
+     * @template TKey of array-key
+     *
+     * @param  array<TKey, mixed>  $array
+     * @return TKey|null
+     */
+    public static function search(array $array, mixed $search, bool $strict = false): null|int|string
+    {
+        return array_search($array, $search, $strict) ?: null;
     }
 }

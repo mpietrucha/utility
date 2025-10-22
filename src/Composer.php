@@ -5,10 +5,10 @@ namespace Mpietrucha\Utility;
 use Mpietrucha\Utility\Composer\Adapter;
 use Mpietrucha\Utility\Composer\Autoload;
 use Mpietrucha\Utility\Composer\Concerns\InteractsWithAdapter;
+use Mpietrucha\Utility\Composer\Contracts\AdapterInterface;
 use Mpietrucha\Utility\Composer\Contracts\AutoloadInterface;
 use Mpietrucha\Utility\Composer\Contracts\ComposerInterface;
 use Mpietrucha\Utility\Concerns\Wrappable;
-use Mpietrucha\Utility\Stream\Contracts\AdapterInterface;
 use Mpietrucha\Utility\Utilizer\Concerns\Utilizable;
 
 /**
@@ -16,7 +16,7 @@ use Mpietrucha\Utility\Utilizer\Concerns\Utilizable;
  */
 class Composer implements ComposerInterface
 {
-    use InteractsWithAdapter, Utilizable\String, Wrappable;
+    use InteractsWithAdapter, Utilizable\Cwd, Wrappable;
 
     protected AdapterInterface $adapter;
 
@@ -24,9 +24,12 @@ class Composer implements ComposerInterface
 
     protected static ?ComposerInterface $default = null;
 
+    /**
+     * @var class-string
+     */
     protected static string $wrappable = ComposerInterface::class;
 
-    public function __construct(null|AdapterInterface|string $adapter)
+    public function __construct(AdapterInterface|string $adapter)
     {
         $this->adapter = Adapter::wrap($adapter);
     }
@@ -49,10 +52,5 @@ class Composer implements ComposerInterface
     public function autoload(): AutoloadInterface
     {
         return $this->autoload ??= Autoload::default($this);
-    }
-
-    protected static function hydrate(): ?string
-    {
-        return Filesystem::cwd();
     }
 }

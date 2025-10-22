@@ -103,7 +103,7 @@ class Finder implements CreatableInterface, FinderInterface
 
     protected function input(): string
     {
-        return $this->input ??= Filesystem::cwd() |> Normalizer::string(...);
+        return $this->input ??= Filesystem::cwd();
     }
 
     protected function altitude(): ?int

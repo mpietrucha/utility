@@ -36,7 +36,7 @@ abstract class Dependency
 
     public static function load(string $dependency): bool
     {
-        $cwd = Filesystem::cwd() |> Normalizer::string(...);
+        $cwd = Filesystem::cwd();
 
         if (Path::build($dependency, $cwd) |> static::require(...)) {
             return true;

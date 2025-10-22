@@ -11,6 +11,7 @@ use Mpietrucha\Utility\Concerns\Pipeable;
 use Mpietrucha\Utility\Concerns\Stringable;
 use Mpietrucha\Utility\Concerns\Tappable;
 use Mpietrucha\Utility\Concerns\Wrappable;
+use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Enumerable\Filter;
 use Mpietrucha\Utility\Enumerable\LazyCollection;
 use Mpietrucha\Utility\Hash;
@@ -31,7 +32,7 @@ use Traversable;
 trait Enumerable
 {
     use Arrayable, Conditionable, Creatable, Pipeable, Stringable, Tappable, Wrappable {
-        Wrappable::wrap as bind;
+        Wrappable::wrap as protected wrappable;
     }
 
     /**
@@ -40,6 +41,11 @@ trait Enumerable
     protected static array $forwarders = [
         'firstMap',
     ];
+
+    /**
+     * @var class-string
+     */
+    protected static string $wrappable = EnumerableInterface::class;
 
     public function __get(mixed $key): mixed
     {
@@ -51,6 +57,12 @@ trait Enumerable
     public static function from(mixed ...$items): static
     {
         return static::create($items);
+    }
+
+    public static function bind(mixed $value): static
+    {
+        /** @phpstan-ignore-next-line return.type */
+        return static::wrappable($value);
     }
 
     public static function sequence(int $number, mixed $value = null): static

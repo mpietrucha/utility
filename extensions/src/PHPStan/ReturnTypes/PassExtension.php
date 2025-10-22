@@ -21,12 +21,12 @@ final class PassExtension implements DynamicMethodReturnTypeExtension
         return \Mpietrucha\Utility\Forward\Contracts\PassInterface::class;
     }
 
-    public function isMethodSupported(MethodReflection $reflection): bool
+    public function isMethodSupported(MethodReflection $method): bool
     {
         return true;
     }
 
-    public function getTypeFromMethodCall(MethodReflection $reflection, MethodCall $method, Scope $scope): Type
+    public function getTypeFromMethodCall(MethodReflection $method, MethodCall $call, Scope $scope): Type
     {
         return new MixedType;
     }

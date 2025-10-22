@@ -33,6 +33,15 @@ abstract class Path
         return Filesystem::basename($path);
     }
 
+    public static function finish(string $path, string $name): string
+    {
+        if (static::name($path) === $name) {
+            return $path;
+        }
+
+        return static::join($path, $name);
+    }
+
     /**
      * Canonicalize the given path, resolving symbolic links and relative segments.
      */

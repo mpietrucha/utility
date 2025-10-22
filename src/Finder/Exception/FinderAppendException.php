@@ -14,7 +14,7 @@ class FinderAppendException extends BadMethodCallException
     public function configure(FinderInterface $finder): array
     {
         return [
-            'Call to %s::append() method prohibited in this finder instance',
+            'Call to %s::append() method is prohibited in this finder instance',
             Instance::namespace($finder),
         ];
     }

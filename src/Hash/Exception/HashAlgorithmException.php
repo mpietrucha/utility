@@ -8,6 +8,6 @@ class HashAlgorithmException extends BadMethodCallException
 {
     public function configure(string $algorithm): string
     {
-        return '`%s` is not supported hash algorithm';
+        return '`%s` is not a supported hash algorithm';
     }
 }

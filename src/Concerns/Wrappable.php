@@ -16,11 +16,11 @@ trait Wrappable
      * Wrap the given value in a new instance of the called class,
      * or return the value if it is already an instance.
      */
-    public static function wrap(mixed $value, mixed ...$arguments): static
+    public static function wrap(mixed $value, mixed ...$arguments): object
     {
         $instance = static::class;
 
-        $instance = match (true) {
+        $instance = match (true) { /** @phpstan-ignore-next-line staticProperty.notFound */
             Property::exists($instance, 'wrappable') => static::$wrappable,
             default => $instance
         } |> Normalizer::string(...);
