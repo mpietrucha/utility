@@ -19,7 +19,7 @@ abstract class Cwd implements UtilizableInterface
     {
         $cwd = Filesystem::cwd();
 
-        if (Filesystem::exists($cwd, 'composer.json')) {
+        if (Path::build('composer.json', $cwd) |> Filesystem::exists(...)) {
             return $cwd;
         }
 
