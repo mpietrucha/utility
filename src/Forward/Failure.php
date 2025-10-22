@@ -8,6 +8,9 @@ use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Forward\Contracts\FailureInterface;
 use Mpietrucha\Utility\Forward\Contracts\ForwardInterface;
+use Mpietrucha\Utility\Forward\Failure\Backtrace;
+use Mpietrucha\Utility\Forward\Failure\Frames;
+use Mpietrucha\Utility\Forward\Failure\Message;
 use Mpietrucha\Utility\Instance;
 use Mpietrucha\Utility\Throwable\Contracts\InteractsWithThrowableInterface;
 use Mpietrucha\Utility\Type;
@@ -64,8 +67,8 @@ class Failure implements CreatableInterface, FailureInterface
     protected function backtrace(EnumerableInterface $backtrace): EnumerableInterface
     {
         return match (true) {
-            Failure\Backtrace::proxied($backtrace) => Failure\Frames::proxied(),
-            default => Failure\Frames::unproxied()
+            Backtrace::proxied($backtrace) => Frames::proxied(),
+            default => Frames::unproxied()
         } |> $backtrace->skip(...);
     }
 
@@ -84,9 +87,9 @@ class Failure implements CreatableInterface, FailureInterface
             return $message;
         }
 
-        $to = Failure\Message::get($source, $this->forward()->method() ?? $method);
+        $to = Message::get($source, $this->forward()->method() ?? $method);
 
-        return Failure\Message::build($message, Failure\Message::get($destination, $method), $to);
+        return Message::build($message, Message::get($destination, $method), $to);
     }
 
     /**

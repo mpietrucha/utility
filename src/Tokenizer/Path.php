@@ -10,6 +10,7 @@ use Mpietrucha\Utility\Tokenizer;
 use Mpietrucha\Utility\Tokenizer\Contracts\PathInterface;
 use Mpietrucha\Utility\Tokenizer\Contracts\TokenInterface;
 use Mpietrucha\Utility\Tokenizer\Contracts\TokenizerInterface;
+use Mpietrucha\Utility\Tokenizer\Path\Name;
 use Mpietrucha\Utility\Type;
 
 class Path implements CreatableInterface, PathInterface
@@ -27,20 +28,20 @@ class Path implements CreatableInterface, PathInterface
 
     public function namespace(): ?TokenInterface
     {
-        return Path\Name::get() |> $this->tokens()->first->is(...);
+        return Name::get() |> $this->tokens()->first->is(...);
     }
 
     public function name(): ?TokenInterface
     {
         return $this->tokens()->pipeThrough([
-            fn (EnumerableInterface $tokens) => Path\Name::previous() |> $tokens->skipUntil->is(...),
-            fn (EnumerableInterface $tokens) => Path\Name::next() |> $tokens->first->is(...),
+            fn (EnumerableInterface $tokens) => Name::previous() |> $tokens->skipUntil->is(...),
+            fn (EnumerableInterface $tokens) => Name::next() |> $tokens->first->is(...),
         ]);
     }
 
     public function canonicalize(): ?TokenInterface
     {
-        return Path\Name::canonicalized() |> $this->build(...);
+        return Name::canonicalized() |> $this->build(...);
     }
 
     public function get(bool $canonicalized = false): ?TokenInterface
@@ -49,7 +50,7 @@ class Path implements CreatableInterface, PathInterface
             return $this->canonicalize();
         }
 
-        return Path\Name::get() |> $this->build(...);
+        return Name::get() |> $this->build(...);
     }
 
     protected function build(int $id): ?TokenInterface
@@ -64,7 +65,7 @@ class Path implements CreatableInterface, PathInterface
             return null;
         }
 
-        if ($id === Path\Name::canonicalized()) {
+        if ($id === Name::canonicalized()) {
             $namespace = Adapter::canonicalize($namespace);
         }
 

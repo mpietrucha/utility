@@ -7,6 +7,7 @@ use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Error\Contracts\BuilderInterface;
 use Mpietrucha\Utility\Error\Contracts\HandlerInterface;
+use Mpietrucha\Utility\Error\Handler\Runtime;
 
 class Builder implements BuilderInterface, CreatableInterface
 {
@@ -50,6 +51,6 @@ class Builder implements BuilderInterface, CreatableInterface
 
     public function build(): HandlerInterface
     {
-        return Handler\Runtime::create(...) |> $this->toCollection()->pipeSpread(...);
+        return Runtime::create(...) |> $this->toCollection()->pipeSpread(...);
     }
 }

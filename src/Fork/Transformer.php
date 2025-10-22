@@ -6,6 +6,8 @@ use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Fork\Contracts\ContentInterface;
 use Mpietrucha\Utility\Fork\Contracts\TransformerInterface;
+use Mpietrucha\Utility\Fork\Instance\File;
+use Mpietrucha\Utility\Fork\Transformer\Normalizer;
 use Mpietrucha\Utility\Instance\Path;
 
 abstract class Transformer implements CreatableInterface, TransformerInterface
@@ -16,7 +18,7 @@ abstract class Transformer implements CreatableInterface, TransformerInterface
 
     public static function find(string $class): string
     {
-        return Instance\File::get($class);
+        return File::get($class);
     }
 
     public static function join(string $namespace, string $class): string
@@ -27,13 +29,13 @@ abstract class Transformer implements CreatableInterface, TransformerInterface
     public static function hydrate(ContentInterface $content, TransformerInterface $transformer): ContentInterface
     {
         $content->replace(
-            $transformer->class() |> Transformer\Normalizer::name(...),
-            $transformer->namespace() |> Transformer\Normalizer::name(...)
+            $transformer->class() |> Normalizer::name(...),
+            $transformer->namespace() |> Normalizer::name(...)
         );
 
         return $content->replace(
-            $transformer->class() |> Transformer\Normalizer::namespace(...),
-            $transformer->namespace() |> Transformer\Normalizer::namespace(...),
+            $transformer->class() |> Normalizer::namespace(...),
+            $transformer->namespace() |> Normalizer::namespace(...),
         );
     }
 

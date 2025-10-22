@@ -4,7 +4,9 @@ namespace Mpietrucha\Utility\Finder\Cache;
 
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Filesystem;
+use Mpietrucha\Utility\Filesystem\Record;
 use Mpietrucha\Utility\Filesystem\Stream;
+use Mpietrucha\Utility\Filesystem\Temporary;
 use Mpietrucha\Utility\Finder\Contracts\SnapshotInterface;
 use Mpietrucha\Utility\Finder\Snapshot;
 use Mpietrucha\Utility\Lottery;
@@ -27,7 +29,7 @@ class File extends None implements UtilizableInterface
 
     public function flush(): void
     {
-        $this->directory() |> Filesystem\Temporary::flush(...);
+        $this->directory() |> Temporary::flush(...);
     }
 
     public function exists(string $identity): bool
@@ -59,7 +61,7 @@ class File extends None implements UtilizableInterface
             fn (EnumerableInterface $response) => $response->mapToStringables(),
             fn (EnumerableInterface $response) => Str::tab() |> $response->map->explode(...),
             fn (EnumerableInterface $response) => Normalizer::string(0) |> $response->keyBy(...),
-            fn (EnumerableInterface $response) => Filesystem\Record::create(...) |> $response->mapSpread(...),
+            fn (EnumerableInterface $response) => Record::create(...) |> $response->mapSpread(...),
         ]);
     }
 
@@ -82,7 +84,7 @@ class File extends None implements UtilizableInterface
 
     protected function file(string $identity): string
     {
-        return Filesystem\Temporary::get($identity, $this->directory());
+        return Temporary::get($identity, $this->directory());
     }
 
     protected function directory(): string
@@ -102,6 +104,6 @@ class File extends None implements UtilizableInterface
 
     protected static function hydrate(): string
     {
-        return Filesystem\Temporary::directory('finder');
+        return Temporary::directory('finder');
     }
 }

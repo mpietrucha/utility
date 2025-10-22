@@ -4,6 +4,7 @@ namespace Mpietrucha\Utility\Finder\Snapshot;
 
 use Mpietrucha\Utility\Collection;
 use Mpietrucha\Utility\Filesystem as Adapter;
+use Mpietrucha\Utility\Filesystem\Temporary;
 use Mpietrucha\Utility\Type;
 use Mpietrucha\Utility\Utilizer\Concerns\Utilizable;
 use Mpietrucha\Utility\Utilizer\Contracts\UtilizableInterface;
@@ -63,6 +64,6 @@ class Filesystem extends None implements UtilizableInterface
 
     protected static function hydrate(): string
     {
-        return Adapter\Temporary::file('snapshots.json');
+        return Temporary::file('snapshots.json');
     }
 }

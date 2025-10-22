@@ -11,7 +11,7 @@ use Mpietrucha\Utility\Contracts\CompatibleInterface;
 use Mpietrucha\Utility\Filesystem\Path;
 use Mpietrucha\Utility\Type;
 
-class Composer extends Loader implements CompatibleInterface
+class Internal extends Loader implements CompatibleInterface
 {
     use Compatible;
 

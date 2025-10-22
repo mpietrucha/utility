@@ -5,6 +5,8 @@ namespace Mpietrucha\Utility\Error;
 use Mpietrucha\Utility\Collection;
 use Mpietrucha\Utility\Error\Contracts\BuilderInterface;
 use Mpietrucha\Utility\Error\Contracts\HandlerInterface;
+use Mpietrucha\Utility\Error\Handler\Console;
+use Mpietrucha\Utility\Error\Handler\Web;
 
 abstract class Handler
 {
@@ -51,8 +53,8 @@ abstract class Handler
     protected static function defaults(): array
     {
         return [
-            Handler\Web::create(),
-            Handler\Console::create(),
+            Web::create(),
+            Console::create(),
         ];
     }
 }

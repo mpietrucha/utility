@@ -7,7 +7,9 @@ use Mpietrucha\Utility\Enumerable\LazyCollection;
 use Mpietrucha\Utility\Filesystem\Concerns\InteractsWithCondition;
 use Mpietrucha\Utility\Filesystem\Concerns\InteractsWithExistence;
 use Mpietrucha\Utility\Filesystem\Condition;
+use Mpietrucha\Utility\Filesystem\Ephemeral;
 use Mpietrucha\Utility\Filesystem\Exception\UnavailableSystemCwdException;
+use Mpietrucha\Utility\Filesystem\Snapshot;
 use Mpietrucha\Utility\Forward\Concerns\Bridgeable;
 
 /**
@@ -67,7 +69,7 @@ abstract class Filesystem
      */
     public static function ephemeral(?string $name = null): string
     {
-        return Filesystem\Ephemeral::get($name);
+        return Ephemeral::get($name);
     }
 
     public static function touch(string $path, ?int $modified = null, ?int $accessed = null): bool
@@ -99,7 +101,7 @@ abstract class Filesystem
 
     public static function snapshot(string $path, ?string $algorithm = null): ?string
     {
-        return Filesystem\Snapshot::create()->get($path, $algorithm);
+        return Snapshot::create()->get($path, $algorithm);
     }
 
     public static function tokenize(string $path): Tokenizer

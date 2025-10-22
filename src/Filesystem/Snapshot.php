@@ -5,6 +5,8 @@ namespace Mpietrucha\Utility\Filesystem;
 use Illuminate\Support\Arr;
 use Mpietrucha\Utility\Collection;
 use Mpietrucha\Utility\Filesystem\Contracts\SnapshotInterface;
+use Mpietrucha\Utility\Filesystem\Snapshot\Fd;
+use Mpietrucha\Utility\Filesystem\Snapshot\Finder;
 use Mpietrucha\Utility\Filesystem\Snapshot\None;
 
 class Snapshot extends None
@@ -43,8 +45,8 @@ class Snapshot extends None
     protected static function defaults(): array
     {
         return [
-            Snapshot\Fd::create(),
-            Snapshot\Finder::create(),
+            Fd::create(),
+            Finder::create(),
         ];
     }
 }

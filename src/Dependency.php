@@ -3,6 +3,7 @@
 namespace Mpietrucha\Utility;
 
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
+use Mpietrucha\Utility\Filesystem\Cwd;
 use Mpietrucha\Utility\Filesystem\Path;
 
 /**
@@ -36,13 +37,9 @@ abstract class Dependency
 
     public static function load(string $dependency): bool
     {
-        $cwd = Filesystem::cwd();
+        $cwd = Cwd::get();
 
-        if (Path::build($dependency, $cwd) |> static::require(...)) {
-            return true;
-        }
-
-        return Path::build($dependency, Path::directory($cwd)) |> static::require(...);
+        return Path::build($dependency, $cwd) |> static::require(...);
     }
 
     protected static function require(string $dependency): bool

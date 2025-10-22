@@ -10,6 +10,6 @@ trait Cwd
 
     protected static function hydrate(): string
     {
-        return Filesystem::cwd();
+        return Filesystem\Cwd::get();
     }
 }

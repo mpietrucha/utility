@@ -5,14 +5,17 @@ namespace Mpietrucha\Utility;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
+use Mpietrucha\Utility\Filesystem\Cwd;
+use Mpietrucha\Utility\Filesystem\Path;
 use Mpietrucha\Utility\Finder\Builder;
-use Mpietrucha\Utility\Finder\Cache;
+use Mpietrucha\Utility\Finder\Cache\File;
+use Mpietrucha\Utility\Finder\Cache\None;
 use Mpietrucha\Utility\Finder\Concerns\InteractsWithFinder;
 use Mpietrucha\Utility\Finder\Contracts\BuilderInterface;
 use Mpietrucha\Utility\Finder\Contracts\CacheInterface;
 use Mpietrucha\Utility\Finder\Contracts\FinderInterface;
 use Mpietrucha\Utility\Finder\Contracts\IdentifierInterface;
-use Mpietrucha\Utility\Finder\Identifier;
+use Mpietrucha\Utility\Finder\Identifier\Hash;
 use Mpietrucha\Utility\Finder\Loop;
 use Mpietrucha\Utility\Finder\Reflection;
 use Mpietrucha\Utility\Forward\Concerns\Forwardable;
@@ -55,7 +58,7 @@ class Finder implements CreatableInterface, FinderInterface
 
     public static function uncached(?callable $configuration = null): static
     {
-        $builder = Cache\None::create() |> static::builder()->cache(...);
+        $builder = None::create() |> static::builder()->cache(...);
 
         return $builder->tap($configuration)->build();
     }
@@ -67,12 +70,12 @@ class Finder implements CreatableInterface, FinderInterface
 
     public function cache(): CacheInterface
     {
-        return $this->cache ??= Cache\File::create();
+        return $this->cache ??= File::create();
     }
 
     public function identifier(): IdentifierInterface
     {
-        return $this->identifier ??= Identifier\Hash::create();
+        return $this->identifier ??= Hash::create();
     }
 
     public function get(): EnumerableInterface
@@ -103,7 +106,7 @@ class Finder implements CreatableInterface, FinderInterface
 
     protected function input(): string
     {
-        return $this->input ??= Filesystem::cwd();
+        return $this->input ??= Cwd::get();
     }
 
     protected function altitude(): ?int
@@ -118,6 +121,6 @@ class Finder implements CreatableInterface, FinderInterface
 
     protected function summit(): string
     {
-        return Filesystem\Path::directory($this->input(), $this->altitude());
+        return Path::directory($this->input(), $this->altitude());
     }
 }

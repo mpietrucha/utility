@@ -5,6 +5,8 @@ namespace Mpietrucha\Utility\Throwable;
 use Mpietrucha\Utility\Backtrace\Contracts\FrameInterface;
 use Mpietrucha\Utility\Collection;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
+use Mpietrucha\Utility\Throwable\Synchronizer\File;
+use Mpietrucha\Utility\Throwable\Synchronizer\Line;
 use Mpietrucha\Utility\Throwable\Synchronizer\None;
 
 abstract class Synchronizer extends None
@@ -55,8 +57,8 @@ abstract class Synchronizer extends None
     final protected static function defaults(): array
     {
         return [
-            Synchronizer\Line::create(),
-            Synchronizer\File::create(),
+            Line::create(),
+            File::create(),
         ];
     }
 }

@@ -3,6 +3,8 @@
 namespace Mpietrucha\Utility\Composer;
 
 use Mpietrucha\Utility\Composer\Contracts\LoaderInterface;
+use Mpietrucha\Utility\Composer\Loader\Enumerable;
+use Mpietrucha\Utility\Composer\Loader\Internal;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Normalizer;
@@ -19,8 +21,8 @@ abstract class Loader implements CreatableInterface, LoaderInterface
     protected static function get(string $cwd): LoaderInterface
     {
         return match (true) {
-            Loader\Composer::compatible($cwd) => Loader\Composer::load($cwd),
-            default => Loader\Enumerable::load($cwd),
+            Internal::compatible($cwd) => Internal::load($cwd),
+            default => Enumerable::load($cwd),
         };
     }
 }

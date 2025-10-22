@@ -4,6 +4,8 @@ namespace Mpietrucha\Utility\Filesystem;
 
 use Mpietrucha\Utility\Filesystem;
 use Mpietrucha\Utility\Filesystem\Contracts\InteractsWithTemporaryInterface;
+use Mpietrucha\Utility\Filesystem\Temporary\Directory;
+use Mpietrucha\Utility\Filesystem\Temporary\Name;
 use Mpietrucha\Utility\Finder;
 use Mpietrucha\Utility\Type;
 use Mpietrucha\Utility\Utilizer\Concerns\Utilizable;
@@ -20,7 +22,7 @@ abstract class Temporary implements InteractsWithTemporaryInterface, UtilizableI
 
     public static function flush(string $directory): void
     {
-        $files = Temporary\Name::compatible(...) |> Finder::uncached()->in($directory)
+        $files = Name::compatible(...) |> Finder::uncached()->in($directory)
             ->files()
             ->get()
             ->filter(...);
@@ -30,7 +32,7 @@ abstract class Temporary implements InteractsWithTemporaryInterface, UtilizableI
 
     public static function name(?string $name = null, bool $unique = false): string
     {
-        return Temporary\Name::get($name, $unique);
+        return Name::get($name, $unique);
     }
 
     /**
@@ -43,7 +45,7 @@ abstract class Temporary implements InteractsWithTemporaryInterface, UtilizableI
 
     public static function directory(?string $name = null, bool $unique = false): string
     {
-        $directory = static::utilize() |> Temporary\Directory::get(...);
+        $directory = static::utilize() |> Directory::get(...);
 
         if (Type::null($name)) {
             return $directory;

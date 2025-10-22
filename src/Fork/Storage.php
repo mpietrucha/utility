@@ -5,8 +5,10 @@ namespace Mpietrucha\Utility\Fork;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Filesystem;
+use Mpietrucha\Utility\Filesystem\Temporary;
 use Mpietrucha\Utility\Fork\Contracts\StorageInterface;
 use Mpietrucha\Utility\Fork\Contracts\TransformerInterface;
+use Mpietrucha\Utility\Fork\Instance\File;
 use Mpietrucha\Utility\Hash;
 use Mpietrucha\Utility\Lottery;
 use Mpietrucha\Utility\Lottery\Contracts\LotteryInterface;
@@ -27,14 +29,14 @@ class Storage implements CreatableInterface, StorageInterface
 
     public function flush(): void
     {
-        $this->directory() |> Filesystem\Temporary::flush(...);
+        $this->directory() |> Temporary::flush(...);
     }
 
     public function identify(TransformerInterface $transformer): string
     {
         $file = $transformer->file();
 
-        $transformer = Instance\File::get($transformer);
+        $transformer = File::get($transformer);
 
         return Filesystem::hash($file) . Filesystem::hash($file) |> Hash::md5(...);
     }
@@ -63,7 +65,7 @@ class Storage implements CreatableInterface, StorageInterface
 
     protected function file(string $identity): string
     {
-        return Filesystem\Temporary::get($identity, $this->directory());
+        return Temporary::get($identity, $this->directory());
     }
 
     protected function directory(): string
@@ -78,6 +80,6 @@ class Storage implements CreatableInterface, StorageInterface
 
     protected static function hydrate(): string
     {
-        return Filesystem\Temporary::directory('forks');
+        return Temporary::directory('forks');
     }
 }
