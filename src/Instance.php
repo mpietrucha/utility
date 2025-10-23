@@ -147,4 +147,14 @@ abstract class Instance implements InteractsWithInstanceInterface
 
         return $parents->filter()->values();
     }
+
+    /**
+     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, class-string>
+     */
+    public static function uses(object|string $instance): EnumerableInterface
+    {
+        $traits = @class_uses_recursive($instance) |> Collection::create(...);
+
+        return $traits->filter()->values();
+    }
 }
