@@ -151,7 +151,7 @@ abstract class Instance implements InteractsWithInstanceInterface
     /**
      * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, class-string>
      */
-    public static function uses(object|string $instance): EnumerableInterface
+    public static function traits(object|string $instance): EnumerableInterface
     {
         $traits = @class_uses_recursive($instance) |> Collection::create(...);
 
