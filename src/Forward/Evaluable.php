@@ -39,7 +39,7 @@ class Evaluable implements CreatableInterface, EvaluableInterface
      */
     public static function call(string $method, array $arguments, object $source): mixed
     {
-        /** @phpstan-ignore-next-line */
+        /** @phpstan-ignore-next-line variable.undefined */
         $closure = fn () => $this->$method(...$arguments);
 
         return $closure->call($source);

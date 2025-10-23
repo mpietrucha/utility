@@ -27,7 +27,7 @@ class Record extends Adapter implements CompatibleInterface, CreatableInterface,
     {
         $input = func_get_args() |> static::transform(...);
 
-        /** @phpstan-ignore-next-line  */
+        /** @phpstan-ignore-next-line expr.resultUnused */
         parent::__construct(...) |> $input->pipeSpread(...);
     }
 

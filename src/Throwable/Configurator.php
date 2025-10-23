@@ -71,7 +71,7 @@ class Configurator implements ConfiguratorInterface, CreatableInterface
             $response = Arr::prepend($arguments, $response);
         }
 
-        /** @phpstan-ignore-next-line */
+        /** @phpstan-ignore-next-line argument.templateType */
         if (Arr::first($response) |> Type::not()->string(...)) {
             return $this->throwable();
         }
