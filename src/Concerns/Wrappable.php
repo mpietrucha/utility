@@ -20,7 +20,7 @@ trait Wrappable
     {
         $instance = static::class;
 
-        $instance = match (true) { /** @phpstan-ignore-next-line staticProperty.notFound */
+        $instance = match (true) {
             Property::exists($instance, 'wrappable') => static::$wrappable,
             default => $instance
         } |> Normalizer::string(...);

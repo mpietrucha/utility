@@ -13,16 +13,16 @@ use PHPStan\Analyser\Scope;
 /**
  * @internal
  */
-final class ForwardExtension implements IgnoreErrorExtension
+final class PipelineExtension implements IgnoreErrorExtension
 {
     use InteractsWithError;
 
     public function shouldIgnore(Error $error, Node $node, Scope $scope): bool
     {
-        if ($this->interactsWithIdentifier($error, 'method.notFound') === false) {
+        if ($this->interactsWithIdentifier($error, 'expr.resultUnused') === false) {
             return false;
         }
 
-        return $this->interactsWithMessage($error, '*Mpietrucha\Utility\Forward\Contracts\ProxyInterface::*(*).');
+        return $this->interactsWithMessage($error, '*|>*(...)*');
     }
 }

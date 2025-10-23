@@ -18,6 +18,18 @@ services:
     tags:
         - phpstan.ignoreErrorExtension
   -
+    class: Mpietrucha\Extensions\PHPStan\Errors\PipelineExtension
+    tags:
+        - phpstan.ignoreErrorExtension
+  -
+    class: Mpietrucha\Extensions\PHPStan\Errors\PropertyExtension
+    tags:
+        - phpstan.ignoreErrorExtension
+  -
+    class: Mpietrucha\Extensions\PHPStan\Errors\MethodExtension
+    tags:
+        - phpstan.ignoreErrorExtension
+  -
     class: Mpietrucha\Extensions\PHPStan\ReturnTypes\NormalizerExtension
     tags:
         - phpstan.broker.dynamicStaticMethodReturnTypeExtension

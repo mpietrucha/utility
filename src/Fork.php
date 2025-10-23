@@ -30,7 +30,6 @@ abstract class Fork implements InteractsWithAutoloadInterface, UtilizableInterfa
     {
         $transformers = Collection::create($transformers)->whereInstance(TransformerInterface::class);
 
-        /** @phpstan-ignore-next-line expr.resultUnused */
         static::add(...) |> $transformers->each(...);
     }
 

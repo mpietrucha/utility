@@ -3,6 +3,7 @@
 namespace Mpietrucha\Utility\Throwable\Concerns;
 
 use Mpietrucha\Utility\Instance;
+use Mpietrucha\Utility\Instance\Method;
 use Mpietrucha\Utility\Throwable\Contracts\ThrowableInterface;
 use Mpietrucha\Utility\Throwable\Purifier;
 
@@ -16,6 +17,8 @@ trait Throwable
     public function __construct()
     {
         $this->purify();
+
+        Method::exists($this, 'initialize') && $this->initialize();
     }
 
     /**

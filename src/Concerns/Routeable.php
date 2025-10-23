@@ -20,7 +20,7 @@ trait Routeable
     {
         $instance = static::class;
 
-        $instance = match (true) { /** @phpstan-ignore-next-line staticProperty.notFound */
+        $instance = match (true) {
             Property::exists($instance, 'routeable') => static::$routeable,
             default => $instance
         } |> Normalizer::string(...);

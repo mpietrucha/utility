@@ -16,7 +16,6 @@ abstract class Touch
 
         $file = static::build($path, $directory);
 
-        /** @phpstan-ignore-next-line expr.resultUnused */
         Path::directory(...) |> $file->pipe(...) |> static::directory(...);
 
         return Filesystem::touch(...) |> $file->tap(...) |> static::normalize(...);

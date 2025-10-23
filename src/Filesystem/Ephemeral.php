@@ -20,7 +20,6 @@ abstract class Ephemeral implements UtilizableInterface
     {
         $lottery ??= Lottery::odds(1, 500);
 
-        /** @phpstan-ignore-next-line expr.resultUnused */
         static::flush(...) |> $lottery->wins(...);
     }
 
