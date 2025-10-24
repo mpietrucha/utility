@@ -2,10 +2,11 @@
 
 namespace Mpietrucha\Extensions\PHPStan\Concerns;
 
-use Mpietrucha\Utility\Arr;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Filesystem;
 use Mpietrucha\Utility\Str;
+use Mpietrucha\Utility\Stringable;
+use Mpietrucha\Utility\Type;
 use PHPStan\Analyser\Error;
 
 trait InteractsWithError
@@ -20,7 +21,7 @@ trait InteractsWithError
 
     protected function interactsWithMessage(Error $error, string $value): bool
     {
-        return Str::is($value, $error->getMessage());
+        return $this->getErrorMessage($error)->is($value);
     }
 
     /**
@@ -30,28 +31,34 @@ trait InteractsWithError
     {
         $identifiers ??= static::identifiers();
 
-        return Arr::contains($identifiers, $error->getIdentifier());
+        return $this->getErrorIdentifier($error)->contains($identifiers);
     }
 
     protected function interactsWithIdentifier(Error $error, string $identifier): bool
     {
-        $identifiers = Arr::overlap($identifier);
-
-        return $this->interactsWithIdentifiers($error, $identifiers);
+        return $this->getErrorIdentifier($error)->is($identifier);
     }
 
     protected function interactsWithFileContent(Error $error, string $value): bool
     {
-        $content = $this->getErrorFileContent($error);
-
-        return Str::is($value, $content);
+        return $this->getErrorFileContent($error)->is($value);
     }
 
     protected function interactsWithFileContentLine(Error $error, string $value): bool
     {
-        $content = $this->getErrorFileLine($error) |> $this->getErrorFileContentLines($error)->get(...);
+        $line = $this->getErrorFileLine($error) |> $this->getErrorFileContentLines($error)->get(...);
 
-        return Str::is($value, $content);
+        return Type::not()->null($line) && $line->is($value);
+    }
+
+    protected function getErrorMessage(Error $error): Stringable
+    {
+        return $error->getMessage() |> Str::of(...);
+    }
+
+    protected function getErrorIdentifier(Error $error): Stringable
+    {
+        return $error->getIdentifier() |> Str::of(...);
     }
 
     protected function getErrorFileLine(Error $error): int
@@ -64,16 +71,16 @@ trait InteractsWithError
         return $error->getTraitFilePath() ?? $error->getFilePath();
     }
 
-    protected function getErrorFileContent(Error $error): string
+    protected function getErrorFileContent(Error $error): Stringable
     {
-        return $this->getErrorFilePath($error) |> Filesystem::get(...);
+        return $this->getErrorFilePath($error) |> Filesystem::get(...) |> Str::of(...);
     }
 
     /**
-     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, string>
+     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Stringable>
      */
     protected function getErrorFileContentLines(Error $error): EnumerableInterface
     {
-        return $this->getErrorFilePath($error) |> Filesystem::lines(...);
+        return $this->getErrorFileContent($error)->lines()->mapToStringables() /** @phpstan-ignore return.type */;
     }
 }

@@ -6,6 +6,7 @@ namespace Mpietrucha\Extensions\PHPStan\Errors;
 
 use Mpietrucha\Extensions\PHPStan\Concerns\InteractsWithError;
 use Mpietrucha\Utility\Str;
+use Mpietrucha\Utility\Stringable;
 use PhpParser\Node;
 use PHPStan\Analyser\Error;
 use PHPStan\Analyser\IgnoreErrorExtension;
@@ -45,8 +46,8 @@ final class MethodExtension implements IgnoreErrorExtension
         return Str::sprintf('*Method::*exists(*, *%s*)*', $method);
     }
 
-    protected function method(Error $error): string
+    protected function method(Error $error): Stringable
     {
-        return Str::between($error->getMessage(), '::', '().');
+        return $this->getErrorMessage($error)->between('::', '().');
     }
 }
