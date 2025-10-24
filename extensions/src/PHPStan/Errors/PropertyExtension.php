@@ -21,7 +21,7 @@ final class PropertyExtension implements IgnoreErrorExtension
     /**
      * @return list<string>
      */
-    public function identifiers(): array
+    public static function identifiers(): array
     {
         return [
             'property.notFound',
@@ -35,9 +35,14 @@ final class PropertyExtension implements IgnoreErrorExtension
             return false;
         }
 
-        $code = Str::sprintf('*Property::*exists(*, *%s*)*', $this->property($error));
+        return $this->interactsWithFileContent($error, $this->content($error));
+    }
 
-        return $this->interactsWithCode($error, $code);
+    protected function content(Error $error): string
+    {
+        $property = $this->property($error);
+
+        return Str::sprintf('*Property::*exists(*, *%s*)*', $property);
     }
 
     protected function property(Error $error): string

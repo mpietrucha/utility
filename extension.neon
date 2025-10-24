@@ -1,3 +1,5 @@
+includes:
+    - vendor/nesbot/carbon/extension.neon
 services:
   -
     class: Fork\Larastan\Larastan\Support\HigherOrderCollectionProxyHelper
@@ -27,6 +29,10 @@ services:
         - phpstan.ignoreErrorExtension
   -
     class: Mpietrucha\Extensions\PHPStan\Errors\MethodExtension
+    tags:
+        - phpstan.ignoreErrorExtension
+  -
+    class: Mpietrucha\Extensions\PHPStan\Errors\InstanceExtension
     tags:
         - phpstan.ignoreErrorExtension
   -

@@ -3,6 +3,7 @@
 namespace Mpietrucha\Extensions\PHPStan\Concerns;
 
 use Mpietrucha\Utility\Arr;
+use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Filesystem;
 use Mpietrucha\Utility\Str;
 use PHPStan\Analyser\Error;
@@ -12,51 +13,67 @@ trait InteractsWithError
     /**
      * @return list<string>
      */
-    protected function identifiers(): array
+    public static function identifiers(): array
     {
         return [];
     }
 
-    protected function interactsWithMessage(Error $error, string $message): bool
+    protected function interactsWithMessage(Error $error, string $value): bool
     {
-        return Str::is($message, $error->getMessage());
+        return Str::is($value, $error->getMessage());
     }
 
     /**
-     * @param  array<array-key, string>|null  $identifiers
+     * @param  list<string>  $identifiers
      */
     protected function interactsWithIdentifiers(Error $error, ?array $identifiers = null): bool
     {
-        $identifiers ??= $this->identifiers();
+        $identifiers ??= static::identifiers();
 
         return Arr::contains($identifiers, $error->getIdentifier());
     }
 
     protected function interactsWithIdentifier(Error $error, string $identifier): bool
     {
-        $identifiers = Arr::wrap($identifier);
+        $identifiers = Arr::overlap($identifier);
 
         return $this->interactsWithIdentifiers($error, $identifiers);
     }
 
-    protected function interactsWithCode(Error $error, string $code): bool
+    protected function interactsWithFileContent(Error $error, string $value): bool
     {
-        $content = static::file($error) |> Filesystem::get(...);
+        $content = $this->getErrorFileContent($error);
 
-        return Str::is($code, $content);
+        return Str::is($value, $content);
     }
 
-    protected function interactsWithLine(Error $error, string $line): bool
+    protected function interactsWithFileContentLine(Error $error, string $value): bool
     {
-        $lines = static::file($error) |> Filesystem::lines(...);
+        $content = $this->getErrorFileLine($error) |> $this->getErrorFileContentLines($error)->get(...);
 
-        $content = $error->getLine() - 1 |> $lines->get(...);
-
-        return Str::is($line, $content);
+        return Str::is($value, $content);
     }
 
-    protected static function file(Error $error): string
+    protected function getErrorFileLine(Error $error): int
+    {
+        return $error->getLine() - 1;
+    }
+
+    protected function getErrorFilePath(Error $error): string
     {
         return $error->getTraitFilePath() ?? $error->getFilePath();
+    }
+
+    protected function getErrorFileContent(Error $error): string
+    {
+        return $this->getErrorFilePath($error) |> Filesystem::get(...);
+    }
+
+    /**
+     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, string>
+     */
+    protected function getErrorFileContentLines(Error $error): EnumerableInterface
+    {
+        return $this->getErrorFilePath($error) |> Filesystem::lines(...);
     }
 }

@@ -38,7 +38,7 @@ final class CreatableExtension implements IgnoreErrorExtension
             return false;
         }
 
-        if ($this->interactsWithLine($error, '*::create(*)*') === false) {
+        if ($this->interactsWithFileContentLine($error, '*::create(*)*') === false) {
             return false;
         }
 

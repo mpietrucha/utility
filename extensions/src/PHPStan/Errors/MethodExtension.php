@@ -21,7 +21,7 @@ final class MethodExtension implements IgnoreErrorExtension
     /**
      * @return list<string>
      */
-    public function identifiers(): array
+    public static function identifiers(): array
     {
         return [
             'method.notFound',
@@ -35,9 +35,14 @@ final class MethodExtension implements IgnoreErrorExtension
             return false;
         }
 
-        $code = Str::sprintf('*Method::*exists(*, *%s*)*', $this->method($error));
+        return $this->interactsWithFileContent($error, $this->content($error));
+    }
 
-        return $this->interactsWithCode($error, $code);
+    protected function content(Error $error): string
+    {
+        $method = $this->method($error);
+
+        return Str::sprintf('*Method::*exists(*, *%s*)*', $method);
     }
 
     protected function method(Error $error): string
