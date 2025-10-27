@@ -107,11 +107,10 @@ class Arr extends \Illuminate\Support\Arr
      */
     public static function append(array $array, mixed $value, null|int|string $key = null): array
     {
-        if (Type::not()->null($key)) {
-            return [$key => $value] + $array;
-        }
-
-        array_push($array, $value);
+        match (true) {
+            Type::null($key) => $array[] = $value,
+            default => $array[$key] = $value
+        };
 
         return $array;
     }
