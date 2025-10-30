@@ -27,6 +27,8 @@ class Attempt extends Evaluation implements AttemptInterface
 
     /**
      * Safely invoke the evaluable with the given arguments, returning a result wrapper.
+     *
+     * @return \Mpietrucha\Utility\Value\Result
      */
     public function __invoke(mixed ...$arguments): ResultInterface
     {
@@ -35,6 +37,8 @@ class Attempt extends Evaluation implements AttemptInterface
 
     /**
      * Evaluate the callable with the given arguments and return a result instance.
+     *
+     * @return \Mpietrucha\Utility\Value\Result
      */
     public function get(mixed ...$arguments): ResultInterface
     {
@@ -44,6 +48,8 @@ class Attempt extends Evaluation implements AttemptInterface
     /**
      * Attempt to evaluate the callable and return a result,
      * capturing any thrown exception alongside the value.
+     *
+     * @return \Mpietrucha\Utility\Value\Result
      */
     public function eval(array $arguments): ResultInterface
     {
