@@ -7,4 +7,3 @@ parameters:
         - extensions
     ignoreErrors:
         - identifier: "trait.unused"
-        - identifier: "arguments.count"

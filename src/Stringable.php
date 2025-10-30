@@ -48,6 +48,11 @@ class Stringable extends \Illuminate\Support\Stringable implements Conditionable
         return Hash::algorithm($algorithm) |> parent::hash(...);
     }
 
+    public function fits(string $input): bool
+    {
+        return Str::is($this->toString(), $input);
+    }
+
     /**
      * @return \Mpietrucha\Utility\Collection<int, string>
      */

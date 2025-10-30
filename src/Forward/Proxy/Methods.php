@@ -69,7 +69,7 @@ class Methods implements CreatableInterface, MethodsInterface
      */
     public function validate(string $method, object|string $instance): void
     {
-        if ($this->valid($method, $instance)) {
+        if ($this->valid($method)) {
             return;
         }
 

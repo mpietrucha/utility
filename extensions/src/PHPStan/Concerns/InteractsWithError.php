@@ -46,7 +46,7 @@ trait InteractsWithError
 
     protected function interactsWithFileContentLine(Error $error, string $value): bool
     {
-        $line = $this->getErrorFileLine($error) |> $this->getErrorFileContentLines($error)->get(...);
+        $line = $this->getErrorFileContentLine($error);
 
         return Type::not()->null($line) && $line->is($value);
     }
@@ -82,5 +82,10 @@ trait InteractsWithError
     protected function getErrorFileContentLines(Error $error): EnumerableInterface
     {
         return $this->getErrorFileContent($error)->lines()->mapToStringables() /** @phpstan-ignore return.type */;
+    }
+
+    protected function getErrorFileContentLine(Error $error): ?Stringable
+    {
+        return $this->getErrorFileLine($error) |> $this->getErrorFileContentLines($error)->get(...);
     }
 }
