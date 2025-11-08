@@ -12,6 +12,9 @@ use Mpietrucha\Utility\Instance;
 use Mpietrucha\Utility\Normalizer;
 use Mpietrucha\Utility\Type;
 
+/**
+ * @phpstan-import-type RawBacktraceFrame from \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface
+ */
 class Frame implements CreatableInterface, FrameInterface
 {
     use Arrayable, Creatable, Pipeable;

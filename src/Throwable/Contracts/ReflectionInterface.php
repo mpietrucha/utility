@@ -7,6 +7,9 @@ use Mpietrucha\Utility\Contracts\WrappableInterface;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Throwable;
 
+/**
+ * @phpstan-import-type RawBacktraceFrame from \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface
+ */
 interface ReflectionInterface extends WrappableInterface
 {
     /**

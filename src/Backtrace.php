@@ -7,6 +7,9 @@ use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Throwable\Contracts\ReflectionInterface;
 use Throwable;
 
+/**
+ * @phpstan-import-type RawBacktraceFrame from \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface
+ */
 abstract class Backtrace
 {
     /**
@@ -36,7 +39,7 @@ abstract class Backtrace
     /**
      * Transform raw backtrace frames into a typed enumerable of frame objects.
      *
-     * @param  list<RawBacktraceFrame>  $backtrace
+     * @param  list<Frame>  $backtrace
      * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface>
      */
     protected static function build(array $backtrace): EnumerableInterface

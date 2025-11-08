@@ -7,6 +7,8 @@ use Mpietrucha\Utility\Contracts\PipeableInterface;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 
 /**
+ * @phpstan-type RawBacktraceFrame array{function: string, line?: int, file?: string, class?: class-string, type?: '->'|'::', args?: array<string, mixed>, object?: object}
+ *
  * @extends \Mpietrucha\Utility\Contracts\ArrayableInterface<string, RawBacktraceFrame>
  */
 interface FrameInterface extends ArrayableInterface, PipeableInterface
