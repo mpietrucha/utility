@@ -15,6 +15,9 @@ use Mpietrucha\Utility\Instance;
 use Mpietrucha\Utility\Throwable\Contracts\InteractsWithThrowableInterface;
 use Mpietrucha\Utility\Type;
 
+/**
+ * @phpstan-import-type BacktraceFramesCollection from \Mpietrucha\Utility\Backtrace
+ */
 class Failure implements CreatableInterface, FailureInterface
 {
     use Creatable;
@@ -51,7 +54,7 @@ class Failure implements CreatableInterface, FailureInterface
     /**
      * Determine frame for failure line and code.
      *
-     * @param  \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface>  $backtrace
+     * @param  BacktraceFramesCollection  $backtrace
      */
     protected function frame(EnumerableInterface $backtrace): FrameInterface
     {
@@ -61,8 +64,8 @@ class Failure implements CreatableInterface, FailureInterface
     /**
      * Adjust backtrace for cleaner output.
      *
-     * @param  \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface>  $backtrace
-     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface>
+     * @param  BacktraceFramesCollection  $backtrace
+     * @return BacktraceFramesCollection
      */
     protected function backtrace(EnumerableInterface $backtrace): EnumerableInterface
     {

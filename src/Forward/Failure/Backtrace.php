@@ -6,6 +6,9 @@ use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Forward\Contracts\ProxyInterface;
 use Mpietrucha\Utility\Normalizer;
 
+/**
+ * @phpstan-import-type BacktraceFramesCollection from \Mpietrucha\Utility\Backtrace
+ */
 abstract class Backtrace
 {
     public static function proxy(): string
@@ -14,7 +17,7 @@ abstract class Backtrace
     }
 
     /**
-     * @param  \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface>  $backtrace
+     * @param  BacktraceFramesCollection  $backtrace
      */
     public static function proxied(EnumerableInterface $backtrace): bool
     {
@@ -22,7 +25,7 @@ abstract class Backtrace
     }
 
     /**
-     * @param  \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface>  $backtrace
+     * @param  BacktraceFramesCollection  $backtrace
      */
     final public static function unproxied(EnumerableInterface $backtrace): bool
     {

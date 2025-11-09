@@ -8,7 +8,8 @@ use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Throwable;
 
 /**
- * @phpstan-import-type RawBacktraceFrame from \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface
+ * @phpstan-import-type RawBacktraceFrame from \Mpietrucha\Utility\Backtrace
+ * @phpstan-import-type BacktraceFramesCollection from \Mpietrucha\Utility\Backtrace
  */
 interface ReflectionInterface extends WrappableInterface
 {
@@ -67,7 +68,7 @@ interface ReflectionInterface extends WrappableInterface
     /**
      * Get the parsed backtrace frames associated with the throwable.
      *
-     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface>
+     * @return BacktraceFramesCollection
      */
     public function backtrace(): EnumerableInterface;
 }

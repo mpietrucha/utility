@@ -8,6 +8,9 @@ use Mpietrucha\Utility\Contracts\CompatibleInterface;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Throwable\Contracts\ThrowableInterface;
 
+/**
+ * @phpstan-import-type BacktraceFramesCollection from \Mpietrucha\Utility\Backtrace
+ */
 abstract class Purifier implements CompatibleInterface
 {
     use Compatible;
@@ -18,7 +21,7 @@ abstract class Purifier implements CompatibleInterface
     }
 
     /**
-     * @param  \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface>  $backtrace
+     * @param  BacktraceFramesCollection  $backtrace
      */
     public static function index(EnumerableInterface $backtrace): int
     {
@@ -26,8 +29,8 @@ abstract class Purifier implements CompatibleInterface
     }
 
     /**
-     * @param  \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface>  $backtrace
-     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface>
+     * @param  BacktraceFramesCollection  $backtrace
+     * @return BacktraceFramesCollection
      */
     public static function filter(EnumerableInterface $backtrace): EnumerableInterface
     {

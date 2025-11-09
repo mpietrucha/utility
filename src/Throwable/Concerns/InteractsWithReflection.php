@@ -17,6 +17,8 @@ use Throwable;
 
 /**
  * @phpstan-require-implements \Mpietrucha\Utility\Throwable\Contracts\ReflectionInterface
+ *
+ * @phpstan-import-type BacktraceFramesCollection from \Mpietrucha\Utility\Backtrace
  */
 trait InteractsWithReflection
 {
@@ -28,7 +30,7 @@ trait InteractsWithReflection
     protected ?Adapter $adapter = null;
 
     /**
-     * @var \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface>|null
+     * @var BacktraceFramesCollection|null
      */
     protected ?EnumerableInterface $backtrace = null;
 
@@ -129,7 +131,7 @@ trait InteractsWithReflection
     /**
      * Lazily build and return the throwable's backtrace frames.
      *
-     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface>
+     * @return BacktraceFramesCollection
      */
     public function backtrace(): EnumerableInterface
     {
