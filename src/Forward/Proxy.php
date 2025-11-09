@@ -11,11 +11,11 @@ use Mpietrucha\Utility\Forward\Contracts\ProxyInterface;
 use Mpietrucha\Utility\Forward\Proxy\Methods;
 
 /**
- * @template T of object
+ * @template TSource of object
  *
- * @property T|class-string<T> $source
+ * @property TSource|class-string<TSource> $source
  *
- * @mixin T
+ * @mixin TSource
  */
 class Proxy implements CreatableInterface, ProxyInterface
 {

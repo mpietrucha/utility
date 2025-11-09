@@ -7,9 +7,9 @@ use Mpietrucha\Utility\Forward\Contracts\MethodsInterface;
 use Mpietrucha\Utility\Forward\Contracts\PassInterface;
 
 /**
- * @template T of object
+ * @template TSource of object
  *
- * @extends \Mpietrucha\Utility\Forward\Proxy<T>
+ * @extends \Mpietrucha\Utility\Forward\Proxy<TSource>
  */
 class Pass extends Proxy implements PassInterface
 {

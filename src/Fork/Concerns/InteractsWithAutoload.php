@@ -20,12 +20,17 @@ trait InteractsWithAutoload
      */
     protected static ?Collection $autoload = null;
 
+    /**
+     * Bootstrap the autoloader by registering the require callback.
+     */
     public static function bootstrap(): void
     {
         static::autoload()->isEmpty() && static::require(...) |> spl_autoload_register(...);
     }
 
     /**
+     * Get the autoload collection mapping.
+     *
      * @return \Mpietrucha\Utility\Collection<TKey, TValue>
      */
     protected static function autoload(): Collection
@@ -33,5 +38,8 @@ trait InteractsWithAutoload
         return static::$autoload ??= Collection::create();
     }
 
+    /**
+     * Require the class when requested by the autoloader.
+     */
     abstract protected static function require(string $class): void;
 }

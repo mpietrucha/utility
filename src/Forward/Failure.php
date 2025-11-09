@@ -52,7 +52,7 @@ class Failure implements CreatableInterface, FailureInterface
     }
 
     /**
-     * Determine frame for failure line and code.
+     * Determine the frame for failure line and code from the backtrace.
      *
      * @param  BacktraceFramesCollection  $backtrace
      */
@@ -62,7 +62,7 @@ class Failure implements CreatableInterface, FailureInterface
     }
 
     /**
-     * Adjust backtrace for cleaner output.
+     * Adjust the backtrace by skipping internal frames for cleaner output.
      *
      * @param  BacktraceFramesCollection  $backtrace
      * @return BacktraceFramesCollection

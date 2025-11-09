@@ -15,16 +15,25 @@ abstract class Handler
      */
     protected static ?Collection $adapters = null;
 
+    /**
+     * Create a new error handler builder for the given adapter.
+     */
     public static function builder(object $adapter): BuilderInterface
     {
         return Builder::create($adapter);
     }
 
+    /**
+     * Add a custom error handler to the collection.
+     */
     public static function add(HandlerInterface $adapter): void
     {
         static::all()->prepend($adapter);
     }
 
+    /**
+     * Capture errors using the specified or default handler.
+     */
     public static function capture(?HandlerInterface $adapter = null): HandlerInterface
     {
         $adapter ??= static::get();
@@ -34,6 +43,9 @@ abstract class Handler
         return $adapter;
     }
 
+    /**
+     * Get the first supported error handler.
+     */
     public static function get(): HandlerInterface
     {
         return static::all()->first->supported();

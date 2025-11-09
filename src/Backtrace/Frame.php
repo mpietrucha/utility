@@ -80,6 +80,9 @@ class Frame implements CreatableInterface, FrameInterface
         return Property::NAMESPACE |> $this->get(...);
     }
 
+    /**
+     * Determine if the frame is internal to the given namespace or class.
+     */
     public function internal(object|string $value): bool
     {
         $namespace = $this->namespace();
@@ -91,6 +94,9 @@ class Frame implements CreatableInterface, FrameInterface
         return Instance::is($namespace, $value);
     }
 
+    /**
+     * Determine if the frame is external to the given namespace or class.
+     */
     final public function external(object|string $value): bool
     {
         return $this->internal($value) |> Normalizer::not(...);

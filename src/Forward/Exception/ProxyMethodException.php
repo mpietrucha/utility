@@ -8,6 +8,9 @@ use Mpietrucha\Utility\Throwable\RuntimeException;
 
 class ProxyMethodException extends RuntimeException
 {
+    /**
+     * Configure the exception with the prohibited method and instance context.
+     */
     public function configure(string $method, object|string $instance): void
     {
         $instance = Instance::namespace($instance) |> Normalizer::string(...);

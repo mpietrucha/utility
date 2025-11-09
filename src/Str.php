@@ -30,6 +30,9 @@ class Str extends \Illuminate\Support\Str
         return static::isEmpty($string) |> Normalizer::not(...);
     }
 
+    /**
+     * Generate a hash of the given string using the specified algorithm.
+     */
     public static function hash(string $string, ?string $algorithm = null): string
     {
         return static::of($string)->hash($algorithm);
@@ -43,26 +46,41 @@ class Str extends \Illuminate\Support\Str
         return sprintf($string, ...$arguments);
     }
 
+    /**
+     * Get the end-of-line character with an optional appended string.
+     */
     public static function eol(?string $append = null): string
     {
         return PHP_EOL . $append;
     }
 
+    /**
+     * Get an empty string with an optional appended string.
+     */
     public static function none(?string $append = null): string
     {
         return '' . $append;
     }
 
+    /**
+     * Get a tab character with an optional appended string.
+     */
     public static function tab(?string $append = null): string
     {
         return "\t" . $append;
     }
 
+    /**
+     * Get a forward slash with an optional appended string.
+     */
     public static function slash(?string $append = null): string
     {
         return '/' . $append;
     }
 
+    /**
+     * Get a backslash with an optional appended string.
+     */
     public static function backslash(?string $append = null): string
     {
         return '\\' . $append;

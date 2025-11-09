@@ -19,20 +19,32 @@ class Tokenizer implements CreatableInterface, TokenizerInterface
      */
     protected ?EnumerableInterface $tokens = null;
 
+    /**
+     * Create a new tokenizer instance for the given code.
+     */
     public function __construct(protected string $code)
     {
     }
 
+    /**
+     * Get a path resolver for navigating the token tree.
+     */
     public function path(): PathInterface
     {
         return Path::create($this);
     }
 
+    /**
+     * Get the collection of tokens parsed from the code.
+     */
     public function get(): EnumerableInterface
     {
         return $this->tokens ??= $this->code() |> Token::tokenize(...) |> Collection::create(...);
     }
 
+    /**
+     * Get the raw code string being tokenized.
+     */
     protected function code(): string
     {
         return $this->code;

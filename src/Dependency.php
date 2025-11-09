@@ -35,6 +35,9 @@ abstract class Dependency
         return static::load(...) |> static::defaults()->filter(...);
     }
 
+    /**
+     * Load the given dependency file.
+     */
     public static function load(string $dependency): bool
     {
         $cwd = Cwd::get();
@@ -42,6 +45,9 @@ abstract class Dependency
         return Path::build($dependency, $cwd) |> static::require(...);
     }
 
+    /**
+     * Require the dependency file if it exists.
+     */
     protected static function require(string $dependency): bool
     {
         if (Filesystem::unexists($dependency)) {

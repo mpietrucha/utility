@@ -28,6 +28,9 @@ class Builder implements BuilderInterface, CreatableInterface
 
     protected ?IdentifierInterface $identifier = null;
 
+    /**
+     * Convert the builder configuration to an array.
+     */
     final public function toArray(): array
     {
         return [
@@ -39,6 +42,9 @@ class Builder implements BuilderInterface, CreatableInterface
         ];
     }
 
+    /**
+     * Set the cache instance for the finder.
+     */
     public function cache(?CacheInterface $cache): static
     {
         $this->cache = $cache;
@@ -46,6 +52,9 @@ class Builder implements BuilderInterface, CreatableInterface
         return $this;
     }
 
+    /**
+     * Set the Symfony Finder adapter instance.
+     */
     public function adapter(?Adapter $adapter): static
     {
         $this->adapter = $adapter;
@@ -53,6 +62,9 @@ class Builder implements BuilderInterface, CreatableInterface
         return $this;
     }
 
+    /**
+     * Set the identifier instance for cache keys.
+     */
     public function identifier(?IdentifierInterface $identifier): static
     {
         $this->identifier = $identifier;
@@ -60,6 +72,9 @@ class Builder implements BuilderInterface, CreatableInterface
         return $this;
     }
 
+    /**
+     * Build and return a configured Finder instance.
+     */
     public function build(): FinderInterface
     {
         return Finder::create(...) |> $this->toCollection()->pipeSpread(...);

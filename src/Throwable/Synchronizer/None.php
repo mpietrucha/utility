@@ -14,11 +14,17 @@ abstract class None implements CreatableInterface, SynchronizerInterface
 {
     use Arrayable, Creatable;
 
+    /**
+     * Convert the synchronizer property to an array.
+     */
     final public function toArray(): array
     {
         return $this->property() |> Arr::wrap(...);
     }
 
+    /**
+     * Build a property-value tuple from the given frame.
+     */
     final public function build(FrameInterface $frame): array
     {
         $value = $this->value($frame);
@@ -27,6 +33,9 @@ abstract class None implements CreatableInterface, SynchronizerInterface
         return Arr::append($this->toArray(), $value);
     }
 
+    /**
+     * Determine if a value does not exist in the given frame.
+     */
     final public function unexists(FrameInterface $frame): bool
     {
         return $this->exists($frame) |> Normalizer::not(...);

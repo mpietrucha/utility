@@ -12,6 +12,9 @@ class Loop implements LoopInterface
 {
     use InteractsWithLoop, Uninstanceable;
 
+    /**
+     * Run the finder loop to collect files from the input path and its parent directories.
+     */
     final public static function run(Adapter $adapter, string $input, ?int $altitude): EnumerableInterface
     {
         [$files, $adapter] = [static::files(), static::adapter($adapter)];

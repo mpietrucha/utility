@@ -17,15 +17,24 @@ class Builder implements BuilderInterface, CreatableInterface
 
     protected mixed $capturable = null;
 
+    /**
+     * Create a new error handler builder for the given adapter.
+     */
     public function __construct(protected object $adapter)
     {
     }
 
+    /**
+     * Create a new builder instance with the given adapter.
+     */
     public static function adapter(object $adapter): static
     {
         return static::create($adapter);
     }
 
+    /**
+     * Convert the builder configuration to an array.
+     */
     final public function toArray(): array
     {
         return [
@@ -35,6 +44,9 @@ class Builder implements BuilderInterface, CreatableInterface
         ];
     }
 
+    /**
+     * Set whether the error handler is supported.
+     */
     public function supported(bool $supported): static
     {
         $this->supported = $supported;
@@ -42,6 +54,9 @@ class Builder implements BuilderInterface, CreatableInterface
         return $this;
     }
 
+    /**
+     * Set the capturable error types.
+     */
     public function capture(mixed $capturable): static
     {
         $this->capturable = $capturable;
@@ -49,6 +64,9 @@ class Builder implements BuilderInterface, CreatableInterface
         return $this;
     }
 
+    /**
+     * Build and return the configured error handler.
+     */
     public function build(): HandlerInterface
     {
         return Runtime::create(...) |> $this->toCollection()->pipeSpread(...);

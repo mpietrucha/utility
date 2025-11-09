@@ -25,6 +25,9 @@ trait Stringable
         return Str::none();
     }
 
+    /**
+     * Convert the instance to a Stringable adapter.
+     */
     final public function toStringable(): Adapter
     {
         return $this->toString() |> Adapter::create(...);

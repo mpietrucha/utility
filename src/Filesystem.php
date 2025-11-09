@@ -72,11 +72,17 @@ abstract class Filesystem
         return Ephemeral::get($name);
     }
 
+    /**
+     * Set access and modification time of the file.
+     */
     public static function touch(string $path, ?int $modified = null, ?int $accessed = null): bool
     {
         return @touch($path, $modified, $accessed);
     }
 
+    /**
+     * Determine if the given file is executable.
+     */
     public static function executable(string $path): bool
     {
         return is_executable($path);
@@ -92,6 +98,9 @@ abstract class Filesystem
         return LazyCollection::create(...) |> static::adapter()->lines($file)->pipe(...);
     }
 
+    /**
+     * Generate a hash of the file contents using the specified algorithm.
+     */
     public static function hash(string $path, ?string $algorithm = null): ?string
     {
         $algorithm = Hash::algorithm($algorithm);
@@ -99,16 +108,25 @@ abstract class Filesystem
         return static::adapter()->hash($path, $algorithm) ?: null;
     }
 
+    /**
+     * Create a snapshot hash of the file for change detection.
+     */
     public static function snapshot(string $path, ?string $algorithm = null): ?string
     {
         return Snapshot::create()->get($path, $algorithm);
     }
 
+    /**
+     * Tokenize the PHP file at the given path.
+     */
     public static function tokenize(string $path): Tokenizer
     {
         return static::get($path) |> Tokenizer::create(...);
     }
 
+    /**
+     * Get the namespace from the PHP file at the given path.
+     */
     public static function namespace(string $path, bool $canonicalized = false): ?string
     {
         $namespace = Composer::get()->autoload()->namespace($path, $canonicalized);

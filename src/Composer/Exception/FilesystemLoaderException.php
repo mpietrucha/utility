@@ -6,6 +6,9 @@ use Mpietrucha\Utility\Throwable\InvalidArgumentException;
 
 class FilesystemLoaderException extends InvalidArgumentException
 {
+    /**
+     * Configure the exception with the path missing a vendor directory.
+     */
     public function configure(string $cwd): string
     {
         return 'Path `%s` does not contain a `vendor` directory';

@@ -14,16 +14,25 @@ class Line extends Segment
      */
     protected ?Collection $lines = null;
 
+    /**
+     * Create a new line segment for the specified line number.
+     */
     public function __construct(ContentInterface $content, protected int $line)
     {
         parent::__construct($content);
     }
 
+    /**
+     * Clear the line content by replacing it with an empty string.
+     */
     public function clear(): void
     {
         $this->toString() |> $this->set(...);
     }
 
+    /**
+     * Set the content of this line.
+     */
     public function set(string $content): void
     {
         $this->lines()->put($this->line(), $content);
@@ -31,6 +40,9 @@ class Line extends Segment
         Str::eol() |> $this->lines()->join(...) |> $this->content()->set(...);
     }
 
+    /**
+     * Replace search string with replacement content within this line.
+     */
     public function replace(string $search, string $content): void
     {
         $line = $this->line() |> $this->lines()->get(...);
@@ -44,6 +56,8 @@ class Line extends Segment
     }
 
     /**
+     * Get the collection of all lines from the content.
+     *
      * @return \Mpietrucha\Utility\Collection<int, string>
      */
     protected function lines(): Collection
@@ -51,6 +65,9 @@ class Line extends Segment
         return $this->lines ??= $this->content()->toStringable()->lines();
     }
 
+    /**
+     * Get the zero-based line index.
+     */
     protected function line(): int
     {
         return $this->line - 1;

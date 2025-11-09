@@ -57,6 +57,8 @@ class Arr extends \Illuminate\Support\Arr
     }
 
     /**
+     * Wrap the given value in an array.
+     *
      * @template TValue
      *
      * @param  TValue  $value
@@ -68,6 +70,8 @@ class Arr extends \Illuminate\Support\Arr
     }
 
     /**
+     * Extract a slice of the array.
+     *
      * @param  array<array-key,  mixed>  $array
      * @return array<array-key,  mixed>
      */
@@ -77,6 +81,8 @@ class Arr extends \Illuminate\Support\Arr
     }
 
     /**
+     * Skip the first N elements of the array.
+     *
      * @param  array<array-key, mixed>  $array
      * @return array<array-key, mixed>
      */
@@ -86,6 +92,8 @@ class Arr extends \Illuminate\Support\Arr
     }
 
     /**
+     * Get all values from the array.
+     *
      * @template TValue
      *
      * @param  array<array-key, TValue>  $array
@@ -97,6 +105,8 @@ class Arr extends \Illuminate\Support\Arr
     }
 
     /**
+     * Append a value to the array with an optional key.
+     *
      * @template TKey of array-key
      * @template TValue
      *
@@ -116,6 +126,8 @@ class Arr extends \Illuminate\Support\Arr
     }
 
     /**
+     * Exchange all keys with their associated values in the array.
+     *
      * @template TKey of array-key
      * @template TValue
      *
@@ -128,6 +140,8 @@ class Arr extends \Illuminate\Support\Arr
     }
 
     /**
+     * Search the array for a given value and return the corresponding key.
+     *
      * @template TKey of array-key
      *
      * @param  array<TKey, mixed>  $array

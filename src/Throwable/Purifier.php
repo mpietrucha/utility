@@ -15,12 +15,17 @@ abstract class Purifier implements CompatibleInterface
 {
     use Compatible;
 
+    /**
+     * Get the namespace used to filter internal throwable frames.
+     */
     public static function namespace(): string
     {
         return ThrowableInterface::class;
     }
 
     /**
+     * Get the index of the last internal throwable frame in the backtrace.
+     *
      * @param  BacktraceFramesCollection  $backtrace
      */
     public static function index(EnumerableInterface $backtrace): int
@@ -29,6 +34,8 @@ abstract class Purifier implements CompatibleInterface
     }
 
     /**
+     * Filter the backtrace to include only internal throwable frames.
+     *
      * @param  BacktraceFramesCollection  $backtrace
      * @return BacktraceFramesCollection
      */
@@ -37,6 +44,9 @@ abstract class Purifier implements CompatibleInterface
         return static::compatible(...) |> $backtrace->takeWhile(...);
     }
 
+    /**
+     * Determine if the given frame is compatible as an internal throwable frame.
+     */
     protected static function compatibility(FrameInterface $frame): bool
     {
         return static::namespace() |> $frame->internal(...);

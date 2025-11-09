@@ -16,16 +16,25 @@ class Snapshot extends None
      */
     protected static ?Collection $handlers = null;
 
+    /**
+     * Register a custom snapshot handler at the specified index.
+     */
     public static function use(SnapshotInterface $handler, int $index = 0): void
     {
         static::handlers()->splice($index, 0, Arr::wrap($handler));
     }
 
+    /**
+     * Clear all registered snapshot handlers.
+     */
     public static function flush(): void
     {
         static::$handlers = null;
     }
 
+    /**
+     * Get the snapshot hash for the given input using the first matching handler.
+     */
     public function get(string $input, ?string $algorithm = null): ?string
     {
         return static::handlers()->firstMap->get($input, $algorithm);

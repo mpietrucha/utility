@@ -33,21 +33,33 @@ class Stringable extends \Illuminate\Support\Stringable implements Conditionable
         return parent::toString();
     }
 
+    /**
+     * Create a clone of the current stringable instance.
+     */
     public function toStringable(): static
     {
         return clone $this;
     }
 
+    /**
+     * Format the string using sprintf with the given arguments.
+     */
     public function sprintf(mixed ...$arguments): static
     {
         return Str::sprintf($this->toString(), ...$arguments) |> static::create(...);
     }
 
+    /**
+     * Generate a hash of the string using the specified algorithm.
+     */
     public function hash(?string $algorithm = null): static
     {
         return Hash::algorithm($algorithm) |> parent::hash(...);
     }
 
+    /**
+     * Determine if the string fits the given pattern.
+     */
     public function fits(string $input): bool
     {
         return Str::is($this->toString(), $input);

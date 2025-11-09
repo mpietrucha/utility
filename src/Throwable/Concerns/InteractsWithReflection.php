@@ -34,6 +34,9 @@ trait InteractsWithReflection
      */
     protected ?EnumerableInterface $backtrace = null;
 
+    /**
+     * Create a new reflection wrapper for the given throwable.
+     */
     public function __construct(protected Throwable $throwable)
     {
     }
@@ -100,11 +103,17 @@ trait InteractsWithReflection
         return $this->set(Property::PREVIOUS, $previous);
     }
 
+    /**
+     * Skip the specified number of frames from the backtrace.
+     */
     public function skip(int $frames = 1): static
     {
         return $this->backtrace()->skip($frames) |> $this->trace(...);
     }
 
+    /**
+     * Align the throwable's file and line to the frame at the given index.
+     */
     public function align(int $index = 0): static
     {
         if ($index < 0) {
@@ -150,6 +159,9 @@ trait InteractsWithReflection
         return $this;
     }
 
+    /**
+     * Reset the backtrace cache and set a property value.
+     */
     protected function reset(Property $property, mixed $value): static
     {
         $this->backtrace = null;

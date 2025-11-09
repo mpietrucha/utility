@@ -13,11 +13,17 @@ use Mpietrucha\Utility\Throwable\Contracts\ThrowableInterface;
  */
 trait InteractsWithConfigurator
 {
+    /**
+     * Create a configurator instance for this throwable.
+     */
     public static function configurator(): ConfiguratorInterface
     {
         return static::create() |> Configurator::create(...);
     }
 
+    /**
+     * Create a configured throwable instance with the given arguments.
+     */
     public static function for(mixed ...$arguments): ThrowableInterface
     {
         return static::configurator()->eval($arguments, __FUNCTION__);

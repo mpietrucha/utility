@@ -12,6 +12,9 @@ class Hash implements CreatableInterface, IdentifierInterface
 {
     use Creatable;
 
+    /**
+     * Generate a unique hash identifier for the given finder instance.
+     */
     public function identify(FinderInterface $finder, ?string $algorithm = null): string
     {
         return Instance::hash($finder, $algorithm);

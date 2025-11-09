@@ -51,11 +51,17 @@ class Finder implements CreatableInterface, FinderInterface
         return $this;
     }
 
+    /**
+     * Create a new finder builder instance.
+     */
     public static function builder(): BuilderInterface
     {
         return Builder::create();
     }
 
+    /**
+     * Create an uncached finder instance with optional configuration.
+     */
     public static function uncached(?callable $configuration = null): static
     {
         $builder = None::create() |> static::builder()->cache(...);
@@ -63,21 +69,33 @@ class Finder implements CreatableInterface, FinderInterface
         return $builder->tap($configuration)->build();
     }
 
+    /**
+     * Get the underlying Symfony Finder adapter instance.
+     */
     public function adapter(): Adapter
     {
         return $this->adapter ??= Adapter::create();
     }
 
+    /**
+     * Get the cache instance for storing finder results.
+     */
     public function cache(): CacheInterface
     {
         return $this->cache ??= File::create();
     }
 
+    /**
+     * Get the identifier instance for generating cache keys.
+     */
     public function identifier(): IdentifierInterface
     {
         return $this->identifier ??= Hash::create();
     }
 
+    /**
+     * Get the finder results, using cache when available.
+     */
     public function get(): EnumerableInterface
     {
         $this->cache()->validate($identity = $this->identity(), $this->summit());
@@ -91,12 +109,17 @@ class Finder implements CreatableInterface, FinderInterface
         return $response;
     }
 
+    /**
+     * Count the number of items found.
+     */
     public function count(): int
     {
         return $this->get()->count();
     }
 
     /**
+     * Execute the finder and return the results.
+     *
      * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Filesystem\Contracts\RecordInterface>
      */
     protected function run(): EnumerableInterface
@@ -104,21 +127,33 @@ class Finder implements CreatableInterface, FinderInterface
         return Loop::run($this->adapter(), $this->input(), $this->altitude());
     }
 
+    /**
+     * Get the input directory path for the finder.
+     */
     protected function input(): string
     {
         return $this->input ??= Cwd::get();
     }
 
+    /**
+     * Get the altitude (depth) for directory traversal.
+     */
     protected function altitude(): ?int
     {
         return $this->altitude;
     }
 
+    /**
+     * Generate a unique identity string for cache identification.
+     */
     protected function identity(): string
     {
         return $this->identifier()->identify($this);
     }
 
+    /**
+     * Get the summit directory path based on input and altitude.
+     */
     protected function summit(): string
     {
         return Path::directory($this->input(), $this->altitude());

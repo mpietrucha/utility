@@ -15,11 +15,17 @@ abstract class Path
      */
     use InteractsWithCondition;
 
+    /**
+     * Get the path delimiter character.
+     */
     public static function delimiter(): string
     {
         return Str::slash();
     }
 
+    /**
+     * Join multiple path segments into a single path.
+     */
     public static function join(string ...$paths): string
     {
         return Adapter::join(...$paths);
@@ -33,6 +39,9 @@ abstract class Path
         return Filesystem::basename($path);
     }
 
+    /**
+     * Ensure the path ends with the given name segment.
+     */
     public static function finish(string $path, string $name): string
     {
         if (static::name($path) === $name) {
@@ -130,6 +139,9 @@ abstract class Path
         return realpath($canonicalized) ?: $canonicalized;
     }
 
+    /**
+     * Build an absolute path from the given path and optional directory.
+     */
     public static function build(string $path, ?string $directory = null): string
     {
         if (Type::null($directory)) {

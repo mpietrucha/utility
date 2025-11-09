@@ -17,35 +17,56 @@ class Configurator implements ConfiguratorInterface, CreatableInterface
 
     protected static ?string $default = null;
 
+    /**
+     * Create a new configurator for the given throwable instance.
+     */
     public function __construct(protected ThrowableInterface $throwable, protected ?string $configurator = null)
     {
     }
 
+    /**
+     * Create a configurator for the given throwable with an optional configurator method name.
+     */
     public static function for(ThrowableInterface $throwable, ?string $configurator = null): static
     {
         return static::create($throwable, $configurator);
     }
 
+    /**
+     * Set the default configurator method name to use.
+     */
     public static function use(string $default): void
     {
         static::$default = $default;
     }
 
+    /**
+     * Get the default configurator method name.
+     */
     public static function default(): string
     {
         return static::$default ??= 'configure';
     }
 
+    /**
+     * Get the throwable instance being configured.
+     */
     public function throwable(): ThrowableInterface
     {
         return $this->throwable;
     }
 
+    /**
+     * Get the configurator method name to invoke.
+     */
     public function configurator(): string
     {
         return $this->configurator ??= static::default();
     }
 
+    /**
+     * Create a forward instance for the throwable with optional method relay.
+     */
     public function forward(?string $method = null): ForwardInterface
     {
         $builder = $this->throwable() |> Forward::builder(...);
@@ -55,6 +76,9 @@ class Configurator implements ConfiguratorInterface, CreatableInterface
         return $builder->build();
     }
 
+    /**
+     * Evaluate the configurator method with arguments and return the configured throwable.
+     */
     public function eval(array $arguments, ?string $method = null): ThrowableInterface
     {
         $response = $this->forward($method)->eval($this->configurator(), $arguments);
@@ -63,6 +87,8 @@ class Configurator implements ConfiguratorInterface, CreatableInterface
     }
 
     /**
+     * Hydrate the throwable with the configurator response or original arguments.
+     *
      * @param  array<array-key, mixed>  $arguments
      */
     protected function hydrate(mixed $response, array $arguments): ThrowableInterface

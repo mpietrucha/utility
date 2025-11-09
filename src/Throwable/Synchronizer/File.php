@@ -8,16 +8,25 @@ use Mpietrucha\Utility\Type;
 
 class File extends None
 {
+    /**
+     * Get the throwable property this synchronizer manages.
+     */
     public function property(): Property
     {
         return Property::FILE;
     }
 
+    /**
+     * Extract the file value from the given frame.
+     */
     public function value(FrameInterface $frame): ?string
     {
         return $frame->file();
     }
 
+    /**
+     * Determine if a file value exists in the given frame.
+     */
     public function exists(FrameInterface $frame): bool
     {
         return $this->value($frame) |> Type::string(...);

@@ -56,11 +56,17 @@ abstract class Normalizer
         return static::collection($value)->toArray();
     }
 
+    /**
+     * Normalize the given value to an integer.
+     */
     public static function integer(mixed $value): int
     {
         return Number::integer($value);
     }
 
+    /**
+     * Normalize the given value to a float.
+     */
     public static function float(mixed $value): float
     {
         return Number::float($value);

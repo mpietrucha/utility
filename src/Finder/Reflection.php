@@ -24,11 +24,17 @@ class Reflection extends \Mpietrucha\Utility\Reflection implements ReflectionInt
      */
     protected static ?Collection $properties = null;
 
+    /**
+     * Create a new reflection wrapper for the Symfony Finder adapter.
+     */
     public function __construct(protected Adapter $adapter)
     {
         parent::__construct($adapter);
     }
 
+    /**
+     * Refresh the adapter by resetting all properties to their defaults.
+     */
     public static function refresh(?Adapter $adapter): void
     {
         if (Type::null($adapter)) {
@@ -38,6 +44,9 @@ class Reflection extends \Mpietrucha\Utility\Reflection implements ReflectionInt
         static::create($adapter)->reset(...) |> static::properties()->keys()->each(...);
     }
 
+    /**
+     * Reset a specific property on the adapter to its default value.
+     */
     public function reset(string $property): void
     {
         $value = static::properties()->get($property);
@@ -49,12 +58,17 @@ class Reflection extends \Mpietrucha\Utility\Reflection implements ReflectionInt
         $this->getProperty($property)->setValue($this->adapter(), $value);
     }
 
+    /**
+     * Get the underlying Symfony Finder adapter instance.
+     */
     protected function adapter(): Adapter
     {
         return $this->adapter;
     }
 
     /**
+     * Get the collection of property defaults.
+     *
      * @return \Mpietrucha\Utility\Collection<string, mixed>
      */
     protected static function properties(): Collection
@@ -63,6 +77,8 @@ class Reflection extends \Mpietrucha\Utility\Reflection implements ReflectionInt
     }
 
     /**
+     * Get the default property values for the Finder adapter.
+     *
      * @return array<string, mixed>
      */
     protected static function defaults(): array

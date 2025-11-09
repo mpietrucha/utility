@@ -46,12 +46,17 @@ class Evaluation implements CreatableInterface, EvaluationInterface
         return $this->eval($arguments);
     }
 
+    /**
+     * Create an identity closure that returns the given value.
+     */
     public static function identity(mixed $evaluable = null): Closure
     {
         return fn () => $evaluable;
     }
 
     /**
+     * Bind the evaluable with the given arguments into a closure.
+     *
      * @param  array<array-key, mixed>|null  $arguments
      */
     public static function bind(mixed $evaluable, ?array $arguments): Closure
@@ -85,6 +90,9 @@ class Evaluation implements CreatableInterface, EvaluationInterface
         return $this->supported() |> Normalizer::not(...);
     }
 
+    /**
+     * Get the result of the previous evaluation.
+     */
     public function previous(): mixed
     {
         return $this->previous;

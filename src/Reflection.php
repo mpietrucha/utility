@@ -10,9 +10,9 @@ use Mpietrucha\Utility\Reflection\Contracts\ReflectionInterface;
 use ReflectionClass;
 
 /**
- * @template T of object
+ * @template TSource of object
  *
- * @extends \ReflectionClass<T>
+ * @extends \ReflectionClass<TSource>
  */
 class Reflection extends ReflectionClass implements CreatableInterface, ReflectionInterface
 {
@@ -21,8 +21,8 @@ class Reflection extends ReflectionClass implements CreatableInterface, Reflecti
     /**
      * Create a reflection of the deepest parent class for the given instance or class.
      *
-     * @param  class-string<T>|T  $instance
-     * @return static<T>
+     * @param  class-string<TSource>|TSource  $instance
+     * @return static<TSource>
      */
     public static function deep(object|string $instance): static
     {
@@ -31,6 +31,9 @@ class Reflection extends ReflectionClass implements CreatableInterface, Reflecti
         return static::create($deep ?? $instance);
     }
 
+    /**
+     * Create a reflection of the given callable.
+     */
     public static function callable(callable $callable, ?string $code = null): ReflectionClosure
     {
         return new ReflectionClosure(Closure::fromCallable($callable), $code);

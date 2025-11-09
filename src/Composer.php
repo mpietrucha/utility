@@ -29,26 +29,41 @@ class Composer implements ComposerInterface
      */
     protected static string $wrappable = ComposerInterface::class;
 
+    /**
+     * Create a new Composer instance with the given adapter.
+     */
     public function __construct(AdapterInterface|string $adapter)
     {
         $this->adapter = Adapter::wrap($adapter);
     }
 
+    /**
+     * Create a default Composer instance using the current working directory.
+     */
     public static function default(): ComposerInterface
     {
         return static::utilize() |> static::create(...);
     }
 
+    /**
+     * Get the singleton Composer instance.
+     */
     public static function get(): ComposerInterface
     {
         return static::$default ??= static::default();
     }
 
+    /**
+     * Get the underlying adapter instance.
+     */
     public function adapter(): AdapterInterface
     {
         return $this->adapter;
     }
 
+    /**
+     * Get the autoload configuration instance.
+     */
     public function autoload(): AutoloadInterface
     {
         return $this->autoload ??= Autoload::default($this);

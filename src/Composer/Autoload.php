@@ -16,10 +16,16 @@ class Autoload extends Loader implements AutoloadInterface
 {
     use InteractsWithAutoloader, InteractsWithLoader, Utilizable\Cwd;
 
+    /**
+     * Create a new autoload instance with the given loader and composer.
+     */
     protected function __construct(protected LoaderInterface $loader, protected ComposerInterface $composer)
     {
     }
 
+    /**
+     * Load the autoload configuration from the given composer instance.
+     */
     public static function load(ComposerInterface|string $composer): static
     {
         $composer = Composer::wrap($composer);
@@ -27,6 +33,9 @@ class Autoload extends Loader implements AutoloadInterface
         return static::create($composer->cwd() |> static::get(...), $composer);
     }
 
+    /**
+     * Create a default autoload instance using the current working directory.
+     */
     public static function default(null|ComposerInterface|string $composer = null): static
     {
         $composer ??= static::utilize();
@@ -34,16 +43,25 @@ class Autoload extends Loader implements AutoloadInterface
         return Composer::wrap($composer) |> static::load(...);
     }
 
+    /**
+     * Get the class loader instance.
+     */
     public function loader(): LoaderInterface
     {
         return $this->loader;
     }
 
+    /**
+     * Get the composer instance.
+     */
     public function composer(): ComposerInterface
     {
         return $this->composer;
     }
 
+    /**
+     * Get the namespace for the given file path.
+     */
     public function namespace(string $file, bool $canonicalized = false): ?string
     {
         $namespace = $this->loader()->namespace($file);

@@ -24,6 +24,9 @@ class LazyCollection extends \Illuminate\Support\LazyCollection implements Enume
      */
     use Enumerable;
 
+    /**
+     * Initialize a lazy collection by calling a handler with the given arguments.
+     */
     public static function initialize(mixed $handler, mixed ...$arguments): static
     {
         return Value::bind($handler, $arguments) |> static::create(...);

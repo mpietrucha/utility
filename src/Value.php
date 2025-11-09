@@ -42,12 +42,17 @@ abstract class Value
         return Pipe::create($value, $evaluable);
     }
 
+    /**
+     * Create an identity function that returns the given value or passes through.
+     */
     public static function identity(mixed $evaluable = null): Closure
     {
         return Evaluation::identity($evaluable);
     }
 
     /**
+     * Bind the given arguments to the evaluable and return a closure.
+     *
      * @param  array<array-key, mixed>|null  $arguments
      */
     public static function bind(mixed $evaluable, ?array $arguments = null): Closure

@@ -108,21 +108,33 @@ abstract class Instance implements InteractsWithInstanceInterface
         return static::namespace($instance);
     }
 
+    /**
+     * Serialize the given object instance to a string.
+     */
     public static function serialize(object $instance): string
     {
         return Serializer::serialize($instance);
     }
 
+    /**
+     * Unserialize the given string back to an object instance.
+     */
     public static function unserialize(string $instance): object
     {
         return Serializer::unserialize($instance);
     }
 
+    /**
+     * Generate a hash of the serialized object instance.
+     */
     public static function hash(object $instance, ?string $algorithm = null): string
     {
         return static::serialize($instance) |> Hash::bind($algorithm);
     }
 
+    /**
+     * Create an alias for the given class.
+     */
     public static function alias(object|string $class, string $alias, bool $autoload = true): ?string
     {
         $class = static::namespace($class, $autoload) |> Normalizer::string(...);

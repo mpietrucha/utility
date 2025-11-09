@@ -6,17 +6,23 @@ use Mpietrucha\Utility\Forward\Contracts\MethodsInterface;
 use Mpietrucha\Utility\Normalizer;
 
 /**
- * @template T of object
+ * @template TSource of object
  *
- * @extends \Mpietrucha\Utility\Forward\Proxy<T>
+ * @extends \Mpietrucha\Utility\Forward\Proxy<TSource>
  */
 class Condition extends Proxy
 {
+    /**
+     * Create a new conditional proxy instance.
+     */
     public function __construct(protected object $conditionable, protected bool $condition, ?MethodsInterface $methods = null)
     {
         parent::__construct($conditionable, $methods);
     }
 
+    /**
+     * Conditionally forward method calls based on the condition.
+     */
     public function __call(string $method, array $arguments): mixed
     {
         $conditionable = $this->conditionable;

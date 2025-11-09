@@ -17,20 +17,32 @@ class Path implements CreatableInterface, PathInterface
 {
     use Creatable;
 
+    /**
+     * Create a new path parser for the given tokenizer.
+     */
     public function __construct(protected TokenizerInterface $tokenizer)
     {
     }
 
+    /**
+     * Create a path parser from the given PHP code string.
+     */
     public static function for(string $code): static
     {
         return Tokenizer::create($code) |> static::create(...);
     }
 
+    /**
+     * Extract the namespace token from the code.
+     */
     public function namespace(): ?TokenInterface
     {
         return Name::get() |> $this->tokens()->first->is(...);
     }
 
+    /**
+     * Extract the class name token from the code.
+     */
     public function name(): ?TokenInterface
     {
         return $this->tokens()->pipeThrough([
@@ -39,11 +51,17 @@ class Path implements CreatableInterface, PathInterface
         ]);
     }
 
+    /**
+     * Get the canonicalized fully qualified class name token.
+     */
     public function canonicalize(): ?TokenInterface
     {
         return Name::canonicalized() |> $this->build(...);
     }
 
+    /**
+     * Get the fully qualified class name token, optionally canonicalized.
+     */
     public function get(bool $canonicalized = false): ?TokenInterface
     {
         if ($canonicalized) {
@@ -53,6 +71,9 @@ class Path implements CreatableInterface, PathInterface
         return Name::get() |> $this->build(...);
     }
 
+    /**
+     * Build a token by combining namespace and class name.
+     */
     protected function build(int $id): ?TokenInterface
     {
         [$namespace, $name] = [$this->namespace(), $this->name()];
@@ -73,6 +94,8 @@ class Path implements CreatableInterface, PathInterface
     }
 
     /**
+     * Get the collection of tokens from the tokenizer.
+     *
      * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Tokenizer\Contracts\TokenInterface>
      */
     protected function tokens(): EnumerableInterface
@@ -80,6 +103,9 @@ class Path implements CreatableInterface, PathInterface
         return $this->tokenizer()->get();
     }
 
+    /**
+     * Get the tokenizer instance.
+     */
     protected function tokenizer(): TokenizerInterface
     {
         return $this->tokenizer;

@@ -18,12 +18,17 @@ abstract class Fork implements InteractsWithAutoloadInterface, UtilizableInterfa
      */
     use InteractsWithAutoload, Utilizable;
 
+    /**
+     * Set the storage instance to use for forked classes.
+     */
     public static function use(?StorageInterface $storage = null): void
     {
         static::utilizable($storage);
     }
 
     /**
+     * Load multiple transformers into the fork autoloader.
+     *
      * @param  array<array-key, \Mpietrucha\Utility\Fork\Contracts\TransformerInterface>  $transformers
      */
     public static function load(array $transformers): void
@@ -33,6 +38,9 @@ abstract class Fork implements InteractsWithAutoloadInterface, UtilizableInterfa
         static::add(...) |> $transformers->each(...);
     }
 
+    /**
+     * Add a transformer to the fork autoloader.
+     */
     public static function add(TransformerInterface $transformer): void
     {
         static::bootstrap();
@@ -42,6 +50,9 @@ abstract class Fork implements InteractsWithAutoloadInterface, UtilizableInterfa
         static::autoload()->put($transformer->namespace(), $transformer);
     }
 
+    /**
+     * Require the forked file for the given namespace.
+     */
     protected static function require(string $fork): void
     {
         $transformer = static::autoload()->get($fork);
@@ -57,11 +68,17 @@ abstract class Fork implements InteractsWithAutoloadInterface, UtilizableInterfa
         static::storage()->store($transformer) |> Filesystem::requireOnce(...);
     }
 
+    /**
+     * Get the storage instance for forked classes.
+     */
     protected static function storage(): StorageInterface
     {
         return static::utilize();
     }
 
+    /**
+     * Create the default storage instance.
+     */
     protected static function hydrate(): StorageInterface
     {
         return Storage::create();

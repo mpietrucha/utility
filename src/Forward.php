@@ -44,6 +44,9 @@ class Forward implements ForwardInterface, WrappableInterface
     ) {
     }
 
+    /**
+     * Create a new forward builder for the given destination.
+     */
     public static function builder(object|string $destination): BuilderInterface
     {
         return Builder::create($destination);
@@ -131,6 +134,9 @@ class Forward implements ForwardInterface, WrappableInterface
         return $result->value();
     }
 
+    /**
+     * Guess the arguments to forward by skipping source parameters.
+     */
     public function guess(string $method, array $arguments, callable $source): mixed
     {
         $parameters = Reflection::callable($source)->getNumberOfParameters();
@@ -140,6 +146,9 @@ class Forward implements ForwardInterface, WrappableInterface
         return $this->eval($method, $arguments);
     }
 
+    /**
+     * Compose the method call by prepending an argument to the arguments array.
+     */
     public function compose(string $method, mixed $argument, array $arguments): mixed
     {
         $arguments = Arr::prepend($arguments, $argument);

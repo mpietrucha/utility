@@ -21,30 +21,48 @@ class Lottery implements CreatableInterface, LotteryInterface, PipeableInterface
      */
     protected ?Collection $callbacks = null;
 
+    /**
+     * Create a new lottery instance with the given evaluable condition.
+     */
     public function __construct(protected mixed $evaluable)
     {
     }
 
+    /**
+     * Execute the lottery when invoked as a function.
+     */
     public function __invoke(): mixed
     {
         return $this->run();
     }
 
+    /**
+     * Create a lottery with the specified odds.
+     */
     public static function odds(float|int $chances, int $of): static
     {
         return Adapter::create($chances, $of) |> static::create(...);
     }
 
+    /**
+     * Create a lottery with the specified percentage chance.
+     */
     public static function percentage(int $percentage): static
     {
         return $percentage / 100 |> Adapter::create(...) |> static::create(...);
     }
 
+    /**
+     * Create a lottery that always wins.
+     */
     public static function win(): static
     {
         return static::percentage(100);
     }
 
+    /**
+     * Create a lottery that always loses.
+     */
     public static function lose(): static
     {
         return static::percentage(0);
@@ -64,6 +82,9 @@ class Lottery implements CreatableInterface, LotteryInterface, PipeableInterface
         return $this;
     }
 
+    /**
+     * Determine if the lottery wins and execute the appropriate callback.
+     */
     public function wins(?callable $won = null, ?callable $lost = null): bool
     {
         $wins = $this->evaluable() |> $this->eval(...) |> Normalizer::boolean(...);
@@ -75,11 +96,17 @@ class Lottery implements CreatableInterface, LotteryInterface, PipeableInterface
         return $wins;
     }
 
+    /**
+     * Determine if the lottery loses and execute the appropriate callback.
+     */
     final public function loses(?callable $lost = null, ?callable $won = null): bool
     {
         return $this->wins($won, $lost) |> Normalizer::not(...);
     }
 
+    /**
+     * Execute the lottery and return the result.
+     */
     public function run(): mixed
     {
         return $this->wins() |> $this->call(...);

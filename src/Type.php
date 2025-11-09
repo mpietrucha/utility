@@ -25,11 +25,11 @@ abstract class Type implements InteractsWithTypesInterface
     /**
      * Get the debug-friendly type name of the given value.
      *
-     * @template T
+     * @template TValue
      *
-     * @param  T  $value
+     * @param  TValue  $value
      *
-     * @phpstan-return (T is object ? class-string<T> : string)
+     * @phpstan-return (TValue is object ? class-string<TValue> : string)
      */
     public static function get(mixed $value): string
     {

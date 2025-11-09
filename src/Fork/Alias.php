@@ -16,6 +16,9 @@ abstract class Alias implements InteractsWithAutoloadInterface
      */
     use InteractsWithAutoload;
 
+    /**
+     * Register a class alias from the transformer configuration.
+     */
     public static function transformer(TransformerInterface $transformer): void
     {
         [$class, $alias] = [$transformer->class(), $transformer->namespace()];
@@ -23,6 +26,9 @@ abstract class Alias implements InteractsWithAutoloadInterface
         static::class($class, $alias);
     }
 
+    /**
+     * Register a class alias by mapping the original class to its alias.
+     */
     public static function class(string $class, string $alias): void
     {
         [$namespace, $alias] = [static::normalize($class), static::normalize($alias)];
@@ -30,6 +36,9 @@ abstract class Alias implements InteractsWithAutoloadInterface
         static::namespace($namespace, $alias);
     }
 
+    /**
+     * Register a namespace alias in the autoload map.
+     */
     public static function namespace(string $namespace, string $alias): void
     {
         static::bootstrap();
@@ -37,6 +46,9 @@ abstract class Alias implements InteractsWithAutoloadInterface
         static::autoload()->put($alias, $namespace);
     }
 
+    /**
+     * Require and alias a class when the alias is requested.
+     */
     protected static function require(string $alias): void
     {
         $namespace = static::normalize($alias) |> static::autoload()->get(...);
@@ -50,6 +62,9 @@ abstract class Alias implements InteractsWithAutoloadInterface
         Instance::alias(Path::join($namespace, $name), $alias);
     }
 
+    /**
+     * Normalize a namespace string to standard format.
+     */
     protected static function normalize(string $namespace): string
     {
         return Path::namespace($namespace);

@@ -20,6 +20,9 @@ class File extends None implements UtilizableInterface
 {
     use Utilizable\Strings;
 
+    /**
+     * Create a new file-based cache with optional custom directory, lottery, and snapshot.
+     */
     public function __construct(
         protected ?string $directory = null,
         protected ?LotteryInterface $lottery = null,
@@ -27,21 +30,33 @@ class File extends None implements UtilizableInterface
     ) {
     }
 
+    /**
+     * Flush all cached finder results from the cache directory.
+     */
     public function flush(): void
     {
         $this->directory() |> Temporary::flush(...);
     }
 
+    /**
+     * Determine if a cached file exists for the given identity.
+     */
     public function exists(string $identity): bool
     {
         return $this->file($identity) |> Filesystem::is()->file(...);
     }
 
+    /**
+     * Delete the cached file for the given identity.
+     */
     public function delete(string $identity): void
     {
         $this->file($identity) |> Filesystem::delete(...);
     }
 
+    /**
+     * Validate the cache by occasionally flushing and checking snapshot expiration.
+     */
     public function validate(string $identity, string $summit): void
     {
         $this->flush(...) |> $this->lottery()->wins(...);
@@ -49,6 +64,9 @@ class File extends None implements UtilizableInterface
         $this->snapshot()->expired($summit) && $this->delete($identity);
     }
 
+    /**
+     * Get the cached finder results for the given identity.
+     */
     public function get(string $identity): ?EnumerableInterface
     {
         if ($this->unexists($identity)) {
@@ -65,6 +83,9 @@ class File extends None implements UtilizableInterface
         ]);
     }
 
+    /**
+     * Set the cached finder results for the given identity.
+     */
     public function set(string $identity, EnumerableInterface $response): void
     {
         if ($response->isEmpty()) {
@@ -82,26 +103,41 @@ class File extends None implements UtilizableInterface
         ]);
     }
 
+    /**
+     * Get the cache file path for the given identity.
+     */
     protected function file(string $identity): string
     {
         return Temporary::get($identity, $this->directory());
     }
 
+    /**
+     * Get the cache directory path.
+     */
     protected function directory(): string
     {
         return $this->directory ??= static::utilize();
     }
 
+    /**
+     * Get the lottery instance for probabilistic cache flushing.
+     */
     protected function lottery(): LotteryInterface
     {
         return $this->lottery ??= Lottery::odds(1, 1000);
     }
 
+    /**
+     * Get the snapshot instance for tracking filesystem changes.
+     */
     protected function snapshot(): SnapshotInterface
     {
         return $this->snapshot ??= Snapshot\Filesystem::create();
     }
 
+    /**
+     * Create a temporary directory for finder cache storage.
+     */
     protected static function hydrate(): string
     {
         return Temporary::directory('finder');

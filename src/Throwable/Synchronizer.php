@@ -17,6 +17,8 @@ abstract class Synchronizer extends None
     protected static ?EnumerableInterface $properties = null;
 
     /**
+     * Get property-value groups from synchronizers that match the given frame.
+     *
      * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, array{0: \Mpietrucha\Utility\Throwable\Property, 1: mixed}>
      */
     public static function groups(FrameInterface $frame): EnumerableInterface
@@ -25,6 +27,8 @@ abstract class Synchronizer extends None
     }
 
     /**
+     * Extract property values from synchronizers that match the given frame.
+     *
      * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, mixed>
      */
     public static function values(FrameInterface $frame): EnumerableInterface
@@ -36,6 +40,8 @@ abstract class Synchronizer extends None
     }
 
     /**
+     * Filter synchronizers to only those that exist for the given frame.
+     *
      * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Throwable\Contracts\SynchronizerInterface>
      */
     public static function for(FrameInterface $frame): EnumerableInterface
@@ -44,6 +50,8 @@ abstract class Synchronizer extends None
     }
 
     /**
+     * Get the collection of registered synchronizer properties.
+     *
      * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Throwable\Contracts\SynchronizerInterface>
      */
     public static function properties(): EnumerableInterface
@@ -52,6 +60,8 @@ abstract class Synchronizer extends None
     }
 
     /**
+     * Get the default synchronizer instances.
+     *
      * @return list<\Mpietrucha\Utility\Throwable\Contracts\SynchronizerInterface>
      */
     final protected static function defaults(): array

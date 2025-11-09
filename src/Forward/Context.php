@@ -7,9 +7,9 @@ use Mpietrucha\Utility\Forward\Contracts\MethodsInterface;
 use Mpietrucha\Utility\Normalizer;
 
 /**
- * @template T of object
+ * @template TSource of object
  *
- * @extends \Mpietrucha\Utility\Forward\Proxy<T>
+ * @extends \Mpietrucha\Utility\Forward\Proxy<TSource>
  */
 class Context extends Proxy implements ContextInterface
 {

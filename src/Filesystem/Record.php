@@ -23,6 +23,9 @@ class Record extends Adapter implements CompatibleInterface, CreatableInterface,
         Compatible::proxy insteadof Forwardable;
     }
 
+    /**
+     * Create a new filesystem record for the given file path.
+     */
     public function __construct(string $file)
     {
         $input = func_get_args() |> static::transform(...);
@@ -31,6 +34,8 @@ class Record extends Adapter implements CompatibleInterface, CreatableInterface,
     }
 
     /**
+     * Forward filesystem method calls using the file path.
+     *
      * @param  array<array-key, mixed>  $arguments
      */
     public function __call(string $method, array $arguments): mixed
@@ -40,21 +45,33 @@ class Record extends Adapter implements CompatibleInterface, CreatableInterface,
         return $forward->compose($method, $this->getPathName(), $arguments);
     }
 
+    /**
+     * Build a record from an SplFileInfo adapter.
+     */
     public static function build(SplFileInfo $adapter): static
     {
         return static::create(...) |> static::normalize($adapter)->pipeSpread(...);
     }
 
+    /**
+     * Convert the record to a collection.
+     */
     public function toCollection(): EnumerableInterface
     {
         return static::normalize($this);
     }
 
+    /**
+     * Convert the record to an array.
+     */
     public function toArray(): array
     {
         return $this->toCollection()->toArray();
     }
 
+    /**
+     * Convert the record to its string representation.
+     */
     public function toString(): string
     {
         return parent::__toString();

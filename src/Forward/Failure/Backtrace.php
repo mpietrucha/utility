@@ -11,12 +11,17 @@ use Mpietrucha\Utility\Normalizer;
  */
 abstract class Backtrace
 {
+    /**
+     * Get the proxy interface class name for backtrace filtering.
+     */
     public static function proxy(): string
     {
         return ProxyInterface::class;
     }
 
     /**
+     * Determine if the backtrace indicates a proxied forward call.
+     *
      * @param  BacktraceFramesCollection  $backtrace
      */
     public static function proxied(EnumerableInterface $backtrace): bool
@@ -25,6 +30,8 @@ abstract class Backtrace
     }
 
     /**
+     * Determine if the backtrace indicates an unproxied forward call.
+     *
      * @param  BacktraceFramesCollection  $backtrace
      */
     final public static function unproxied(EnumerableInterface $backtrace): bool

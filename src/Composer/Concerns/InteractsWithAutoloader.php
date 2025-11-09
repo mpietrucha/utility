@@ -11,6 +11,9 @@ use Mpietrucha\Utility\Composer\Contracts\InteractsWithComposerInterface;
  */
 trait InteractsWithAutoloader
 {
+    /**
+     * Dump the Composer autoloader with optional extra arguments.
+     */
     public function dump(null|array|string $extra = null, ?string $binary = null): int
     {
         /**
@@ -24,6 +27,9 @@ trait InteractsWithAutoloader
         return $destination->dump($extra, $binary);
     }
 
+    /**
+     * Optimize the Composer autoloader.
+     */
     public function optimize(?string $binary = null): int
     {
         /**

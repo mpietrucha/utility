@@ -14,6 +14,9 @@ trait Throwable
 {
     use InteractsWithConfigurator, InteractsWithThrowable;
 
+    /**
+     * Create a new throwable instance and purify its backtrace.
+     */
     public function __construct()
     {
         $this->purify();
@@ -29,6 +32,9 @@ trait Throwable
         return $this;
     }
 
+    /**
+     * Purify the backtrace by removing internal throwable frames.
+     */
     protected function purify(): void
     {
         $this->backtrace() |> Purifier::index(...) |> $this->align(...);
