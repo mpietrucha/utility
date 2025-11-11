@@ -17,6 +17,9 @@ final class CreatableExtension implements IgnoreErrorExtension
 {
     use InteractsWithError;
 
+    /**
+     * Determine if the given error should be ignored.
+     */
     public function shouldIgnore(Error $error, Node $node, Scope $scope): bool
     {
         $trait = $this->usesTrait($scope);
@@ -28,6 +31,9 @@ final class CreatableExtension implements IgnoreErrorExtension
         return $this->interactsWithCreatable($error, $scope, $trait);
     }
 
+    /**
+     * Check if the error relates to creatable pattern implementation.
+     */
     protected function interactsWithCreatable(Error $error, Scope $scope, bool $trait): bool
     {
         if ($trait) {
@@ -45,6 +51,9 @@ final class CreatableExtension implements IgnoreErrorExtension
         return $this->interactsWithMessage($error, 'Method *::*() should return static(*) but returns static(*).');
     }
 
+    /**
+     * Check if the current scope uses the Creatable trait.
+     */
     protected function usesTrait(Scope $scope): bool
     {
         if ($scope->isInTrait() === false) {
@@ -54,6 +63,9 @@ final class CreatableExtension implements IgnoreErrorExtension
         return $scope->getTraitReflection()->getName() === \Mpietrucha\Utility\Concerns\Creatable::class;
     }
 
+    /**
+     * Check if the current scope implements the CreatableInterface.
+     */
     protected function implementsInterface(Scope $scope): bool
     {
         if ($scope->isInClass() === false) {

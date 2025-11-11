@@ -14,6 +14,8 @@ use PHPStan\PhpDoc\StubFilesExtension;
 final class InternalExtension implements StubFilesExtension
 {
     /**
+     * Get the list of internal stub files for PHPStan analysis.
+     *
      * @return list<string>
      */
     public function getFiles(): array

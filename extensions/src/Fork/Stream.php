@@ -8,11 +8,17 @@ use Mpietrucha\Utility\Str;
 
 class Stream extends Transformer
 {
+    /**
+     * Get the fully qualified class name to be transformed.
+     */
     public function class(): string
     {
         return \Nyholm\Psr7\Stream::class;
     }
 
+    /**
+     * Transform the stream class by modifying visibility and exception handling.
+     */
     public function transform(ContentInterface $content): void
     {
         $content->line(14)->clear();
@@ -30,6 +36,9 @@ class Stream extends Transformer
         $content->line(133)->replace('private', 'protected');
     }
 
+    /**
+     * Generate an exception string with the given message.
+     */
     protected function exception(string $message): string
     {
         return Str::sprintf('throw new \InvalidArgumentException("%s");', $message);

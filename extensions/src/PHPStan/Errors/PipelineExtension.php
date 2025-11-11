@@ -17,6 +17,9 @@ final class PipelineExtension implements IgnoreErrorExtension
 {
     use InteractsWithError;
 
+    /**
+     * Determine if the given error should be ignored.
+     */
     public function shouldIgnore(Error $error, Node $node, Scope $scope): bool
     {
         if ($this->interactsWithIdentifier($error, 'expr.resultUnused') === false) {

@@ -20,6 +20,8 @@ final class PropertyExtension implements IgnoreErrorExtension
     use InteractsWithError;
 
     /**
+     * Get the list of error identifiers this extension handles.
+     *
      * @return list<string>
      */
     public static function identifiers(): array
@@ -30,6 +32,9 @@ final class PropertyExtension implements IgnoreErrorExtension
         ];
     }
 
+    /**
+     * Determine if the given error should be ignored.
+     */
     public function shouldIgnore(Error $error, Node $node, Scope $scope): bool
     {
         if ($this->interactsWithIdentifiers($error) === false) {
@@ -39,6 +44,9 @@ final class PropertyExtension implements IgnoreErrorExtension
         return $this->interactsWithFileContent($error, $this->content($error));
     }
 
+    /**
+     * Build the pattern to match against file content.
+     */
     protected function content(Error $error): string
     {
         $property = $this->property($error);
@@ -46,6 +54,9 @@ final class PropertyExtension implements IgnoreErrorExtension
         return Str::sprintf('*Property::*exists(*, *%s*)*', $property);
     }
 
+    /**
+     * Extract the property name from the error message.
+     */
     protected function property(Error $error): Stringable
     {
         return $this->getErrorMessage($error)->between('::$', '.');

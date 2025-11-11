@@ -24,16 +24,25 @@ use PHPStan\Type\TypeUtils;
  */
 final class NormalizerExtension implements DynamicStaticMethodReturnTypeExtension
 {
+    /**
+     * Get the class name this extension supports.
+     */
     public function getClass(): string
     {
         return \Mpietrucha\Utility\Normalizer::class;
     }
 
+    /**
+     * Check if the given method is supported by this extension.
+     */
     public function isStaticMethodSupported(MethodReflection $method): bool
     {
         return $method->getName() === 'array';
     }
 
+    /**
+     * Get the return type from the static method call.
+     */
     public function getTypeFromStaticMethodCall(MethodReflection $method, StaticCall $call, Scope $scope): Type
     {
         $value = Data::get($call->getArgs(), '{first}.value');
@@ -44,6 +53,8 @@ final class NormalizerExtension implements DynamicStaticMethodReturnTypeExtensio
     }
 
     /**
+     * Convert the argument type into a collection of normalized types.
+     *
      * @return \Mpietrucha\Utility\Collection<int, \PHPStan\Type\Type>
      */
     protected function types(Type $argument): Collection
@@ -53,6 +64,9 @@ final class NormalizerExtension implements DynamicStaticMethodReturnTypeExtensio
         return $this->type(...) |> Collection::create($types)->map(...);
     }
 
+    /**
+     * Normalize a single type into a list type.
+     */
     protected function type(Type $type): Type
     {
         $constants = $type->getConstantArrays();
@@ -77,6 +91,8 @@ final class NormalizerExtension implements DynamicStaticMethodReturnTypeExtensio
     }
 
     /**
+     * Create a union type from multiple types.
+     *
      * @param  iterable<int, \PHPStan\Type\Type>  $types
      */
     protected function union(iterable $types): Type
@@ -84,6 +100,9 @@ final class NormalizerExtension implements DynamicStaticMethodReturnTypeExtensio
         return TypeCombinator::union(...$types);
     }
 
+    /**
+     * Create a list array type with the given value type.
+     */
     protected function list(?Type $value = null): Type
     {
         $value ??= new MixedType;

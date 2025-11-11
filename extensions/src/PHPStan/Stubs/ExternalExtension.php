@@ -21,6 +21,8 @@ final class ExternalExtension implements StubFilesExtension
     ];
 
     /**
+     * Get the list of external stub files for PHPStan analysis.
+     *
      * @return array<array-key, string>
      */
     public function getFiles(): array
@@ -31,6 +33,8 @@ final class ExternalExtension implements StubFilesExtension
     }
 
     /**
+     * Get the default list of stub file paths.
+     *
      * @return array<array-key, string>
      */
     protected static function defaults(): array

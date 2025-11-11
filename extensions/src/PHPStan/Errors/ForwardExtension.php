@@ -24,6 +24,9 @@ final class ForwardExtension implements IgnoreErrorExtension
         '*Value::*',
     ];
 
+    /**
+     * Determine if the given error should be ignored.
+     */
     public function shouldIgnore(Error $error, Node $node, Scope $scope): bool
     {
         if ($this->interactsWithIdentifier($error, 'method.notFound')) {
@@ -37,11 +40,17 @@ final class ForwardExtension implements IgnoreErrorExtension
         return $this->interactsWithForwarders($error);
     }
 
+    /**
+     * Check if the error relates to proxy interface methods.
+     */
     protected function interactsWithProxy(Error $error): bool
     {
         return $this->interactsWithMessage($error, '*Mpietrucha\Utility\Forward\Contracts\ProxyInterface::*(*).');
     }
 
+    /**
+     * Check if the error matches known forwarder patterns.
+     */
     protected function interactsWithForwarders(Error $error): bool
     {
         $forwarders = $this->getErrorFileContentLine($error) |> self::forwarders()->filter->fits(...);
@@ -50,6 +59,8 @@ final class ForwardExtension implements IgnoreErrorExtension
     }
 
     /**
+     * Get the collection of forwarder patterns.
+     *
      * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Stringable>
      */
     protected static function forwarders(): EnumerableInterface
