@@ -87,7 +87,7 @@ final class InstanceExtension implements IgnoreErrorExtension
             return false;
         }
 
-        $content = $this->pattern("$$variable, '*");
+        $content = $this->pattern("$$variable, *");
 
         return $this->interactsWithFileContent($error, $content);
     }
