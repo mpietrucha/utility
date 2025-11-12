@@ -18,11 +18,23 @@ final class PipelineExtension implements IgnoreErrorExtension
     use InteractsWithError;
 
     /**
+     * Get the list of error identifiers this extension handles.
+     *
+     * @return list<string>
+     */
+    public static function identifiers(): array
+    {
+        return [
+            'expr.resultUnused',
+        ];
+    }
+
+    /**
      * Determine if the given error should be ignored.
      */
     public function shouldIgnore(Error $error, Node $node, Scope $scope): bool
     {
-        if ($this->interactsWithIdentifier($error, 'expr.resultUnused') === false) {
+        if ($this->interactsWithIdentifiers($error) === false) {
             return false;
         }
 

@@ -25,6 +25,19 @@ final class ForwardExtension implements IgnoreErrorExtension
     ];
 
     /**
+     * Get the list of error identifiers this extension handles.
+     *
+     * @return list<string>
+     */
+    public static function identifiers(): array
+    {
+        return [
+            'method.notFound',
+            'arguments.count',
+        ];
+    }
+
+    /**
      * Determine if the given error should be ignored.
      */
     public function shouldIgnore(Error $error, Node $node, Scope $scope): bool
@@ -33,7 +46,7 @@ final class ForwardExtension implements IgnoreErrorExtension
             return $this->interactsWithProxy($error);
         }
 
-        if ($this->interactsWithIdentifier($error, 'arguments.count') === false) {
+        if ($this->interactsWithIdentifiers($error) === false) {
             return false;
         }
 

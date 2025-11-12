@@ -18,13 +18,25 @@ final class CreatableExtension implements IgnoreErrorExtension
     use InteractsWithError;
 
     /**
+     * Get the list of error identifiers this extension handles.
+     *
+     * @return list<string>
+     */
+    public static function identifiers(): array
+    {
+        return [
+            'new.static',
+        ];
+    }
+
+    /**
      * Determine if the given error should be ignored.
      */
     public function shouldIgnore(Error $error, Node $node, Scope $scope): bool
     {
         $trait = $this->usesTrait($scope);
 
-        if ($trait & $this->interactsWithIdentifier($error, 'new.static')) {
+        if ($trait & $this->interactsWithIdentifiers($error)) {
             return true;
         }
 
