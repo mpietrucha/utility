@@ -117,10 +117,7 @@ class Arr extends \Illuminate\Support\Arr
      */
     public static function append(array $array, mixed $value, null|int|string $key = null): array
     {
-        match (true) {
-            Type::null($key) => $array[] = $value,
-            default => $array[$key] = $value
-        };
+        Type::null($key) ? $array[] = $value : $array[$key] = $value;
 
         return $array;
     }

@@ -35,7 +35,9 @@ abstract class Backtrace
      */
     public static function get(int $options = DEBUG_BACKTRACE_PROVIDE_OBJECT): EnumerableInterface
     {
-        return debug_backtrace($options) |> static::build(...);
+        $backtrace = debug_backtrace($options);
+
+        return Arr::skip($backtrace, 1) |> static::build(...);
     }
 
     /**
