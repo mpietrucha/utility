@@ -31,6 +31,17 @@ class Str extends \Illuminate\Support\Str
     }
 
     /**
+     * Get the string or null when string is empty.
+     */
+    public static function nullWhenEmpty(string $string): ?string
+    {
+        return match (true) {
+            static::isEmpty($string) => null,
+            default => $string
+        };
+    }
+
+    /**
      * Generate a hash of the given string using the specified algorithm.
      */
     public static function hash(string $string, ?string $algorithm = null): string
