@@ -18,9 +18,9 @@ class Adapter extends Factory implements CreatableInterface
     {
         $process = Process::create();
 
-        Environment::get() |> $process->env(...);
-
         Cwd::get() |> $process->path(...);
+
+        Environment::get() |> $process->env(...);
 
         return $process;
     }

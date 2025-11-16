@@ -8,10 +8,6 @@ use Mpietrucha\Utility\Process\Adapter;
 use Mpietrucha\Utility\Process\Contracts\ProcessInterface;
 use Mpietrucha\Utility\Process\Pending;
 
-/**
- * @mixin \Mpietrucha\Utility\Process\Adapter
- * @mixin \Mpietrucha\Utility\Process\Pending
- */
 class Process implements ProcessInterface
 {
     use Bridgeable, Creatable;

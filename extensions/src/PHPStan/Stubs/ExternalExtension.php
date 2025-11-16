@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Mpietrucha\Extensions\PHPStan\Stubs;
 
-use Mpietrucha\Utility\Arr;
+use Mpietrucha\Utility\Collection;
+use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Filesystem\Path;
 use PHPStan\PhpDoc\StubFilesExtension;
 
@@ -23,22 +24,22 @@ final class ExternalExtension implements StubFilesExtension
     /**
      * Get the list of external stub files for PHPStan analysis.
      *
-     * @return array<array-key, string>
+     * @return array<int, string>
      */
     public function getFiles(): array
     {
-        $defaults = self::defaults();
+        $files = Path::get(...) |> self::defaults()->map(...);
 
-        return Arr::map($defaults, Path::get(...));
+        return $files->all();
     }
 
     /**
      * Get the default list of stub file paths.
      *
-     * @return array<array-key, string>
+     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, string>
      */
-    protected static function defaults(): array
+    protected static function defaults(): EnumerableInterface
     {
-        return self::$defaults;
+        return self::$defaults |> Collection::create(...);
     }
 }
