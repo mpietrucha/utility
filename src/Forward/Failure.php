@@ -8,12 +8,10 @@ use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Forward\Contracts\FailureInterface;
 use Mpietrucha\Utility\Forward\Contracts\ForwardInterface;
+use Mpietrucha\Utility\Forward\Exception\FailureFrameException;
 use Mpietrucha\Utility\Forward\Failure\Backtrace;
-use Mpietrucha\Utility\Forward\Failure\Frames;
 use Mpietrucha\Utility\Forward\Failure\Message;
-use Mpietrucha\Utility\Instance;
 use Mpietrucha\Utility\Throwable\Contracts\InteractsWithThrowableInterface;
-use Mpietrucha\Utility\Type;
 
 /**
  * @phpstan-import-type BacktraceFramesCollection from \Mpietrucha\Utility\Backtrace
@@ -42,13 +40,30 @@ class Failure implements CreatableInterface, FailureInterface
      */
     public function handle(InteractsWithThrowableInterface $throwable, string $method): void
     {
-        $backtrace = $throwable->backtrace() |> $this->backtrace(...);
+        $backtrace = $this->backtrace($throwable);
 
-        $message = $this->message($throwable->value()->getMessage(), $method);
+        $this->frame($backtrace, $throwable) |> $throwable->synchronize(...);
 
-        $frame = $this->frame($backtrace);
+        $backtrace->all() |> $throwable->trace(...);
 
-        $throwable->synchronize($frame)->message($message)->trace($backtrace)->throw();
+        $this->message($throwable, $method) |> $throwable->message(...);
+
+        $throwable->throw();
+    }
+
+    /**
+     * Adjust the backtrace by skipping internal frames for cleaner output.
+     *
+     * @return BacktraceFramesCollection
+     */
+    protected function backtrace(InteractsWithThrowableInterface $throwable): EnumerableInterface
+    {
+        $backtrace = $throwable->backtrace();
+
+        return match (true) {
+            Backtrace::proxied($backtrace) => Backtrace::frames() - 1,
+            default => Backtrace::frames()
+        } |> $backtrace->skip(...);
     }
 
     /**
@@ -56,62 +71,24 @@ class Failure implements CreatableInterface, FailureInterface
      *
      * @param  BacktraceFramesCollection  $backtrace
      */
-    protected function frame(EnumerableInterface $backtrace): FrameInterface
+    protected function frame(EnumerableInterface $backtrace, InteractsWithThrowableInterface $throwable): FrameInterface
     {
-        return $backtrace->firstOrFail();
-    }
+        if ($backtrace->isNotEmpty()) {
+            return $backtrace->firstOrFail();
+        }
 
-    /**
-     * Adjust the backtrace by skipping internal frames for cleaner output.
-     *
-     * @param  BacktraceFramesCollection  $backtrace
-     * @return BacktraceFramesCollection
-     */
-    protected function backtrace(EnumerableInterface $backtrace): EnumerableInterface
-    {
-        return match (true) {
-            Backtrace::proxied($backtrace) => Frames::proxied(),
-            default => Frames::unproxied()
-        } |> $backtrace->skip(...);
+        return $throwable->backtrace()->last() ?? FailureFrameException::create()->throw();
     }
 
     /**
      * Format an error message by replacing the original method context with the forwarded context.
      */
-    protected function message(string $message, string $method): string
+    protected function message(InteractsWithThrowableInterface $throwable, string $method): string
     {
-        [$source, $destination] = [$this->source(), $this->destination()];
+        $message = $throwable->value()->getMessage();
 
-        if (Type::null($source)) {
-            return $message;
-        }
+        $to = Message::to($this, $method);
 
-        if (Type::null($destination)) {
-            return $message;
-        }
-
-        $to = Message::get($source, $this->forward()->method() ?? $method);
-
-        return Message::build($message, Message::get($destination, $method), $to);
-    }
-
-    /**
-     * Resolve the class name of the destination in the forwarder.
-     *
-     * @return class-string|null
-     */
-    protected function destination(): ?string
-    {
-        return $this->forward()->destination() |> Instance::namespace(...);
-    }
-
-    /**
-     * Resolve the class name of the source in the forwarder.
-     *
-     * @return class-string|null
-     */
-    protected function source(): ?string
-    {
-        return $this->forward()->source() |> Instance::namespace(...);
+        return Message::build($message, Message::from($this, $method), $to);
     }
 }

@@ -12,6 +12,14 @@ use Mpietrucha\Utility\Normalizer;
 abstract class Backtrace
 {
     /**
+     * Get the default number of frames to skip.
+     */
+    final public static function frames(): int
+    {
+        return 11;
+    }
+
+    /**
      * Get the proxy interface class name for backtrace filtering.
      */
     public static function proxy(): string

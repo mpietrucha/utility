@@ -3,20 +3,25 @@
 namespace Mpietrucha\Utility\Process;
 
 use Illuminate\Process\Factory;
-use Illuminate\Process\PendingProcess;
-use Mpietrucha\Utility\Filesystem\Cwd;
+use Mpietrucha\Utility\Concerns\Creatable;
+use Mpietrucha\Utility\Contracts\CreatableInterface;
+use Mpietrucha\Utility\Process;
 
-/**
- * @mixin \Illuminate\Process\PendingProcess
- */
-class Adapter extends Factory
+class Adapter extends Factory implements CreatableInterface
 {
-    public function newPendingProcess(): PendingProcess
+    use Creatable;
+
+    /**
+     * @phpstan-ignore-next-line method.childReturnType
+     */
+    public function newPendingProcess(): Process
     {
-        $process = parent::newPendingProcess();
+        $process = Process::create();
+
+        Environment::get() |> $process->env(...);
 
         Cwd::get() |> $process->path(...);
 
-        return Environment::get() |> $process->env(...);
+        return $process;
     }
 }
