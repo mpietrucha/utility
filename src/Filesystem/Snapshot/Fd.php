@@ -4,9 +4,8 @@ namespace Mpietrucha\Utility\Filesystem\Snapshot;
 
 use Mpietrucha\Utility\Filesystem;
 use Mpietrucha\Utility\Hash;
-use Mpietrucha\Utility\Normalizer;
+use Mpietrucha\Utility\Process;
 use Mpietrucha\Utility\Str;
-use Symfony\Component\Process\Process;
 
 class Fd extends None
 {
@@ -19,22 +18,16 @@ class Fd extends None
             return null;
         }
 
-        $process = $this->command($input) |> Process::fromShellCommandLine(...);
+        $process = Process::pipe([
+            Str::sprintf('fd --type f --type d --type l --full-path %s', $input),
+            'sort',
+            'b3sum',
+        ]);
 
-        $process->run();
-
-        if ($process->isSuccessful() |> Normalizer::not(...)) {
+        if ($process->failed()) {
             return null;
         }
 
-        return $process->getOutput() |> Hash::bind($algorithm);
-    }
-
-    /**
-     * Build the fd command for generating the snapshot.
-     */
-    protected function command(string $input): string
-    {
-        return Str::sprintf('fd --type f --type d --type l --full-path %s | sort | b3sum -', $input);
+        return $process->output() |> Hash::bind($algorithm);
     }
 }
