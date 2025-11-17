@@ -12,8 +12,9 @@ Benchmark::start();
 Ephemeral::validate();
 
 Fork::load([
-    \Mpietrucha\Extensions\Fork\Stream::create(),
-    \Mpietrucha\Extensions\Fork\Larastan\HigherOrderCollectionProxyHelper::create(),
-    \Mpietrucha\Extensions\Fork\Larastan\HigherOrderCollectionProxyExtension::create(),
-    \Mpietrucha\Extensions\Fork\Larastan\HigherOrderCollectionProxyPropertyExtension::create(),
+    'overrides/Nyholm/Psr7/Stream.php',
+    'overrides/Illuminate/Process/Pipe.php',
+    'overrides/Larastan/Support/HigherOrderCollectionProxyHelper.php',
+    'overrides/Larastan/Methods/HigherOrderCollectionProxyExtension.php',
+    'overrides/Larastan/Properties/HigherOrderCollectionProxyPropertyExtension.php',
 ]);

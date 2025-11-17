@@ -146,6 +146,6 @@ class Arr extends \Illuminate\Support\Arr
      */
     public static function search(array $array, mixed $search, bool $strict = false): null|int|string
     {
-        return array_search($array, $search, $strict) ?: null;
+        return array_search($search, $array, $strict) ?: null;
     }
 }

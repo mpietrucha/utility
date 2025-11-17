@@ -10,9 +10,9 @@ interface StorageInterface extends UtilizableInterface
 
     public function flush(): void;
 
-    public function identify(TransformerInterface $transformer): string;
+    public function identify(OverrideInterface $override): string;
 
-    public function store(TransformerInterface $transformer): string;
+    public function store(OverrideInterface $override): string;
 
-    public function transform(TransformerInterface $transformer): string;
+    public function transform(OverrideInterface $override): string;
 }

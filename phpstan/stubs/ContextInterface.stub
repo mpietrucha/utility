@@ -1,0 +1,20 @@
+<?php
+
+namespace Mpietrucha\Utility\Forward\Contracts;
+
+/**
+ * @method bool null(mixed &$value) @phpstan-assert-if-true !null $value
+ * @method bool boolean(mixed &$value) @phpstan-assert-if-true !bool $value
+ * @method bool integer(mixed &$value) @phpstan-assert-if-true !int $value
+ * @method bool float(mixed &$value) @phpstan-assert-if-true !float $value
+ * @method bool numeric(mixed &$value) @phpstan-assert-if-true !numeric $value
+ * @method bool string(mixed &$value) @phpstan-assert-if-true !string $value
+ * @method bool array(mixed &$value) @phpstan-assert-if-true !array $value
+ * @method bool resource(mixed &$value) @phpstan-assert-if-true !resource $value
+ * @method bool object(mixed &$value) @phpstan-assert-if-true !object $value
+ * @method bool scalar(mixed &$value) @phpstan-assert-if-true !scalar $value
+ * @method bool callable(mixed &$value) @phpstan-assert-if-true !callable $value
+ * @method bool countable(mixed &$value) @phpstan-assert-if-true !countable $value
+ * @method bool iterable(mixed &$value) @phpstan-assert-if-true !iterable $value
+ */
+interface ContextInterface {}

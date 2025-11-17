@@ -12,59 +12,59 @@ services:
     tags:
         - phpstan.broker.propertiesClassReflectionExtension
   -
-    class: Mpietrucha\Extensions\PHPStan\Errors\CreatableExtension
+    class: Mpietrucha\PHPStan\Errors\CreatableExtension
     tags:
         - phpstan.ignoreErrorExtension
   -
-    class: Mpietrucha\Extensions\PHPStan\Errors\ForwardExtension
+    class: Mpietrucha\PHPStan\Errors\ForwardExtension
     tags:
         - phpstan.ignoreErrorExtension
   -
-    class: Mpietrucha\Extensions\PHPStan\Errors\PipelineExtension
+    class: Mpietrucha\PHPStan\Errors\PipelineExtension
     tags:
         - phpstan.ignoreErrorExtension
   -
-    class: Mpietrucha\Extensions\PHPStan\Errors\PropertyExtension
+    class: Mpietrucha\PHPStan\Errors\PropertyExtension
     tags:
         - phpstan.ignoreErrorExtension
   -
-    class: Mpietrucha\Extensions\PHPStan\Errors\MethodExtension
+    class: Mpietrucha\PHPStan\Errors\MethodExtension
     tags:
         - phpstan.ignoreErrorExtension
   -
-    class: Mpietrucha\Extensions\PHPStan\Errors\InstanceExtension
+    class: Mpietrucha\PHPStan\Errors\InstanceExtension
     tags:
         - phpstan.ignoreErrorExtension
   -
-    class: Mpietrucha\Extensions\PHPStan\Errors\ProcessExtension
+    class: Mpietrucha\PHPStan\Errors\ProcessExtension
     tags:
         - phpstan.ignoreErrorExtension
   -
-    class: Mpietrucha\Extensions\PHPStan\ReturnTypes\NormalizerExtension
+    class: Mpietrucha\PHPStan\ReturnTypes\NormalizerExtension
     tags:
         - phpstan.broker.dynamicStaticMethodReturnTypeExtension
   -
-    class: Mpietrucha\Extensions\PHPStan\ReturnTypes\TapExtension
+    class: Mpietrucha\PHPStan\ReturnTypes\TapExtension
     tags:
         - phpstan.broker.dynamicMethodReturnTypeExtension
   -
-    class: Mpietrucha\Extensions\PHPStan\ReturnTypes\PassExtension
+    class: Mpietrucha\PHPStan\ReturnTypes\PassExtension
     tags:
         - phpstan.broker.dynamicMethodReturnTypeExtension
   -
-    class: Mpietrucha\Extensions\PHPStan\ReturnTypes\RouteableExtension
+    class: Mpietrucha\PHPStan\ReturnTypes\RouteableExtension
     tags:
         - phpstan.broker.dynamicStaticMethodReturnTypeExtension
   -
-    class: Mpietrucha\Extensions\PHPStan\ReturnTypes\WrappableExtension
+    class: Mpietrucha\PHPStan\ReturnTypes\WrappableExtension
     tags:
         - phpstan.broker.dynamicStaticMethodReturnTypeExtension
   -
-    class: Mpietrucha\Extensions\PHPStan\Stubs\InternalExtension
+    class: Mpietrucha\PHPStan\Stubs\InternalExtension
     tags:
         - phpstan.stubFilesExtension
   -
-    class: Mpietrucha\Extensions\PHPStan\Stubs\ExternalExtension
+    class: Mpietrucha\PHPStan\Stubs\ExternalExtension
     tags:
         - phpstan.stubFilesExtension
 parameters:

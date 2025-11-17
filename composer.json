@@ -35,7 +35,7 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Mpietrucha\\Extensions\\": "extensions/src/",
+            "Mpietrucha\\PHPStan\\": "phpstan/src/",
             "Mpietrucha\\Utility\\": "src/"
         },
         "files": [

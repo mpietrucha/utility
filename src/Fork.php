@@ -5,8 +5,9 @@ namespace Mpietrucha\Utility;
 use Mpietrucha\Utility\Fork\Alias;
 use Mpietrucha\Utility\Fork\Concerns\InteractsWithAutoload;
 use Mpietrucha\Utility\Fork\Contracts\InteractsWithAutoloadInterface;
+use Mpietrucha\Utility\Fork\Contracts\OverrideInterface;
 use Mpietrucha\Utility\Fork\Contracts\StorageInterface;
-use Mpietrucha\Utility\Fork\Contracts\TransformerInterface;
+use Mpietrucha\Utility\Fork\Override;
 use Mpietrucha\Utility\Fork\Storage;
 use Mpietrucha\Utility\Utilizer\Concerns\Utilizable;
 use Mpietrucha\Utility\Utilizer\Contracts\UtilizableInterface;
@@ -14,7 +15,7 @@ use Mpietrucha\Utility\Utilizer\Contracts\UtilizableInterface;
 abstract class Fork implements InteractsWithAutoloadInterface, UtilizableInterface
 {
     /**
-     * @use \Mpietrucha\Utility\Fork\Concerns\InteractsWithAutoload<string, \Mpietrucha\Utility\Fork\Contracts\TransformerInterface>
+     * @use \Mpietrucha\Utility\Fork\Concerns\InteractsWithAutoload<string, \Mpietrucha\Utility\Fork\Contracts\OverrideInterface>
      */
     use InteractsWithAutoload, Utilizable;
 
@@ -29,43 +30,43 @@ abstract class Fork implements InteractsWithAutoloadInterface, UtilizableInterfa
     /**
      * Load multiple transformers into the fork autoloader.
      *
-     * @param  array<array-key, \Mpietrucha\Utility\Fork\Contracts\TransformerInterface>  $transformers
+     * @param  list<string|\Mpietrucha\Utility\Fork\Contracts\OverrideInterface>  $overrides
      */
-    public static function load(array $transformers): void
+    public static function load(array $overrides): void
     {
-        $transformers = Collection::create($transformers)->whereInstance(TransformerInterface::class);
-
-        static::add(...) |> $transformers->each(...);
+        static::add(...) |> Collection::create($overrides)->each(...);
     }
 
     /**
      * Add a transformer to the fork autoloader.
      */
-    public static function add(TransformerInterface $transformer): void
+    public static function add(OverrideInterface|string $override): void
     {
         static::bootstrap();
 
-        Alias::transformer($transformer);
+        $override = Override::wrap($override);
 
-        static::autoload()->put($transformer->namespace(), $transformer);
+        Alias::override($override);
+
+        static::autoload()->put($override->namespace(), $override);
     }
 
     /**
      * Require the forked file for the given namespace.
      */
-    protected static function require(string $fork): void
+    protected static function require(string $namespace): void
     {
-        $transformer = static::autoload()->get($fork);
+        $override = static::autoload()->get($namespace) ?? Override::runtime($namespace);
 
-        if (Type::null($transformer)) {
+        if (Type::null($override)) {
             return;
         }
 
-        if ($transformer->file() |> Filesystem::unexists(...)) {
+        if ($override->file() |> Filesystem::unexists(...)) {
             return;
         }
 
-        static::storage()->store($transformer) |> Filesystem::requireOnce(...);
+        static::storage()->store($override) |> Filesystem::requireOnce(...);
     }
 
     /**

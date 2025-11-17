@@ -6,12 +6,14 @@ use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Filesystem;
 use Mpietrucha\Utility\Filesystem\Temporary;
+use Mpietrucha\Utility\Fork\Contracts\OverrideInterface;
 use Mpietrucha\Utility\Fork\Contracts\StorageInterface;
-use Mpietrucha\Utility\Fork\Contracts\TransformerInterface;
 use Mpietrucha\Utility\Fork\Instance\File;
+use Mpietrucha\Utility\Fork\Storage\Transformer;
 use Mpietrucha\Utility\Hash;
 use Mpietrucha\Utility\Lottery;
 use Mpietrucha\Utility\Lottery\Contracts\LotteryInterface;
+use Mpietrucha\Utility\Str;
 use Mpietrucha\Utility\Utilizer\Concerns\Utilizable;
 
 class Storage implements CreatableInterface, StorageInterface
@@ -44,27 +46,23 @@ class Storage implements CreatableInterface, StorageInterface
     /**
      * Generate a unique identity hash for the transformer.
      */
-    public function identify(TransformerInterface $transformer): string
+    public function identify(OverrideInterface $override): string
     {
-        $file = $transformer->file();
-
-        $transformer = File::get($transformer);
-
-        return Filesystem::hash($file) . Filesystem::hash($file) |> Hash::md5(...);
+        return $override->file() |> Filesystem::hash(...);
     }
 
     /**
      * Store the transformed class file and return the storage path.
      */
-    public function store(TransformerInterface $transformer): string
+    public function store(OverrideInterface $override): string
     {
-        $file = $this->identify($transformer) |> $this->file(...);
+        $file = $this->identify($override) |> $this->file(...);
 
         if (Filesystem::exists($file)) {
             return $file;
         }
 
-        Filesystem::put($file, $this->transform($transformer));
+        Filesystem::put($file, $this->transform($override));
 
         return $file;
     }
@@ -72,13 +70,16 @@ class Storage implements CreatableInterface, StorageInterface
     /**
      * Transform the class content and return the transformed string.
      */
-    public function transform(TransformerInterface $transformer): string
+    public function transform(OverrideInterface $override): string
     {
-        $content = $transformer->file() |> Filesystem::get(...) |> $transformer->content(...);
+        /** @var string $content */
+        $content = $override->file() |> Filesystem::get(...);
 
-        $transformer->transform($content);
-
-        return $content->toString();
+        return Str::replace(
+            $override->class() |> Transformer::namespace(...),
+            $override->namespace() |> Transformer::namespace(...),
+            $content
+        );
     }
 
     /**

@@ -4,7 +4,7 @@ namespace Mpietrucha\Utility\Fork;
 
 use Mpietrucha\Utility\Fork\Concerns\InteractsWithAutoload;
 use Mpietrucha\Utility\Fork\Contracts\InteractsWithAutoloadInterface;
-use Mpietrucha\Utility\Fork\Contracts\TransformerInterface;
+use Mpietrucha\Utility\Fork\Contracts\OverrideInterface;
 use Mpietrucha\Utility\Instance;
 use Mpietrucha\Utility\Instance\Path;
 use Mpietrucha\Utility\Type;
@@ -19,9 +19,9 @@ abstract class Alias implements InteractsWithAutoloadInterface
     /**
      * Register a class alias from the transformer configuration.
      */
-    public static function transformer(TransformerInterface $transformer): void
+    public static function override(OverrideInterface $override): void
     {
-        [$class, $alias] = [$transformer->class(), $transformer->namespace()];
+        [$class, $alias] = [$override->class(), $override->namespace()];
 
         static::class($class, $alias);
     }

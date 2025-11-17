@@ -4,6 +4,6 @@ parameters:
     level: 8
     paths:
         - src
-        - extensions
+        - phpstan
     ignoreErrors:
         - identifier: "trait.unused"
