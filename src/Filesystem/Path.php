@@ -151,6 +151,13 @@ abstract class Path
         return static::absolute($path, $directory);
     }
 
+    public static function cwd(string $path): string
+    {
+        $cwd = Cwd::get();
+
+        return static::build($path, $cwd);
+    }
+
     /**
      * Get a new Path condition instance for advanced conditional checks.
      */

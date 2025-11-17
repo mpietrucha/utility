@@ -13,9 +13,9 @@ Benchmark::start();
 Ephemeral::validate();
 
 Fork::load([
-    Path::get('overrides/Nyholm/Psr7/Stream.php'),
-    Path::get('overrides/Illuminate/Process/Pipe.php'),
-    Path::get('overrides/Larastan/Support/HigherOrderCollectionProxyHelper.php'),
-    Path::get('overrides/Larastan/Methods/HigherOrderCollectionProxyExtension.php'),
-    Path::get('overrides/Larastan/Properties/HigherOrderCollectionProxyPropertyExtension.php'),
+    Path::cwd('overrides/Nyholm/Psr7/Stream.php'),
+    Path::cwd('overrides/Illuminate/Process/Pipe.php'),
+    Path::cwd('overrides/Larastan/Support/HigherOrderCollectionProxyHelper.php'),
+    Path::cwd('overrides/Larastan/Methods/HigherOrderCollectionProxyExtension.php'),
+    Path::cwd('overrides/Larastan/Properties/HigherOrderCollectionProxyPropertyExtension.php'),
 ]);
