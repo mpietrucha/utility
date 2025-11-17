@@ -39,15 +39,29 @@ use Symfony\Component\Finder\Finder as Adapter;
  */
 interface FinderInterface extends Countable, InteractsWithFinderInterface
 {
+    /**
+     * Get a new finder builder instance.
+     */
     public static function builder(): BuilderInterface;
 
+    /**
+     * Get the underlying Symfony Finder adapter.
+     */
     public function adapter(): Adapter;
 
+    /**
+     * Get the cache instance.
+     */
     public function cache(): CacheInterface;
 
+    /**
+     * Get the identifier instance.
+     */
     public function identifier(): IdentifierInterface;
 
     /**
+     * Get the finder results.
+     *
      * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, \Mpietrucha\Utility\Filesystem\Contracts\RecordInterface>
      */
     public function get(): EnumerableInterface;

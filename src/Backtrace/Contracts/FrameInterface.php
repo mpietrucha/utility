@@ -41,11 +41,15 @@ interface FrameInterface extends ArrayableInterface, PipeableInterface
     public function namespace(): ?string;
 
     /**
+     * Determine if the frame is internal to the given value.
+     *
      * @php-assert-if-true class-string $this->namespace()
      */
     public function internal(object|string $value): bool;
 
     /**
+     * Determine if the frame is external to the given value.
+     *
      * @phpstan-assert-if-false class-string $this->namespace()
      */
     public function external(object|string $value): bool;

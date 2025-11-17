@@ -27,5 +27,8 @@ use Mpietrucha\Utility\Process\Adapter;
  */
 interface ProcessInterface extends CreatableInterface
 {
+    /**
+     * Get the process adapter instance.
+     */
     public static function adapter(): Adapter;
 }

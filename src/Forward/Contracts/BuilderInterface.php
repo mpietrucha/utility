@@ -9,9 +9,14 @@ use Mpietrucha\Utility\Contracts\ArrayableInterface;
  */
 interface BuilderInterface extends ArrayableInterface
 {
+    /**
+     * Create a new builder instance with the given destination.
+     */
     public static function destination(object|string $destination): static;
 
     /**
+     * Get the builder configuration as an array.
+     *
      * @return array{0: object|string, 1: object|string|null, 2: string|null, 3: \Mpietrucha\Utility\Forward\Contracts\FailureInterface|null, 4: \Mpietrucha\Utility\Forward\Contracts\EvaluableInterface|null}
      */
     public function toArray(): array;
@@ -21,6 +26,9 @@ interface BuilderInterface extends ArrayableInterface
      */
     public function method(string $method): static;
 
+    /**
+     * Set the forward to relay calls with an optional method.
+     */
     public function relay(?string $method = null): static;
 
     /**

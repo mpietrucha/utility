@@ -12,11 +12,17 @@ abstract class None implements EnvironmentInterface
 {
     use Utilizable\Strings;
 
+    /**
+     * Get the environment variable as an array with name-value pair.
+     */
     public static function get(): array
     {
         return [static::name() => static::utilize() |> Str::nullWhenEmpty(...) ?? static::value()];
     }
 
+    /**
+     * Get the default value for the environment variable.
+     */
     public static function default(): string
     {
         return Arr::get(Environment::default(), static::name(), Str::none());

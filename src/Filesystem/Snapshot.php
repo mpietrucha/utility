@@ -41,6 +41,8 @@ class Snapshot extends None
     }
 
     /**
+     * Get the collection of registered snapshot handlers.
+     *
      * @return \Mpietrucha\Utility\Collection<int, \Mpietrucha\Utility\Filesystem\Contracts\SnapshotInterface>
      */
     protected static function handlers(): Collection
@@ -49,6 +51,8 @@ class Snapshot extends None
     }
 
     /**
+     * Get the default snapshot handlers.
+     *
      * @return list<\Mpietrucha\Utility\Filesystem\Contracts\SnapshotInterface>
      */
     protected static function defaults(): array

@@ -13,16 +13,25 @@ abstract class Name implements CompatibleInterface
 {
     use Compatible;
 
+    /**
+     * Get the delimiter used in temporary file names.
+     */
     public static function delimiter(): string
     {
         return '-';
     }
 
+    /**
+     * Get the default random temporary file name.
+     */
     public static function default(): string
     {
         return Str::random(32);
     }
 
+    /**
+     * Get a temporary file name with optional uniqueness.
+     */
     public static function get(?string $name = null, bool $unique = false): string
     {
         $name = static::normalize($name);
@@ -34,6 +43,9 @@ abstract class Name implements CompatibleInterface
         return $name . static::delimiter() . static::hash($name);
     }
 
+    /**
+     * Determine if the given name is a compatible temporary file name.
+     */
     protected static function compatibility(string $name): bool
     {
         $name = static::normalize($name);
@@ -47,11 +59,17 @@ abstract class Name implements CompatibleInterface
         return $signature->last() === $signature->first() |> static::hash(...);
     }
 
+    /**
+     * Generate an MD5 hash of the given value.
+     */
     protected static function hash(string $value): string
     {
         return Hash::md5($value);
     }
 
+    /**
+     * Normalize the given name to a path basename.
+     */
     protected static function normalize(?string $name = null): string
     {
         return Path::name($name ??= static::default());

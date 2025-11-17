@@ -27,6 +27,8 @@ class Evaluation implements CreatableInterface, EvaluationInterface
     }
 
     /**
+     * Dynamically call methods and evaluate them.
+     *
      * @param  array<array-key, mixed>  $arguments
      */
     public function __call(string $method, array $arguments): mixed

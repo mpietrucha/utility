@@ -137,7 +137,7 @@ class Arr extends \Illuminate\Support\Arr
     }
 
     /**
-     * Search the array for a given value and return the corresponding key.
+     * Search the array for a given value and return the corresponding key, or null if not found.
      *
      * @template TKey of array-key
      *

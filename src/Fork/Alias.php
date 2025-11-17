@@ -17,7 +17,7 @@ abstract class Alias implements InteractsWithAutoloadInterface
     use InteractsWithAutoload;
 
     /**
-     * Register a class alias from the transformer configuration.
+     * Register a class alias from the override configuration.
      */
     public static function override(OverrideInterface $override): void
     {

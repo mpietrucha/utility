@@ -6,6 +6,9 @@ use Mpietrucha\Utility\Value\Contracts\ResultInterface;
 
 interface ForwardInterface
 {
+    /**
+     * Get a new builder instance for the given destination.
+     */
     public static function builder(object|string $destination): BuilderInterface;
 
     /**
@@ -59,11 +62,15 @@ interface ForwardInterface
     public function eval(string $method, array $arguments): mixed;
 
     /**
+     * Guess the method to invoke based on the source callable.
+     *
      * @param  array<array-key, mixed>  $arguments
      */
     public function guess(string $method, array $arguments, callable $source): mixed;
 
     /**
+     * Compose the method call with the given argument.
+     *
      * @param  array<array-key, mixed>  $arguments
      */
     public function compose(string $method, mixed $argument, array $arguments): mixed;

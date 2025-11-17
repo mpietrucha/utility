@@ -32,6 +32,9 @@ class Builder implements BuilderInterface, CreatableInterface
     {
     }
 
+    /**
+     * Create a new builder instance for the given destination.
+     */
     public static function destination(object|string $destination): static
     {
         return static::create($destination);
@@ -61,6 +64,9 @@ class Builder implements BuilderInterface, CreatableInterface
         return $this;
     }
 
+    /**
+     * Configure the forward to relay from the destination back to itself.
+     */
     public function relay(?string $method = null): static
     {
         return $this->source($this->toArray() |> Arr::first(...), $method);

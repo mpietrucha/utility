@@ -17,6 +17,8 @@ class Process implements ProcessInterface
     protected ?Pending $pending = null;
 
     /**
+     * Dynamically forward static method calls to the process adapter.
+     *
      * @param  array<array-key, mixed>  $arguments
      */
     public static function __callStatic(string $method, array $arguments): mixed
@@ -27,6 +29,8 @@ class Process implements ProcessInterface
     }
 
     /**
+     * Dynamically forward instance method calls to the pending process.
+     *
      * @param  array<array-key, mixed>  $arguments
      */
     public function __call(string $method, array $arguments): mixed
@@ -41,11 +45,17 @@ class Process implements ProcessInterface
         };
     }
 
+    /**
+     * Get the process adapter instance.
+     */
     public static function adapter(): Adapter
     {
         return static::$adapter ??= Adapter::create();
     }
 
+    /**
+     * Get the pending process instance.
+     */
     protected function pending(): Pending
     {
         return $this->pending ??= static::adapter() |> Pending::create(...);

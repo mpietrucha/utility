@@ -32,6 +32,8 @@ class Forward implements ForwardInterface, WrappableInterface
     protected static string $wrappable = ForwardInterface::class;
 
     /**
+     * Create a new forward instance for method delegation.
+     *
      * @param  class-string|object  $destination
      * @param  class-string|object|null  $source
      */
@@ -105,7 +107,7 @@ class Forward implements ForwardInterface, WrappableInterface
     }
 
     /**
-     * Invoke the given method on the destination and return its raw result.
+     * Invoke the given method on the destination, throwing via the failure handler on error, and return the result.
      */
     public function get(string $method, mixed ...$arguments): mixed
     {

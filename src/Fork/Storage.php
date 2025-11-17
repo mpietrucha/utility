@@ -44,7 +44,7 @@ class Storage implements CreatableInterface, StorageInterface
     }
 
     /**
-     * Generate a unique identity hash for the transformer.
+     * Generate a unique identity hash for the override based on its file.
      */
     public function identify(OverrideInterface $override): string
     {

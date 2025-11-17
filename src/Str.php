@@ -98,6 +98,8 @@ class Str extends \Illuminate\Support\Str
     }
 
     /**
+     * Split a string by a delimiter into a collection.
+     *
      * @return \Mpietrucha\Utility\Collection<int, string>
      */
     public static function explode(string $string, string $delimiter, ?int $limit = null): EnumerableInterface
@@ -106,6 +108,8 @@ class Str extends \Illuminate\Support\Str
     }
 
     /**
+     * Split a string into lines as a collection.
+     *
      * @return \Mpietrucha\Utility\Collection<int, string>
      */
     public static function lines(string $string, ?int $limit = null, ?string $delimiter = null): EnumerableInterface

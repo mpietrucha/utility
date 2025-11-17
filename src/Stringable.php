@@ -58,7 +58,7 @@ class Stringable extends \Illuminate\Support\Stringable implements Conditionable
     }
 
     /**
-     * Determine if the string fits the given pattern.
+     * Determine if the given input string matches this string as a pattern.
      */
     public function fits(string $input): bool
     {
@@ -66,6 +66,8 @@ class Stringable extends \Illuminate\Support\Stringable implements Conditionable
     }
 
     /**
+     * Split the string by a delimiter into a collection.
+     *
      * @return \Mpietrucha\Utility\Collection<int, string>
      */
     public function explode(mixed $delimiter, mixed $limit = null): EnumerableInterface
@@ -76,6 +78,8 @@ class Stringable extends \Illuminate\Support\Stringable implements Conditionable
     }
 
     /**
+     * Split the string into lines as a collection.
+     *
      * @return \Mpietrucha\Utility\Collection<int, string>
      */
     public function lines(?int $limit = null, ?string $delimiter = null): EnumerableInterface

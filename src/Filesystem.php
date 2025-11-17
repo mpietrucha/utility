@@ -45,7 +45,7 @@ abstract class Filesystem
     }
 
     /**
-     * Get the current working directory or null if unavailable.
+     * Get the current working directory or throw an exception if unavailable.
      */
     public static function cwd(): string
     {

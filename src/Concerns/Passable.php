@@ -11,8 +11,7 @@ use Mpietrucha\Utility\Forward\Pass;
 trait Passable
 {
     /**
-     * Create a Pass proxy wrapping the current instance with the given evaluable value,
-     * enabling controlled method forwarding with a fixed return value.
+     * Create a Pass proxy that forwards method calls to this instance while always returning the specified value.
      *
      * @return \Mpietrucha\Utility\Forward\Pass<static>
      */

@@ -68,6 +68,9 @@ class Lottery implements CreatableInterface, LotteryInterface, PipeableInterface
         return static::percentage(0);
     }
 
+    /**
+     * Register a callback to execute when the lottery is won.
+     */
     public function won(callable $won): static
     {
         $this->callbacks()->put(1, $won);
@@ -75,6 +78,9 @@ class Lottery implements CreatableInterface, LotteryInterface, PipeableInterface
         return $this;
     }
 
+    /**
+     * Register a callback to execute when the lottery is lost.
+     */
     public function lost(callable $lost): static
     {
         $this->callbacks()->put(0, $lost);
@@ -112,22 +118,33 @@ class Lottery implements CreatableInterface, LotteryInterface, PipeableInterface
         return $this->wins() |> $this->call(...);
     }
 
+    /**
+     * Call the appropriate callback based on the lottery result.
+     */
     protected function call(bool $wins): mixed
     {
         return Normalizer::integer($wins) |> $this->callbacks()->get(...) |> $this->eval(...);
     }
 
+    /**
+     * Evaluate the given evaluable and return its result.
+     */
     protected function eval(mixed $evaluable): mixed
     {
         return Value::for($evaluable)->get();
     }
 
+    /**
+     * Get the lottery evaluable condition.
+     */
     protected function evaluable(): mixed
     {
         return $this->evaluable;
     }
 
     /**
+     * Get the collection of lottery callbacks.
+     *
      * @return \Mpietrucha\Utility\Collection<int, callable>
      */
     protected function callbacks(): EnumerableInterface

@@ -8,6 +8,9 @@ use Mpietrucha\Utility\Process\Environment\Path;
 
 abstract class Environment implements InteractsWithEnvironmentInterface
 {
+    /**
+     * Get the environment variables array.
+     */
     public static function get(): array
     {
         return [
@@ -16,6 +19,9 @@ abstract class Environment implements InteractsWithEnvironmentInterface
         ] |> Arr::collapse(...);
     }
 
+    /**
+     * Get the default environment variables from the system.
+     */
     public static function default(): array
     {
         return getenv();

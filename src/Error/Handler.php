@@ -52,6 +52,8 @@ abstract class Handler
     }
 
     /**
+     * Get the collection of all registered error handlers.
+     *
      * @return \Mpietrucha\Utility\Collection<int, \Mpietrucha\Utility\Error\Contracts\HandlerInterface>
      */
     protected static function all(): Collection
@@ -60,6 +62,8 @@ abstract class Handler
     }
 
     /**
+     * Get the default error handlers.
+     *
      * @return list<\Mpietrucha\Utility\Error\Contracts\HandlerInterface>
      */
     protected static function defaults(): array

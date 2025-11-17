@@ -2,7 +2,7 @@
 
 namespace Mpietrucha\Utility\Process;
 
-use Illuminate\Process\PendingProcess;
+use Fork\Illuminate\Process\PendingProcess;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 

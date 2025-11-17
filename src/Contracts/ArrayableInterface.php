@@ -24,6 +24,8 @@ interface ArrayableInterface extends Arrayable, IteratorAggregate
     public function toArray(): array;
 
     /**
+     * Convert the instance to a collection.
+     *
      * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<TKey, TValue>
      */
     public function toCollection(): EnumerableInterface;

@@ -34,11 +34,17 @@ class Filesystem implements CreatableInterface
         return Adapter::isDirectory($path);
     }
 
+    /**
+     * Determine if the given path is writable.
+     */
     public function writable(string $path): bool
     {
         return Adapter::isWritable($path);
     }
 
+    /**
+     * Determine if the given path is readable.
+     */
     public function readable(string $path): bool
     {
         return Adapter::isReadable($path);

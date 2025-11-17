@@ -78,6 +78,8 @@ class Record extends Adapter implements CompatibleInterface, CreatableInterface,
     }
 
     /**
+     * Normalize the SplFileInfo adapter to a collection of path components.
+     *
      * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, string>
      */
     protected static function normalize(SplFileInfo $adapter): EnumerableInterface
@@ -93,6 +95,8 @@ class Record extends Adapter implements CompatibleInterface, CreatableInterface,
     }
 
     /**
+     * Transform constructor arguments into a normalized collection of strings.
+     *
      * @param  array<array-key, mixed>  $input
      * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, string>
      */
@@ -101,6 +105,9 @@ class Record extends Adapter implements CompatibleInterface, CreatableInterface,
         return Collection::sequence(3)->replace($input)->mapToStrings();
     }
 
+    /**
+     * Determine if the adapter is compatible with extended file info.
+     */
     protected static function compatibility(SplFileInfo $adapter): bool
     {
         return $adapter instanceof Adapter;

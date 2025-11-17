@@ -30,6 +30,8 @@ class Result implements CreatableInterface, ResultInterface
     }
 
     /**
+     * Call a method on the result value.
+     *
      * @param  array<array-key, mixed>  $arguments
      */
     public function __call(string $method, array $arguments): mixed

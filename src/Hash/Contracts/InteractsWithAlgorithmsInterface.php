@@ -36,9 +36,18 @@ interface InteractsWithAlgorithmsInterface extends HashableInterface
 {
     public const GOST_CRYPTO = 'crypto';
 
+    /**
+     * Hash the given value using MD5.
+     */
     public static function md5(string $value): string;
 
+    /**
+     * Hash the given value using SHA1.
+     */
     public static function sha1(string $value): string;
 
+    /**
+     * Get the hash for the given value using the specified algorithm.
+     */
     public static function get(string $value, ?string $algorithm = null): string;
 }

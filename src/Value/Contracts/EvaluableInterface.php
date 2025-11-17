@@ -31,5 +31,8 @@ interface EvaluableInterface
      */
     public function unsupported(): bool;
 
+    /**
+     * Get the previous value before evaluation.
+     */
     public function previous(): mixed;
 }

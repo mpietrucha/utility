@@ -12,6 +12,8 @@ use Throwable;
 class Attempt extends Evaluation implements AttemptInterface
 {
     /**
+     * Attempt to call the method and capture exceptions.
+     *
      * @param  array<array-key, mixed>  $arguments
      */
     public function __call(string $method, array $arguments): mixed

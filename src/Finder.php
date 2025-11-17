@@ -25,6 +25,9 @@ class Finder implements CreatableInterface, FinderInterface
 {
     use Creatable, Forwardable, InteractsWithFinder;
 
+    /**
+     * Create a new finder instance.
+     */
     public function __construct(
         protected ?string $input = null,
         protected ?int $altitude = null,
@@ -40,6 +43,8 @@ class Finder implements CreatableInterface, FinderInterface
     }
 
     /**
+     * Dynamically forward method calls to the adapter instance.
+     *
      * @param  array<array-key, mixed>  $arguments
      */
     public function __call(string $method, array $arguments): static

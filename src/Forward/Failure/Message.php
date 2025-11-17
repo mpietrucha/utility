@@ -9,6 +9,9 @@ use Mpietrucha\Utility\Type;
 
 abstract class Message
 {
+    /**
+     * Get the target method reference for the failure message.
+     */
     public static function to(FailureInterface $failure, string $method): string
     {
         $input = $failure->forward()->source();
@@ -16,6 +19,9 @@ abstract class Message
         return static::get($input, $failure->forward()->method() ?? $method);
     }
 
+    /**
+     * Get the source method reference for the failure message.
+     */
     public static function from(FailureInterface $failure, string $method): string
     {
         $input = $failure->forward()->destination();
@@ -23,6 +29,9 @@ abstract class Message
         return static::get($input, $method);
     }
 
+    /**
+     * Get a formatted method reference from the given input and method name.
+     */
     public static function get(object|string $input, string $method): string
     {
         $namespace = Instance::namespace($input);

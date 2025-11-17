@@ -8,11 +8,15 @@ namespace Mpietrucha\Utility\Process\Contracts;
 interface InteractsWithEnvironmentInterface
 {
     /**
+     * Get the environment variables.
+     *
      * @return Environment
      */
     public static function get(): array;
 
     /**
+     * Get the default environment value or variables.
+     *
      * @return string|Environment
      */
     public static function default(): array|string;

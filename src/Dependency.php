@@ -20,6 +20,8 @@ abstract class Dependency
     ];
 
     /**
+     * Get the default dependency file paths.
+     *
      * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, string>
      */
     public static function defaults(): EnumerableInterface
@@ -28,6 +30,8 @@ abstract class Dependency
     }
 
     /**
+     * Bootstrap the dependency files that exist.
+     *
      * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, string>
      */
     public static function bootstrap(): EnumerableInterface

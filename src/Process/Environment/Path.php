@@ -13,6 +13,8 @@ abstract class Path extends None
     protected static ?Collection $values = null;
 
     /**
+     * Get the collection of additional PATH values.
+     *
      * @return \Mpietrucha\Utility\Collection<int, string>
      */
     public static function values(): Collection
@@ -21,6 +23,8 @@ abstract class Path extends None
     }
 
     /**
+     * Add additional values to the PATH environment variable.
+     *
      * @param  string|array<string, string>  $values
      */
     public static function add(array|string $values): void
@@ -28,11 +32,17 @@ abstract class Path extends None
         static::values()->push(...) |> Collection::create($values)->pipeSpread(...);
     }
 
+    /**
+     * Get the environment variable name.
+     */
     public static function name(): string
     {
         return 'PATH';
     }
 
+    /**
+     * Get the enhanced PATH value with additional directories.
+     */
     public static function value(): string
     {
         $value = Str::explode(static::default(), $delimiter = ':');

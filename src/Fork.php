@@ -28,7 +28,7 @@ abstract class Fork implements InteractsWithAutoloadInterface, UtilizableInterfa
     }
 
     /**
-     * Load multiple transformers into the fork autoloader.
+     * Load multiple overrides into the fork autoloader.
      *
      * @param  list<string|\Mpietrucha\Utility\Fork\Contracts\OverrideInterface>  $overrides
      */

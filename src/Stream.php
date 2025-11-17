@@ -203,7 +203,7 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface, 
     }
 
     /**
-     * Restore the stream pointer to a specific position or rewind it.
+     * Restore the stream pointer to a specific position or rewind it if the stream is seekable.
      */
     public function restore(?int $pointer = null, int $mode = SEEK_SET): static
     {
@@ -227,7 +227,7 @@ class Stream implements CreatableInterface, PassableInterface, StreamInterface, 
     }
 
     /**
-     * Copy contents from the source stream into this stream using the adapter's resource.
+     * Copy contents from this stream into the destination stream.
      */
     public function copy(StreamInterface $detination): static
     {

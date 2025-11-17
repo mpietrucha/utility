@@ -151,6 +151,8 @@ abstract class Instance implements InteractsWithInstanceInterface
     }
 
     /**
+     * Get all parent classes of the given class or object.
+     *
      * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, class-string>
      */
     public static function parents(object|string $instance): EnumerableInterface
@@ -161,6 +163,8 @@ abstract class Instance implements InteractsWithInstanceInterface
     }
 
     /**
+     * Get all traits used by the given class or object.
+     *
      * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, class-string>
      */
     public static function traits(object|string $instance): EnumerableInterface
