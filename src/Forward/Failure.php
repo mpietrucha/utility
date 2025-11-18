@@ -8,6 +8,7 @@ use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Forward\Contracts\FailureInterface;
 use Mpietrucha\Utility\Forward\Contracts\ForwardInterface;
+use Mpietrucha\Utility\Forward\Contracts\ProxyInterface;
 use Mpietrucha\Utility\Forward\Exception\FailureFrameException;
 use Mpietrucha\Utility\Forward\Failure\Backtrace;
 use Mpietrucha\Utility\Forward\Failure\Message;
@@ -60,10 +61,10 @@ class Failure implements CreatableInterface, FailureInterface
     {
         $backtrace = $throwable->backtrace();
 
-        return match (true) {
-            Backtrace::proxied($backtrace) => Backtrace::frames() - 1,
-            default => Backtrace::frames()
-        } |> $backtrace->skip(...);
+        return $backtrace->pipeThrough([
+            fn (EnumerableInterface $backtrace) => $this->forward() |> $backtrace->skipUntilLast->internal(...),
+            fn (EnumerableInterface $backtrace) => $backtrace->skipWhile->internal(ProxyInterface::class),
+        ]);
     }
 
     /**

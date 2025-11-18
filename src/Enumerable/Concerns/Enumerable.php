@@ -40,6 +40,7 @@ trait Enumerable
      */
     protected static array $forwarders = [
         'firstMap',
+        'skipUntilLast',
     ];
 
     /**
@@ -341,5 +342,13 @@ trait Enumerable
     public function pipeSpread(mixed $handler): mixed
     {
         return $this->toArray() |> Value::for($handler)->eval(...);
+    }
+
+    public function skipUntilLast(callable $handler): static
+    {
+        return $this->pipeThrough([
+            fn (EnumerableInterface $collection) => $collection->skipUntil($handler),
+            fn (EnumerableInterface $collection) => $collection->skipWhile($handler),
+        ]);
     }
 }

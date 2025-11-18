@@ -47,6 +47,7 @@ use Mpietrucha\Utility\Enumerable\LazyCollection;
  * @property-read \Illuminate\Support\HigherOrderCollectionProxy<'unique', TValue, static> $unique
  * @property-read \Illuminate\Support\HigherOrderCollectionProxy<'until', TValue, static> $until
  * @property-read \Illuminate\Support\HigherOrderCollectionProxy<'firstMap', TValue, static> $firstMap
+ * @property-read \Illuminate\Support\HigherOrderCollectionProxy<'skipUntilLast', TValue, static> $skipUntilLast
  */
  interface EnumerableInterface extends Countable, StringableInterface, ArrayableInterface, CreatableInterface, PipeableInterface, TappableInterface, ConditionableInterface, Enumerable
 {
@@ -205,4 +206,6 @@ use Mpietrucha\Utility\Enumerable\LazyCollection;
      * Pass the enumerable to the callback with spread values.
      */
     public function pipeSpread(mixed $handler): mixed;
+
+    public function skipUntilLast(callable $handler): static;
 }
