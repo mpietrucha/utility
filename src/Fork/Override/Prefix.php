@@ -9,7 +9,7 @@ use Mpietrucha\Utility\Utilizer\Contracts\UtilizableInterface;
 
 abstract class Prefix implements UtilizableInterface
 {
-    use Utilizable;
+    use Utilizable\Strings;
 
     /**
      * Get the override prefix.
@@ -32,11 +32,13 @@ abstract class Prefix implements UtilizableInterface
      */
     public static function skip(string $namespace, ?string $prefix = null): ?string
     {
-        if (Str::doesntStartWith($namespace, $prefix ??= static::get())) {
+        $prefix ??= static::get();
+
+        if (Str::doesntStartWith($namespace, $prefix)) {
             return null;
         }
 
-        return Str::replaceFirst($prefix . Path::delimiter(), Str::none(), $namespace);
+        return Str::chopStart($namespace, $prefix . Path::delimiter());
     }
 
     /**
