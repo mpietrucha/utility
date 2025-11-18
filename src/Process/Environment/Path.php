@@ -53,6 +53,7 @@ abstract class Path extends None
             '/usr/local/sbin',
             '/snap/bin',
             '/usr/sbin',
+            '/usr/bin',
             '/sbin',
         ]);
 
