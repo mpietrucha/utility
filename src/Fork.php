@@ -46,6 +46,7 @@ abstract class Fork implements InteractsWithAutoloadInterface, UtilizableInterfa
 
         $override = Override::wrap($override);
 
+        return;
         Alias::override($override);
 
         static::autoload()->put($override->namespace(), $override);
