@@ -35,13 +35,17 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Mpietrucha\\Analyze\\": "analyze/src/",
             "Mpietrucha\\PHPStan\\": "phpstan/src/",
             "Mpietrucha\\Utility\\": "src/"
         },
         "files": [
             "bootstrap.php"
         ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Mpietrucha\\Analyze\\": "analyze/src/"
+        }
     },
     "config": {
         "allow-plugins": {
