@@ -35,6 +35,7 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
+            "Mpietrucha\\Analyze\\": "analyze/src/",
             "Mpietrucha\\PHPStan\\": "phpstan/src/",
             "Mpietrucha\\Utility\\": "src/"
         },

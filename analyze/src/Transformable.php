@@ -1,6 +1,6 @@
 <?php
 
-namespace Mpietrucha\PHPStan\Analyze;
+namespace Mpietrucha\Analyze;
 
 class Transformable implements \Mpietrucha\Utility\Contracts\TransformableInterface
 {

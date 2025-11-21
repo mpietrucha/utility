@@ -1,6 +1,6 @@
 <?php
 
-namespace Mpietrucha\PHPStan\Analyze;
+namespace Mpietrucha\Analyze;
 
 class Routeable implements \Mpietrucha\Utility\Contracts\RouteableInterface
 {
