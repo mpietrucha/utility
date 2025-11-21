@@ -41,14 +41,6 @@ class Evaluable implements CreatableInterface, EvaluableInterface
     }
 
     /**
-     * Determine if the given source is a valid callable class.
-     */
-    public static function callable(object|string $source): bool
-    {
-        return Instance::exists($source, Instance::LOAD);
-    }
-
-    /**
      * Get the underlying source, which may be an object instance or a class name.
      */
     public function source(): object|string
@@ -96,7 +88,7 @@ class Evaluable implements CreatableInterface, EvaluableInterface
      */
     protected static function sc(string $method, array $arguments, string $source): mixed
     {
-        if (static::callable($source) |> Normalizer::not(...)) {
+        if (Instance::unexists($source)) {
             return $source::$method();
         }
 

@@ -5,6 +5,7 @@ namespace Mpietrucha\Utility\Forward;
 use Mpietrucha\Utility\Forward;
 use Mpietrucha\Utility\Forward\Contracts\ForwardInterface;
 use Mpietrucha\Utility\Forward\Exception\DependencyException;
+use Mpietrucha\Utility\Instance;
 
 class Dependency
 {
@@ -13,7 +14,7 @@ class Dependency
      */
     public static function use(string $dependency, string $vendor, string $group): ForwardInterface
     {
-        if (Evaluable::callable($dependency)) {
+        if (Instance::exists($dependency)) {
             return Forward::create($dependency);
         }
 

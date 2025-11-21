@@ -18,11 +18,6 @@ interface EvaluableInterface
     public function __invoke(string $method, array $arguments): mixed;
 
     /**
-     * Determine if the given source is a valid callable class.
-     */
-    public static function callable(object|string $source): bool;
-
-    /**
      * Get the underlying source, which may be an object instance or a class name.
      *
      * @return ForwardInput

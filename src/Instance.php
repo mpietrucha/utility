@@ -13,7 +13,7 @@ abstract class Instance implements InteractsWithInstanceInterface
      *
      * @phpstan-assert-if-true object|class-string $instance
      */
-    public static function exists(object|string $instance, bool $autoload = false): bool
+    public static function exists(object|string $instance, bool $autoload = InteractsWithInstanceInterface::LOAD): bool
     {
         if (Type::object($instance)) {
             return true;
@@ -33,7 +33,7 @@ abstract class Instance implements InteractsWithInstanceInterface
     /**
      * Determine if the given instance does not refer to any known class, interface, or trait.
      */
-    final public static function unexists(object|string $instance, bool $autoload = false): bool
+    final public static function unexists(object|string $instance, bool $autoload = InteractsWithInstanceInterface::LOAD): bool
     {
         return static::exists($instance, $autoload) |> Normalizer::not(...);
     }
@@ -65,7 +65,7 @@ abstract class Instance implements InteractsWithInstanceInterface
      *
      * @return ($instance is object ? class-string : class-string|null)
      */
-    public static function namespace(object|string $instance, bool $autoload = false): ?string
+    public static function namespace(object|string $instance, bool $autoload = InteractsWithInstanceInterface::LOAD): ?string
     {
         if (Type::object($instance)) {
             return Type::get($instance);
@@ -77,7 +77,7 @@ abstract class Instance implements InteractsWithInstanceInterface
     /**
      * Resolve the file path of the given instance.
      */
-    public static function file(object|string $instance, bool $autoload = false): ?string
+    public static function file(object|string $instance, bool $autoload = InteractsWithInstanceInterface::LAZY): ?string
     {
         $namespace = Type::string($instance) ? $instance : static::namespace($instance);
 
@@ -135,7 +135,7 @@ abstract class Instance implements InteractsWithInstanceInterface
     /**
      * Create an alias for the given class.
      */
-    public static function alias(object|string $class, string $alias, bool $autoload = true): ?string
+    public static function alias(object|string $class, string $alias, bool $autoload = InteractsWithInstanceInterface::LOAD): ?string
     {
         $class = static::namespace($class, $autoload) |> Normalizer::string(...);
 
