@@ -12,6 +12,8 @@ use Mpietrucha\Utility\Value\Contracts\EvaluationInterface;
 
 /**
  * @mixin \Mpietrucha\Utility\Normalizer
+ *
+ * @phpstan-import-type MixedArray from \Mpietrucha\Utility\Arr
  */
 class Evaluation implements CreatableInterface, EvaluationInterface
 {
@@ -29,7 +31,7 @@ class Evaluation implements CreatableInterface, EvaluationInterface
     /**
      * Dynamically call methods and evaluate them.
      *
-     * @param  array<array-key, mixed>  $arguments
+     * @param  MixedArray  $arguments
      */
     public function __call(string $method, array $arguments): mixed
     {
@@ -59,7 +61,7 @@ class Evaluation implements CreatableInterface, EvaluationInterface
     /**
      * Bind the evaluable with the given arguments into a closure.
      *
-     * @param  array<array-key, mixed>|null  $arguments
+     * @param  MixedArray|null  $arguments
      */
     public static function bind(mixed $evaluable, ?array $arguments): Closure
     {

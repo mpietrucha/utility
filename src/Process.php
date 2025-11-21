@@ -8,6 +8,9 @@ use Mpietrucha\Utility\Process\Adapter;
 use Mpietrucha\Utility\Process\Contracts\ProcessInterface;
 use Mpietrucha\Utility\Process\Pending;
 
+/**
+ * @phpstan-import-type MixedArray from \Mpietrucha\Utility\Arr
+ */
 class Process implements ProcessInterface
 {
     use Bridgeable, Creatable;
@@ -19,7 +22,7 @@ class Process implements ProcessInterface
     /**
      * Dynamically forward static method calls to the process adapter.
      *
-     * @param  array<array-key, mixed>  $arguments
+     * @param  MixedArray  $arguments
      */
     public static function __callStatic(string $method, array $arguments): mixed
     {
@@ -31,7 +34,7 @@ class Process implements ProcessInterface
     /**
      * Dynamically forward instance method calls to the pending process.
      *
-     * @param  array<array-key, mixed>  $arguments
+     * @param  MixedArray  $arguments
      */
     public function __call(string $method, array $arguments): mixed
     {

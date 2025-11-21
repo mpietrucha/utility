@@ -11,6 +11,9 @@ use Mpietrucha\Utility\Throwable\Contracts\ConfiguratorInterface;
 use Mpietrucha\Utility\Throwable\Contracts\ThrowableInterface;
 use Mpietrucha\Utility\Type;
 
+/**
+ * @phpstan-import-type MixedArray from \Mpietrucha\Utility\Arr
+ */
 class Configurator implements ConfiguratorInterface, CreatableInterface
 {
     use Creatable;
@@ -89,7 +92,7 @@ class Configurator implements ConfiguratorInterface, CreatableInterface
     /**
      * Hydrate the throwable with the configurator response or original arguments.
      *
-     * @param  array<array-key, mixed>  $arguments
+     * @param  MixedArray  $arguments
      */
     protected function hydrate(mixed $response, array $arguments): ThrowableInterface
     {

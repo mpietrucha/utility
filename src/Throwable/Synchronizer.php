@@ -5,6 +5,7 @@ namespace Mpietrucha\Utility\Throwable;
 use Mpietrucha\Utility\Backtrace\Contracts\FrameInterface;
 use Mpietrucha\Utility\Collection;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
+use Mpietrucha\Utility\Throwable\Enums\Property;
 use Mpietrucha\Utility\Throwable\Synchronizer\File;
 use Mpietrucha\Utility\Throwable\Synchronizer\Line;
 use Mpietrucha\Utility\Throwable\Synchronizer\None;
@@ -19,7 +20,7 @@ abstract class Synchronizer extends None
     /**
      * Get property-value groups from synchronizers that match the given frame.
      *
-     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, array{0: \Mpietrucha\Utility\Throwable\Property, 1: mixed}>
+     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, array{0: \Mpietrucha\Utility\Throwable\Enums\Property, 1: mixed}>
      */
     public static function groups(FrameInterface $frame): EnumerableInterface
     {

@@ -3,6 +3,7 @@
 namespace Mpietrucha\Utility;
 
 use Mpietrucha\Utility\Error\Contracts\HandlerInterface;
+use Mpietrucha\Utility\Error\Frame;
 use Mpietrucha\Utility\Error\Handler;
 use Mpietrucha\Utility\Error\Level;
 
@@ -34,11 +35,15 @@ abstract class Error
 
     /**
      * Get the last error that occurred, if any.
-     *
-     * @return null|array<string, int|string>
      */
-    public static function last(): ?array
+    public static function last(): ?Frame
     {
-        return error_get_last();
+        $error = error_get_last();
+
+        if (Type::null($error)) {
+            return null;
+        }
+
+        return Frame::create($error);
     }
 }

@@ -2,6 +2,10 @@
 
 namespace Mpietrucha\Utility\Forward\Contracts;
 
+/**
+ * @phpstan-import-type ForwardInput from \Mpietrucha\Utility\Forward\Contracts\ForwardInterface
+ * @phpstan-import-type MixedArray from \Mpietrucha\Utility\Arr
+ */
 interface EvaluableInterface
 {
     /**
@@ -9,14 +13,14 @@ interface EvaluableInterface
      * calling as an instance method if the source is instantiated,
      * or as a static method if the source is a class name.
      *
-     * @param  array<array-key, mixed>  $arguments
+     * @param  MixedArray  $arguments
      */
     public function __invoke(string $method, array $arguments): mixed;
 
     /**
      * Get the underlying source, which may be an object instance or a class name.
      *
-     * @return object|class-string
+     * @return ForwardInput
      */
     public function source(): object|string;
 

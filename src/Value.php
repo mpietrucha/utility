@@ -10,6 +10,9 @@ use Mpietrucha\Utility\Value\Contracts\PipeInterface;
 use Mpietrucha\Utility\Value\Evaluation;
 use Mpietrucha\Utility\Value\Pipe;
 
+/**
+ * @phpstan-import-type MixedArray from \Mpietrucha\Utility\Arr
+ */
 abstract class Value
 {
     /**
@@ -53,7 +56,7 @@ abstract class Value
     /**
      * Bind the given arguments to the evaluable and return a closure.
      *
-     * @param  array<array-key, mixed>|null  $arguments
+     * @param  MixedArray|null  $arguments
      */
     public static function bind(mixed $evaluable, ?array $arguments = null): Closure
     {

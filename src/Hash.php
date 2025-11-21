@@ -9,6 +9,9 @@ use Mpietrucha\Utility\Hash\Contracts\InteractsWithAlgorithmsInterface;
 use Mpietrucha\Utility\Utilizer\Concerns\Utilizable;
 use Mpietrucha\Utility\Utilizer\Contracts\UtilizableInterface;
 
+/**
+ * @phpstan-import-type MixedArray from \Mpietrucha\Utility\Arr
+ */
 abstract class Hash implements InteractsWithAlgorithmsInterface, UtilizableInterface
 {
     use Bridgeable, Hashable, Utilizable\Strings {
@@ -19,7 +22,7 @@ abstract class Hash implements InteractsWithAlgorithmsInterface, UtilizableInter
     /**
      * Dynamically handle static method calls to hash algorithms.
      *
-     * @param  array<array-key, mixed>  $arguments
+     * @param  MixedArray  $arguments
      */
     public static function __callStatic(string $method, array $arguments): string
     {

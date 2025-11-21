@@ -3,6 +3,7 @@
 namespace Mpietrucha\Utility\Backtrace;
 
 use Mpietrucha\Utility\Backtrace\Contracts\FrameInterface;
+use Mpietrucha\Utility\Backtrace\Enums\Property;
 use Mpietrucha\Utility\Collection;
 use Mpietrucha\Utility\Concerns\Arrayable;
 use Mpietrucha\Utility\Concerns\Creatable;
@@ -30,8 +31,6 @@ class Frame implements CreatableInterface, FrameInterface
 
     /**
      * Get the raw backtrace frame as an array.
-     *
-     * @return RawBacktraceFrame
      */
     public function toArray(): array
     {

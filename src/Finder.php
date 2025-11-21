@@ -21,6 +21,9 @@ use Mpietrucha\Utility\Finder\Reflection;
 use Mpietrucha\Utility\Forward\Concerns\Forwardable;
 use Symfony\Component\Finder\Finder as Adapter;
 
+/**
+ * @phpstan-import-type MixedArray from \Mpietrucha\Utility\Arr
+ */
 class Finder implements CreatableInterface, FinderInterface
 {
     use Creatable, Forwardable, InteractsWithFinder;
@@ -45,7 +48,7 @@ class Finder implements CreatableInterface, FinderInterface
     /**
      * Dynamically forward method calls to the adapter instance.
      *
-     * @param  array<array-key, mixed>  $arguments
+     * @param  MixedArray  $arguments
      */
     public function __call(string $method, array $arguments): static
     {

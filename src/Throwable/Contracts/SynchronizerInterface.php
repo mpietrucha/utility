@@ -4,7 +4,7 @@ namespace Mpietrucha\Utility\Throwable\Contracts;
 
 use Mpietrucha\Utility\Backtrace\Contracts\FrameInterface;
 use Mpietrucha\Utility\Contracts\ArrayableInterface;
-use Mpietrucha\Utility\Throwable\Property;
+use Mpietrucha\Utility\Throwable\Enums\Property;
 
 /**
  * @extends \Mpietrucha\Utility\Contracts\ArrayableInterface<int, mixed>
@@ -14,14 +14,14 @@ interface SynchronizerInterface extends ArrayableInterface
     /**
      * Get the synchronizer configuration as an array.
      *
-     * @return array{0: \Mpietrucha\Utility\Throwable\Property}
+     * @return array{0: \Mpietrucha\Utility\Throwable\Enums\Property}
      */
     public function toArray(): array;
 
     /**
      * Build the property and value tuple from the given frame.
      *
-     * @return array{0: \Mpietrucha\Utility\Throwable\Property, 1: mixed}
+     * @return array{0: \Mpietrucha\Utility\Throwable\Enums\Property, 1: mixed}
      */
     public function build(FrameInterface $frame): array;
 

@@ -15,6 +15,8 @@ use Throwable;
 
 /**
  * @mixin \Mpietrucha\Utility\Normalizer
+ *
+ * @phpstan-import-type MixedArray from \Mpietrucha\Utility\Arr
  */
 class Result implements CreatableInterface, ResultInterface
 {
@@ -32,7 +34,7 @@ class Result implements CreatableInterface, ResultInterface
     /**
      * Call a method on the result value.
      *
-     * @param  array<array-key, mixed>  $arguments
+     * @param  MixedArray  $arguments
      */
     public function __call(string $method, array $arguments): mixed
     {

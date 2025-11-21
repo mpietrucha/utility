@@ -10,7 +10,7 @@ use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Normalizer;
 use Mpietrucha\Utility\Reflection as Adapter;
 use Mpietrucha\Utility\Str;
-use Mpietrucha\Utility\Throwable\Property;
+use Mpietrucha\Utility\Throwable\Enums\Property;
 use Mpietrucha\Utility\Throwable\Synchronizer;
 use Mpietrucha\Utility\Type;
 use Throwable;

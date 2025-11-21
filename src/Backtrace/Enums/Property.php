@@ -1,6 +1,6 @@
 <?php
 
-namespace Mpietrucha\Utility\Backtrace;
+namespace Mpietrucha\Utility\Backtrace\Enums;
 
 enum Property: string
 {

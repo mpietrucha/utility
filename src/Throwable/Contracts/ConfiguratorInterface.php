@@ -4,6 +4,9 @@ namespace Mpietrucha\Utility\Throwable\Contracts;
 
 use Mpietrucha\Utility\Forward\Contracts\ForwardInterface;
 
+/**
+ * @phpstan-import-type MixedArray from \Mpietrucha\Utility\Arr
+ */
 interface ConfiguratorInterface
 {
     /**
@@ -39,7 +42,7 @@ interface ConfiguratorInterface
     /**
      * Evaluate the configurator with the given arguments.
      *
-     * @param  array<array-key, mixed>  $arguments
+     * @param  MixedArray  $arguments
      */
     public function eval(array $arguments, ?string $method = null): ThrowableInterface;
 }

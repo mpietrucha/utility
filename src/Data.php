@@ -2,12 +2,15 @@
 
 namespace Mpietrucha\Utility;
 
+/**
+ * @phpstan-import-type MixedArray from \Mpietrucha\Utility\Arr
+ */
 abstract class Data
 {
     /**
      * Retrieve an item from a nested array or object using "dot" notation.
      *
-     * @param  null|int|string|array<array-key, mixed>  $property
+     * @param  null|int|string|MixedArray  $property
      */
     public static function get(mixed $source, null|array|int|string $property, mixed $default = null): mixed
     {
@@ -17,7 +20,7 @@ abstract class Data
     /**
      * Set a value within a nested array or object using "dot" notation.
      *
-     * @param  string|array<array-key, mixed>  $property
+     * @param  string|MixedArray  $property
      */
     public static function set(mixed &$source, array|string $property, mixed $value, bool $overwrite = true): mixed
     {
@@ -27,7 +30,7 @@ abstract class Data
     /**
      * Set a value within a nested array or object if it doesn't already exist.
      *
-     * @param  string|array<array-key, mixed>  $property
+     * @param  string|MixedArray  $property
      */
     public static function fill(mixed &$source, array|string $property, mixed $value): mixed
     {
@@ -37,7 +40,7 @@ abstract class Data
     /**
      * Remove one or more items from a nested array or object using "dot" notation.
      *
-     * @param  null|int|string|array<array-key, mixed>  $property
+     * @param  null|int|string|MixedArray  $property
      */
     public static function forget(mixed &$source, null|array|int|string $property, mixed $value): mixed
     {

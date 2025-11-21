@@ -9,8 +9,6 @@ interface TapInterface extends ProxyInterface
     /**
      * Dynamically proxy the call to the underlying target and return
      * a Tappable proxy instance for fluent method chaining.
-     *
-     * @param  array<array-key, mixed>  $arguments
      */
     public function __call(string $method, array $arguments): TappableInterface;
 }

@@ -9,10 +9,17 @@ use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 /**
  * @phpstan-type RawBacktraceFrame array{function: string, line?: int, file?: string, class?: class-string, type?: '->'|'::', args?: array<string, mixed>, object?: object}
  *
- * @extends \Mpietrucha\Utility\Contracts\ArrayableInterface<string, RawBacktraceFrame>
+ * @extends \Mpietrucha\Utility\Contracts\ArrayableInterface<string, mixed>
  */
 interface FrameInterface extends ArrayableInterface, PipeableInterface
 {
+    /**
+     * Get the raw backtrace frame as an array.
+     *
+     * @return RawBacktraceFrame
+     */
+    public function toArray(): array;
+
     /**
      * Get the file path associated with the backtrace frame.
      */

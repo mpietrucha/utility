@@ -2,6 +2,9 @@
 
 namespace Mpietrucha\Utility;
 
+/**
+ * @phpstan-import-type MixedArray from \Mpietrucha\Utility\Arr
+ */
 abstract class Normalizer
 {
     /**
@@ -49,7 +52,7 @@ abstract class Normalizer
     /**
      * Convert the given value to an array.
      *
-     * @return array<array-key, mixed>
+     * @return MixedArray
      */
     public static function array(mixed $value): array
     {

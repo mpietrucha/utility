@@ -12,16 +12,12 @@ use Mpietrucha\Utility\Forward\Contracts\ForwardInterface;
 use Mpietrucha\Utility\Forward\Contracts\MethodsInterface;
 use Mpietrucha\Utility\Forward\Contracts\ProxyInterface;
 use Mpietrucha\Utility\Forward\Evaluable;
-use Mpietrucha\Utility\Forward\Exception\DependencyException;
 use Mpietrucha\Utility\Forward\Failure;
 use Mpietrucha\Utility\Forward\Proxy;
 use Mpietrucha\Utility\Value\Contracts\ResultInterface;
 
 /**
- * Create a new instance for the destination, with optional source, default method, failure handler, and evaluable wrapper.
- *
- * @property class-string|object $destination
- * @property class-string|object|null $source
+ * @phpstan-import-type ForwardInput from \Mpietrucha\Utility\Forward\Contracts\ForwardInterface
  */
 class Forward implements ForwardInterface, WrappableInterface
 {
@@ -35,8 +31,8 @@ class Forward implements ForwardInterface, WrappableInterface
     /**
      * Create a new forward instance for method delegation.
      *
-     * @param  class-string|object  $destination
-     * @param  class-string|object|null  $source
+     * @param  ForwardInput  $destination
+     * @param  ForwardInput|null  $source
      */
     public function __construct(
         protected object|string $destination,
@@ -56,21 +52,7 @@ class Forward implements ForwardInterface, WrappableInterface
     }
 
     /**
-     * Create a forward instance from the dependency if callable, or throw an exception.
-     */
-    public static function dependency(object|string $dependency, string $vendor, string $group): static
-    {
-        if (Instance::exists($dependency, Instance::LOAD)) {
-            return static::create($dependency);
-        }
-
-        DependencyException::for($vendor, $group)->throw();
-    }
-
-    /**
      * Get the source class or object, defaulting to the destination when none was provided.
-     *
-     * @return class-string|object
      */
     public function source(): object|string
     {
@@ -79,8 +61,6 @@ class Forward implements ForwardInterface, WrappableInterface
 
     /**
      * Get the destination class or object that method calls will be forwarded to.
-     *
-     * @return class-string|object
      */
     public function destination(): object|string
     {

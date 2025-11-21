@@ -4,6 +4,11 @@ namespace Mpietrucha\Utility\Forward\Contracts;
 
 use Mpietrucha\Utility\Value\Contracts\ResultInterface;
 
+/**
+ * @phpstan-import-type MixedArray from \Mpietrucha\Utility\Arr
+ *
+ * @phpstan-type ForwardInput object|class-string
+ */
 interface ForwardInterface
 {
     /**
@@ -12,17 +17,16 @@ interface ForwardInterface
     public static function builder(object|string $destination): BuilderInterface;
 
     /**
-     * Create a forward instance from the dependency if callable, or throw an exception.
-     */
-    public static function dependency(object|string $dependency, string $vendor, string $group): static;
-
-    /**
      *  Get the source class or object, defaulting to the destination when none was explicitly set.
+     *
+     * @return ForwardInput
      */
     public function source(): object|string;
 
     /**
      * Get the destination class or object that method calls will be forwarded to.
+     *
+     * @return ForwardInput
      */
     public function destination(): object|string;
 
@@ -54,7 +58,7 @@ interface ForwardInterface
     /**
      * Attempt to invoke the given method, returning a Result object that captures the outcome.
      *
-     * @param  array<array-key, mixed>  $arguments
+     * @param  MixedArray  $arguments
      */
     public function attempt(string $method, array $arguments): ResultInterface;
 
@@ -62,21 +66,21 @@ interface ForwardInterface
      * Evaluate the given method on the destination and return the result,
      * or throw an exception using the failure handler if the call fails.
      *
-     * @param  array<array-key, mixed>  $arguments
+     * @param  MixedArray  $arguments
      */
     public function eval(string $method, array $arguments): mixed;
 
     /**
      * Guess the method to invoke based on the source callable.
      *
-     * @param  array<array-key, mixed>  $arguments
+     * @param  MixedArray  $arguments
      */
     public function guess(string $method, array $arguments, callable $source): mixed;
 
     /**
      * Compose the method call with the given argument.
      *
-     * @param  array<array-key, mixed>  $arguments
+     * @param  MixedArray  $arguments
      */
     public function compose(string $method, mixed $argument, array $arguments): mixed;
 }

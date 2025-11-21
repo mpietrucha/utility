@@ -14,6 +14,8 @@ use Mpietrucha\Utility\Forward\Concerns\Bridgeable;
 
 /**
  * @mixin \Illuminate\Filesystem\Filesystem
+ *
+ * @phpstan-import-type MixedArray from \Mpietrucha\Utility\Arr
  */
 abstract class Filesystem
 {
@@ -27,7 +29,7 @@ abstract class Filesystem
     /**
      * Dynamically forward static method calls to the underlying filesystem adapter.
      *
-     * @param  array<array-key, mixed>  $arguments
+     * @param  MixedArray  $arguments
      */
     public static function __callStatic(string $method, array $arguments): mixed
     {

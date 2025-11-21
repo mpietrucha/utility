@@ -3,7 +3,7 @@
 namespace Mpietrucha\Utility\Throwable\Synchronizer;
 
 use Mpietrucha\Utility\Backtrace\Contracts\FrameInterface;
-use Mpietrucha\Utility\Throwable\Property;
+use Mpietrucha\Utility\Throwable\Enums\Property;
 use Mpietrucha\Utility\Type;
 
 class File extends None

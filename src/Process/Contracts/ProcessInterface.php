@@ -6,14 +6,14 @@ use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Process\Adapter;
 
 /**
- * @phpstan-type Environment array<string, string>
+ * @phpstan-type ProcessEnvironment array<string, string>
  *
  * @method static command(string|list<string> $command)
  * @method static path(string $path)
  * @method static timeout(int $timeout)
  * @method static idleTimeout(int $timeout)
  * @method static forever()
- * @method static env(Environment $environment)
+ * @method static env(ProcessEnvironment $environment)
  * @method static input(\Traversable<mixed>|resource|string|int|float|bool|null $input)
  * @method static quietly()
  * @method static tty(bool $tty = true)

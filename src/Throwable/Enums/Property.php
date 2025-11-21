@@ -1,6 +1,6 @@
 <?php
 
-namespace Mpietrucha\Utility\Throwable;
+namespace Mpietrucha\Utility\Throwable\Enums;
 
 /**
  * Enum representing writable throwable properties for reflection-based mutation.

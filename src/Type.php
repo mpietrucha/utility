@@ -6,6 +6,9 @@ use Mpietrucha\Utility\Forward\Context;
 use Mpietrucha\Utility\Forward\Contracts\ContextInterface;
 use Mpietrucha\Utility\Type\Contracts\InteractsWithTypesInterface;
 
+/**
+ * @phpstan-import-type MixedArray from \Mpietrucha\Utility\Arr
+ */
 abstract class Type implements InteractsWithTypesInterface
 {
     /**
@@ -107,7 +110,7 @@ abstract class Type implements InteractsWithTypesInterface
     /**
      * Determine if the given value is an array.
      *
-     * @phpstan-assert-if-true array<array-key, mixed> $value
+     * @phpstan-assert-if-true MixedArray $value
      */
     public static function array(mixed $value): bool
     {
@@ -157,7 +160,7 @@ abstract class Type implements InteractsWithTypesInterface
     /**
      * Determine if the given value is countable.
      *
-     * @phpstan-assert-if-true array<array-key, mixed>|\Countable $value
+     * @phpstan-assert-if-true MixedArray|\Countable $value
      */
     public static function countable(mixed $value): bool
     {

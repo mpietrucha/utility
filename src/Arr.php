@@ -4,12 +4,16 @@ namespace Mpietrucha\Utility;
 
 use Traversable;
 
+/**
+ * @phpstan-type MixedArray array<array-key, mixed>
+ * @phpstan-type MixedIterable iterable<array-key, mixed>
+ */
 class Arr extends \Illuminate\Support\Arr
 {
     /**
      * Count the number of elements in the given iterable.
      *
-     * @param  iterable<array-key, mixed>  $array
+     * @param  MixedIterable  $array
      */
     public static function count(iterable $array): int
     {
@@ -19,7 +23,7 @@ class Arr extends \Illuminate\Support\Arr
     /**
      * Determine if the given iterable is empty.
      *
-     * @param  iterable<array-key, mixed>  $array
+     * @param  MixedIterable  $array
      */
     public static function isEmpty(iterable $array): bool
     {
@@ -29,7 +33,7 @@ class Arr extends \Illuminate\Support\Arr
     /**
      * Determine if the given iterable is not empty.
      *
-     * @param  iterable<array-key, mixed>  $array
+     * @param  MixedIterable  $array
      */
     final public static function isNotEmpty(iterable $array): bool
     {
@@ -39,7 +43,7 @@ class Arr extends \Illuminate\Support\Arr
     /**
      * Determine if the given value exists in the provided array.
      *
-     * @param  array<array-key, mixed>  $array
+     * @param  MixedArray  $array
      */
     public static function contains(array $array, mixed $value): bool
     {
@@ -49,7 +53,7 @@ class Arr extends \Illuminate\Support\Arr
     /**
      * Determine if the given value doesn`t exists in the provided array.
      *
-     * @param  array<array-key, mixed>  $array
+     * @param  MixedArray  $array
      */
     final public static function doesntContain(array $array, mixed $value): bool
     {
@@ -72,8 +76,8 @@ class Arr extends \Illuminate\Support\Arr
     /**
      * Extract a slice of the array.
      *
-     * @param  array<array-key,  mixed>  $array
-     * @return array<array-key,  mixed>
+     * @param  MixedArray  $array
+     * @return MixedArray
      */
     public static function slice(array $array, int $offset, ?int $length = null): array
     {
@@ -83,8 +87,8 @@ class Arr extends \Illuminate\Support\Arr
     /**
      * Skip the first N elements of the array.
      *
-     * @param  array<array-key, mixed>  $array
-     * @return array<array-key, mixed>
+     * @param  MixedArray  $array
+     * @return MixedArray
      */
     public static function skip(array $array, int $count): array
     {

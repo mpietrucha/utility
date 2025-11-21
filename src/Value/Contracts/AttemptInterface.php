@@ -2,6 +2,9 @@
 
 namespace Mpietrucha\Utility\Value\Contracts;
 
+/**
+ * @phpstan-import-type MixedArray from \Mpietrucha\Utility\Arr
+ */
 interface AttemptInterface extends EvaluableInterface
 {
     /**
@@ -17,7 +20,7 @@ interface AttemptInterface extends EvaluableInterface
     /**
      * Evaluate the callable with the given argument array and return a ResultInterface instance.
      *
-     * @param  array<array-key, mixed>  $arguments
+     * @param  MixedArray  $arguments
      */
     public function eval(array $arguments): ResultInterface;
 }

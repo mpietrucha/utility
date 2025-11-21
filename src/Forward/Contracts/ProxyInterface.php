@@ -2,13 +2,16 @@
 
 namespace Mpietrucha\Utility\Forward\Contracts;
 
+/**
+ * @phpstan-import-type MixedArray from \Mpietrucha\Utility\Arr
+ */
 interface ProxyInterface
 {
     /**
      * Forward the dynamic method call and its arguments to the underlying
      * proxied instance, returning whatever value the target produces.
      *
-     * @param  array<array-key, mixed>  $arguments
+     * @param  MixedArray  $arguments
      */
     public function __call(string $method, array $arguments): mixed;
 

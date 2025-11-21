@@ -29,7 +29,7 @@ abstract class None implements CreatableInterface, SynchronizerInterface
     {
         $value = $this->value($frame);
 
-        /** @var array{0: \Mpietrucha\Utility\Throwable\Property, 1: mixed} */
+        /** @var array{0: \Mpietrucha\Utility\Throwable\Enums\Property, 1: mixed} */
         return Arr::append($this->toArray(), $value);
     }
 

@@ -16,6 +16,9 @@ use Mpietrucha\Utility\Forward\Concerns\Forwardable;
 use SplFileInfo;
 use Symfony\Component\Finder\SplFileInfo as Adapter;
 
+/**
+ * @phpstan-import-type MixedArray from \Mpietrucha\Utility\Arr
+ */
 class Record extends Adapter implements CompatibleInterface, CreatableInterface, RecordInterface
 {
     use Arrayable, Compatible, Creatable, Forwardable, Stringable {
@@ -36,7 +39,7 @@ class Record extends Adapter implements CompatibleInterface, CreatableInterface,
     /**
      * Forward filesystem method calls using the file path.
      *
-     * @param  array<array-key, mixed>  $arguments
+     * @param  MixedArray  $arguments
      */
     public function __call(string $method, array $arguments): mixed
     {
@@ -97,7 +100,7 @@ class Record extends Adapter implements CompatibleInterface, CreatableInterface,
     /**
      * Transform constructor arguments into a normalized collection of strings.
      *
-     * @param  array<array-key, mixed>  $input
+     * @param  MixedArray  $input
      * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, string>
      */
     protected static function transform(array $input): EnumerableInterface
