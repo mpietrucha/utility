@@ -60,7 +60,7 @@ class Evaluable implements CreatableInterface, EvaluableInterface
      */
     public static function bind(string $method, array $arguments, string $source): mixed
     {
-        if (Instance::unexists($source, Instance::LOAD)) {
+        if (Instance::unexists($source)) {
             return $source::$method();
         }
 

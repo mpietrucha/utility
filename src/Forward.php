@@ -60,7 +60,7 @@ class Forward implements ForwardInterface, WrappableInterface
      */
     public static function dependency(object|string $dependency, string $vendor, string $group): static
     {
-        if (Type::callable($dependency)) {
+        if (Instance::exists($dependency, Instance::LOAD)) {
             return static::create($dependency);
         }
 
