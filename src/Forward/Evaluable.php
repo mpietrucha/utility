@@ -4,7 +4,9 @@ namespace Mpietrucha\Utility\Forward;
 
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
+use Mpietrucha\Utility\Error;
 use Mpietrucha\Utility\Forward\Contracts\EvaluableInterface;
+use Mpietrucha\Utility\Instance;
 use Mpietrucha\Utility\Normalizer;
 use Mpietrucha\Utility\Type;
 
@@ -23,6 +25,8 @@ class Evaluable implements CreatableInterface, EvaluableInterface
 
     /**
      * Dynamically invoke the given method with arguments based on whether the source is instantiated.
+     *
+     * @param  array<array-key, mixed>  $arguments
      */
     public function __invoke(string $method, array $arguments): mixed
     {
@@ -39,10 +43,13 @@ class Evaluable implements CreatableInterface, EvaluableInterface
      */
     public static function call(string $method, array $arguments, object $source): mixed
     {
-        /** @phpstan-ignore-next-line variable.undefined */
-        $closure = fn () => $this->$method(...$arguments);
+        $response = @(fn () => $this->$method(...$arguments))->call($source);
 
-        return $closure->call($source);
+        if (Error::last()) {
+            return $source->$method(...$arguments);
+        }
+
+        return $response;
     }
 
     /**
@@ -53,9 +60,11 @@ class Evaluable implements CreatableInterface, EvaluableInterface
      */
     public static function bind(string $method, array $arguments, string $source): mixed
     {
-        $closure = fn () => static::$method(...$arguments);
+        if (Instance::unexists($source, Instance::LOAD)) {
+            return $source::$method();
+        }
 
-        return $closure->bindTo(null, $source)();
+        return (fn () => static::$method(...$arguments))->bindTo(null, $source)();
     }
 
     /**

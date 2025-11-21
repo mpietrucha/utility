@@ -12,6 +12,7 @@ use Mpietrucha\Utility\Forward\Contracts\ForwardInterface;
 use Mpietrucha\Utility\Forward\Contracts\MethodsInterface;
 use Mpietrucha\Utility\Forward\Contracts\ProxyInterface;
 use Mpietrucha\Utility\Forward\Evaluable;
+use Mpietrucha\Utility\Forward\Exception\DependencyException;
 use Mpietrucha\Utility\Forward\Failure;
 use Mpietrucha\Utility\Forward\Proxy;
 use Mpietrucha\Utility\Value\Contracts\ResultInterface;
@@ -52,6 +53,18 @@ class Forward implements ForwardInterface, WrappableInterface
     public static function builder(object|string $destination): BuilderInterface
     {
         return Builder::create($destination);
+    }
+
+    /**
+     * Create a forward instance from the dependency if callable, or throw an exception.
+     */
+    public static function dependency(object|string $dependency, string $vendor, string $group): static
+    {
+        if (Type::callable($dependency)) {
+            return static::create($dependency);
+        }
+
+        DependencyException::for($vendor, $group)->throw();
     }
 
     /**

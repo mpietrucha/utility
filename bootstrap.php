@@ -1,12 +1,14 @@
 <?php
 
+/**
+ * Bootstrap the application by starting the benchmark,
+ * validating ephemeral filesystem state, and loading fork overrides.
+ */
+
 use Mpietrucha\Utility\Benchmark;
-use Mpietrucha\Utility\Dependency;
 use Mpietrucha\Utility\Filesystem\Ephemeral;
 use Mpietrucha\Utility\Filesystem\Path;
 use Mpietrucha\Utility\Fork;
-
-Dependency::bootstrap();
 
 Benchmark::start();
 

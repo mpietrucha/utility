@@ -12,6 +12,11 @@ interface ForwardInterface
     public static function builder(object|string $destination): BuilderInterface;
 
     /**
+     * Create a forward instance from the dependency if callable, or throw an exception.
+     */
+    public static function dependency(object|string $dependency, string $vendor, string $group): static;
+
+    /**
      *  Get the source class or object, defaulting to the destination when none was explicitly set.
      */
     public function source(): object|string;

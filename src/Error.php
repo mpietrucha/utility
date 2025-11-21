@@ -31,4 +31,14 @@ abstract class Error
     {
         return Handler::get();
     }
+
+    /**
+     * Get the last error that occurred, if any.
+     *
+     * @return null|array<string, int|string>
+     */
+    public static function last(): ?array
+    {
+        return error_get_last();
+    }
 }
