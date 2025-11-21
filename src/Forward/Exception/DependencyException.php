@@ -8,15 +8,11 @@ class DependencyException extends RuntimeException
 {
     /**
      * Configure the exception message with vendor and group information.
-     *
-     * @return list<string>
      */
-    public function configure(string $vendor, string $group): array
+    public function configure(string $vendor, string $group): void
     {
-        return [
-            'In order to use %s install `%s` package',
-            $group,
-            $vendor,
-        ];
+        $this->align(1);
+
+        $this->message('In order to use %s install `%s` package', $group, $vendor);
     }
 }
