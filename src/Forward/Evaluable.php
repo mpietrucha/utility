@@ -29,6 +29,8 @@ class Evaluable implements CreatableInterface, EvaluableInterface
 
     /**
      * Dynamically invoke the given method with arguments based on whether the source is instantiated.
+     *
+     * @param  MixedArray  $arguments
      */
     public function __invoke(string $method, array $arguments): mixed
     {
@@ -39,7 +41,15 @@ class Evaluable implements CreatableInterface, EvaluableInterface
     }
 
     /**
-     * Get the original class or object used as the method call source.
+     * Determine if the given source is a valid callable class.
+     */
+    public static function callable(object|string $source): bool
+    {
+        return Instance::exists($source, Instance::LOAD);
+    }
+
+    /**
+     * Get the underlying source, which may be an object instance or a class name.
      */
     public function source(): object|string
     {
@@ -67,7 +77,7 @@ class Evaluable implements CreatableInterface, EvaluableInterface
      *
      * @param  MixedArray  $arguments
      */
-    public static function dc(string $method, array $arguments, object $source): mixed
+    protected static function dc(string $method, array $arguments, object $source): mixed
     {
         $response = @(fn () => $this->$method(...$arguments))->call($source);
 
@@ -84,9 +94,9 @@ class Evaluable implements CreatableInterface, EvaluableInterface
      * @param  MixedArray  $arguments
      * @param  class-string  $source
      */
-    public static function sc(string $method, array $arguments, string $source): mixed
+    protected static function sc(string $method, array $arguments, string $source): mixed
     {
-        if (Instance::unexists($source, Instance::LOAD)) {
+        if (static::callable($source) |> Normalizer::not(...)) {
             return $source::$method();
         }
 
