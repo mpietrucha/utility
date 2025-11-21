@@ -13,7 +13,7 @@ abstract class Instance implements InteractsWithInstanceInterface
      *
      * @phpstan-assert-if-true object|class-string $instance
      */
-    public static function exists(object|string $instance, bool $autoload = InteractsWithInstanceInterface::LOAD): bool
+    public static function exists(object|string $instance, bool $autoload = true): bool
     {
         if (Type::object($instance)) {
             return true;
@@ -23,17 +23,13 @@ abstract class Instance implements InteractsWithInstanceInterface
             return true;
         }
 
-        if (interface_exists($instance, $autoload)) {
-            return true;
-        }
-
-        return trait_exists($instance, $autoload);
+        return interface_exists($instance, $autoload) || trait_exists($instance, $autoload);
     }
 
     /**
      * Determine if the given instance does not refer to any known class, interface, or trait.
      */
-    final public static function unexists(object|string $instance, bool $autoload = InteractsWithInstanceInterface::LOAD): bool
+    final public static function unexists(object|string $instance, bool $autoload = true): bool
     {
         return static::exists($instance, $autoload) |> Normalizer::not(...);
     }
@@ -41,9 +37,9 @@ abstract class Instance implements InteractsWithInstanceInterface
     /**
      * Determine if the instance is or extends the specified class or object.
      */
-    public static function is(object|string $instance, object|string $value): bool
+    public static function is(object|string $instance, object|string $value, bool $autoload = true): bool
     {
-        $value = static::namespace($value);
+        $value = static::namespace($value, $autoload);
 
         if (Type::null($value)) {
             return false;
@@ -55,9 +51,9 @@ abstract class Instance implements InteractsWithInstanceInterface
     /**
      * Determine if not the instance is or extends the specified class or object.
      */
-    final public static function not(object|string $instance, object|string $value): bool
+    final public static function not(object|string $instance, object|string $value, bool $autoload = true): bool
     {
-        return static::is($instance, $value) |> Normalizer::not(...);
+        return static::is($instance, $value, $autoload) |> Normalizer::not(...);
     }
 
     /**
@@ -65,7 +61,7 @@ abstract class Instance implements InteractsWithInstanceInterface
      *
      * @return ($instance is object ? class-string : class-string|null)
      */
-    public static function namespace(object|string $instance, bool $autoload = InteractsWithInstanceInterface::LOAD): ?string
+    public static function namespace(object|string $instance, bool $autoload = true): ?string
     {
         if (Type::object($instance)) {
             return Type::get($instance);
@@ -77,9 +73,12 @@ abstract class Instance implements InteractsWithInstanceInterface
     /**
      * Resolve the file path of the given instance.
      */
-    public static function file(object|string $instance, bool $autoload = InteractsWithInstanceInterface::LAZY): ?string
+    public static function file(object|string $instance, bool $autoload = false): ?string
     {
-        $namespace = Type::string($instance) ? $instance : static::namespace($instance);
+        $namespace = match (true) {
+            Type::string($instance) => $instance,
+            default => static::namespace($instance)
+        };
 
         $file = Composer::get()->autoload()->file($namespace);
 
@@ -99,8 +98,12 @@ abstract class Instance implements InteractsWithInstanceInterface
      *
      * @return ($instance is object ? class-string : class-string|null)
      */
-    public static function deep(object|string $instance): ?string
+    public static function deep(object|string $instance, bool $autoload = false): ?string
     {
+        if (static::unexists($instance, $autoload)) {
+            return null;
+        }
+
         if ($deep = get_parent_class($instance)) {
             return static::deep($deep);
         }
@@ -135,7 +138,7 @@ abstract class Instance implements InteractsWithInstanceInterface
     /**
      * Create an alias for the given class.
      */
-    public static function alias(object|string $class, string $alias, bool $autoload = InteractsWithInstanceInterface::LOAD): ?string
+    public static function alias(object|string $class, string $alias, bool $autoload = true): ?string
     {
         $class = static::namespace($class, $autoload) |> Normalizer::string(...);
 
@@ -155,11 +158,11 @@ abstract class Instance implements InteractsWithInstanceInterface
      *
      * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, class-string>
      */
-    public static function parents(object|string $instance): EnumerableInterface
+    public static function parents(object|string $instance, bool $autoload = true): EnumerableInterface
     {
-        $parents = @class_parents($instance) |> Collection::create(...);
+        $parents = @class_parents($instance, $autoload);
 
-        return $parents->filter()->values();
+        return Collection::create($parents)->filter()->values();
     }
 
     /**
@@ -167,10 +170,14 @@ abstract class Instance implements InteractsWithInstanceInterface
      *
      * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, class-string>
      */
-    public static function traits(object|string $instance): EnumerableInterface
+    public static function traits(object|string $instance, bool $autoload = true): EnumerableInterface
     {
-        $traits = @class_uses_recursive($instance) |> Collection::create(...);
+        if (static::unexists($instance, $autoload)) {
+            return Collection::empty();
+        }
 
-        return $traits->filter()->values();
+        $traits = class_uses_recursive($instance);
+
+        return Collection::create($traits)->filter()->values();
     }
 }
