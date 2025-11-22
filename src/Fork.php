@@ -15,7 +15,7 @@ use Mpietrucha\Utility\Utilizer\Contracts\UtilizableInterface;
 abstract class Fork implements InteractsWithAutoloadInterface, UtilizableInterface
 {
     /**
-     * @use \Mpietrucha\Utility\Fork\Concerns\InteractsWithAutoload<string, \Mpietrucha\Utility\Fork\Contracts\OverrideInterface>
+     * @use \Mpietrucha\Utility\Fork\Concerns\InteractsWithAutoload<int, \Mpietrucha\Utility\Fork\Contracts\OverrideInterface>
      */
     use InteractsWithAutoload, Utilizable;
 
@@ -44,11 +44,7 @@ abstract class Fork implements InteractsWithAutoloadInterface, UtilizableInterfa
     {
         static::bootstrap();
 
-        $override = Override::wrap($override);
-
-        Alias::override($override);
-
-        static::autoload()->put($override->namespace(), $override);
+        Override::wrap($override) |> static::autoload()->push(...);
     }
 
     /**
@@ -56,11 +52,13 @@ abstract class Fork implements InteractsWithAutoloadInterface, UtilizableInterfa
      */
     protected static function require(string $namespace): void
     {
-        $override = static::autoload()->get($namespace) ?? Override::runtime($namespace);
+        $override = static::autoload()->first->matches($namespace) ?? Override::runtime($namespace);
 
         if (Type::null($override)) {
             return;
         }
+
+        Alias::override($override);
 
         if ($override->file() |> Filesystem::unexists(...)) {
             return;

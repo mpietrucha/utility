@@ -5,6 +5,11 @@ namespace Mpietrucha\Utility\Fork\Contracts;
 interface OverrideInterface
 {
     /**
+     * Determine if the override matches the given namespace.
+     */
+    public function matches(string $namespace): bool;
+
+    /**
      * Get the override file path.
      */
     public function file(): string;

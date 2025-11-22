@@ -42,6 +42,14 @@ class Override implements CreatableInterface, OverrideInterface, WrappableInterf
     }
 
     /**
+     * Determine if the override matches the given namespace.
+     */
+    public function matches(string $namespace): bool
+    {
+        return $namespace === $this->namespace();
+    }
+
+    /**
      * Set the override namespace with the given prefix.
      */
     public function prefix(string $prefix): static
