@@ -38,7 +38,7 @@ abstract class Fork implements InteractsWithAutoloadInterface, UtilizableInterfa
     }
 
     /**
-     * Add a transformer to the fork autoloader.
+     * Add a override to the fork autoloader.
      */
     public static function add(OverrideInterface|string $override): void
     {
