@@ -51,7 +51,7 @@ class Arr extends \Illuminate\Support\Arr
     }
 
     /**
-     * Determine if the given value doesn`t exists in the provided array.
+     * Determine if the given value doesn`t exist in the provided array.
      *
      * @param  MixedArray  $array
      */
