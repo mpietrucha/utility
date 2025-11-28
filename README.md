@@ -16,10 +16,9 @@ composer require mpietrucha/utility
 ## Testing
 
 ```bash
-composer test        # Run linting and type checking
-composer lint        # Fix code style with Laravel Pint
-composer test:lint   # Check code style
-composer test:types  # Run PHPStan static analysis (Level 8)
+composer test
+composer test:lint
+composer test:types
 ```
 
 ## License
