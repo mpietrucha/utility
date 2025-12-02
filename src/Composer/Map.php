@@ -3,8 +3,8 @@
 namespace Mpietrucha\Utility\Composer;
 
 use Mpietrucha\Utility\Composer\Contracts\MapInterface;
-use Mpietrucha\Utility\Composer\Map\Runtime;
 use Mpietrucha\Utility\Composer\Map\Registered;
+use Mpietrucha\Utility\Composer\Map\Runtime;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Normalizer;
