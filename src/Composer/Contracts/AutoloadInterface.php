@@ -4,7 +4,7 @@ namespace Mpietrucha\Utility\Composer\Contracts;
 
 use Mpietrucha\Utility\Utilizer\Contracts\UtilizableInterface;
 
-interface AutoloadInterface extends InteractsWithAutoloaderInterface, InteractsWithComposerInterface, InteractsWithLoaderInterface, LoaderInterface, UtilizableInterface
+interface AutoloadInterface extends InteractsWithAutoloaderInterface, InteractsWithComposerInterface, InteractsWithMapInterface, MapInterface, UtilizableInterface
 {
     /**
      * Load the autoloader for the given composer instance or path.

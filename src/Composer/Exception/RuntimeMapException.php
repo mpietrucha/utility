@@ -4,7 +4,7 @@ namespace Mpietrucha\Utility\Composer\Exception;
 
 use Mpietrucha\Utility\Throwable\InvalidArgumentException;
 
-class FilesystemLoaderException extends InvalidArgumentException
+class RuntimeMapException extends InvalidArgumentException
 {
     /**
      * Configure the exception with the path missing a vendor directory.

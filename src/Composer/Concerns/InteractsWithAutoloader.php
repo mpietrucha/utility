@@ -16,10 +16,7 @@ trait InteractsWithAutoloader
      */
     public function dump(null|array|string $extra = null, ?string $binary = null): int
     {
-        /**
-         * @phpstan-ignore-next-line match.unhandled
-         */
-        $destination = match (true) {
+        $destination = match (true) { /** @phpstan-ignore match.unhandled */
             $this instanceof InteractsWithAdapterInterface => $this->adapter(), /** @phpstan-ignore-next-line instanceof.alwaysFalse */
             $this instanceof InteractsWithComposerInterface => $this->composer()
         };
@@ -32,10 +29,7 @@ trait InteractsWithAutoloader
      */
     public function optimize(?string $binary = null): int
     {
-        /**
-         * @phpstan-ignore-next-line match.unhandled
-         */
-        $destination = match (true) {
+        $destination = match (true) { /** @phpstan-ignore match.unhandled  */
             $this instanceof InteractsWithAdapterInterface => $this->adapter(), /** @phpstan-ignore-next-line instanceof.alwaysFalse */
             $this instanceof InteractsWithComposerInterface => $this->composer()
         };

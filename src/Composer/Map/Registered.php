@@ -1,22 +1,22 @@
 <?php
 
-namespace Mpietrucha\Utility\Composer\Loader;
+namespace Mpietrucha\Utility\Composer\Map;
 
 use Composer\Autoload\ClassLoader;
 use Mpietrucha\Utility\Arr;
-use Mpietrucha\Utility\Composer\Exception\ComposerLoaderException;
-use Mpietrucha\Utility\Composer\Loader;
+use Mpietrucha\Utility\Composer\Exception\RegisteredMapException;
+use Mpietrucha\Utility\Composer\Map;
 use Mpietrucha\Utility\Concerns\Compatible;
 use Mpietrucha\Utility\Contracts\CompatibleInterface;
 use Mpietrucha\Utility\Filesystem\Path;
 use Mpietrucha\Utility\Type;
 
-class Internal extends Loader implements CompatibleInterface
+class Registered extends Map implements CompatibleInterface
 {
     use Compatible;
 
     /**
-     * Create a new internal loader for the given Composer class loader.
+     * Create a new registered map for the given Composer class loader.
      */
     public function __construct(protected ClassLoader $adapter)
     {
@@ -27,7 +27,7 @@ class Internal extends Loader implements CompatibleInterface
      */
     public static function load(string $cwd): static
     {
-        static::incompatible($cwd) && ComposerLoaderException::for($cwd)->throw();
+        static::incompatible($cwd) && RegisteredMapException::for($cwd)->throw();
 
         $vendor = static::vendor($cwd);
 
@@ -88,7 +88,7 @@ class Internal extends Loader implements CompatibleInterface
     }
 
     /**
-     * Determine if the working directory is compatible with internal loading.
+     * Determine if the working directory is compatible with the registered map.
      */
     protected static function compatibility(string $cwd): bool
     {

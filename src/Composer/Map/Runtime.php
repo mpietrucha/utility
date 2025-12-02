@@ -1,18 +1,18 @@
 <?php
 
-namespace Mpietrucha\Utility\Composer\Loader;
+namespace Mpietrucha\Utility\Composer\Map;
 
-use Mpietrucha\Utility\Composer\Exception\FilesystemLoaderException;
-use Mpietrucha\Utility\Composer\Loader;
+use Mpietrucha\Utility\Composer\Exception\RuntimeMapException;
+use Mpietrucha\Utility\Composer\Map;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Enumerable\LazyCollection;
 use Mpietrucha\Utility\Filesystem;
 use Mpietrucha\Utility\Filesystem\Path;
 
-class Enumerable extends Loader
+class Runtime extends Map
 {
     /**
-     * Create a new enumerable loader from an enumerable adapter.
+     * Create a new runtime map from an enumerable adapter.
      *
      * @param  \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, string>  $adapter
      */
@@ -27,9 +27,9 @@ class Enumerable extends Loader
     {
         $autoload = static::autoload($cwd);
 
-        Filesystem::unexists($autoload) && FilesystemLoaderException::for($cwd)->throw();
+        Filesystem::unexists($autoload) && RuntimeMapException::for($cwd)->throw();
 
-        $require = Filesystem::requireOnce(...);
+        $require = Filesystem::getRequire(...);
 
         return LazyCollection::initialize($require, $autoload) |> static::create(...);
     }
@@ -60,7 +60,7 @@ class Enumerable extends Loader
     }
 
     /**
-     * Get the enumerable adapter containing the class map.
+     * Get the adapter containing the class map.
      *
      * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, string>
      */

@@ -4,22 +4,22 @@ namespace Mpietrucha\Utility\Composer;
 
 use Mpietrucha\Utility\Composer;
 use Mpietrucha\Utility\Composer\Concerns\InteractsWithAutoloader;
-use Mpietrucha\Utility\Composer\Concerns\InteractsWithLoader;
+use Mpietrucha\Utility\Composer\Concerns\InteractsWithMap;
 use Mpietrucha\Utility\Composer\Contracts\AutoloadInterface;
 use Mpietrucha\Utility\Composer\Contracts\ComposerInterface;
-use Mpietrucha\Utility\Composer\Contracts\LoaderInterface;
+use Mpietrucha\Utility\Composer\Contracts\MapInterface;
 use Mpietrucha\Utility\Instance\Path;
 use Mpietrucha\Utility\Type;
 use Mpietrucha\Utility\Utilizer\Concerns\Utilizable;
 
-class Autoload extends Loader implements AutoloadInterface
+class Autoload extends Map implements AutoloadInterface
 {
-    use InteractsWithAutoloader, InteractsWithLoader, Utilizable\Cwd;
+    use InteractsWithAutoloader, InteractsWithMap, Utilizable\Cwd;
 
     /**
-     * Create a new autoload instance with the given loader and composer.
+     * Create a new autoload instance with the given map and composer.
      */
-    protected function __construct(protected LoaderInterface $loader, protected ComposerInterface $composer)
+    protected function __construct(protected MapInterface $map, protected ComposerInterface $composer)
     {
     }
 
@@ -44,11 +44,11 @@ class Autoload extends Loader implements AutoloadInterface
     }
 
     /**
-     * Get the class loader instance.
+     * Get the class map instance.
      */
-    public function loader(): LoaderInterface
+    public function map(): MapInterface
     {
-        return $this->loader;
+        return $this->map;
     }
 
     /**
@@ -64,7 +64,7 @@ class Autoload extends Loader implements AutoloadInterface
      */
     public function namespace(string $file, bool $canonicalized = false): ?string
     {
-        $namespace = $this->loader()->namespace($file);
+        $namespace = $this->map()->namespace($file);
 
         if (Type::null($namespace)) {
             return null;

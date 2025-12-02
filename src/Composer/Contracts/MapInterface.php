@@ -2,10 +2,10 @@
 
 namespace Mpietrucha\Utility\Composer\Contracts;
 
-interface LoaderInterface
+interface MapInterface
 {
     /**
-     * Load the autoloader from the given working directory.
+     * Load the map from the given working directory.
      */
     public static function load(string $cwd): static;
 
