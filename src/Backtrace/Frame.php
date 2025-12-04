@@ -2,6 +2,7 @@
 
 namespace Mpietrucha\Utility\Backtrace;
 
+use Mpietrucha\Utility\Arr;
 use Mpietrucha\Utility\Backtrace\Contracts\FrameInterface;
 use Mpietrucha\Utility\Backtrace\Enums\Property;
 use Mpietrucha\Utility\Collection;
@@ -122,6 +123,8 @@ class Frame implements CreatableInterface, FrameInterface
      */
     protected function get(Property $property): mixed
     {
-        return $property->value |> $this->toCollection()->get(...);
+        $input = $this->toArray();
+
+        return Arr::get($input, $property->value);
     }
 }
