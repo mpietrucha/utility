@@ -98,6 +98,14 @@ class Str extends \Illuminate\Support\Str
     }
 
     /**
+     * Get a dot with an optional appended string.
+     */
+    public static function dot(?string $append = null): string
+    {
+        return '.' . $append;
+    }
+
+    /**
      * Split a string by a delimiter into a collection.
      *
      * @return \Mpietrucha\Utility\Collection<int, string>
