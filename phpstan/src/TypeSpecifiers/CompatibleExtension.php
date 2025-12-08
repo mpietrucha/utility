@@ -1,29 +1,53 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Mpietrucha\PHPStan\TypeSpecifiers;
 
 use Mpietrucha\PHPStan\Concerns\InteractsWithTypeSpecifier;
 use Mpietrucha\Utility\Arr;
 use Mpietrucha\Utility\Collection;
-use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
-use Mpietrucha\Utility\Type;
+use Mpietrucha\Utility\Data;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Analyser\SpecifiedTypes;
 use PHPStan\Analyser\TypeSpecifierAwareExtension;
 use PHPStan\Analyser\TypeSpecifierContext;
+use PHPStan\PhpDoc\Tag\AssertTag;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Type\StaticMethodTypeSpecifyingExtension;
+use PHPStan\Type\Type;
+use PHPStan\Type\TypeCombinator;
 
-/**
- * @internal
- */
-final class CompatibleExtension implements StaticMethodTypeSpecifyingExtension, TypeSpecifierAwareExtension
+class CompatibleExtension implements StaticMethodTypeSpecifyingExtension, TypeSpecifierAwareExtension
 {
     use InteractsWithTypeSpecifier;
+
+    public static function compatible(): string
+    {
+        return 'compatible';
+    }
+
+    public static function incompatible(): string
+    {
+        return 'incompatible';
+    }
+
+    public static function compatibility(): string
+    {
+        return 'compatibility';
+    }
+
+    /**
+     * @return list<string>
+     */
+    public static function methods(): array
+    {
+        return [
+            self::compatible(),
+            self::incompatible(),
+        ];
+    }
 
     public function getClass(): string
     {
@@ -32,35 +56,27 @@ final class CompatibleExtension implements StaticMethodTypeSpecifyingExtension, 
 
     public function isStaticMethodSupported(MethodReflection $method, StaticCall $node, TypeSpecifierContext $context): bool
     {
-        $method = $method->getName();
+        $methods = self::methods();
 
-        return Arr::contains(self::methods(), $method);
+        return Arr::contains($methods, $method->getName());
     }
 
     public function specifyTypes(MethodReflection $method, StaticCall $node, Scope $scope, TypeSpecifierContext $context): SpecifiedTypes
     {
-        $assertions = $scope->getClassReflection() |> $this->assertions(...);
+        $assertions = $scope->getClassReflection() |> $this->assertions(...) |> Collection::create(...);
 
         $types = new SpecifiedTypes;
 
-        $context = match (true) {
-            $method->getName() === self::compatible() => $context,
-            $context->null() => $context,
-            default => $context->negate()
-        };
+        $context = $this->context($method, $context);
 
         $arguments = $node->getArgs() |> Collection::create(...);
 
-        while ($assertions->isNotEmpty()) {
-            $argument = $arguments->shift();
-
-            if (Type::null($argument)) {
-                break;
-            }
+        while ($assertions->isNotEmpty() && $arguments->isNotEmpty()) {
+            $value = Data::get($arguments->shift(), 'value');
 
             $types = $this->specifier()->create(
-                $argument->value,
-                $assertions->shift()->getType(),
+                $value,
+                $this->type($assertions->shift(), $value, $scope),
                 $context,
                 $scope
             ) |> $types->unionWith(...);
@@ -70,44 +86,40 @@ final class CompatibleExtension implements StaticMethodTypeSpecifyingExtension, 
     }
 
     /**
-     * @return \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, \PHPStan\PhpDoc\Tag\AssertTag>
+     * @return array<int, \PHPStan\PhpDoc\Tag\AssertTag>
      */
-    protected function assertions(ClassReflection $reflection): EnumerableInterface
+    protected function assertions(ClassReflection $reflection): array
     {
-        $assertions = Collection::create();
-
         $method = self::compatibility();
 
         if ($reflection->hasNativeMethod($method) === false) {
-            return $assertions;
+            return [];
         }
 
-        return $reflection->getNativeMethod($method)->getAsserts()->getAssertsIfTrue() |> $assertions->merge(...);
+        return $reflection->getNativeMethod($method)->getAsserts()->getAssertsIfTrue();
     }
 
-    /**
-     * @return list<string>
-     */
-    protected static function methods(): array
+    protected function context(MethodReflection $method, TypeSpecifierContext $context): TypeSpecifierContext
     {
-        return [
-            self::compatible(),
-            self::incompatible(),
-        ];
+        if ($method->getName() === self::compatible()) {
+            return $context;
+        }
+
+        if ($context->null()) {
+            return $context;
+        }
+
+        return $context->negate();
     }
 
-    protected static function compatible(): string
+    protected function type(AssertTag $assertion, Expr $value, Scope $scope): Type
     {
-        return 'compatible';
-    }
+        $type = $assertion->getType();
 
-    protected static function incompatible(): string
-    {
-        return 'incompatible';
-    }
+        if ($assertion->isNegated() === false) {
+            return $type;
+        }
 
-    protected static function compatibility(): string
-    {
-        return 'compatibility';
+        return TypeCombinator::remove($scope->getType($value), $type);
     }
 }
