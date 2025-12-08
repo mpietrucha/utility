@@ -60,6 +60,10 @@ services:
     tags:
         - phpstan.broker.dynamicStaticMethodReturnTypeExtension
   -
+    class: Mpietrucha\PHPStan\TypeSpecifiers\CompatibleExtension
+    tags:
+        - phpstan.typeSpecifier.staticMethodTypeSpecifyingExtension
+  -
     class: Mpietrucha\PHPStan\Stubs\InternalExtension
     tags:
         - phpstan.stubFilesExtension

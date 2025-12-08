@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Mpietrucha\PHPStan\ReturnTypes;
 
 use Mpietrucha\Utility\Arr;
-use Mpietrucha\Utility\Normalizer;
 use Mpietrucha\Utility\Type;
 use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
@@ -23,7 +22,7 @@ class WrappableExtension implements DynamicStaticMethodReturnTypeExtension
     /**
      * Get the class name this extension supports.
      */
-    public function getClass(): string
+    final public function getClass(): string
     {
         return static::class();
     }
@@ -31,7 +30,7 @@ class WrappableExtension implements DynamicStaticMethodReturnTypeExtension
     /**
      * Check if the given static method is supported by this extension.
      */
-    public function isStaticMethodSupported(MethodReflection $method): bool
+    final public function isStaticMethodSupported(MethodReflection $method): bool
     {
         return $method->getName() === static::method();
     }
@@ -39,7 +38,7 @@ class WrappableExtension implements DynamicStaticMethodReturnTypeExtension
     /**
      * Get the return type from the static method call.
      */
-    public function getTypeFromStaticMethodCall(MethodReflection $method, StaticCall $call, Scope $scope): ObjectType|StaticType
+    final public function getTypeFromStaticMethodCall(MethodReflection $method, StaticCall $call, Scope $scope): ObjectType|StaticType
     {
         $class = $method->getDeclaringClass();
 
@@ -49,11 +48,11 @@ class WrappableExtension implements DynamicStaticMethodReturnTypeExtension
     /**
      * Resolve the wrapped object type from the class property.
      */
-    protected function type(ClassReflection $class): ?ObjectType
+    final protected function type(ClassReflection $class): ?ObjectType
     {
         $property = static::property();
 
-        if ($class->hasNativeProperty($property) |> Normalizer::not(...)) {
+        if ($class->hasNativeProperty($property) === false) {
             return null;
         }
 
