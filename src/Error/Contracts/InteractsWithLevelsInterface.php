@@ -32,7 +32,7 @@ interface InteractsWithLevelsInterface
 
     public const int STRICT = E_STRICT;
 
-    public const int  RECOVERABLE_ERROR = E_RECOVERABLE_ERROR;
+    public const int RECOVERABLE_ERROR = E_RECOVERABLE_ERROR;
 
-    public const int  ALL = E_ALL;
+    public const int ALL = E_ALL;
 }

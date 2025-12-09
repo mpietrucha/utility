@@ -17,37 +17,65 @@ class Frame implements CreatableInterface, FrameInterface
     use Arrayable, Creatable;
 
     /**
+     * Create a new error frame instance.
+     *
      * @param  RawErrorFrame  $error
      */
     public function __construct(protected array $error)
     {
     }
 
+    /**
+     * Convert the error frame to an array.
+     */
     public function toArray(): array
     {
         return $this->error;
     }
 
+    /**
+     * Get the error type from the frame.
+     */
     public function type(): int
     {
         return Property::TYPE |> $this->get(...);
     }
 
+    /**
+     * Get the error level from the frame.
+     */
+    public function level(): int
+    {
+        return $this->type();
+    }
+
+    /**
+     * Get the error message from the frame.
+     */
     public function message(): string
     {
         return Property::MESSAGE |> $this->get(...);
     }
 
+    /**
+     * Get the file path from the frame.
+     */
     public function file(): string
     {
         return Property::FILE |> $this->get(...);
     }
 
+    /**
+     * Get the line number from the frame.
+     */
     public function line(): int
     {
         return Property::LINE |> $this->get(...);
     }
 
+    /**
+     * Get a property value from the error frame.
+     */
     protected function get(Property $property): mixed
     {
         $input = $this->toArray();

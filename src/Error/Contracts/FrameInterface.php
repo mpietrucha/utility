@@ -11,11 +11,28 @@ use Mpietrucha\Utility\Contracts\ArrayableInterface;
  */
 interface FrameInterface extends ArrayableInterface
 {
+    /**
+     * Get the error type from the frame.
+     */
     public function type(): int;
 
+    /**
+     * Get the error level from the frame.
+     */
+    public function level(): int;
+
+    /**
+     * Get the error message from the frame.
+     */
     public function message(): string;
 
+    /**
+     * Get the file path from the frame.
+     */
     public function file(): string;
 
+    /**
+     * Get the line number from the frame.
+     */
     public function line(): int;
 }

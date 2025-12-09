@@ -5,6 +5,7 @@ namespace Mpietrucha\Utility\Forward;
 use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Error;
+use Mpietrucha\Utility\Error\Level;
 use Mpietrucha\Utility\Forward\Contracts\EvaluableInterface;
 use Mpietrucha\Utility\Instance;
 use Mpietrucha\Utility\Normalizer;
@@ -73,7 +74,7 @@ class Evaluable implements CreatableInterface, EvaluableInterface
     {
         $response = @(fn () => $this->$method(...$arguments))->call($source);
 
-        if (Error::last()) {
+        if (Level::WARNING |> Error::last(...)) {
             return $source->$method(...$arguments);
         }
 

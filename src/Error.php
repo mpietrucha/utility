@@ -36,7 +36,7 @@ abstract class Error
     /**
      * Get the last error that occurred, if any.
      */
-    public static function last(): ?Frame
+    public static function last(?int $level = null): ?Frame
     {
         $error = error_get_last();
 
@@ -44,6 +44,11 @@ abstract class Error
             return null;
         }
 
-        return Frame::create($error);
+        $frame = Frame::create($error);
+
+        return match (true) {
+            Type::integer($level) && $frame->level() === $level => null,
+            default => $frame
+        };
     }
 }
