@@ -46,9 +46,13 @@ abstract class Error
 
         $frame = Frame::create($error);
 
+        if (Type::null($level)) {
+            return $frame;
+        }
+
         return match (true) {
-            Type::integer($level) && $frame->level() === $level => null,
-            default => $frame
+            $level === $frame->level() => $frame,
+            default => null
         };
     }
 }
