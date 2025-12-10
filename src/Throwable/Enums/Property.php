@@ -2,11 +2,13 @@
 
 namespace Mpietrucha\Utility\Throwable\Enums;
 
-/**
- * Enum representing writable throwable properties for reflection-based mutation.
- */
-enum Property: string
+use Mpietrucha\Utility\Enums\Concerns\InteractsWithEnum;
+use Mpietrucha\Utility\Enums\Contracts\InteractsWithEnumInterface;
+
+enum Property: string implements InteractsWithEnumInterface
 {
+    use InteractsWithEnum;
+
     case LINE = 'line';
 
     case FILE = 'file';

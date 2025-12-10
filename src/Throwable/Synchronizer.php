@@ -5,7 +5,6 @@ namespace Mpietrucha\Utility\Throwable;
 use Mpietrucha\Utility\Backtrace\Contracts\FrameInterface;
 use Mpietrucha\Utility\Collection;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
-use Mpietrucha\Utility\Throwable\Enums\Property;
 use Mpietrucha\Utility\Throwable\Synchronizer\File;
 use Mpietrucha\Utility\Throwable\Synchronizer\Line;
 use Mpietrucha\Utility\Throwable\Synchronizer\None;

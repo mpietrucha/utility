@@ -152,7 +152,7 @@ trait InteractsWithReflection
      */
     protected function set(Property $property, mixed $value): static
     {
-        $property = $property->value |> $this->adapter()->getProperty(...);
+        $property = $property->value() |> $this->adapter()->getProperty(...);
 
         $property->setValue($this->value(), $value);
 

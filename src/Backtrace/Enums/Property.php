@@ -2,8 +2,13 @@
 
 namespace Mpietrucha\Utility\Backtrace\Enums;
 
-enum Property: string
+use Mpietrucha\Utility\Enums\Concerns\InteractsWithEnum;
+use Mpietrucha\Utility\Enums\Contracts\InteractsWithEnumInterface;
+
+enum Property: string implements InteractsWithEnumInterface
 {
+    use InteractsWithEnum;
+
     case FILE = 'file';
 
     case LINE = 'line';
