@@ -12,18 +12,13 @@ abstract class Enum implements CompatibleInterface
 {
     use Compatible;
 
-    public static function contract(): string
-    {
-        return InteractsWithEnumInterface::class;
-    }
-
     protected static function compatibility(mixed $input): bool
     {
         $evaluation = Instance::is(...) |> Value::attempt(...);
 
         return $evaluation->eval([
             $input,
-            static::contract(),
+            InteractsWithEnumInterface::class,
         ])->boolean();
     }
 }
