@@ -13,6 +13,13 @@ class Lambda extends ReflectionClosure implements ReflectionLambdaInterface
 
     public function __construct(callable $lambda, ?string $code = null)
     {
-        parent::__construct(Closure::fromCallable($lambda), $code);
+        $closure = static::closure($lambda);
+
+        parent::__construct($closure, $code);
+    }
+
+    public static function closure(callable $lambda): Closure
+    {
+        return Closure::fromCallable($lambda);
     }
 }

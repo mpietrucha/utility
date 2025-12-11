@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Mpietrucha\PHPStan\ReturnTypes;
 
+use Mpietrucha\Utility\Arr;
 use Mpietrucha\Utility\Reflection;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\IntegerType;
+use PHPStan\Type\MixedType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 
@@ -30,16 +32,19 @@ final class EnumExtension implements DynamicMethodReturnTypeExtension
 
     public function getTypeFromMethodCall(MethodReflection $method, MethodCall $call, Scope $scope): Type
     {
-        $reflection = $method->getDeclaringClass()->getName() |> Reflection::enum(...);
+        $value = $call->var |> $scope->getType(...);
 
-        if ($reflection->isNotBacked()) {
-            return new IntegerType;
+        $name = $value->getObjectClassNames() |> Arr::first(...);
+
+        if ($name === $this->getClass()) {
+            return new MixedType;
         }
 
-        $type = $reflection->getBackingType()->getName();
+        $reflection = Reflection::enum($name);
 
-        return match ($type) {
-            'int' => new IntegerType,
+        return match (true) {
+            $reflection->isNotBacked() => new StringType,
+            $reflection->getBackingType()->getName() === 'int' => new IntegerType,
             default => new StringType
         };
     }
