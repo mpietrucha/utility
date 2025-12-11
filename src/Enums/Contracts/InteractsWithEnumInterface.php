@@ -19,7 +19,7 @@ interface InteractsWithEnumInterface extends BackedEnum
 
     public function extract(mixed $input): mixed;
 
-    public function name(): string;
+    public function key(): string;
 
     public function value(): mixed;
 }

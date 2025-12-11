@@ -27,7 +27,7 @@ trait InteractsWithEnum
         return Data::get($input, $this->value());
     }
 
-    public function name(): string
+    public function key(): string
     {
         return $this->name;
     }
