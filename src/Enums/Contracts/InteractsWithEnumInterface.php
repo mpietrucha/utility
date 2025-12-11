@@ -2,14 +2,19 @@
 
 namespace Mpietrucha\Utility\Enums\Contracts;
 
-use BackedEnum;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
+use UnitEnum;
 
 /**
  * @phpstan-type EnumsCollection \Mpietrucha\Utility\Collection<int, static>
  */
-interface InteractsWithEnumInterface extends BackedEnum
+interface InteractsWithEnumInterface extends UnitEnum
 {
+    /**
+     * @return class-string<static>
+     */
+    public static function use(): string;
+
     public static function default(): static;
 
     /**
@@ -17,9 +22,11 @@ interface InteractsWithEnumInterface extends BackedEnum
      */
     public static function collection(): EnumerableInterface;
 
-    public function extract(mixed $input): mixed;
-
     public function key(): string;
 
-    public function value(): mixed;
+    public function value(): int|string;
+
+    public function label(): string;
+
+    public function lookup(mixed $input): mixed;
 }

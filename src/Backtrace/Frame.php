@@ -122,6 +122,6 @@ class Frame implements CreatableInterface, FrameInterface
      */
     protected function get(Property $property): mixed
     {
-        return $this->toArray() |> $property->extract(...);
+        return $this->toArray() |> $property->lookup(...);
     }
 }

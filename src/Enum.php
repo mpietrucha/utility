@@ -1,12 +1,10 @@
 <?php
 
-namespace Mpietrucha\Utility\Enums;
+namespace Mpietrucha\Utility;
 
 use Mpietrucha\Utility\Concerns\Compatible;
 use Mpietrucha\Utility\Contracts\CompatibleInterface;
 use Mpietrucha\Utility\Enums\Contracts\InteractsWithEnumInterface;
-use Mpietrucha\Utility\Instance;
-use Mpietrucha\Utility\Value;
 
 abstract class Enum implements CompatibleInterface
 {
