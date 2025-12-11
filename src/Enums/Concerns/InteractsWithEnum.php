@@ -7,6 +7,7 @@ use Mpietrucha\Utility\Arr;
 use Mpietrucha\Utility\Collection;
 use Mpietrucha\Utility\Data;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
+use Mpietrucha\Utility\Normalizer;
 use Mpietrucha\Utility\Str;
 
 /**
@@ -44,7 +45,7 @@ trait InteractsWithEnum
 
     public function label(): string
     {
-        $value = $this->value();
+        $value = $this->value() |> Normalizer::string(...);
 
         return match (true) {
             Str::upper($value) === $value => $value,
@@ -54,6 +55,8 @@ trait InteractsWithEnum
 
     public function lookup(mixed $input): mixed
     {
-        return Data::get($input, $this->value());
+        $value = $this->value();
+
+        return Data::get($input, $value);
     }
 }

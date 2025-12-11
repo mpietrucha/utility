@@ -2,11 +2,12 @@
 
 namespace Mpietrucha\Utility;
 
-use Closure;
-use Laravel\SerializableClosure\Support\ReflectionClosure;
-use Mpietrucha\Utility\Concerns\Creatable;
-use Mpietrucha\Utility\Contracts\CreatableInterface;
+use Mpietrucha\Utility\Reflection\Concerns\InteractsWithReflection;
+use Mpietrucha\Utility\Reflection\Contracts\ReflectionEnumInterface;
 use Mpietrucha\Utility\Reflection\Contracts\ReflectionInterface;
+use Mpietrucha\Utility\Reflection\Contracts\ReflectionLambdaInterface;
+use Mpietrucha\Utility\Reflection\Enum;
+use Mpietrucha\Utility\Reflection\Lambda;
 use ReflectionClass;
 
 /**
@@ -14,9 +15,9 @@ use ReflectionClass;
  *
  * @extends \ReflectionClass<TSource>
  */
-class Reflection extends ReflectionClass implements CreatableInterface, ReflectionInterface
+class Reflection extends ReflectionClass implements ReflectionInterface
 {
-    use Creatable;
+    use InteractsWithReflection;
 
     /**
      * Create a reflection of the deepest parent class for the given instance or class.
@@ -32,26 +33,18 @@ class Reflection extends ReflectionClass implements CreatableInterface, Reflecti
     }
 
     /**
-     * Create a reflection of the given callable.
+     * Create a reflection of the given enum.
      */
-    public static function callable(callable $callable, ?string $code = null): ReflectionClosure
+    public static function enum(object|string $enum): ReflectionEnumInterface
     {
-        return new ReflectionClosure(Closure::fromCallable($callable), $code);
+        return Enum::create($enum);
     }
 
     /**
-     * Determine whether the reflected class lacks the specified method.
+     * Create a reflection of the given lambda.
      */
-    final public function doesntHaveMethod(string $method): bool
+    public static function lambda(callable $lambda, ?string $code = null): ReflectionLambdaInterface
     {
-        return $this->hasMethod($method) |> Normalizer::not(...);
-    }
-
-    /**
-     * Determine whether the reflected class lacks the specified property.
-     */
-    final public function doesntHaveProperty(string $property): bool
-    {
-        return $this->hasProperty($property) |> Normalizer::not(...);
+        return Lambda::create($lambda, $code);
     }
 }

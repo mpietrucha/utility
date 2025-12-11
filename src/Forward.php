@@ -134,7 +134,7 @@ class Forward implements ForwardInterface, WrappableInterface
      */
     public function guess(string $method, array $arguments, callable $source): mixed
     {
-        $parameters = Reflection::callable($source)->getNumberOfParameters();
+        $parameters = Reflection::lambda($source)->getNumberOfParameters();
 
         $arguments = Arr::skip($arguments, $parameters);
 
