@@ -5,7 +5,7 @@ namespace Mpietrucha\Utility\Reflection\Contracts;
 /**
  * @phpstan-require-extends \ReflectionEnum
  */
-interface ReflectionEnumInterface extends InteractsWithReflectionInterface
+interface EnumInterface extends InteractsWithReflectionInterface
 {
     /**
      * @phpstan-assert-if-true null $this->getBackingType()

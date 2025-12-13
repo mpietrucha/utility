@@ -7,6 +7,6 @@ use Mpietrucha\Utility\Contracts\CreatableInterface;
 /**
  * @mixin \Laravel\SerializableClosure\Support\ReflectionClosure
  */
-interface ReflectionLambdaInterface extends CreatableInterface
+interface LambdaInterface extends CreatableInterface
 {
 }

@@ -5,9 +5,9 @@ namespace Mpietrucha\Utility\Reflection;
 use Closure;
 use Laravel\SerializableClosure\Support\ReflectionClosure;
 use Mpietrucha\Utility\Concerns\Creatable;
-use Mpietrucha\Utility\Reflection\Contracts\ReflectionLambdaInterface;
+use Mpietrucha\Utility\Reflection\Contracts\LambdaInterface;
 
-class Lambda extends ReflectionClosure implements ReflectionLambdaInterface
+class Lambda extends ReflectionClosure implements LambdaInterface
 {
     use Creatable;
 

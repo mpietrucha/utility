@@ -4,13 +4,13 @@ namespace Mpietrucha\Utility\Reflection;
 
 use Mpietrucha\Utility\Normalizer;
 use Mpietrucha\Utility\Reflection\Concerns\InteractsWithReflection;
-use Mpietrucha\Utility\Reflection\Contracts\ReflectionEnumInterface;
+use Mpietrucha\Utility\Reflection\Contracts\EnumInterface;
 use ReflectionEnum;
 
 /**
  * @extends \ReflectionEnum<\UnitEnum>
  */
-class Enum extends ReflectionEnum implements ReflectionEnumInterface
+class Enum extends ReflectionEnum implements EnumInterface
 {
     use InteractsWithReflection;
 

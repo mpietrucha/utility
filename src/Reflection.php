@@ -3,9 +3,9 @@
 namespace Mpietrucha\Utility;
 
 use Mpietrucha\Utility\Reflection\Concerns\InteractsWithReflection;
-use Mpietrucha\Utility\Reflection\Contracts\ReflectionEnumInterface;
+use Mpietrucha\Utility\Reflection\Contracts\EnumInterface;
+use Mpietrucha\Utility\Reflection\Contracts\LambdaInterface;
 use Mpietrucha\Utility\Reflection\Contracts\ReflectionInterface;
-use Mpietrucha\Utility\Reflection\Contracts\ReflectionLambdaInterface;
 use Mpietrucha\Utility\Reflection\Enum;
 use Mpietrucha\Utility\Reflection\Lambda;
 use ReflectionClass;
@@ -35,7 +35,7 @@ class Reflection extends ReflectionClass implements ReflectionInterface
     /**
      * Create a reflection of the given enum.
      */
-    public static function enum(object|string $enum): ReflectionEnumInterface
+    public static function enum(object|string $enum): EnumInterface
     {
         return Enum::create($enum);
     }
@@ -43,7 +43,7 @@ class Reflection extends ReflectionClass implements ReflectionInterface
     /**
      * Create a reflection of the given lambda.
      */
-    public static function lambda(callable $lambda, ?string $code = null): ReflectionLambdaInterface
+    public static function lambda(callable $lambda, ?string $code = null): LambdaInterface
     {
         return Lambda::create($lambda, $code);
     }
