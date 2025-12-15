@@ -50,7 +50,7 @@ trait InteractsWithEnum
         return match (true) {
             Str::upper($value) === $value => $value,
             default => Str::headline($value)
-        } |> Str::lower(...) |> Str::ucfirst(...);
+        };
     }
 
     public function lookup(mixed $input): mixed
