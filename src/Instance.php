@@ -2,6 +2,7 @@
 
 namespace Mpietrucha\Utility;
 
+use Closure;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Instance\Contracts\InteractsWithInstanceInterface;
 use Mpietrucha\Utility\Instance\Serializer;
@@ -112,9 +113,9 @@ abstract class Instance implements InteractsWithInstanceInterface
     }
 
     /**
-     * Serialize the given object instance to a string.
+     * Serialize the given callable or object instance to a string.
      */
-    public static function serialize(object $instance): string
+    public static function serialize(callable|object $instance): string
     {
         return Serializer::serialize($instance);
     }
@@ -125,6 +126,16 @@ abstract class Instance implements InteractsWithInstanceInterface
     public static function unserialize(string $instance): object
     {
         return Serializer::unserialize($instance);
+    }
+
+    /**
+     * Bind the given callable to a different object context.
+     */
+    public static function bind(callable $callable, object $context): Closure
+    {
+        $closure = static::serialize($callable) |> static::unserialize(...);
+
+        return $closure->bindTo($context);
     }
 
     /**

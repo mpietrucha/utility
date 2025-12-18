@@ -28,17 +28,15 @@ class Reflection extends ReflectionClass implements CreatableInterface, Reflecti
      */
     public static function deep(object|string $instance): static
     {
-        $deep = Instance::deep($instance);
-
-        return static::create($deep ?? $instance);
+        return static::create(Instance::deep($instance) ?? $instance);
     }
 
     /**
      * Create a reflection of the given callable.
      */
-    public static function callable(callable $callable, ?string $code = null): ReflectionClosure
+    public static function callable(callable $callable): ReflectionClosure
     {
-        return new ReflectionClosure(Closure::fromCallable($callable), $code);
+        return new ReflectionClosure(Closure::fromCallable($callable));
     }
 
     /**

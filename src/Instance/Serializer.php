@@ -13,17 +13,17 @@ class Serializer extends SerializableClosure implements CreatableInterface
     use Creatable;
 
     /**
-     * Create a new serializer wrapper for the given object.
+     * Create a new serializer wrapper for the given callable or object.
      */
-    public function __construct(object $data)
+    public function __construct(callable|object $data)
     {
         Value::identity($data) |> parent::__construct(...);
     }
 
     /**
-     * Serialize an object to a string representation.
+     * Serialize a callable or object to a string representation.
      */
-    public static function serialize(object $data): string
+    public static function serialize(callable|object $data): string
     {
         return static::create($data) |> Native::serialize(...);
     }
@@ -35,6 +35,9 @@ class Serializer extends SerializableClosure implements CreatableInterface
     {
         $data = Native::unserialize($data);
 
-        return $data instanceof static ? $data() : $data;
+        return match (true) {
+            $data instanceof static => Value::for($data)->get(),
+            default => $data
+        };
     }
 }
