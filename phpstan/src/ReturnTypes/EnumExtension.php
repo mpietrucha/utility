@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Mpietrucha\PHPStan\ReturnTypes;
 
 use Mpietrucha\Utility\Arr;
+use Mpietrucha\Utility\Normalizer;
 use Mpietrucha\Utility\Reflection;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
@@ -42,8 +43,11 @@ final class EnumExtension implements DynamicMethodReturnTypeExtension
 
         $reflection = Reflection::enum($name);
 
-        return match (true) {
-            $reflection->isNotBacked() => new StringType,
+        if ($reflection->isBacked() |> Normalizer::not(...)) {
+            return new StringType;
+        }
+
+        return match (true) { /** @phpstan-ignore-next-line method.nonObject */
             $reflection->getBackingType()->getName() === 'int' => new IntegerType,
             default => new StringType
         };

@@ -63,7 +63,7 @@ class Evaluation implements CreatableInterface, EvaluationInterface
      *
      * @param  MixedArray|null  $arguments
      */
-    public static function bind(mixed $evaluable, ?array $arguments): Closure
+    public static function bind(mixed $evaluable, ?array $arguments = null): Closure
     {
         $evaluation = static::create($evaluable);
 

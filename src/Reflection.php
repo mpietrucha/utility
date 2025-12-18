@@ -2,22 +2,23 @@
 
 namespace Mpietrucha\Utility;
 
-use Mpietrucha\Utility\Reflection\Concerns\InteractsWithReflection;
-use Mpietrucha\Utility\Reflection\Contracts\EnumInterface;
-use Mpietrucha\Utility\Reflection\Contracts\LambdaInterface;
+use Closure;
+use Laravel\SerializableClosure\Support\ReflectionClosure;
+use Mpietrucha\Utility\Concerns\Creatable;
+use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Reflection\Contracts\ReflectionInterface;
-use Mpietrucha\Utility\Reflection\Enum;
-use Mpietrucha\Utility\Reflection\Lambda;
 use ReflectionClass;
+use ReflectionEnum;
+use UnitEnum;
 
 /**
  * @template TSource of object
  *
  * @extends \ReflectionClass<TSource>
  */
-class Reflection extends ReflectionClass implements ReflectionInterface
+class Reflection extends ReflectionClass implements CreatableInterface, ReflectionInterface
 {
-    use InteractsWithReflection;
+    use Creatable;
 
     /**
      * Create a reflection of the deepest parent class for the given instance or class.
@@ -33,18 +34,37 @@ class Reflection extends ReflectionClass implements ReflectionInterface
     }
 
     /**
-     * Create a reflection of the given enum.
+     * Create a reflection of the given callable.
      */
-    public static function enum(object|string $enum): EnumInterface
+    public static function callable(callable $callable, ?string $code = null): ReflectionClosure
     {
-        return Enum::create($enum);
+        return new ReflectionClosure(Closure::fromCallable($callable), $code);
     }
 
     /**
-     * Create a reflection of the given lambda.
+     * Create a reflection of the given enum.
+     *
+     * @param  class-string<\UnitEnum>|\UnitEnum  $instance
+     * @return \ReflectionEnum<\UnitEnum>
      */
-    public static function lambda(callable $lambda, ?string $code = null): LambdaInterface
+    public static function enum(string|UnitEnum $instance): ReflectionEnum
     {
-        return Lambda::create($lambda, $code);
+        return new ReflectionEnum($instance);
+    }
+
+    /**
+     * Determine whether the reflected class lacks the specified method.
+     */
+    final public function doesntHaveMethod(string $method): bool
+    {
+        return $this->hasMethod($method) |> Normalizer::not(...);
+    }
+
+    /**
+     * Determine whether the reflected class lacks the specified property.
+     */
+    final public function doesntHaveProperty(string $property): bool
+    {
+        return $this->hasProperty($property) |> Normalizer::not(...);
     }
 }
