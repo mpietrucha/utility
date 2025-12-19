@@ -135,6 +135,12 @@ abstract class Instance implements InteractsWithInstanceInterface
     {
         $closure = static::serialize($callable) |> static::unserialize(...);
 
+        $scope = match (true) {
+            Type::null($context) => $scope,
+            Type::null($scope) => static::namespace($context),
+            default => $scope
+        };
+
         return $closure->bindTo($context, $scope);
     }
 
