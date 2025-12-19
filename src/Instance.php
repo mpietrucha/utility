@@ -131,11 +131,11 @@ abstract class Instance implements InteractsWithInstanceInterface
     /**
      * Bind the given callable to a different object context.
      */
-    public static function bind(callable $callable, object $context): Closure
+    public static function bind(callable $callable, ?object $context = null, null|object|string $scope = null): Closure
     {
         $closure = static::serialize($callable) |> static::unserialize(...);
 
-        return $closure->bindTo($context);
+        return $closure->bindTo($context, $scope);
     }
 
     /**
