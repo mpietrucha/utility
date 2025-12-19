@@ -14,6 +14,7 @@ use Mpietrucha\Utility\Concerns\Wrappable;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Enumerable\Filter;
 use Mpietrucha\Utility\Enumerable\LazyCollection;
+use Mpietrucha\Utility\Enumerable\Middleware;
 use Mpietrucha\Utility\Hash;
 use Mpietrucha\Utility\Normalizer;
 use Mpietrucha\Utility\Type;
@@ -339,5 +340,10 @@ trait Enumerable
             fn (EnumerableInterface $collection) => $collection->skipUntil($handler),
             fn (EnumerableInterface $collection) => $collection->skipWhile($handler),
         ]);
+    }
+
+    public function eachKeys(callable $handler): static
+    {
+        return Middleware\Flip::create($handler) |> $this->each(...);
     }
 }

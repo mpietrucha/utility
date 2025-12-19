@@ -204,4 +204,6 @@ use Mpietrucha\Utility\Enumerable\LazyCollection;
     public function pipeSpread(mixed $handler): mixed;
 
     public function skipUntilLast(callable $handler): static;
+
+    public function eachKeys(callable $handler): static;
 }
