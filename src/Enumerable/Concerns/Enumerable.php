@@ -31,9 +31,7 @@ use Traversable;
  */
 trait Enumerable
 {
-    use Arrayable, Conditionable, Creatable, Pipeable, Stringable, Tappable, Wrappable {
-        Wrappable::wrap as protected wrappable;
-    }
+    use Arrayable, Conditionable, Creatable, Pipeable, Stringable, Tappable, Wrappable;
 
     /**
      * @var list<string>
@@ -64,15 +62,6 @@ trait Enumerable
     public static function from(mixed ...$items): static
     {
         return static::create($items);
-    }
-
-    /**
-     * Bind the given value to a collection instance.
-     */
-    public static function bind(mixed $value): static
-    {
-        /** @phpstan-ignore-next-line return.type */
-        return static::wrappable($value);
     }
 
     /**

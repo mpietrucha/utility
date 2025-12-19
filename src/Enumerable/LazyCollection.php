@@ -14,8 +14,6 @@ use Mpietrucha\Utility\Value;
  * @extends \Illuminate\Support\LazyCollection<TKey, TValue>
  *
  * @implements \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<TKey, TValue>
- *
- * @phpstan-ignore-next-line class.missingImplements
  */
 class LazyCollection extends \Illuminate\Support\LazyCollection implements EnumerableInterface
 {

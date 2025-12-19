@@ -53,6 +53,6 @@ abstract class None implements CreatableInterface, FilterInterface
      */
     protected function values(): Collection
     {
-        return $this->values = $this->values |> Collection::bind(...);
+        return $this->values = $this->values |> Collection::wrap(...);
     }
 }

@@ -11,6 +11,7 @@ use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Contracts\PipeableInterface;
 use Mpietrucha\Utility\Contracts\StringableInterface;
 use Mpietrucha\Utility\Contracts\TappableInterface;
+use Mpietrucha\Utility\Contracts\WrappableInterface;
 use Mpietrucha\Utility\Enumerable\LazyCollection;
 
 /**
@@ -49,17 +50,12 @@ use Mpietrucha\Utility\Enumerable\LazyCollection;
  * @property-read \Illuminate\Support\HigherOrderCollectionProxy<'firstMap', TValue, static> $firstMap
  * @property-read \Illuminate\Support\HigherOrderCollectionProxy<'skipUntilLast', TValue, static> $skipUntilLast
  */
- interface EnumerableInterface extends Countable, StringableInterface, ArrayableInterface, CreatableInterface, PipeableInterface, TappableInterface, ConditionableInterface, Enumerable
+ interface EnumerableInterface extends Countable, StringableInterface, ArrayableInterface, CreatableInterface, PipeableInterface, TappableInterface, ConditionableInterface, WrappableInterface, Enumerable
 {
     /**
      * Create a new enumerable from the given items.
      */
     public static function from(mixed ...$items): static;
-
-    /**
-     * Create a new enumerable bound to the given value.
-     */
-    public static function bind(mixed $value): static;
 
     /**
      * Create a new sequence of items.

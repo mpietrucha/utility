@@ -40,6 +40,10 @@ services:
     tags:
         - phpstan.ignoreErrorExtension
   -
+    class: Mpietrucha\PHPStan\Errors\EnumerableExtension
+    tags:
+        - phpstan.ignoreErrorExtension
+  -
     class: Mpietrucha\PHPStan\ReturnTypes\NormalizerExtension
     tags:
         - phpstan.broker.dynamicStaticMethodReturnTypeExtension
