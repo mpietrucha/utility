@@ -4,8 +4,13 @@ namespace Mpietrucha\Utility\Enumerable\Middleware;
 
 class Flip extends None
 {
-    public function arguments(mixed $value, mixed $key): array
+    public function key(mixed $key, mixed $value): mixed
     {
-        return [$key, $value];
+        return $value;
+    }
+
+    public function value(mixed $value, mixed $key): mixed
+    {
+        return $key;
     }
 }

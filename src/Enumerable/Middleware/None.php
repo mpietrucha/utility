@@ -14,7 +14,7 @@ abstract class None implements CreatableInterface
     {
     }
 
-    public function __invoke(mixed $value, int|string $key): mixed
+    public function __invoke(mixed $value, mixed $key): mixed
     {
         $handler = $this->handler();
 
@@ -24,7 +24,23 @@ abstract class None implements CreatableInterface
     /**
      * @return array{0: mixed, 1: mixed}
      */
-    abstract public function arguments(mixed $value, int|string $key): array;
+    public function arguments(mixed $value, mixed $key): array
+    {
+        return [
+            $this->value($value, $key),
+            $this->key($key, $value),
+        ];
+    }
+
+    public function key(mixed $key, mixed $value): mixed
+    {
+        return $key;
+    }
+
+    public function value(mixed $value, mixed $key): mixed
+    {
+        return $value;
+    }
 
     protected function handler(): mixed
     {
