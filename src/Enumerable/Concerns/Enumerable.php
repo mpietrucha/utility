@@ -344,6 +344,6 @@ trait Enumerable
 
     public function eachKeys(callable $handler): static
     {
-        return Middleware\Flip::create($handler) |> $this->each(...);
+        return Middleware\Reverse::create($handler) |> $this->each(...);
     }
 }

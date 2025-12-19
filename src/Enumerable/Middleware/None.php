@@ -6,6 +6,9 @@ use Mpietrucha\Utility\Concerns\Creatable;
 use Mpietrucha\Utility\Contracts\CreatableInterface;
 use Mpietrucha\Utility\Value;
 
+/**
+ * @phpstan-import-type MixedArray from \Mpietrucha\Utility\Arr
+ */
 abstract class None implements CreatableInterface
 {
     use Creatable;
@@ -14,32 +17,20 @@ abstract class None implements CreatableInterface
     {
     }
 
-    public function __invoke(mixed $value, mixed $key): mixed
+    public function __invoke(): mixed
     {
         $handler = $this->handler();
 
-        return $this->arguments($value, $key) |> Value::for($handler)->eval(...);
+        return func_get_args() |> $this->arguments(...) |> Value::for($handler)->eval(...);
     }
 
     /**
-     * @return array{0: mixed, 1: mixed}
+     * @param  MixedArray  $arguments
+     * @return MixedArray
      */
-    public function arguments(mixed $value, mixed $key): array
+    public function arguments(array $arguments): array
     {
-        return [
-            $this->value($value, $key),
-            $this->key($key, $value),
-        ];
-    }
-
-    public function key(mixed $key, mixed $value): mixed
-    {
-        return $key;
-    }
-
-    public function value(mixed $value, mixed $key): mixed
-    {
-        return $value;
+        return $arguments;
     }
 
     protected function handler(): mixed

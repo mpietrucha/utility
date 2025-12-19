@@ -141,6 +141,15 @@ class Arr extends \Illuminate\Support\Arr
     }
 
     /**
+     * @param  MixedArray  $array
+     * @return MixedArray
+     */
+    public static function reverse(array $array, bool $keys = false): array
+    {
+        return array_reverse($array, $keys);
+    }
+
+    /**
      * Search the array for a given value and return the corresponding key, or null if not found.
      *
      * @template TKey of array-key
