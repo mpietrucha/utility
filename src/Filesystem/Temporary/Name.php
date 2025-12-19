@@ -18,7 +18,7 @@ abstract class Name implements CompatibleInterface
      */
     public static function delimiter(): string
     {
-        return '-';
+        return Str::dash();
     }
 
     /**

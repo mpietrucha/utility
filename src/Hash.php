@@ -68,7 +68,7 @@ abstract class Hash implements InteractsWithAlgorithmsInterface, UtilizableInter
      */
     public static function sha512(string $value, ?int $variant = null): string
     {
-        return static::variant(__FUNCTION__, $value, $variant, '/');
+        return static::variant(__FUNCTION__, $value, $variant, Str::slash());
     }
 
     /**
@@ -76,7 +76,7 @@ abstract class Hash implements InteractsWithAlgorithmsInterface, UtilizableInter
      */
     public static function sha3(string $value, int $variant = 512): string
     {
-        return static::variant(__FUNCTION__, $value, $variant, '-');
+        return static::variant(__FUNCTION__, $value, $variant, Str::dash());
     }
 
     /**
@@ -84,7 +84,7 @@ abstract class Hash implements InteractsWithAlgorithmsInterface, UtilizableInter
      */
     public static function tiger128(string $value, int $variant = 4): string
     {
-        return static::variant(__FUNCTION__, $value, $variant, ',');
+        return static::variant(__FUNCTION__, $value, $variant, Str::comma());
     }
 
     /**
@@ -92,7 +92,7 @@ abstract class Hash implements InteractsWithAlgorithmsInterface, UtilizableInter
      */
     public static function tiger160(string $value, int $variant = 4): string
     {
-        return static::variant(__FUNCTION__, $value, $variant, ',');
+        return static::variant(__FUNCTION__, $value, $variant, Str::comma());
     }
 
     /**
@@ -100,7 +100,7 @@ abstract class Hash implements InteractsWithAlgorithmsInterface, UtilizableInter
      */
     public static function tiger192(string $value, int $variant = 4): string
     {
-        return static::variant(__FUNCTION__, $value, $variant, ',');
+        return static::variant(__FUNCTION__, $value, $variant, Str::comma());
     }
 
     /**
@@ -108,7 +108,7 @@ abstract class Hash implements InteractsWithAlgorithmsInterface, UtilizableInter
      */
     public static function gost(string $value, ?string $variant = null): string
     {
-        return static::variant(__FUNCTION__, $value, $variant, '-');
+        return static::variant(__FUNCTION__, $value, $variant, Str::dash());
     }
 
     /**
@@ -116,7 +116,7 @@ abstract class Hash implements InteractsWithAlgorithmsInterface, UtilizableInter
      */
     public static function haval128(string $value, int $variant = 5): string
     {
-        return static::variant(__FUNCTION__, $value, $variant, ',');
+        return static::variant(__FUNCTION__, $value, $variant, Str::comma());
     }
 
     /**
@@ -124,7 +124,7 @@ abstract class Hash implements InteractsWithAlgorithmsInterface, UtilizableInter
      */
     public static function haval160(string $value, int $variant = 5): string
     {
-        return static::variant(__FUNCTION__, $value, $variant, ',');
+        return static::variant(__FUNCTION__, $value, $variant, Str::comma());
     }
 
     /**
@@ -132,7 +132,7 @@ abstract class Hash implements InteractsWithAlgorithmsInterface, UtilizableInter
      */
     public static function haval192(string $value, int $variant = 5): string
     {
-        return static::variant(__FUNCTION__, $value, $variant, ',');
+        return static::variant(__FUNCTION__, $value, $variant, Str::comma());
     }
 
     /**
@@ -140,7 +140,7 @@ abstract class Hash implements InteractsWithAlgorithmsInterface, UtilizableInter
      */
     public static function haval224(string $value, int $variant = 5): string
     {
-        return static::variant(__FUNCTION__, $value, $variant, ',');
+        return static::variant(__FUNCTION__, $value, $variant, Str::comma());
     }
 
     /**
@@ -148,7 +148,7 @@ abstract class Hash implements InteractsWithAlgorithmsInterface, UtilizableInter
      */
     public static function haval256(string $value, int $variant = 5): string
     {
-        return static::variant(__FUNCTION__, $value, $variant, ',');
+        return static::variant(__FUNCTION__, $value, $variant, Str::comma());
     }
 
     /**

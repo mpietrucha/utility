@@ -106,6 +106,22 @@ class Str extends \Illuminate\Support\Str
     }
 
     /**
+     * Get a comma with an optional appended string.
+     */
+    public static function comma(?string $append = null): string
+    {
+        return ',' . $append;
+    }
+
+    /**
+     * Get a dash with an optional appended string.
+     */
+    public static function dash(?string $append = null): string
+    {
+        return '-' . $append;
+    }
+
+    /**
      * Split a string by a delimiter into a collection.
      *
      * @return \Mpietrucha\Utility\Collection<int, string>
