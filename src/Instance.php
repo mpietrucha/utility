@@ -10,21 +10,13 @@ use Mpietrucha\Utility\Instance\Serializer;
 abstract class Instance implements InteractsWithInstanceInterface
 {
     /**
-     * Determine if the given instance refers to an existing class, interface, or trait.
+     * Determine if the given class name refers to an existing class.
      *
-     * @phpstan-assert-if-true object|class-string $instance
+     * @phpstan-assert-if-true class-string $class
      */
-    public static function exists(object|string $instance, bool $autoload = true): bool
+    public static function class(string $class, bool $autoload = true): bool
     {
-        if (Type::object($instance)) {
-            return true;
-        }
-
-        if (class_exists($instance, $autoload)) {
-            return true;
-        }
-
-        return static::interface($instance, $autoload) || static::trait($instance, $autoload);
+        return class_exists($class, $autoload);
     }
 
     /**
@@ -45,6 +37,24 @@ abstract class Instance implements InteractsWithInstanceInterface
     public static function interface(string $interface, bool $autoload = true): bool
     {
         return interface_exists($interface, $autoload);
+    }
+
+    /**
+     * Determine if the given instance refers to an existing class, interface, or trait.
+     *
+     * @phpstan-assert-if-true object|class-string $instance
+     */
+    public static function exists(object|string $instance, bool $autoload = true): bool
+    {
+        if (Type::object($instance)) {
+            return true;
+        }
+
+        if (static::class($instance, $autoload)) {
+            return true;
+        }
+
+        return static::interface($instance, $autoload) || static::trait($instance, $autoload);
     }
 
     /**
