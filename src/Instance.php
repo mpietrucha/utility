@@ -24,7 +24,27 @@ abstract class Instance implements InteractsWithInstanceInterface
             return true;
         }
 
-        return interface_exists($instance, $autoload) || trait_exists($instance, $autoload);
+        return static::interface($instance, $autoload) || static::trait($instance, $autoload);
+    }
+
+    /**
+     * Determine if the given trait name refers to an existing trait.
+     *
+     * @phpstan-assert-if-true class-string $trait
+     */
+    public static function trait(string $trait, bool $autoload = true): bool
+    {
+        return trait_exists($trait, $autoload);
+    }
+
+    /**
+     * Determine if the given interface name refers to an existing interface.
+     *
+     * @phpstan-assert-if-true class-string $interface
+     */
+    public static function interface(string $interface, bool $autoload = true): bool
+    {
+        return interface_exists($interface, $autoload);
     }
 
     /**
