@@ -72,6 +72,8 @@ abstract class Name implements CompatibleInterface
      */
     protected static function normalize(?string $name = null): string
     {
-        return Path::name($name ??= static::default());
+        $name ??= static::default();
+
+        return Path::name($name);
     }
 }

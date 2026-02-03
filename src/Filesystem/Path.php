@@ -36,7 +36,7 @@ abstract class Path
      */
     public static function name(string $path): string
     {
-        return Filesystem::basename($path);
+        return static::normalize($path) |> Filesystem::basename(...);
     }
 
     /**
