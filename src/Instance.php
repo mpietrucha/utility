@@ -5,7 +5,7 @@ namespace Mpietrucha\Utility;
 use Closure;
 use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Instance\Contracts\InteractsWithInstanceInterface;
-use Opis\Closure\Serializer;
+use Mpietrucha\Utility\Instance\Serializer;
 
 abstract class Instance implements InteractsWithInstanceInterface
 {
