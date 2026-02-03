@@ -36,7 +36,7 @@ final class CreatableExtension implements IgnoreErrorExtension
     {
         $trait = $this->usesTrait($scope);
 
-        if ($trait & $this->interactsWithIdentifiers($error)) {
+        if ($trait && $this->interactsWithIdentifiers($error)) {
             return true;
         }
 
