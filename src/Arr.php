@@ -161,4 +161,17 @@ class Arr extends \Illuminate\Support\Arr
     {
         return array_search($search, $array, $strict) ?: null;
     }
+
+    /**
+     * @template TKey of array-key
+     * @template TValue
+     *
+     * @param  list<TKey>  $array
+     * @param  TValue  $value
+     * @return array<TKey, TValue>
+     */
+    public static function fillKeys(array $array, mixed $value): array
+    {
+        return array_fill_keys($array, $value);
+    }
 }
