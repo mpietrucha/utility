@@ -7,7 +7,7 @@ use Mpietrucha\Utility\Forward\Contracts\ProxyInterface;
 use Mpietrucha\Utility\Normalizer;
 
 /**
- * @phpstan-import-type BacktraceFramesCollection from \Mpietrucha\Utility\Backtrace
+ * @phpstan-import-type BacktraceFrameCollection from \Mpietrucha\Utility\Backtrace
  */
 abstract class Backtrace
 {
@@ -30,7 +30,7 @@ abstract class Backtrace
     /**
      * Determine if the backtrace indicates a proxied forward call.
      *
-     * @param  BacktraceFramesCollection  $backtrace
+     * @param  BacktraceFrameCollection  $backtrace
      */
     public static function proxied(EnumerableInterface $backtrace): bool
     {
@@ -40,7 +40,7 @@ abstract class Backtrace
     /**
      * Determine if the backtrace indicates an unproxied forward call.
      *
-     * @param  BacktraceFramesCollection  $backtrace
+     * @param  BacktraceFrameCollection  $backtrace
      */
     final public static function unproxied(EnumerableInterface $backtrace): bool
     {

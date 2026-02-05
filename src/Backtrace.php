@@ -10,14 +10,14 @@ use Throwable;
 /**
  * @phpstan-import-type RawBacktraceFrame from \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface
  *
- * @phpstan-type BacktraceFramesCollection \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface>
+ * @phpstan-type BacktraceFrameCollection \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<int, \Mpietrucha\Utility\Backtrace\Contracts\FrameInterface>
  */
 abstract class Backtrace
 {
     /**
      * Build a backtrace collection from the given throwable or throwable wrapper.
      *
-     * @return BacktraceFramesCollection
+     * @return BacktraceFrameCollection
      */
     public static function throwable(ReflectionInterface|Throwable $throwable): EnumerableInterface
     {
@@ -31,7 +31,7 @@ abstract class Backtrace
     /**
      * Build a backtrace collection from the current execution context.
      *
-     * @return BacktraceFramesCollection
+     * @return BacktraceFrameCollection
      */
     public static function get(int $options = DEBUG_BACKTRACE_PROVIDE_OBJECT): EnumerableInterface
     {
@@ -44,7 +44,7 @@ abstract class Backtrace
      * Transform raw backtrace frames into a typed enumerable of frame objects.
      *
      * @param  list<RawBacktraceFrame>  $backtrace
-     * @return BacktraceFramesCollection
+     * @return BacktraceFrameCollection
      */
     protected static function build(array $backtrace): EnumerableInterface
     {

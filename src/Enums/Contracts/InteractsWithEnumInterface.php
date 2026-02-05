@@ -6,7 +6,7 @@ use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use UnitEnum;
 
 /**
- * @phpstan-type EnumCasesCollection \Mpietrucha\Utility\Collection<int, static>
+ * @phpstan-type EnumCaseCollection \Mpietrucha\Utility\Collection<int, static>
  */
 interface InteractsWithEnumInterface extends UnitEnum
 {
@@ -18,7 +18,7 @@ interface InteractsWithEnumInterface extends UnitEnum
     public static function default(): static;
 
     /**
-     * @return EnumCasesCollection
+     * @return EnumCaseCollection
      */
     public static function collection(): EnumerableInterface;
 

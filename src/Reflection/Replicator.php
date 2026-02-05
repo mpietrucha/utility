@@ -17,14 +17,14 @@ use Mpietrucha\Utility\Type;
 /**
  * @phpstan-import-type MixedArray from \Mpietrucha\Utility\Arr
  *
- * @phpstan-type PropertiesCollection \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, mixed>
+ * @phpstan-type PropertyCollection \Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface<string, mixed>
  */
 class Replicator implements CreatableInterface
 {
     use Creatable;
 
     /**
-     * @var PropertiesCollection|null
+     * @var PropertyCollection|null
      */
     protected ?EnumerableInterface $properties = null;
 
@@ -70,7 +70,7 @@ class Replicator implements CreatableInterface
     }
 
     /**
-     * @return PropertiesCollection
+     * @return PropertyCollection
      */
     public function properties(): EnumerableInterface
     {

@@ -15,7 +15,7 @@ use Mpietrucha\Utility\Forward\Failure\Message;
 use Mpietrucha\Utility\Throwable\Contracts\InteractsWithThrowableInterface;
 
 /**
- * @phpstan-import-type BacktraceFramesCollection from \Mpietrucha\Utility\Backtrace
+ * @phpstan-import-type BacktraceFrameCollection from \Mpietrucha\Utility\Backtrace
  */
 class Failure implements CreatableInterface, FailureInterface
 {
@@ -55,7 +55,7 @@ class Failure implements CreatableInterface, FailureInterface
     /**
      * Adjust the backtrace by skipping internal frames for cleaner output.
      *
-     * @return BacktraceFramesCollection
+     * @return BacktraceFrameCollection
      */
     protected function backtrace(InteractsWithThrowableInterface $throwable): EnumerableInterface
     {
@@ -70,7 +70,7 @@ class Failure implements CreatableInterface, FailureInterface
     /**
      * Determine the frame for failure line and code from the backtrace.
      *
-     * @param  BacktraceFramesCollection  $backtrace
+     * @param  BacktraceFrameCollection  $backtrace
      */
     protected function frame(EnumerableInterface $backtrace, InteractsWithThrowableInterface $throwable): FrameInterface
     {

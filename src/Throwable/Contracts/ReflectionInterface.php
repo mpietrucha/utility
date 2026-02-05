@@ -9,7 +9,7 @@ use Throwable;
 
 /**
  * @phpstan-import-type RawBacktraceFrame from \Mpietrucha\Utility\Backtrace
- * @phpstan-import-type BacktraceFramesCollection from \Mpietrucha\Utility\Backtrace
+ * @phpstan-import-type BacktraceFrameCollection from \Mpietrucha\Utility\Backtrace
  */
 interface ReflectionInterface extends WrappableInterface
 {
@@ -68,7 +68,7 @@ interface ReflectionInterface extends WrappableInterface
     /**
      * Get the parsed backtrace frames associated with the throwable.
      *
-     * @return BacktraceFramesCollection
+     * @return BacktraceFrameCollection
      */
     public function backtrace(): EnumerableInterface;
 }

@@ -9,7 +9,7 @@ use Mpietrucha\Utility\Enumerable\Contracts\EnumerableInterface;
 use Mpietrucha\Utility\Throwable\Contracts\ThrowableInterface;
 
 /**
- * @phpstan-import-type BacktraceFramesCollection from \Mpietrucha\Utility\Backtrace
+ * @phpstan-import-type BacktraceFrameCollection from \Mpietrucha\Utility\Backtrace
  */
 abstract class Purifier implements CompatibleInterface
 {
@@ -26,7 +26,7 @@ abstract class Purifier implements CompatibleInterface
     /**
      * Get the index of the last internal throwable frame in the backtrace.
      *
-     * @param  BacktraceFramesCollection  $backtrace
+     * @param  BacktraceFrameCollection  $backtrace
      */
     public static function index(EnumerableInterface $backtrace): int
     {
@@ -36,8 +36,8 @@ abstract class Purifier implements CompatibleInterface
     /**
      * Filter the backtrace to include only internal throwable frames.
      *
-     * @param  BacktraceFramesCollection  $backtrace
-     * @return BacktraceFramesCollection
+     * @param  BacktraceFrameCollection  $backtrace
+     * @return BacktraceFrameCollection
      */
     public static function filter(EnumerableInterface $backtrace): EnumerableInterface
     {
