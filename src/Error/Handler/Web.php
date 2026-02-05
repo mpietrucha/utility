@@ -2,7 +2,7 @@
 
 namespace Mpietrucha\Utility\Error\Handler;
 
-use Mpietrucha\Utility\Error\Context;
+use Mpietrucha\Utility\Context;
 use Spatie\Ignition\Ignition;
 
 class Web extends None

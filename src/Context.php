@@ -1,9 +1,6 @@
 <?php
 
-namespace Mpietrucha\Utility\Error;
-
-use Mpietrucha\Utility\Arr;
-use Mpietrucha\Utility\Normalizer;
+namespace Mpietrucha\Utility;
 
 abstract class Context
 {
