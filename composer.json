@@ -12,6 +12,7 @@
     ],
     "require": {
         "php": "^8.5",
+        "composer-runtime-api": "^2.2",
         "illuminate/filesystem": "^12.18",
         "illuminate/process": "^12.38",
         "illuminate/support": "^12.12",
