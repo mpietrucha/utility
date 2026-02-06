@@ -1,14 +1,13 @@
 # Utility
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/mpietrucha/utility.svg?style=flat-square)](https://packagist.org/packages/mpietrucha/utility)
-[![Total Downloads](https://img.shields.io/packagist/dt/mpietrucha/utility.svg?style=flat-square)](https://packagist.org/packages/mpietrucha/utility)
-[![MIT Licensed](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
+A comprehensive PHP utility library that extends Laravel's foundation with enhanced support for functional programming, type safety, collections, filesystem operations, and more.
+
+## Requirements
+
+- PHP 8.5+
+- Laravel 12+
 
 ## Installation
-
-> **Requires [PHP 8.5+](https://php.net/releases/) and [Composer 2.8+](https://getcomposer.org)**
-
-You can install the package via Composer:
 
 ```bash
 composer require mpietrucha/utility
@@ -16,4 +15,4 @@ composer require mpietrucha/utility
 
 ## License
 
-MIT
+Utility is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
