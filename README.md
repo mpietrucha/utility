@@ -2,23 +2,16 @@
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/mpietrucha/utility.svg?style=flat-square)](https://packagist.org/packages/mpietrucha/utility)
 [![Total Downloads](https://img.shields.io/packagist/dt/mpietrucha/utility.svg?style=flat-square)](https://packagist.org/packages/mpietrucha/utility)
-
-A modern PHP 8.5 utility library providing enhanced versions of Laravel's core components (Arr, Str, Collection), advanced file system operations with intelligent caching, PSR-7 stream handling, runtime class forking capabilities, comprehensive type checking, dot-notation data access, PHP tokenization, Composer introspection, powerful method forwarding, and custom PHPStan extensions for static analysis - all with PHPStan Level 8 type safety.
+[![MIT Licensed](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 
 ## Installation
 
+> **Requires [PHP 8.5+](https://php.net/releases/) and [Composer 2.8+](https://getcomposer.org)**
+
+You can install the package via Composer:
+
 ```bash
 composer require mpietrucha/utility
-```
-
-**Requirements:** PHP 8.5 or higher
-
-## Testing
-
-```bash
-composer test
-composer test:lint
-composer test:types
 ```
 
 ## License
