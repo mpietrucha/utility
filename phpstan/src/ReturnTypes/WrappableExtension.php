@@ -38,7 +38,7 @@ class WrappableExtension implements DynamicStaticMethodReturnTypeExtension
     /**
      * Get the return type from the static method call.
      */
-    final public function getTypeFromStaticMethodCall(MethodReflection $method, StaticCall $call, Scope $scope): ObjectType|StaticType
+    final public function getTypeFromStaticMethodCall(MethodReflection $method, StaticCall $node, Scope $scope): ObjectType|StaticType
     {
         $class = $method->getDeclaringClass();
 

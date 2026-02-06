@@ -44,6 +44,10 @@ services:
     tags:
         - phpstan.ignoreErrorExtension
   -
+    class: Mpietrucha\PHPStan\Errors\ConstantExtension
+    tags:
+        - phpstan.ignoreErrorExtension
+  -
     class: Mpietrucha\PHPStan\ReturnTypes\NormalizerExtension
     tags:
         - phpstan.broker.dynamicStaticMethodReturnTypeExtension
@@ -69,6 +73,10 @@ services:
         - phpstan.broker.dynamicMethodReturnTypeExtension
   -
     class: Mpietrucha\PHPStan\TypeSpecifiers\CompatibleExtension
+    tags:
+        - phpstan.typeSpecifier.staticMethodTypeSpecifyingExtension
+  -
+    class: Mpietrucha\PHPStan\TypeSpecifiers\ConstantExtension
     tags:
         - phpstan.typeSpecifier.staticMethodTypeSpecifyingExtension
   -

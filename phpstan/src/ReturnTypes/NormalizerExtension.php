@@ -7,6 +7,7 @@ namespace Mpietrucha\PHPStan\ReturnTypes;
 use Mpietrucha\Utility\Arr;
 use Mpietrucha\Utility\Collection;
 use Mpietrucha\Utility\Data;
+use Mpietrucha\Utility\Normalizer;
 use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
@@ -43,9 +44,13 @@ final class NormalizerExtension implements DynamicStaticMethodReturnTypeExtensio
     /**
      * Get the return type from the static method call.
      */
-    public function getTypeFromStaticMethodCall(MethodReflection $method, StaticCall $call, Scope $scope): Type
+    public function getTypeFromStaticMethodCall(MethodReflection $method, StaticCall $node, Scope $scope): Type
     {
-        $value = Data::get($call->getArgs(), '{first}.value');
+        $value = Data::get($node, 'args.{first}.value');
+
+        if (Normalizer::not($value)) {
+            return $this->list();
+        }
 
         $argument = $scope->getType($value);
 

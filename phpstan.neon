@@ -6,3 +6,4 @@ parameters:
         - src
         - phpstan
         - analyze
+        - a.php

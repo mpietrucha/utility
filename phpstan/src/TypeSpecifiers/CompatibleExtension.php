@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mpietrucha\PHPStan\TypeSpecifiers;
 
 use Mpietrucha\PHPStan\Concerns\InteractsWithTypeSpecifier;
@@ -19,7 +21,10 @@ use PHPStan\Type\StaticMethodTypeSpecifyingExtension;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 
-class CompatibleExtension implements StaticMethodTypeSpecifyingExtension, TypeSpecifierAwareExtension
+/**
+ * @internal
+ */
+final class CompatibleExtension implements StaticMethodTypeSpecifyingExtension, TypeSpecifierAwareExtension
 {
     use InteractsWithTypeSpecifier;
 
@@ -65,7 +70,7 @@ class CompatibleExtension implements StaticMethodTypeSpecifyingExtension, TypeSp
     {
         $assertions = $scope->getClassReflection() |> $this->assertions(...) |> Collection::create(...);
 
-        $types = new SpecifiedTypes;
+        $types = $this->unspecified();
 
         $context = $this->context($method, $context);
 

@@ -2,6 +2,7 @@
 
 namespace Mpietrucha\PHPStan\Concerns;
 
+use PHPStan\Analyser\SpecifiedTypes;
 use PHPStan\Analyser\TypeSpecifier;
 
 /**
@@ -14,6 +15,11 @@ trait InteractsWithTypeSpecifier
     public function setTypeSpecifier(TypeSpecifier $specifier): void
     {
         $this->specifier = $specifier;
+    }
+
+    protected function unspecified(): SpecifiedTypes
+    {
+        return new SpecifiedTypes;
     }
 
     protected function specifier(): TypeSpecifier
