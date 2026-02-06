@@ -33,9 +33,11 @@ abstract class Backtrace
      *
      * @return BacktraceFrameCollection
      */
-    public static function get(int $options = DEBUG_BACKTRACE_PROVIDE_OBJECT): EnumerableInterface
+    public static function get(int $options = DEBUG_BACKTRACE_PROVIDE_OBJECT, int $limit = 0): EnumerableInterface
     {
-        $backtrace = debug_backtrace($options);
+        $limit > 0 && $limit++;
+
+        $backtrace = debug_backtrace($options, $limit);
 
         return Arr::skip($backtrace, 1) |> static::build(...);
     }
