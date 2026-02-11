@@ -84,6 +84,14 @@ trait InteractsWithError
     }
 
     /**
+     * Get the error file as a stringable instance.
+     */
+    protected function getErrorFile(Error $error): Stringable
+    {
+        return $error->getFile() |> Str::of(...);
+    }
+
+    /**
      * Get the zero-based line number where the error occurred.
      */
     protected function getErrorFileLine(Error $error): int
