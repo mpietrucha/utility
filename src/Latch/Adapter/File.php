@@ -35,9 +35,15 @@ class File implements AdapterInterface, CreatableInterface, UtilizableInterface
      */
     public function get(string $indicator): string
     {
-        $directory = $this->directory();
+        return Temporary::get($indicator, $this->directory());
+    }
 
-        return Temporary::get($indicator, $directory);
+    /**
+     * Flush all latch files from the storage directory.
+     */
+    public function flush(): void
+    {
+        $this->directory() |> Filesystem::deleteDirectory(...);
     }
 
     /**

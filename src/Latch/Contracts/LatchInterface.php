@@ -23,6 +23,11 @@ interface LatchInterface extends PassableInterface, TappableInterface
     public function adapter(): AdapterInterface;
 
     /**
+     * Flush the latch adapter storage.
+     */
+    public function flush(): void;
+
+    /**
      * Determine if the latch is currently acquired.
      */
     public function acquired(): bool;

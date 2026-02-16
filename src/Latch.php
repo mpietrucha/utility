@@ -52,6 +52,14 @@ class Latch implements CreatableInterface, LatchInterface
     }
 
     /**
+     * Flush the latch adapter storage.
+     */
+    public function flush(): void
+    {
+        $this->adapter()->flush();
+    }
+
+    /**
      * Determine if the latch is currently acquired.
      */
     public function acquired(): bool
