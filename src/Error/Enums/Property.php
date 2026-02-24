@@ -9,11 +9,11 @@ enum Property: string implements InteractsWithEnumInterface
 {
     use InteractsWithEnum;
 
-    case TYPE = 'type';
+    case Type = 'type';
 
-    case MESSAGE = 'message';
+    case Message = 'message';
 
-    case FILE = 'file';
+    case File = 'file';
 
-    case LINE = 'line';
+    case Line = 'line';
 }

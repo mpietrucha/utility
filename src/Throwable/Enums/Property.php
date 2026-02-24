@@ -9,15 +9,15 @@ enum Property: string implements InteractsWithEnumInterface
 {
     use InteractsWithEnum;
 
-    case LINE = 'line';
+    case Line = 'line';
 
-    case FILE = 'file';
+    case File = 'file';
 
-    case CODE = 'code';
+    case Code = 'code';
 
-    case TRACE = 'trace';
+    case Trace = 'trace';
 
-    case MESSAGE = 'message';
+    case Message = 'message';
 
-    case PREVIOUS = 'previous';
+    case Previous = 'previous';
 }

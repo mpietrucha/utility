@@ -56,7 +56,7 @@ trait InteractsWithReflection
      */
     public function code(int $code): static
     {
-        return $this->set(Property::CODE, $code);
+        return $this->set(Property::Code, $code);
     }
 
     /**
@@ -64,7 +64,7 @@ trait InteractsWithReflection
      */
     public function line(int $line): static
     {
-        return $this->set(Property::LINE, $line);
+        return $this->set(Property::Line, $line);
     }
 
     /**
@@ -72,7 +72,7 @@ trait InteractsWithReflection
      */
     public function file(string $file): static
     {
-        return $this->set(Property::FILE, $file);
+        return $this->set(Property::File, $file);
     }
 
     /**
@@ -82,7 +82,7 @@ trait InteractsWithReflection
     {
         $backtrace = Normalizer::array($backtrace) |> Arr::values(...);
 
-        return $this->reset(Property::TRACE, $backtrace);
+        return $this->reset(Property::Trace, $backtrace);
     }
 
     /**
@@ -92,7 +92,7 @@ trait InteractsWithReflection
     {
         $message = Str::sprintf($message, ...$arguments);
 
-        return $this->set(Property::MESSAGE, $message);
+        return $this->set(Property::Message, $message);
     }
 
     /**
@@ -100,7 +100,7 @@ trait InteractsWithReflection
      */
     public function previous(?Throwable $previous): static
     {
-        return $this->set(Property::PREVIOUS, $previous);
+        return $this->set(Property::Previous, $previous);
     }
 
     /**

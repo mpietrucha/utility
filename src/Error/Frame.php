@@ -37,7 +37,7 @@ class Frame implements CreatableInterface, FrameInterface
      */
     public function type(): int
     {
-        return Property::TYPE |> $this->get(...);
+        return Property::Type |> $this->get(...);
     }
 
     /**
@@ -53,7 +53,7 @@ class Frame implements CreatableInterface, FrameInterface
      */
     public function message(): string
     {
-        return Property::MESSAGE |> $this->get(...);
+        return Property::Message |> $this->get(...);
     }
 
     /**
@@ -61,7 +61,7 @@ class Frame implements CreatableInterface, FrameInterface
      */
     public function file(): string
     {
-        return Property::FILE |> $this->get(...);
+        return Property::File |> $this->get(...);
     }
 
     /**
@@ -69,7 +69,7 @@ class Frame implements CreatableInterface, FrameInterface
      */
     public function line(): int
     {
-        return Property::LINE |> $this->get(...);
+        return Property::Line |> $this->get(...);
     }
 
     /**

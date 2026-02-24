@@ -42,7 +42,7 @@ class Frame implements CreatableInterface, FrameInterface
      */
     public function file(): ?string
     {
-        return Property::FILE |> $this->get(...);
+        return Property::File |> $this->get(...);
     }
 
     /**
@@ -50,7 +50,7 @@ class Frame implements CreatableInterface, FrameInterface
      */
     public function line(): ?int
     {
-        return Property::LINE |> $this->get(...);
+        return Property::Line |> $this->get(...);
     }
 
     /**
@@ -58,7 +58,7 @@ class Frame implements CreatableInterface, FrameInterface
      */
     public function type(): ?string
     {
-        return Property::TYPE |> $this->get(...);
+        return Property::Type |> $this->get(...);
     }
 
     /**
@@ -68,7 +68,7 @@ class Frame implements CreatableInterface, FrameInterface
      */
     public function arguments(): Collection
     {
-        return Property::ARGUMENTS |> $this->get(...) |> Collection::create(...);
+        return Property::Arguments |> $this->get(...) |> Collection::create(...);
     }
 
     /**
@@ -76,7 +76,7 @@ class Frame implements CreatableInterface, FrameInterface
      */
     public function namespace(): ?string
     {
-        return Property::NAMESPACE |> $this->get(...);
+        return Property::Namespace |> $this->get(...);
     }
 
     /**
@@ -106,7 +106,7 @@ class Frame implements CreatableInterface, FrameInterface
      */
     public function instance(): ?object
     {
-        return Property::INSTANCE |> $this->get(...);
+        return Property::Instance |> $this->get(...);
     }
 
     /**
@@ -114,7 +114,7 @@ class Frame implements CreatableInterface, FrameInterface
      */
     public function function(): string
     {
-        return Property::FUNCTION |> $this->get(...);
+        return Property::Function |> $this->get(...);
     }
 
     /**

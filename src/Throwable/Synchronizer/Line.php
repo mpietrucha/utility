@@ -13,7 +13,7 @@ class Line extends None
      */
     public function property(): Property
     {
-        return Property::LINE;
+        return Property::Line;
     }
 
     /**

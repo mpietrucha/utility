@@ -9,17 +9,17 @@ enum Property: string implements InteractsWithEnumInterface
 {
     use InteractsWithEnum;
 
-    case FILE = 'file';
+    case File = 'file';
 
-    case LINE = 'line';
+    case Line = 'line';
 
-    case TYPE = 'type';
+    case Type = 'type';
 
-    case ARGUMENTS = 'args';
+    case Arguments = 'args';
 
-    case NAMESPACE = 'class';
+    case Namespace = 'class';
 
-    case INSTANCE = 'object';
+    case Instance = 'object';
 
-    case FUNCTION = 'function';
+    case Function = 'function';
 }

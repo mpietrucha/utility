@@ -13,7 +13,7 @@ class File extends None
      */
     public function property(): Property
     {
-        return Property::FILE;
+        return Property::File;
     }
 
     /**
